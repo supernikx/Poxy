@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class PlayerController : MonoBehaviour
+public class PlayerCollisionController : MonoBehaviour
 {
     [Header("Collision Settings")]
     public LayerMask CollisionMask;
@@ -49,10 +49,10 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che muove il player in base alla velocity passata come parametro
+    /// Funzione che controlla se il player va in collisione con qualcosa durante il movimento
     /// </summary>
     /// <param name="_movementVelocity"></param>
-    public void Move(Vector3 _movementVelocity)
+    public Vector3 CheckMovementCollisions(Vector3 _movementVelocity)
     {
         //Aggiorna le posizioni da cui partiranno i raycast
         UpdateRaycastOrigins();
@@ -71,8 +71,7 @@ public class PlayerController : MonoBehaviour
             VerticalCollisions(ref _movementVelocity);
         }
 
-        //Mi muovo
-        transform.Translate(_movementVelocity);
+        return _movementVelocity;
     }
     #endregion
 

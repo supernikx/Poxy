@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerCollisionController))]
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Referenza al player controller
     /// </summary>
-    private PlayerController controller;
+    private PlayerCollisionController controller;
     /// <summary>
     /// Vettore che contiene gli input sull'asse orizzontale e verticale
     /// </summary>
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         //Prendo le referenze ai component e li inizializzo
-        controller = GetComponent<PlayerController>();
+        controller = GetComponent<PlayerCollisionController>();
         controller.Init();
 
         //Calcolo la gravità
@@ -73,24 +73,24 @@ public class Player : MonoBehaviour
             Jump();            
         }
 
-        PrepareForMove();
+        Move();
     }
     
     private float velocityXSmoothing;
     private Vector3 movementVelocity;
     /// <summary>
-    /// Funzione che esegue i calcoli necessari prima di muovere il player
+    /// Funzione che esegue i calcoli necessari per far muovere il player
     /// </summary>
-    private void PrepareForMove()
+    private void Move()
     {
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (controller.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
         
         //Aggiungo gravità al player
         movementVelocity.y += gravity * Time.deltaTime;
-        
+
         //Mi muovo
-        controller.Move(movementVelocity * Time.deltaTime);
+        transform.Translate(controller.CheckMovementCollisions(movementVelocity * Time.deltaTime));
     }
 
     private float jumpVelocity;
