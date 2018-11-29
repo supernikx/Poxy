@@ -73,7 +73,18 @@ public class Player : MonoBehaviour
             Jump();            
         }
 
+        AddGravity();
+
         Move();
+    }
+
+    /// <summary>
+    /// Funzione che aggiunge gravità al player
+    /// </summary>
+    private void AddGravity()
+    {
+        //Aggiungo gravità al player
+        movementVelocity.y += gravity * Time.deltaTime;
     }
     
     private float velocityXSmoothing;
@@ -85,9 +96,6 @@ public class Player : MonoBehaviour
     {
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (controller.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
-        
-        //Aggiungo gravità al player
-        movementVelocity.y += gravity * Time.deltaTime;
 
         //Mi muovo
         transform.Translate(controller.CheckMovementCollisions(movementVelocity * Time.deltaTime));
