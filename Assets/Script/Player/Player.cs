@@ -32,23 +32,36 @@ public class Player : MonoBehaviour
     /// </summary>
     public float AccelerationTimeOnAir;
 
+    [Header("Other Settings")]
+    [SerializeField]
+    GameObject graphics;
+
     private float gravity;
 
     /// <summary>
     /// Referenza al player controller
     /// </summary>
-    private PlayerCollisionController controller;
+    private PlayerCollisionController collisionCtrl;
+    /// <summary>
+    /// Referenza al shoot controller
+    /// </summary>
+    private ShootController shootCtrl;
     /// <summary>
     /// Vettore che contiene gli input sull'asse orizzontale e verticale
     /// </summary>
     private Vector2 input;
 
-
-    private void Start()
+    /// <summary>
+    /// Funzione di inizializzazione del player
+    /// </summary>
+    public void Init()
     {
         //Prendo le referenze ai component e li inizializzo
-        controller = GetComponent<PlayerCollisionController>();
-        controller.Init();
+        collisionCtrl = GetComponent<PlayerCollisionController>();
+        collisionCtrl.Init();
+
+        shootCtrl = GetComponent<ShootController>();
+        shootCtrl.Init();
 
         //Calcolo la gravità
         gravity = -(2 * JumpUnitHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
@@ -58,7 +71,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (controller.collisions.above || controller.collisions.below)
+        if (collisionCtrl.collisions.above || collisionCtrl.collisions.below)
         {
             //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
             movementVelocity.y = 0;
@@ -68,9 +81,9 @@ public class Player : MonoBehaviour
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         //Controllo se è stato premuto il tasto di salto e se sono a terra
-        if (Input.GetButtonDown("Jump") && controller.collisions.below)
+        if (Input.GetButtonDown("Jump") && collisionCtrl.collisions.below)
         {
-            Jump();            
+            Jump();
         }
 
         AddGravity();
@@ -86,19 +99,23 @@ public class Player : MonoBehaviour
         //Aggiungo gravità al player
         movementVelocity.y += gravity * Time.deltaTime;
     }
-    
+
     private float velocityXSmoothing;
     private Vector3 movementVelocity;
+    private int previewDirection = 1;
     /// <summary>
     /// Funzione che esegue i calcoli necessari per far muovere il player
     /// </summary>
     private void Move()
     {
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
-        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (controller.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+
+        //Giro la grafica
+        Flip();
 
         //Mi muovo
-        transform.Translate(controller.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
     }
 
     private float jumpVelocity;
@@ -108,5 +125,15 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         movementVelocity.y = jumpVelocity;
+    }
+
+    private void Flip()
+    {
+        if (Mathf.Sign(movementVelocity.x) != previewDirection)
+        {
+            graphics.transform.Rotate(new Vector3(0f, 180f, 0f));
+        }
+
+        previewDirection = (int)Mathf.Sign(movementVelocity.x);
     }
 }
