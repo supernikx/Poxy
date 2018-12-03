@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ShootController : MonoBehaviour
+public class PlayerShootController : MonoBehaviour
 {
-    [Header("Shoot Settings")]    
+    [Header("Shoot Settings")]
     [SerializeField]
     private Transform shootPoint;
     [SerializeField]
@@ -25,27 +25,18 @@ public class ShootController : MonoBehaviour
     /// <summary>
     /// Boolean che definisce se posso sparare o no
     /// </summary>
-    bool CanShoot = false;
-
-    /// <summary>
-    /// Funzione che inizializza lo script
-    /// </summary>
-    public void Init()
-    {
-        pool = PoolManager.instance;
-        CanShoot = true;
-    }
+    bool canShoot;
 
     void Update()
     {
-        if (CanShoot)
+        if (canShoot)
         {
             Aim();
 
             //Controllo se posso sparare
             if (firingRateTimer < 0)
             {
-                if (Input.GetButton("Shoot"))
+                if (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("ShootMouse"))
                 {
                     Shoot();
                     firingRateTimer = 1f / firingRate;
@@ -64,20 +55,40 @@ public class ShootController : MonoBehaviour
     private void Aim()
     {
         float rotationZ;
+
+        //Controllo che input usare
         if (UseMouseInput())
         {
+            //Converto la posizione da cui devo sparare da world a screen
             Vector3 screenPoint = Camera.main.WorldToScreenPoint(shootPoint.position);
+            //Calcolo la direzione tra la posizione del mouse e lo shoot point
             direction = (Input.mousePosition - screenPoint).normalized;
+            //Calcolo la rotazione che deve fare il fucile
             rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
         else
         {
-            Vector2 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            //Prendo gli input
+            Vector2 input = new Vector3(Input.GetAxisRaw("HorizontalJoystickRightStick"), Input.GetAxisRaw("VerticalJoystickRightStick"));
+            //Se non muovo lo stick lascio l'arma nella posizione precedente
+            if (input.x == 0 && input.y == 0)
+                return;
+            //Prendo la direzione a cui devo mirare
             direction = new Vector3(input.x, input.y);
+            //Calcolo la rotazione che deve fare il fucile
             rotationZ = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
         }
-        
-        gun.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+
+        //Ruoto l'arma nella direzione in cui si sta mirando
+        if (direction.x < 0)
+        {
+            //Se si sta mirando nel senso opposto flippo l'arma
+            gun.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+        }
+        else
+        {
+            gun.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+        }
     }
 
     /// <summary>
@@ -115,4 +126,25 @@ public class ShootController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(shootPoint.position, range);
     }
+
+    #region API
+    /// <summary>
+    /// Funzione che inizializza lo script
+    /// </summary>
+    public void Init(PoolManager _poolManager)
+    {
+        pool = _poolManager;
+        canShoot = false;
+    }
+
+    /// <summary>
+    /// Funzione che imposta la variabile can shoot
+    /// con quella passata come parametro
+    /// </summary>
+    /// <param name="_canShoot"></param>
+    public void SetCanShoot(bool _canShoot)
+    {
+        canShoot = _canShoot;
+    }
+    #endregion
 }
