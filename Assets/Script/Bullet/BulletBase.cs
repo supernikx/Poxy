@@ -107,6 +107,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     [SerializeField]
     float rayLenght;
     float raySpacing;
+    float test;
 
     /// <summary>
     /// Funzione che calcola lo spazio tra i raycast
@@ -116,6 +117,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         Bounds bulletBound = collider.bounds;
         bulletBound.Expand(colliderOffset * -2f);
         raySpacing = bulletBound.size.y / (rayCount - 1);
+        test = bulletBound.size.x / 2;
     }
 
     /// <summary>
@@ -128,8 +130,9 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         for (int i = 0; i < rayCount; i++)
         {
             //Determina il punto da cui deve partire il ray (centro del proiettile)
-            Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2));
+            Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * test);
             rayOrigin += transform.up * (raySpacing * i);
+            //Debug.Log(transform.right);
 
             //Crea il ray
             Ray ray = new Ray(rayOrigin, transform.right);

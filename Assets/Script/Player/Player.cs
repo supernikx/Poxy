@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.PlayerSM;
 
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Riferimento alla state machine del player
     /// </summary>
-    private Animator playerSM;
+    private PlayerSMController playerSM;
 
     #region API
     /// <summary>
@@ -45,8 +46,8 @@ public class Player : MonoBehaviour
         if (movementCtrl != null)
             movementCtrl.Init(collisionCtrl);
 
-        playerSM = GetComponent<Animator>();
-        playerSM.SetTrigger("StartSM");
+        playerSM = GetComponent<PlayerSMController>();
+        playerSM.Init(this);
     }
 
     #region Getter
