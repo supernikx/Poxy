@@ -12,6 +12,10 @@ public class LevelManager : MonoBehaviour
     /// Referenza al player
     /// </summary>
     Player player;
+    /// <summary>
+    /// Reference to enemy
+    /// </summary>
+    Enemy enemy;
 
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
@@ -19,9 +23,21 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         poolMng = GetComponent<PoolManager>();
-        poolMng.Init();
+        if (poolMng != null)
+        {
+            poolMng.Init();
+        }
 
         player = FindObjectOfType<Player>();
-        player.Init();
+        if (player != null)
+        {
+            player.Init();
+        }
+
+        enemy = FindObjectOfType<Enemy>();
+        if (enemy != null)
+        {
+            enemy.Init();
+        }
     }
 }
