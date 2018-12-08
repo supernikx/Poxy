@@ -1,97 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using StateMachine.EnemySM;
 
-[RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour {
+public interface Enemy
+{
 
-    [Header("Roaming Settings")]
-    [SerializeField]
-    private Transform leftLimit;
-    private Transform rightLimit;
-
-    [Header("Stun Settings")]
-    [SerializeField]
-    private int stunDuration;
-
-    [Header("Death Settings")]
-    [SerializeField]
-    private int deathDuration;
-
-    [Header("Other Settings")]
-    [SerializeField]
-    private GameObject graphics;
+    void Init();
 
     /// <summary>
-    /// Reference to enemy's State Machine
-    /// </summary>
-    private EnemySMController enemySM;
-
-    #region API
-    /// <summary>
-    /// Initialize Script
-    /// </summary>
-    public void Init() {
-
-        // Initialize Enemy State Machine
-        enemySM = GetComponent<EnemySMController>();
-        enemySM.Init(this);
-
-    }
-
-    #region Getters
-    /// <summary>
-    /// Get left limit
-    /// </summary>
-    /// <returns>Trasform of left Limit Object</returns>
-    public Transform LeftLimit
-    {
-        get { return leftLimit; }
-    }
-
-    /// <summary>
-    /// Get right limit
-    /// </summary>
-    /// <returns>Trasform of right Limit Object</returns>
-    public Transform RightLimit
-    {
-        get { return rightLimit; }
-    }
-
-    /// <summary>
-    /// Get stun duration
-    /// </summary>
-    public int StunDuration
-    {
-        get { return stunDuration; }
-    }
+    /// Get Stun Duration
+    /// </summary
+    int GetStunDuration();
 
     /// <summary>
     /// Get Enemy state machine
     /// </summary>
-    public EnemySMController EnemySM
-    {
-        get { return enemySM; }
-    }
+    EnemySMController GetEnemySM();
 
     /// <summary>
     /// Get Death Duration
     /// </summary>
-    public int DeathDuration
-    {
-        get { return deathDuration; }
-    }
+    int GetDeathDuration();
 
     /// <summary>
     /// Get Graphics Reference
     /// </summary>
-    public GameObject Graphics
-    {
-        get { return graphics; }
-    }
-
-    #endregion
-    #endregion
+    GameObject GetGraphics();
 
 }

@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Reference to enemy
     /// </summary>
-    Enemy enemy;
+    Walker enemy;
 
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
             player.Init();
         }
 
-        enemy = FindObjectOfType<Enemy>();
+        enemy = FindObjectOfType<Walker>();
         if (enemy != null)
         {
             enemy.Init();

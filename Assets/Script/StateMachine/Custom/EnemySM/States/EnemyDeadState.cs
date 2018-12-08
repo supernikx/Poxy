@@ -28,9 +28,9 @@ namespace StateMachine.EnemySM
             if (context.enemy != null)
             {
                 Debug.Log("Enter Dead State");
-                deathDuration = context.enemy.DeathDuration;
+                deathDuration = context.enemy.GetDeathDuration();
                 timer = 0;
-                context.enemy.Graphics.SetActive(false);
+                context.enemy.GetGraphics().SetActive(false);
                 start = true;
             }
         }
@@ -45,7 +45,7 @@ namespace StateMachine.EnemySM
                 timer += Time.deltaTime;
                 if (timer >= deathDuration)
                 {
-                    context.enemy.EnemySM.ChangeState("GoToRoaming");
+                    context.enemy.GetEnemySM().ChangeState("GoToRoaming");
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace StateMachine.EnemySM
             {
                 Debug.Log("Leaving Dead State");
                 start = false;
-                context.enemy.Graphics.SetActive(true);
+                context.enemy.GetGraphics().SetActive(true);
             }
         }
 

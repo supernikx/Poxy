@@ -27,7 +27,8 @@ namespace StateMachine.EnemySM {
             if (context.enemy != null)
             {
                 Debug.Log("Enter Stun State");
-                stunDuration = context.enemy.StunDuration;
+                stunDuration = context.enemy.GetStunDuration();
+                Debug.Log(context.enemy.GetGraphics());
                 timer = 0;
                 start = true;
             }
@@ -43,7 +44,7 @@ namespace StateMachine.EnemySM {
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
-                    context.enemy.EnemySM.ChangeState("GoToRoaming");
+                    context.enemy.GetEnemySM().ChangeState("GoToRoaming");
                 }
             }
         }

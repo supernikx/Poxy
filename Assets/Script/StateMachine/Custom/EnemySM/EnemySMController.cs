@@ -34,6 +34,15 @@ namespace StateMachine.EnemySM
             enemySM.SetTrigger(_trigger);
         }
 
+        /// <summary>
+        /// Reset Trigger in animator
+        /// </summary>
+        /// <param name="_trigger">Name of the trigger that needs reset</param>
+        public void ResetTrigger(string _trigger)
+        {
+            enemySM.ResetTrigger(_trigger);
+        }
+
         #endregion
     }
 

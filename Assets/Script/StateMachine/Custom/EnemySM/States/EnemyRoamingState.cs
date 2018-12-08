@@ -18,8 +18,9 @@ namespace StateMachine.EnemySM {
             if (context.enemy != null)
             {
                 Debug.Log("Enter Roaming State");
-                leftLimit = context.enemy.LeftLimit;
-                rightLimit = context.enemy.RightLimit;
+                GroundEnemy _enemy = context.enemy as GroundEnemy;
+                leftLimit = _enemy.GetLeftLimit();
+                rightLimit = _enemy.GetRightLimit();
             }
         }
 
