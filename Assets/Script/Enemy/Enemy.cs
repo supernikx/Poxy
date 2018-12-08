@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour {
 
     [Header("Other Settings")]
     [SerializeField]
-    GameObject graphics;
+    private GameObject graphics;
 
     /// <summary>
     /// Reference to enemy's State Machine
@@ -81,6 +81,14 @@ public class Enemy : MonoBehaviour {
     public int DeathDuration
     {
         get { return deathDuration; }
+    }
+
+    /// <summary>
+    /// Get Graphics Reference
+    /// </summary>
+    public GameObject Graphics
+    {
+        get { return graphics; }
     }
 
     #endregion

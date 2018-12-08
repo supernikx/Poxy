@@ -10,6 +10,14 @@ namespace StateMachine.EnemySM
         /// Death State duration
         /// </summary>
         private int deathDuration;
+        /// <summary>
+        /// Bool that set when the timer starts
+        /// </summary>
+        private bool start = false;
+        /// <summary>
+        /// Internal timer that counts time passed
+        /// </summary>
+        private float timer = 0;
 
         /// <summary>
         /// Function that activate on state enter
@@ -21,6 +29,24 @@ namespace StateMachine.EnemySM
             {
                 Debug.Log("Enter Dead State");
                 deathDuration = context.enemy.DeathDuration;
+                timer = 0;
+                context.enemy.Graphics.SetActive(false);
+                start = true;
+            }
+        }
+
+        /// <summary>
+        /// Count time passed and then change state
+        /// </summary>
+        public override void Tick()
+        {
+            if (start)
+            {
+                timer += Time.deltaTime;
+                if (timer >= deathDuration)
+                {
+                    context.enemy.EnemySM.ChangeState("GoToRoaming");
+                }
             }
         }
 
@@ -32,6 +58,8 @@ namespace StateMachine.EnemySM
             if (context.enemy != null)
             {
                 Debug.Log("Leaving Dead State");
+                start = false;
+                context.enemy.Graphics.SetActive(true);
             }
         }
 
