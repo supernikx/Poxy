@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace StateMachine.EnemySM {
+namespace StateMachine.EnemySM
+{
 
-    public class EnemyRoamingState : EnemySMStateBase
+    public class EnemyDeadState : EnemySMStateBase
     {
-
-        private Transform leftLimit;
-        private Transform rightLimit;
+        /// <summary>
+        /// Death State duration
+        /// </summary>
+        private int deathDuration;
 
         /// <summary>
         /// Function that activate on state enter
@@ -17,17 +19,9 @@ namespace StateMachine.EnemySM {
             // If exists a reference to the enemy object
             if (context.enemy != null)
             {
-                Debug.Log("Enter Roaming State");
-                leftLimit = context.enemy.LeftLimit;
-                rightLimit = context.enemy.RightLimit;
+                Debug.Log("Enter Dead State");
+                deathDuration = context.enemy.DeathDuration;
             }
-        }
-
-        /// <summary>
-        /// Behaviour during Update
-        /// </summary>
-        public override void Tick()
-        {
         }
 
         /// <summary>
@@ -37,9 +31,10 @@ namespace StateMachine.EnemySM {
         {
             if (context.enemy != null)
             {
-                Debug.Log("Leaving Roaming State");
+                Debug.Log("Leaving Dead State");
             }
         }
+
     }
 
 }

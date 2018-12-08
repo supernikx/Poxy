@@ -38,7 +38,6 @@ namespace StateMachine.EnemySM {
         /// </summary>
         public override void Tick()
         {
-            Debug.Log("porcoddio");
             if (start)
             {
                 timer += Time.deltaTime;

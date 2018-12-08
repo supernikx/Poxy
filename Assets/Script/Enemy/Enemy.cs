@@ -15,6 +15,10 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     private int stunDuration;
 
+    [Header("Death Settings")]
+    [SerializeField]
+    private int deathDuration;
+
     [Header("Other Settings")]
     [SerializeField]
     GameObject graphics;
@@ -69,6 +73,14 @@ public class Enemy : MonoBehaviour {
     public EnemySMController EnemySM
     {
         get { return enemySM; }
+    }
+
+    /// <summary>
+    /// Get Death Duration
+    /// </summary>
+    public int DeathDuration
+    {
+        get { return deathDuration; }
     }
 
     #endregion

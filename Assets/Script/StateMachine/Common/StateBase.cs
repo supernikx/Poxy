@@ -41,12 +41,11 @@ namespace StateMachine
         {
             Exit();
         }
-
-        //Se necessario scommentare
-        /*public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Tick();
-        }*/
+        }
     }
 
     public interface IState
