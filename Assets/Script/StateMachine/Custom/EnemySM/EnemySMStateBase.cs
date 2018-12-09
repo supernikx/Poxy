@@ -15,10 +15,9 @@ namespace StateMachine.EnemySM {
         /// </summary>
         /// <param name="_context">Reference to the context of this State</param>
         /// <returns>This Instance</returns>
-        public override IState Setup(IStateMachineContext _context)
+        public override void Setup(IStateMachineContext _context)
         {
             context = _context as EnemySMContext;
-            return this;
         }
     }
 

@@ -10,6 +10,13 @@ public class StunBullet : BulletBase
     protected override void OnBulletCollision(RaycastHit _collisionInfo)
     {
         Debug.Log("Hit" + _collisionInfo.transform.gameObject.name);
+
+        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (EnemyManager.OnEnemyStun != null)
+                EnemyManager.OnEnemyStun(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
+        }
+
         ObjectDestroyEvent();
     }
 

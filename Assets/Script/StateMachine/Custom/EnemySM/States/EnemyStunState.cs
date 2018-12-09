@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace StateMachine.EnemySM {
+namespace StateMachine.EnemySM
+{
 
     public class EnemyStunState : EnemySMStateBase
     {
@@ -24,14 +25,10 @@ namespace StateMachine.EnemySM {
         public override void Enter()
         {
             // If exists a reference to the enemy object
-            if (context.enemy != null)
-            {
-                Debug.Log("Enter Stun State");
-                stunDuration = context.enemy.GetStunDuration();
-                Debug.Log(context.enemy.GetGraphics());
-                timer = 0;
-                start = true;
-            }
+            Debug.Log("Enter Stun State");
+            stunDuration = context.enemy.GetStunDuration();
+            timer = 0;
+            start = true;
         }
 
         /// <summary>
@@ -44,7 +41,7 @@ namespace StateMachine.EnemySM {
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
-                    context.enemy.GetEnemySM().ChangeState("GoToRoaming");
+                    context.EndStunCallback();
                 }
             }
         }
@@ -54,14 +51,9 @@ namespace StateMachine.EnemySM {
         /// </summary>
         public override void Exit()
         {
-            if (context.enemy != null)
-            {
-                Debug.Log("Leaving Stun State");
-                start = false;
-            }
+            Debug.Log("Leaving Stun State");
+            start = false;
         }
-
     }
-
 }
 

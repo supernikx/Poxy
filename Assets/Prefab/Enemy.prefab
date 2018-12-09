@@ -21,9 +21,8 @@ GameObject:
   - component: {fileID: 4677780932266552}
   - component: {fileID: 33849528703513802}
   - component: {fileID: 23739753415694954}
-  - component: {fileID: 65645151892651276}
-  m_Layer: 0
-  m_Name: Graphycs
+  m_Layer: 11
+  m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4008191905364286}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Limits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,10 +51,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4084001388929980}
+  - component: {fileID: 65264103652725644}
   - component: {fileID: 114006567803924618}
   - component: {fileID: 114229394083401848}
   - component: {fileID: 95385365963746874}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4642830446803166}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftLimit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4426916409488216}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RightLimit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02074027, y: 1.199, z: -0.422}
+  m_LocalPosition: {x: -5.88, y: -1.69, z: 1.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -203,12 +203,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1199862583488942}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65645151892651276
+--- !u!65 &65264103652725644
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1199862583488942}
+  m_GameObject: {fileID: 1938858400792474}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -244,11 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftLimit: {fileID: 0}
-  rightLimit: {fileID: 0}
   stunDuration: 5
   deathDuration: 5
   graphics: {fileID: 1199862583488942}
+  leftLimit: {fileID: 4642830446803166}
+  rightLimit: {fileID: 4426916409488216}
 --- !u!114 &114229394083401848
 MonoBehaviour:
   m_ObjectHideFlags: 1

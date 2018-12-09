@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager singleton;
     /// <summary>
     /// Referenza al Pool manager
     /// </summary>
@@ -13,31 +14,34 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     Player player;
     /// <summary>
-    /// Reference to enemy
+    /// Referenza all'Enemy Manager
     /// </summary>
-    Walker enemy;
+    EnemyManager enemyMng;
 
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
     /// </summary>
     void Start()
     {
+        singleton = this;
+
         poolMng = GetComponent<PoolManager>();
         if (poolMng != null)
-        {
             poolMng.Init();
-        }
+
+        enemyMng = GetComponent<EnemyManager>();
+        if (enemyMng != null)
+            enemyMng.Init();
 
         player = FindObjectOfType<Player>();
         if (player != null)
-        {
             player.Init();
-        }
-
-        enemy = FindObjectOfType<Walker>();
-        if (enemy != null)
-        {
-            enemy.Init();
-        }
     }
+
+    #region Getter
+    public EnemyManager GetEnemyManager()
+    {
+        return enemyMng;
+    }
+    #endregion
 }

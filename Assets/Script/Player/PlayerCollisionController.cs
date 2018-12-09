@@ -31,7 +31,8 @@ public class PlayerCollisionController : MonoBehaviour
     /// </summary>
     private float collisionOffset = 0.015f;
 
-    private Collider collider;
+    private Collider colliderToCheck;
+    private Collider playerCollider;
     private RaycastStartPoints raycastStartPoints;
     public CollisionInfo collisions;
 
@@ -42,8 +43,9 @@ public class PlayerCollisionController : MonoBehaviour
     public void Init()
     {
         //Prendo le referenze ai component
-        collider = GetComponent<Collider>();       
-        
+        playerCollider = GetComponent<Collider>();
+        colliderToCheck = playerCollider;
+
         //Calcolo lo spazio tra i raycast
         CalculateRaySpacing();
     }
@@ -73,6 +75,29 @@ public class PlayerCollisionController : MonoBehaviour
 
         return _movementVelocity;
     }
+
+    /// <summary>
+    /// Funzione che ricalcola le collisioni sul collider del nemico
+    /// </summary>
+    public void CalculateParasiteCollision(IEnemy _enemy)
+    {
+        Collider _enemyCollider = _enemy.gameObject.GetComponent<Collider>();
+        playerCollider.enabled = false;
+        colliderToCheck = _enemyCollider;
+        CalculateRaySpacing();
+    }
+
+    /// <summary>
+    /// Funzione che ricalcola le collisioni sul collider normale del player
+    /// </summary>
+    public void CalculateNormalCollision()
+    {
+        playerCollider.enabled = true;
+        colliderToCheck = playerCollider;
+        CalculateRaySpacing();
+    }
+
+
     #endregion
 
     #region Collision
@@ -81,7 +106,7 @@ public class PlayerCollisionController : MonoBehaviour
     /// </summary>
     private void CalculateRaySpacing()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliderToCheck.bounds;
         bounds.Expand(collisionOffset * -2);
 
         HorizontalRayCount = Mathf.Clamp(HorizontalRayCount, 2, int.MaxValue);
@@ -97,7 +122,7 @@ public class PlayerCollisionController : MonoBehaviour
     /// </summary>
     private void UpdateRaycastOrigins()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliderToCheck.bounds;
         bounds.Expand(collisionOffset * -2);
 
         raycastStartPoints.bottomLeft = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
@@ -137,7 +162,7 @@ public class PlayerCollisionController : MonoBehaviour
 
                 //Assegno la direzione della collisione al CollisionInfo
                 collisions.above = directionY == 1;
-                collisions.below = directionY == -1;               
+                collisions.below = directionY == -1;
             }
 
             Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);

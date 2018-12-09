@@ -5,15 +5,28 @@ namespace StateMachine.EnemySM
 {
     public class EnemySMController : StateMachineBase
     {
-        protected Animator enemySM;
-        protected EnemySMContext context;
+        #region Delegates
+        public delegate void ChangeStateEvents();
+        public ChangeStateEvents GoToStun;
+        public ChangeStateEvents GoTnDeath;
+
+        public delegate void EnemyParasiteEvents(Player _player);
+        public EnemyParasiteEvents GoToParasite;
+        #endregion
+
+        IEnemy enemy;
+        private Animator enemySM;
+        private EnemySMContext context;
+        private EnemyManager enemyMng;
 
         #region API
-        public void Init(Enemy _enemy)
+        public void Init(IEnemy _enemy, EnemyManager _enemyMng)
         {
+            enemyMng = _enemyMng;
+            enemy = _enemy;
             enemySM = GetComponent<Animator>();
 
-            context = new EnemySMContext(_enemy);
+            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyRespawnCallback);
 
             foreach (StateMachineBehaviour state in enemySM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -22,37 +35,64 @@ namespace StateMachine.EnemySM
                     newstate.Setup(context);
             }
 
+            GoToStun += HandleEnemyStun;
+            GoToParasite += HandleEnemyParasite;
+
             enemySM.SetTrigger("StartSM");
         }
+        #endregion
 
-        /// <summary>
-        /// Change Current State of State Machine
-        /// </summary>
-        /// <param name="_trigger">Name of the Trigger that change State</param>
-        public void ChangeState(string _trigger)
+        #region Handler
+        private void HandleEnemyStun()
         {
-            enemySM.SetTrigger(_trigger);
+            enemySM.SetTrigger("GoToStun");
+        }
+
+        private void HandleEnemyParasite(Player _player)
+        {
+            context.player = _player;
+            enemySM.SetTrigger("GoToParasite");
+        }
+        #endregion
+
+        #region Callbacks
+        /// <summary>
+        /// Callback per la fine dello stato di stun
+        /// </summary>
+        private void EnemyEndStunCallback()
+        {
+            if (EnemyManager.OnEnemyEndStun != null)
+                EnemyManager.OnEnemyEndStun(enemy);
+
+            enemySM.SetTrigger("GoToRoaming");
         }
 
         /// <summary>
-        /// Reset Trigger in animator
+        /// Callback per il respawn del nemico
         /// </summary>
-        /// <param name="_trigger">Name of the trigger that needs reset</param>
-        public void ResetTrigger(string _trigger)
+        private void EnemyRespawnCallback()
         {
-            enemySM.ResetTrigger(_trigger);
+            enemySM.SetTrigger("GoToRoaming");
         }
-
         #endregion
     }
 
     public class EnemySMContext : IStateMachineContext
     {
-        public Enemy enemy;
+        #region Delegates
+        public delegate void EnemyCallbacks();
+        public EnemyCallbacks EndStunCallback;
+        public EnemyCallbacks RespawnCallback;
+        #endregion
 
-        public EnemySMContext(Enemy _enemy)
+        public Player player;
+        public IEnemy enemy;
+
+        public EnemySMContext(IEnemy _enemy, EnemyCallbacks _endStunCallback, EnemyCallbacks _respawnCallback)
         {
             enemy = _enemy;
+            EndStunCallback = _endStunCallback;
+            RespawnCallback = _respawnCallback;
         }
     }
 }

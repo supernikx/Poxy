@@ -4,53 +4,27 @@ using UnityEngine;
 using StateMachine.EnemySM;
 
 [RequireComponent(typeof(Animator))]
-public class Walker : GroundEnemy {
-    
+public class Walker : EnemyBase
+{
+    [Header("Walker Settings")]
+    [SerializeField]
+    protected Transform leftLimit;
+    [SerializeField]
+    protected Transform rightLimit;
+
     #region API
-    /// <summary>
-    /// Initialize Script
-    /// </summary>
-    public override void Init() {
-
-        // Initialize Enemy State Machine
-        enemySM = GetComponent<EnemySMController>();
-        enemySM.Init(this);
-
+    public override void Move()
+    {
+        Debug.Log("Mi sto muovendo");
     }
 
     #region Getters
-    /// <summary>
-    /// Get left limit
-    /// </summary>
-    /// <returns>Trasform of left Limit Object</returns>
-    public override Transform GetLeftLimit()
-    {
-        return leftLimit;
-    }
-
-    /// <summary>
-    /// Get right limit
-    /// </summary>
-    /// <returns>Trasform of right Limit Object</returns>
-    public override Transform GetRightLimit()
-    {
-        return rightLimit;
-    }
-
     /// <summary>
     /// Get stun duration
     /// </summary>
     public override int GetStunDuration()
     {
         return stunDuration;
-    }
-
-    /// <summary>
-    /// Get Enemy state machine
-    /// </summary>
-    public override EnemySMController GetEnemySM()
-    {
-        return enemySM;
     }
 
     /// <summary>
@@ -68,7 +42,6 @@ public class Walker : GroundEnemy {
     {
         return graphics;
     }
-
     #endregion
     #endregion
 

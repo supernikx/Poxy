@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private PlayerMovementController movementCtrl;
     /// <summary>
+    /// Riferimento al parasite controller
+    /// </summary>
+    private PlayerParasiteController parasiteCtrl;
+    /// <summary>
     /// Riferimento alla state machine del player
     /// </summary>
     private PlayerSMController playerSM;
@@ -46,8 +50,46 @@ public class Player : MonoBehaviour
         if (movementCtrl != null)
             movementCtrl.Init(collisionCtrl);
 
+        parasiteCtrl = GetComponent<PlayerParasiteController>();
+        if (parasiteCtrl != null)
+            parasiteCtrl.Init(this);
+
         playerSM = GetComponent<PlayerSMController>();
-        playerSM.Init(this);
+        if (playerSM != null)
+            playerSM.Init(this);
+    }
+
+    /// <summary>
+    /// Funzione che manda il player nello stato di parassita
+    /// rispetto al nemico passato come parametro
+    /// </summary>
+    /// <param name="e"></param>
+    public void Parasite(IEnemy e)
+    {
+        parasiteCtrl.SetParasiteEnemy(e);
+        e.Parasite(this);
+        if (playerSM.OnPlayerParaiste != null)
+            playerSM.OnPlayerParaiste(e);
+    }
+
+    /// <summary>
+    /// Funzione che manda il player nello stato normale
+    /// </summary>
+    public void Normal()
+    {
+        parasiteCtrl.GetParasiteEnemy().Stun();
+        parasiteCtrl.SetParasiteEnemy(null);
+        if (playerSM.OnPlayerNormal != null)
+            playerSM.OnPlayerNormal();
+    }
+
+    /// <summary>
+    /// Funzione che attiva/disattiva la grafica in base al parametro passato
+    /// </summary>
+    /// <param name="_switch"></param>
+    public void EnableGraphics(bool _switch)
+    {
+        graphics.SetActive(_switch);
     }
 
     #region Getter
@@ -60,12 +102,28 @@ public class Player : MonoBehaviour
         return shootCtrl;
     }
     /// <summary>
+    /// Funzione che ritorna il collision controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerCollisionController GetCollisionController()
+    {
+        return collisionCtrl;
+    }
+    /// <summary>
     /// Funzione che ritorna il movement controller
     /// </summary>
     /// <returns></returns>
     public PlayerMovementController GetMovementController()
     {
         return movementCtrl;
+    }
+    /// <summary>
+    /// Funzione che ritorna il parasite controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerParasiteController GetParasiteController()
+    {
+        return parasiteCtrl;
     }
     #endregion
     #endregion

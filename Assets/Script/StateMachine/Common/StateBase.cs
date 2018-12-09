@@ -6,7 +6,7 @@ namespace StateMachine
 {
     public abstract class StateBase : StateMachineBehaviour, IState
     {
-        public abstract IState Setup(IStateMachineContext _context);
+        public abstract void Setup(IStateMachineContext _context);
 
         /// <summary>
         /// Funzione chiamata all'ingresso dello stato
@@ -54,7 +54,7 @@ namespace StateMachine
         /// Funzione chiamata per eseguire il Setup
         /// </summary>
         /// <param name="_context"></param>
-        IState Setup(IStateMachineContext _context);
+        void Setup(IStateMachineContext _context);
 
         /// <summary>
         /// Funzione chiamata quando lo stato diventa attivo

@@ -25,14 +25,11 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             // If exists a reference to the enemy object
-            if (context.enemy != null)
-            {
-                Debug.Log("Enter Dead State");
-                deathDuration = context.enemy.GetDeathDuration();
-                timer = 0;
-                context.enemy.GetGraphics().SetActive(false);
-                start = true;
-            }
+            Debug.Log("Enter Dead State");
+            deathDuration = context.enemy.GetDeathDuration();
+            timer = 0;
+            context.enemy.GetGraphics().SetActive(false);
+            start = true;
         }
 
         /// <summary>
@@ -45,7 +42,7 @@ namespace StateMachine.EnemySM
                 timer += Time.deltaTime;
                 if (timer >= deathDuration)
                 {
-                    context.enemy.GetEnemySM().ChangeState("GoToRoaming");
+                    context.RespawnCallback();
                 }
             }
         }
@@ -55,14 +52,10 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
-            if (context.enemy != null)
-            {
-                Debug.Log("Leaving Dead State");
-                start = false;
-                context.enemy.GetGraphics().SetActive(true);
-            }
+            Debug.Log("Leaving Dead State");
+            start = false;
+            context.enemy.GetGraphics().SetActive(true);
         }
-
     }
 
 }

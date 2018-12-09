@@ -8,16 +8,25 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
-            if (context.player != null)
-            {
-                context.player.GetShootController().SetCanShoot(true);
-                context.player.GetMovementController().SetCanMove(true);
-            }
+            context.player.GetShootController().SetCanShoot(true);
+            context.player.GetMovementController().SetCanMove(true);            
         }
 
         public override void Exit()
         {
             base.Exit();
+        }
+
+        public override void Tick()
+        {
+            if (Input.GetButtonDown("Parasite"))
+            {
+                IEnemy e = context.player.GetParasiteController().CheckParasite();
+                if (e != null)
+                {
+                    context.player.Parasite(e);
+                }
+            }
         }
     }
 }

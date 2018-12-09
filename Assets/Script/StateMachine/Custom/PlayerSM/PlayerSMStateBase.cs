@@ -7,10 +7,9 @@ namespace StateMachine.PlayerSM
     public class PlayerSMStateBase : StateBase
     {
         protected PlayerSMContext context;
-        public override IState Setup(IStateMachineContext _context)
+        public override void Setup(IStateMachineContext _context)
         {
             context = _context as PlayerSMContext;
-            return this;
         }
     }
 }
