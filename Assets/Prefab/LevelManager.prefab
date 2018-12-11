@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4633705660991114}
   - component: {fileID: 114917987509132736}
   - component: {fileID: 114950736676009152}
+  - component: {fileID: 114103655760773738}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -41,6 +42,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114103655760773738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1618661823558618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f702de65732ba27448621ab5d46c0c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114917987509132736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,3 +79,6 @@ MonoBehaviour:
   - prefab: {fileID: 1104106523037292, guid: 71cfaacc6cc9f804ea2feae875109961, type: 2}
     ammount: 50
     objectType: 0
+  - prefab: {fileID: 1104106523037292, guid: 04f4f3eb33174c5479c53f0bfcbcd7b7, type: 2}
+    ammount: 50
+    objectType: 1

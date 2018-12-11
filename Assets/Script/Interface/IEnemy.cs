@@ -30,6 +30,11 @@ public interface IEnemy
     GameObject GetGraphics();
 
     /// <summary>
+    /// Get Collider Reference
+    /// </summary>
+    BoxCollider GetCollider();
+
+    /// <summary>
     /// Funzione di moviemento
     /// </summary>
     /// <returns></returns>
@@ -39,6 +44,11 @@ public interface IEnemy
     /// Funzione che stunna il nemico
     /// </summary>
     void Stun();
+
+    /// <summary>
+    /// Funzione che uccide il nemico
+    /// </summary>
+    void Die();
 
     /// <summary>
     /// Funzione che "infesta" il nemico

@@ -36,9 +36,14 @@ public class PlayerShootController : MonoBehaviour
             //Controllo se posso sparare
             if (firingRateTimer < 0)
             {
-                if (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("ShootMouse"))
+                if (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("LeftMouse"))
                 {
-                    Shoot();
+                    ShootStunBullet();
+                    firingRateTimer = 1f / firingRate;
+                }
+                else if (Input.GetButton("RightMouse"))
+                {
+                    ShootDamageBullet();
                     firingRateTimer = 1f / firingRate;
                 }
             }
@@ -94,7 +99,7 @@ public class PlayerShootController : MonoBehaviour
     /// <summary>
     /// Funzione che prende un proiettile dal pool manager e lo imposta per sparare
     /// </summary>
-    private void Shoot()
+    private void ShootStunBullet()
     {
         IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
@@ -102,6 +107,19 @@ public class PlayerShootController : MonoBehaviour
             bullet.Shoot(shootSpeed, range, shootPoint, direction);
         }
     }
+
+    /// <summary>
+    /// Funzione che prende un proiettile danneggiante dal pool manager e lo imposta per sparare
+    /// </summary>
+    private void ShootDamageBullet()
+    {
+        IBullet bullet = pool.GetPooledObject(ObjectTypes.DamageBullet, gameObject).GetComponent<IBullet>();
+        if (bullet != null)
+        {
+            bullet.Shoot(shootSpeed, range, shootPoint, direction);
+        }
+    }
+
 
     /// <summary>
     /// Funzione che controlla se usare gli input del mouse o del controller

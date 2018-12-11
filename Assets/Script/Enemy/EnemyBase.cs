@@ -51,6 +51,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     }
 
     /// <summary>
+    /// Funzione che manda il nemico in stato Morte
+    /// </summary>
+    public void Die()
+    {
+        if (enemySM.GoToDeath != null)
+            enemySM.GoToDeath();
+    }
+
+    /// <summary>
     /// Funzione che manda il nemico in stato parassita
     /// </summary>
     /// <param name="_player"></param>
@@ -83,6 +92,14 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual GameObject GetGraphics()
     {
         return graphics;
+    }
+
+    /// <summary>
+    /// Get Collider Reference
+    /// </summary>
+    public virtual BoxCollider GetCollider()
+    {
+        return GetComponent<BoxCollider>();
     }
     #endregion
     #endregion

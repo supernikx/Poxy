@@ -15,7 +15,7 @@ public class Walker : EnemyBase
     #region API
     public override void Move()
     {
-        Debug.Log("Mi sto muovendo");
+        //Debug.Log("Mi sto muovendo");
     }
 
     #region Getters
@@ -41,6 +41,14 @@ public class Walker : EnemyBase
     public override GameObject GetGraphics()
     {
         return graphics;
+    }
+
+    /// <summary>
+    /// Get Collider Reference
+    /// </summary>
+    public virtual BoxCollider GetCollider()
+    {
+        return GetComponent<BoxCollider>();
     }
     #endregion
     #endregion

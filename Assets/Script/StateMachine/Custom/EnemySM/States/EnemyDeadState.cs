@@ -29,6 +29,7 @@ namespace StateMachine.EnemySM
             deathDuration = context.enemy.GetDeathDuration();
             timer = 0;
             context.enemy.GetGraphics().SetActive(false);
+            context.enemy.GetCollider().enabled = false;
             start = true;
         }
 
@@ -42,7 +43,7 @@ namespace StateMachine.EnemySM
                 timer += Time.deltaTime;
                 if (timer >= deathDuration)
                 {
-                    context.RespawnCallback();
+                    context.EndDeathCallback();
                 }
             }
         }
@@ -55,6 +56,7 @@ namespace StateMachine.EnemySM
             Debug.Log("Leaving Dead State");
             start = false;
             context.enemy.GetGraphics().SetActive(true);
+            context.enemy.GetCollider().enabled = true;
         }
     }
 

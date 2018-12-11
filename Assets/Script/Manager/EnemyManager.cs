@@ -10,15 +10,19 @@ public class EnemyManager : MonoBehaviour
     public delegate void EnemyEvents(IEnemy e); //TODO: passare enemy e non game object
     public static EnemyEvents OnEnemyStun;
     public static EnemyEvents OnEnemyEndStun;
+    public static EnemyEvents OnEnemyDeath;
+    public static EnemyEvents OnEnemyEndDeath;
     #endregion
 
     public List<IEnemy> enemyList;
     public List<IEnemy> stunnedEnemies;
+    public List<IEnemy> deadEnemies;
 
     public void Init()
     {
         enemyList = new List<IEnemy>();
         stunnedEnemies = new List<IEnemy>();
+        deadEnemies = new List<IEnemy>();
 
         enemyList = (FindObjectsOfType<EnemyBase>() as IEnemy[]).ToList();
 
@@ -26,10 +30,13 @@ public class EnemyManager : MonoBehaviour
 
         OnEnemyStun += HandleEnemyStun;
         OnEnemyEndStun += HandleEnemyEndStun;
+        OnEnemyDeath += HandleEnemyDeath;
+        OnEnemyEndDeath += HandleEnemyEndDeath;
     }
     private void OnDisable()
     {
         OnEnemyStun -= HandleEnemyStun;
+        OnEnemyDeath -= HandleEnemyDeath;
     }
 
     private void EnemySetup()
@@ -55,6 +62,23 @@ public class EnemyManager : MonoBehaviour
         if (stunnedEnemies.Contains(e))
         {
             stunnedEnemies.Remove(e);
+        }
+    }
+
+    private void HandleEnemyDeath(IEnemy e)
+    {
+        if (!deadEnemies.Contains(e))
+        {
+            e.Die();
+            deadEnemies.Add(e);
+        }
+    }
+
+    private void HandleEnemyEndDeath(IEnemy e)
+    {
+        if (deadEnemies.Contains(e))
+        {
+            deadEnemies.Remove(e);
         }
     }
     #endregion

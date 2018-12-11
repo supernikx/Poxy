@@ -8,7 +8,7 @@ namespace StateMachine.EnemySM
         #region Delegates
         public delegate void ChangeStateEvents();
         public ChangeStateEvents GoToStun;
-        public ChangeStateEvents GoTnDeath;
+        public ChangeStateEvents GoToDeath;
 
         public delegate void EnemyParasiteEvents(Player _player);
         public EnemyParasiteEvents GoToParasite;
@@ -26,7 +26,7 @@ namespace StateMachine.EnemySM
             enemy = _enemy;
             enemySM = GetComponent<Animator>();
 
-            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyRespawnCallback);
+            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback);
 
             foreach (StateMachineBehaviour state in enemySM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -36,6 +36,7 @@ namespace StateMachine.EnemySM
             }
 
             GoToStun += HandleEnemyStun;
+            GoToDeath += HandleEnemyDeath;
             GoToParasite += HandleEnemyParasite;
 
             enemySM.SetTrigger("StartSM");
@@ -47,6 +48,12 @@ namespace StateMachine.EnemySM
         {
             enemySM.SetTrigger("GoToStun");
         }
+
+        private void HandleEnemyDeath()
+        {
+            enemySM.SetTrigger("GoToDeath");
+        }
+
 
         private void HandleEnemyParasite(Player _player)
         {
@@ -68,10 +75,13 @@ namespace StateMachine.EnemySM
         }
 
         /// <summary>
-        /// Callback per il respawn del nemico
+        /// Callback per la fine dello stato di morte
         /// </summary>
-        private void EnemyRespawnCallback()
+        private void EnemyEndDeathCallback()
         {
+            if (EnemyManager.OnEnemyEndDeath != null)
+                EnemyManager.OnEnemyEndDeath(enemy);
+
             enemySM.SetTrigger("GoToRoaming");
         }
         #endregion
@@ -82,17 +92,17 @@ namespace StateMachine.EnemySM
         #region Delegates
         public delegate void EnemyCallbacks();
         public EnemyCallbacks EndStunCallback;
-        public EnemyCallbacks RespawnCallback;
+        public EnemyCallbacks EndDeathCallback;
         #endregion
 
         public Player player;
         public IEnemy enemy;
 
-        public EnemySMContext(IEnemy _enemy, EnemyCallbacks _endStunCallback, EnemyCallbacks _respawnCallback)
+        public EnemySMContext(IEnemy _enemy, EnemyCallbacks _endStunCallback, EnemyCallbacks _endDeathCallback)
         {
             enemy = _enemy;
             EndStunCallback = _endStunCallback;
-            RespawnCallback = _respawnCallback;
+            EndDeathCallback = _endDeathCallback;
         }
     }
 }
