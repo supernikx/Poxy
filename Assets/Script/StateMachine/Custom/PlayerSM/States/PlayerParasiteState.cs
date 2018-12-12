@@ -12,6 +12,8 @@ namespace StateMachine.PlayerSM
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
             context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
+
+            context.player.GetShootController().SetCanShoot(true);
         }
 
         public override void Tick()

@@ -29,23 +29,20 @@ public class PlayerShootController : MonoBehaviour
 
     void Update()
     {
-        if (canShoot)
-        {
-            Aim();
+        Aim();
 
-            //Controllo se posso sparare
-            if (firingRateTimer < 0)
+        //Controllo se posso sparare
+        if (firingRateTimer < 0)
+        {
+            if (Input.GetAxis("StunJoystick") > 0 || Input.GetButton("LeftMouse"))
             {
-                if (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("LeftMouse"))
-                {
-                    ShootStunBullet();
-                    firingRateTimer = 1f / firingRate;
-                }
-                else if (Input.GetButton("RightMouse"))
-                {
-                    ShootDamageBullet();
-                    firingRateTimer = 1f / firingRate;
-                }
+                ShootStunBullet();
+                firingRateTimer = 1f / firingRate;
+            }
+            else if (canShoot && (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("RightMouse")))
+            {
+                ShootDamageBullet();
+                firingRateTimer = 1f / firingRate;
             }
         }
 

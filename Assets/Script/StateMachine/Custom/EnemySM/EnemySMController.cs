@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 namespace StateMachine.EnemySM
 {
@@ -89,16 +90,12 @@ namespace StateMachine.EnemySM
 
     public class EnemySMContext : IStateMachineContext
     {
-        #region Delegates
-        public delegate void EnemyCallbacks();
-        public EnemyCallbacks EndStunCallback;
-        public EnemyCallbacks EndDeathCallback;
-        #endregion
-
+        public Action EndStunCallback;
+        public Action EndDeathCallback;
         public Player player;
         public IEnemy enemy;
 
-        public EnemySMContext(IEnemy _enemy, EnemyCallbacks _endStunCallback, EnemyCallbacks _endDeathCallback)
+        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback)
         {
             enemy = _enemy;
             EndStunCallback = _endStunCallback;

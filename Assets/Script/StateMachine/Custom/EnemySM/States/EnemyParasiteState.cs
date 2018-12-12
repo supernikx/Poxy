@@ -8,6 +8,9 @@ namespace StateMachine.EnemySM
     {
         public override void Enter()
         {
+            //Giusto per notare il cambio di stato nella build (da togliere)
+            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+
             context.enemy.gameObject.transform.parent = context.player.transform;            
         }
 

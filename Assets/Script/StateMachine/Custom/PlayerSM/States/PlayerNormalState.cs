@@ -8,7 +8,7 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
-            context.player.GetShootController().SetCanShoot(true);
+            context.player.GetShootController().SetCanShoot(false);
             context.player.GetMovementController().SetCanMove(true);            
         }
 
