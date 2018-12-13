@@ -39,6 +39,12 @@ public interface IEnemy
     /// </summary>
     /// <returns></returns>
     void Move();
+    
+    /// <summary>
+    /// Funzione di stop moviemento
+    /// </summary>
+    /// <returns></returns>
+    void Stop();
 
     /// <summary>
     /// Funzione che stunna il nemico

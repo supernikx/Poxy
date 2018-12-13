@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4008191905364286}
   m_Layer: 11
-  m_Name: Limits
+  m_Name: Waypoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,9 +71,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4642830446803166}
   m_Layer: 11
-  m_Name: LeftLimit
+  m_Name: 1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -86,9 +86,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4426916409488216}
   m_Layer: 11
-  m_Name: RightLimit
+  m_Name: 2
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.185768, y: -3.9667592, z: 1.9120069}
+  m_LocalPosition: {x: -9.43, y: -3.9, z: 1.9120069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953191035772588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.57, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4008191905364286}
@@ -142,7 +142,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1950132592694822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4008191905364286}
@@ -244,11 +244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Waypoints: {fileID: 1856903077613586}
   stunDuration: 2
   deathDuration: 5
   graphics: {fileID: 1199862583488942}
-  leftLimit: {fileID: 4642830446803166}
-  rightLimit: {fileID: 4426916409488216}
 --- !u!114 &114229394083401848
 MonoBehaviour:
   m_ObjectHideFlags: 1

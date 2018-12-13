@@ -14,6 +14,7 @@ namespace StateMachine.EnemySM
             //Giusto per notare il cambio di stato nella build (da togliere)
             context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
             Debug.Log("Enter Roaming State");
+            context.enemy.Move();
         }
 
         /// <summary>
@@ -21,7 +22,6 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Tick()
         {
-            context.enemy.Move();
         }
 
         /// <summary>
@@ -30,6 +30,7 @@ namespace StateMachine.EnemySM
         public override void Exit()
         {
             Debug.Log("Leaving Roaming State");
+            context.enemy.Stop();
         }
     }
 

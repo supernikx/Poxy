@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine.EnemySM;
+using DG.Tweening;
 
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
-    [Header("Walker Settings")]
-    [SerializeField]
-    protected Transform leftLimit;
-    [SerializeField]
-    protected Transform rightLimit;
 
     #region API
     public override void Move()
     {
-        //Debug.Log("Mi sto muovendo");
+        transform.DOPath(path, 5).SetOptions(true).SetLoops(-1).SetEase(Ease.Linear);
+    }
+
+    public override void Stop()
+    {
+        DOTween.Kill(this.transform, false);
     }
 
     #region Getters
@@ -46,7 +47,7 @@ public class Walker : EnemyBase
     /// <summary>
     /// Get Collider Reference
     /// </summary>
-    public virtual BoxCollider GetCollider()
+    public override BoxCollider GetCollider()
     {
         return GetComponent<BoxCollider>();
     }

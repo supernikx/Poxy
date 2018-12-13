@@ -6,6 +6,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 {
     [Header("General Movement Settings")]
     protected float movementSpeed;
+    [SerializeField]
+    protected GameObject Waypoints;
+
+    protected Vector3[] path;
 
     [Header("Stun Settings")]
     [SerializeField]
@@ -22,6 +26,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
 
+
     #region API
     /// <summary>
     /// Initialize Script
@@ -34,12 +39,25 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         enemySM = GetComponent<EnemySMController>();
         if (enemySM != null)
             enemySM.Init(this, enemyMng);
+
+        // Initialize path vector
+        int _childCount = Waypoints.transform.childCount;
+        path = new Vector3[_childCount];
+        for (int i = 0; i < _childCount; i++)
+        {
+            path[i] = Waypoints.transform.GetChild(i).position;
+        }
     }
 
     /// <summary>
     /// Funzione che si ovvupa del movimento
     /// </summary>
     public abstract void Move();
+
+    /// <summary>
+    /// Funzione che si ovvupa di bloccare il movimento
+    /// </summary>
+    public abstract void Stop();
 
     /// <summary>
     /// Funzione che manda il nemico in stato Stun
