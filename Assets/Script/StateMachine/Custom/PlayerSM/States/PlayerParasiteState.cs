@@ -8,7 +8,6 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
-            Debug.Log("Player");
             context.player.transform.position = new Vector3(context.parasiteEnemy.gameObject.transform.position.x, context.parasiteEnemy.gameObject.transform.position.y, context.player.transform.position.z);
             context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;

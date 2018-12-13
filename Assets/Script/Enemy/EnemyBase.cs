@@ -9,8 +9,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     [SerializeField]
     protected GameObject Waypoints;
 
-    protected Vector3[] path;
-
     [Header("Stun Settings")]
     [SerializeField]
     protected int stunDuration;
@@ -39,14 +37,17 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         enemySM = GetComponent<EnemySMController>();
         if (enemySM != null)
             enemySM.Init(this, enemyMng);
+    }
 
-        // Initialize path vector
+    public Vector3[] GetWaypoints()
+    {
         int _childCount = Waypoints.transform.childCount;
-        path = new Vector3[_childCount];
+        Vector3[] path = new Vector3[_childCount];
         for (int i = 0; i < _childCount; i++)
         {
             path[i] = Waypoints.transform.GetChild(i).position;
         }
+        return path;
     }
 
     /// <summary>

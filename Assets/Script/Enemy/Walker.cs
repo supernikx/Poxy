@@ -11,7 +11,7 @@ public class Walker : EnemyBase
     #region API
     public override void Move()
     {
-        transform.DOPath(path, 5).SetOptions(true).SetLoops(-1).SetEase(Ease.Linear);
+        transform.DOPath(GetWaypoints(), 5).SetOptions(true).SetLoops(-1).SetEase(Ease.Linear);
     }
 
     public override void Stop()
