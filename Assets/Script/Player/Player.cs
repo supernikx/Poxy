@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
     {
         parasiteCtrl.SetParasiteEnemy(e);
         e.Parasite(this);
+
         if (playerSM.OnPlayerParaiste != null)
             playerSM.OnPlayerParaiste(e);
     }
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
     {
         parasiteCtrl.GetParasiteEnemy().Stun();
         parasiteCtrl.SetParasiteEnemy(null);
+
         if (playerSM.OnPlayerNormal != null)
             playerSM.OnPlayerNormal();
     }

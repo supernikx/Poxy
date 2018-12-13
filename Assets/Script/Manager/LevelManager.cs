@@ -38,6 +38,12 @@ public class LevelManager : MonoBehaviour
             player.Init();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
     #region Getter
     public EnemyManager GetEnemyManager()
     {

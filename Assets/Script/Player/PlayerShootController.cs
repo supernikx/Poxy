@@ -34,12 +34,12 @@ public class PlayerShootController : MonoBehaviour
         //Controllo se posso sparare
         if (firingRateTimer < 0)
         {
-            if (Input.GetAxis("StunJoystick") > 0 || Input.GetButton("LeftMouse"))
+            if (Input.GetAxis("StunJoystick") > 0 || Input.GetButton("RightMouse"))
             {
                 ShootStunBullet();
                 firingRateTimer = 1f / firingRate;
             }
-            else if (canShoot && (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("RightMouse")))
+            else if (canShoot && (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("LeftMouse")))
             {
                 ShootDamageBullet();
                 firingRateTimer = 1f / firingRate;
