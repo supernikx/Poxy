@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
     /// </summary>
-    void Start()
+    public void Init()
     {
         singleton = this;
 
