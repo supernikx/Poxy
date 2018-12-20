@@ -30,6 +30,10 @@ public class Player : MonoBehaviour
     /// Riferimento alla state machine del player
     /// </summary>
     private PlayerSMController playerSM;
+    /// <summary>
+    /// Reference to Health Controller
+    /// </summary>
+    private PlayerHealthController healthCtrl;
 
     #region API
     /// <summary>
@@ -53,6 +57,10 @@ public class Player : MonoBehaviour
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)
             parasiteCtrl.Init(this);
+
+        healthCtrl = GetComponent<PlayerHealthController>();
+        if (healthCtrl != null)
+            healthCtrl.Init();
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)
@@ -118,6 +126,14 @@ public class Player : MonoBehaviour
     public PlayerMovementController GetMovementController()
     {
         return movementCtrl;
+    }
+    /// <summary>
+    /// Function that returns the health controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerHealthController GetHealthController()
+    {
+        return healthCtrl;
     }
     /// <summary>
     /// Funzione che ritorna il parasite controller

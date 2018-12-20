@@ -16,6 +16,7 @@ namespace StateMachine.PlayerSM
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
 
             context.player.GetShootController().SetCanShoot(true);
+            context.player.GetHealthController().SetInNormalState(false);
         }
 
         public override void Tick()
