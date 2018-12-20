@@ -34,6 +34,8 @@ public interface IEnemy
     /// </summary>
     BoxCollider GetCollider();
 
+    EnemyToleranceController GetToleranceCtrl();
+
     /// <summary>
     /// Funzione di moviemento
     /// </summary>

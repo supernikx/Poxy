@@ -10,7 +10,6 @@ namespace StateMachine.PlayerSM
         {
             context.player.GetShootController().SetCanShoot(false);
             context.player.GetMovementController().SetCanMove(true);
-            context.player.GetHealthController().SetInNormalState(true);
         }
 
         public override void Exit()
@@ -29,7 +28,7 @@ namespace StateMachine.PlayerSM
                 }
             }
 
-            
+            context.player.GetHealthController().LoseHealth();
         }
     }
 }

@@ -44,9 +44,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
         toleranceCtrl = GetComponent<EnemyToleranceController>();
         if (toleranceCtrl != null)
-        {
             toleranceCtrl.Init();
-        }
 
     }
 
@@ -104,7 +102,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// </summary>
     public void StartTolerance()
     {
-        toleranceCtrl.Init();
+        toleranceCtrl.SetCanStart(true);
     }
 
     #region Getters
@@ -138,6 +136,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual BoxCollider GetCollider()
     {
         return GetComponent<BoxCollider>();
+    }
+
+    public virtual EnemyToleranceController GetToleranceCtrl()
+    {
+        return toleranceCtrl;
     }
     #endregion
     #endregion

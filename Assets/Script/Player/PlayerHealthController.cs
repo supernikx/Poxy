@@ -32,51 +32,10 @@ public class PlayerHealthController : MonoBehaviour {
     private float lossPerSecond;
 
     /// <summary>
-    /// if true the player lose life, if false gains life
-    /// </summary>
-    private bool inNormalState = true;
-
-    /// <summary>
-    /// true if health is max
-    /// </summary>
-    private bool isHealthFull = true;
-
-    /// <summary>
-    /// Lose health every update
-    /// </summary>
-    private void LoseHealth()
-    {
-        health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
-    }
-
-    /// <summary>
-    /// gain health every update
-    /// </summary>
-    private void GainHealth()
-    {
-        health = Mathf.Clamp(health + lossPerSecond * Time.deltaTime, minHealth, maxHealth);
-    }
-
-    /// <summary>
-    /// Execute the functions to update health
+    /// Temporary for debugging
     /// </summary>
     void Update()
     {
-
-        if (inNormalState)
-        {
-            LoseHealth();
-        }
-        else
-        {
-            GainHealth();
-        }
-
-        if (health == maxHealth)
-            isHealthFull = true;
-        else
-            isHealthFull = false;
-
         healthText.text = "Health: " + Mathf.RoundToInt(health);
     }
 
@@ -90,23 +49,26 @@ public class PlayerHealthController : MonoBehaviour {
         health = maxHealth;
     }
 
-    #region Setters
     /// <summary>
-    /// set the inNormalState variable
+    /// Lose health every update
     /// </summary>
-    /// <param name="_newState"></param>
-    public void SetInNormalState (bool _newState)
+    public void LoseHealth()
     {
-        inNormalState = _newState;
+        health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
     }
-    #endregion
 
-    #region Getters
-    public bool GetIsHealthFull()
+    /// <summary>
+    /// gain health every update
+    /// </summary>
+    public bool GainHealth()
     {
-        return isHealthFull;
+        health = Mathf.Clamp(health + lossPerSecond * Time.deltaTime, minHealth, maxHealth);
+        if (health == maxHealth)
+        {
+            return true;
+        }
+        return false;
     }
-    #endregion
     #endregion
 
 }

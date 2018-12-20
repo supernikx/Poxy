@@ -20,7 +20,6 @@ namespace StateMachine.PlayerSM
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
 
             context.player.GetShootController().SetCanShoot(true);
-            context.player.GetHealthController().SetInNormalState(false);
 
         }
 
@@ -31,7 +30,7 @@ namespace StateMachine.PlayerSM
                 context.player.Normal();
             }
 
-            if (firstTime && context.player.GetHealthController().GetIsHealthFull())
+            if (context.player.GetHealthController().GainHealth() && firstTime)
             {
                 firstTime = false;
                 context.parasiteEnemy.StartTolerance();
