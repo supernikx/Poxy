@@ -9,7 +9,7 @@ namespace StateMachine.PlayerSM
         public override void Enter()
         {
             context.player.GetShootController().SetCanShoot(false);
-            context.player.GetMovementController().SetCanMove(true);            
+            context.player.GetMovementController().SetCanMove(true);
         }
 
         public override void Exit()
@@ -27,6 +27,8 @@ namespace StateMachine.PlayerSM
                     context.player.Parasite(e);
                 }
             }
+
+            context.player.GetHealthController().LoseHealth();
         }
     }
 }

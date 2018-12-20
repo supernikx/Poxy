@@ -2,8 +2,10 @@
 using System.Collections;
 using StateMachine.EnemySM;
 
+[RequireComponent(typeof(EnemyToleranceController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy
 {
+
     [Header("General Movement Settings")]
     protected float movementSpeed;
     [SerializeField]
@@ -23,6 +25,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
+    
+    protected EnemyToleranceController toleranceCtrl;
 
 
     #region API
@@ -37,6 +41,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         enemySM = GetComponent<EnemySMController>();
         if (enemySM != null)
             enemySM.Init(this, enemyMng);
+
+        toleranceCtrl = GetComponent<EnemyToleranceController>();
+        if (toleranceCtrl != null)
+            toleranceCtrl.Init();
+
     }
 
     public Vector3[] GetWaypoints()
@@ -88,6 +97,14 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
             enemySM.GoToParasite(_player);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public void StartTolerance()
+    {
+        toleranceCtrl.SetCanStart(true);
+    }
+
     #region Getters
     /// <summary>
     /// Get stun duration
@@ -119,6 +136,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual BoxCollider GetCollider()
     {
         return GetComponent<BoxCollider>();
+    }
+
+    public virtual EnemyToleranceController GetToleranceCtrl()
+    {
+        return toleranceCtrl;
     }
     #endregion
     #endregion

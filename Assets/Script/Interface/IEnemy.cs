@@ -34,6 +34,8 @@ public interface IEnemy
     /// </summary>
     BoxCollider GetCollider();
 
+    EnemyToleranceController GetToleranceCtrl();
+
     /// <summary>
     /// Funzione di moviemento
     /// </summary>
@@ -55,6 +57,11 @@ public interface IEnemy
     /// Funzione che uccide il nemico
     /// </summary>
     void Die();
+
+    /// <summary>
+    /// Start depleting enemy's tolerance
+    /// </summary>
+    void StartTolerance();
 
     /// <summary>
     /// Funzione che "infesta" il nemico

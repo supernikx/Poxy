@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 114006567803924618}
   - component: {fileID: 114229394083401848}
   - component: {fileID: 95385365963746874}
+  - component: {fileID: 114256771093579946}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -114,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.43, y: -3.9, z: 1.9120069}
+  m_LocalPosition: {x: 21.185768, y: -3.9667592, z: 1.9120069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -142,7 +143,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1950132592694822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.35, y: 0, z: 0}
+  m_LocalPosition: {x: 2.06, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4008191905364286}
@@ -259,3 +260,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d0153d79868b24fa766ea94121a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114256771093579946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f6252e9ba07fd4d9834042dc3a1e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToFill: 5
+  maxTolerance: 25
+  minTolerance: 0
+  ToleranceText: {fileID: 0}
+  tolerance: 0
