@@ -57,6 +57,11 @@ public interface IEnemy
     void Die();
 
     /// <summary>
+    /// Start depleting enemy's tolerance
+    /// </summary>
+    void StartTolerance();
+
+    /// <summary>
     /// Funzione che "infesta" il nemico
     /// </summary>
     void Parasite(Player _player);

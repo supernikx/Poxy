@@ -37,6 +37,7 @@ public class PlayerParasiteController : MonoBehaviour
         return e;
     }
 
+    #region Setters
     /// <summary>
     /// Funzione che setta il nemico posseduto
     /// </summary>
@@ -45,7 +46,9 @@ public class PlayerParasiteController : MonoBehaviour
     {
         parasiteEnemy = _enemy;
     }
+    #endregion
 
+    #region Getters
     /// <summary>
     /// Funzione che ritorna il nemico posseduto
     /// </summary>
@@ -54,6 +57,7 @@ public class PlayerParasiteController : MonoBehaviour
     {
         return parasiteEnemy;
     }
+    #endregion
     #endregion
 
     private void OnDrawGizmos()

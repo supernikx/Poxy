@@ -24,7 +24,6 @@ public class PlayerHealthController : MonoBehaviour {
     /// <summary>
     /// Player Health
     /// </summary>
-    [SerializeField]
     private float health;
 
     /// <summary>
@@ -36,6 +35,11 @@ public class PlayerHealthController : MonoBehaviour {
     /// if true the player lose life, if false gains life
     /// </summary>
     private bool inNormalState = true;
+
+    /// <summary>
+    /// true if health is max
+    /// </summary>
+    private bool isHealthFull = true;
 
     /// <summary>
     /// Lose health every update
@@ -58,6 +62,7 @@ public class PlayerHealthController : MonoBehaviour {
     /// </summary>
     void Update()
     {
+
         if (inNormalState)
         {
             LoseHealth();
@@ -66,6 +71,11 @@ public class PlayerHealthController : MonoBehaviour {
         {
             GainHealth();
         }
+
+        if (health == maxHealth)
+            isHealthFull = true;
+        else
+            isHealthFull = false;
 
         healthText.text = "Health: " + Mathf.RoundToInt(health);
     }
@@ -76,7 +86,6 @@ public class PlayerHealthController : MonoBehaviour {
     /// </summary>
     public void Init()
     {
-        Debug.Log("init");
         lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
         health = maxHealth;
     }
@@ -89,6 +98,13 @@ public class PlayerHealthController : MonoBehaviour {
     public void SetInNormalState (bool _newState)
     {
         inNormalState = _newState;
+    }
+    #endregion
+
+    #region Getters
+    public bool GetIsHealthFull()
+    {
+        return isHealthFull;
     }
     #endregion
     #endregion
