@@ -101,7 +101,7 @@ public class PlayerShootController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shoot(shootSpeed, range, shootPoint, direction);
+            bullet.Shot(shootSpeed, range, shootPoint, direction);
         }
     }
 
@@ -113,7 +113,7 @@ public class PlayerShootController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.DamageBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shoot(shootSpeed, range, shootPoint, direction);
+            bullet.Shot(shootSpeed, range, shootPoint, direction);
         }
     }
 

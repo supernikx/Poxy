@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -537,29 +537,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114309646099034652, guid: 508f37d86c8079542a3c4fa7b8418cb3,
+        type: 2}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 1284005707}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508f37d86c8079542a3c4fa7b8418cb3, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &202232068 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1911186250763120, guid: 508f37d86c8079542a3c4fa7b8418cb3,
-    type: 2}
-  m_PrefabInternal: {fileID: 202232067}
---- !u!114 &202232069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 202232068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a61818480ac944b8b7127114b0bcbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToDeplete: 30
-  maxHealth: 100
-  minHealth: 0
-  healthText: {fileID: 1284005707}
 --- !u!1 &497363166
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +626,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8.1
+  m_fontSize: 13.55
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1282,7 +1267,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8.35
+  m_fontSize: 14.35
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1437,7 +1422,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8.3
+  m_fontSize: 13.3
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2038,7 +2023,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8.3
+  m_fontSize: 13.9
   m_fontSizeBase: 14.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2299,7 +2284,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 8.65
+  m_fontSize: 14.7
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1

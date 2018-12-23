@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4278924568380014}
   - component: {fileID: 135162895567760922}
-  - component: {fileID: 114694964068457376}
+  - component: {fileID: 114306880157841162}
   m_Layer: 0
-  m_Name: StunBullet
+  m_Name: ParabolicBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7a3d368ca3e3e56489213b3c44a659fd, type: 2}
+  - {fileID: 2100000, guid: 2f5ef51f4814b8b499b8eaff55f223ed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,7 +114,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1105787390753294}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114694964068457376
+--- !u!114 &114306880157841162
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,11 +122,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1104106523037292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a046cc276af1149827a41a99b4ca39, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f9344ab6c88e1f48a0a7cc877adcaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rayCount: 3
   rayLenght: 0.2
+  speedMultiplayer: 5
+  gravity: 9.8
 --- !u!135 &135162895567760922
 SphereCollider:
   m_ObjectHideFlags: 1

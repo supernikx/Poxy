@@ -46,11 +46,15 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Direzione in cui va il proiettile
     /// </summary>
-    protected Vector3 direction;
+    protected Vector3 shotDirection;
+    /// <summary>
+    /// Angolo del fucile
+    /// </summary>
+    protected float shotAngle;
     /// <summary>
     /// Posizione da cui parte lo sparo
     /// </summary>
-    protected Transform shootPosition;
+    protected Transform shotPosition;
 
     /// <summary>
     /// Funzione di Setup
@@ -68,16 +72,16 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_range"></param>
     /// <param name="_shootPosition"></param>
     /// <param name="_direction"></param>
-    public virtual void Shoot(float _speed, float _range, Transform _shootPosition, Vector3 _direction)
+    public virtual void Shot(float _speed, float _range, Transform _shootPosition, Vector3 _direction)
     {
         speed = _speed;
         range = _range;
-        direction = _direction;
-        shootPosition = _shootPosition;
-        transform.position = shootPosition.position;
+        shotDirection = _direction;
+        shotPosition = _shootPosition;
+        transform.position = shotPosition.position;
 
-        float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+        shotAngle = Mathf.Atan2(shotDirection.y, shotDirection.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, shotAngle);
         ObjectSpawnEvent();
     }
 
@@ -99,9 +103,9 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     #region Collision
-    [Header("Collision Settings")]
     Collider collider;
     const float colliderOffset = 0.015f;
+    [Header("Collision Settings")]
     [SerializeField]
     int rayCount;
     [SerializeField]

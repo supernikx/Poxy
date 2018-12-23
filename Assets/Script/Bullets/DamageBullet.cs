@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-/// <summary>
-/// Classe del proiettile stun
-/// </summary>
-public class StunBullet : BulletBase
+public class DamageBullet : BulletBase
 {
     protected override void OnBulletCollision(RaycastHit _collisionInfo)
     {
@@ -13,8 +9,8 @@ public class StunBullet : BulletBase
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (EnemyManager.OnEnemyStun != null)
-                EnemyManager.OnEnemyStun(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
+            if (EnemyManager.OnEnemyDeath != null)
+                EnemyManager.OnEnemyDeath(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
         }
 
         ObjectDestroyEvent();
@@ -28,7 +24,7 @@ public class StunBullet : BulletBase
             if (!Checkcollisions(_movementDirection))
             {
                 transform.position += _movementDirection * Time.deltaTime;
-                if (Vector3.Distance(shootPosition.position, transform.position) >= range)
+                if (Vector3.Distance(shotPosition.position, transform.position) >= range)
                 {
                     ObjectDestroyEvent();
                 }
