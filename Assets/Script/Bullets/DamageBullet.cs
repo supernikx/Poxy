@@ -16,7 +16,7 @@ public class DamageBullet : BulletBase
         ObjectDestroyEvent();
     }
 
-    private void Update()
+    protected override void Move()
     {
         if (CurrentState == State.InUse)
         {

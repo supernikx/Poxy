@@ -20,7 +20,7 @@ public class StunBullet : BulletBase
         ObjectDestroyEvent();
     }
 
-    private void Update()
+    protected override void Move()
     {
         if (CurrentState == State.InUse)
         {

@@ -61,7 +61,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     public void Setup()
     {
-        collider = GetComponent<Collider>();
+        bulletCollider = GetComponent<Collider>();
         CalculateRaySpacing();
     }
 
@@ -102,8 +102,18 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
             OnObjectDestroy(this);
     }
 
+    private void Update()
+    {
+        Move();
+    }
+
+    /// <summary>
+    /// Funzione che gestisce il behaviour del proiettile
+    /// </summary>
+    protected abstract void Move();
+
     #region Collision
-    Collider collider;
+    Collider bulletCollider;
     const float colliderOffset = 0.015f;
     [Header("Collision Settings")]
     [SerializeField]
@@ -118,7 +128,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     private void CalculateRaySpacing()
     {
-        Bounds bulletBound = collider.bounds;
+        Bounds bulletBound = bulletCollider.bounds;
         bulletBound.Expand(colliderOffset * -2f);
         raySpacing = bulletBound.size.y / (rayCount - 1);
         test = bulletBound.size.x / 2;

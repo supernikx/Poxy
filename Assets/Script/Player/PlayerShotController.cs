@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PlayerShootController : MonoBehaviour
+public class PlayerShotController : MonoBehaviour
 {
     [Header("Shoot Settings")]
     [SerializeField]
-    private Transform shootPoint;
+    private Transform shotPoint;
     [SerializeField]
     private GameObject gun;
     [SerializeField]
     private float range;
     [SerializeField]
-    private float shootSpeed;
+    private float shotSpeed;
     [SerializeField]
     private float firingRate;
     private float firingRateTimer;
@@ -25,7 +25,7 @@ public class PlayerShootController : MonoBehaviour
     /// <summary>
     /// Boolean che definisce se posso sparare o no
     /// </summary>
-    bool canShoot;
+    bool canShot;
 
     void Update()
     {
@@ -36,12 +36,12 @@ public class PlayerShootController : MonoBehaviour
         {
             if (Input.GetAxis("StunJoystick") > 0 || Input.GetButton("RightMouse"))
             {
-                ShootStunBullet();
+                ShotStunBullet();
                 firingRateTimer = 1f / firingRate;
             }
-            else if (canShoot && (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("LeftMouse")))
+            else if (canShot && (Input.GetAxis("ShootJoystick") > 0 || Input.GetButton("LeftMouse")))
             {
-                ShootDamageBullet();
+                ShotDamageBullet();
                 firingRateTimer = 1f / firingRate;
             }
         }
@@ -62,7 +62,7 @@ public class PlayerShootController : MonoBehaviour
         if (UseMouseInput())
         {
             //Converto la posizione da cui devo sparare da world a screen
-            Vector3 screenPoint = Camera.main.WorldToScreenPoint(shootPoint.position);
+            Vector3 screenPoint = Camera.main.WorldToScreenPoint(shotPoint.position);
             //Calcolo la direzione tra la posizione del mouse e lo shoot point
             direction = (Input.mousePosition - screenPoint).normalized;
             //Calcolo la rotazione che deve fare il fucile
@@ -96,27 +96,26 @@ public class PlayerShootController : MonoBehaviour
     /// <summary>
     /// Funzione che prende un proiettile dal pool manager e lo imposta per sparare
     /// </summary>
-    private void ShootStunBullet()
+    private void ShotStunBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(ObjectTypes.ParabolicBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shootSpeed, range, shootPoint, direction);
+            bullet.Shot(shotSpeed, range, shotPoint, direction);
         }
     }
 
     /// <summary>
     /// Funzione che prende un proiettile danneggiante dal pool manager e lo imposta per sparare
     /// </summary>
-    private void ShootDamageBullet()
+    private void ShotDamageBullet()
     {
         IBullet bullet = pool.GetPooledObject(ObjectTypes.DamageBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shootSpeed, range, shootPoint, direction);
+            bullet.Shot(shotSpeed, range, shotPoint, direction);
         }
     }
-
 
     /// <summary>
     /// Funzione che controlla se usare gli input del mouse o del controller
@@ -139,7 +138,7 @@ public class PlayerShootController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(shootPoint.position, range);
+        Gizmos.DrawWireSphere(shotPoint.position, range);
     }
 
     #region API
@@ -149,7 +148,7 @@ public class PlayerShootController : MonoBehaviour
     public void Init(PoolManager _poolManager)
     {
         pool = _poolManager;
-        canShoot = false;
+        canShot = false;
     }
 
     /// <summary>
@@ -159,7 +158,7 @@ public class PlayerShootController : MonoBehaviour
     /// <param name="_canShoot"></param>
     public void SetCanShoot(bool _canShoot)
     {
-        canShoot = _canShoot;
+        canShot = _canShoot;
     }
     #endregion
 }

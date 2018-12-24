@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Riferimento al shoot controller
     /// </summary>
-    private PlayerShootController shootCtrl;
+    private PlayerShotController shootCtrl;
     /// <summary>
     /// Riferimento al player movement controller
     /// </summary>
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
         if (collisionCtrl != null)
             collisionCtrl.Init();
 
-        shootCtrl = GetComponent<PlayerShootController>();
+        shootCtrl = GetComponent<PlayerShotController>();
         if (shootCtrl != null)
             shootCtrl.Init(PoolManager.instance);
 
@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
     /// Funzione che ritorna lo shoot controller
     /// </summary>
     /// <returns></returns>
-    public PlayerShootController GetShootController()
+    public PlayerShotController GetShootController()
     {
         return shootCtrl;
     }
