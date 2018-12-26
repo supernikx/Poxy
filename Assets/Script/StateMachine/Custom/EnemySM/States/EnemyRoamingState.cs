@@ -6,6 +6,8 @@ namespace StateMachine.EnemySM
 
     public class EnemyRoamingState : EnemySMStateBase
     {
+        private bool canMove = false;
+
         /// <summary>
         /// Function that activate on state enter
         /// </summary>
@@ -14,7 +16,8 @@ namespace StateMachine.EnemySM
             //Giusto per notare il cambio di stato nella build (da togliere)
             context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
             Debug.Log("Enter Roaming State");
-            context.enemy.Move();
+            context.enemy.SetPath();
+            canMove = true;
         }
 
         /// <summary>
@@ -22,6 +25,10 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Tick()
         {
+            if (canMove)
+            {
+                context.enemy.Move();
+            }
         }
 
         /// <summary>
@@ -31,6 +38,7 @@ namespace StateMachine.EnemySM
         {
             Debug.Log("Leaving Roaming State");
             context.enemy.Stop();
+            canMove = false;
         }
     }
 

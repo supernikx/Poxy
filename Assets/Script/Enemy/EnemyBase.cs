@@ -3,6 +3,8 @@ using System.Collections;
 using StateMachine.EnemySM;
 
 [RequireComponent(typeof(EnemyToleranceController))]
+[RequireComponent(typeof(EnemyMovementController))]
+[RequireComponent(typeof(EnemyCollisionController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy
 {
 
@@ -10,6 +12,14 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected float movementSpeed;
     [SerializeField]
     protected GameObject Waypoints;
+    [SerializeField]
+    protected float TimeToCompletePath;
+    [SerializeField]
+    protected float WaypointOffset;
+
+    protected float[] path;
+    protected int nextWaypoint;
+    protected float horizontalVelocity = 0;
 
     [Header("Stun Settings")]
     [SerializeField]
@@ -27,6 +37,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemySMController enemySM;
     
     protected EnemyToleranceController toleranceCtrl;
+    protected EnemyMovementController movementCtrl;
+    protected EnemyCollisionController collisionCtrl;
 
 
     #region API
@@ -46,17 +58,43 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
+        collisionCtrl = GetComponent<EnemyCollisionController>();
+        if (collisionCtrl != null)
+            collisionCtrl.Init();
+
+        movementCtrl = GetComponent<EnemyMovementController>();
+        if (movementCtrl != null)
+            movementCtrl.Init(collisionCtrl);
+
+        SetPath();
+
     }
 
-    public Vector3[] GetWaypoints()
+    public void SetPath()
     {
         int _childCount = Waypoints.transform.childCount;
-        Vector3[] path = new Vector3[_childCount];
+        path = new float[_childCount];
         for (int i = 0; i < _childCount; i++)
         {
-            path[i] = Waypoints.transform.GetChild(i).position;
+            path[i] = Waypoints.transform.GetChild(i).position.x;
         }
-        return path;
+
+        nextWaypoint = 0;
+        float _distance = 0;
+
+        for (int i = 0; i < path.Length; i++)
+        {
+            int j = i + 1;
+
+            if (path.Length == j)
+            {
+                j = 0;
+            }
+
+            _distance += Mathf.Abs(path[i] - path[j]);
+        }
+
+        horizontalVelocity = _distance / TimeToCompletePath;
     }
 
     /// <summary>
@@ -141,6 +179,16 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual EnemyToleranceController GetToleranceCtrl()
     {
         return toleranceCtrl;
+    }
+
+    public virtual EnemyMovementController GetMovementCtrl()
+    {
+        return movementCtrl;
+    }
+
+    public virtual EnemyCollisionController GetCollisionCtrl()
+    {
+        return collisionCtrl;
     }
     #endregion
     #endregion

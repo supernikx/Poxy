@@ -56,6 +56,8 @@ GameObject:
   - component: {fileID: 114229394083401848}
   - component: {fileID: 95385365963746874}
   - component: {fileID: 114256771093579946}
+  - component: {fileID: 114621463053029716}
+  - component: {fileID: 114239789042690250}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -246,6 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Waypoints: {fileID: 1856903077613586}
+  TimeToCompletePath: 5
+  WaypointOffset: 0.5
   stunDuration: 2
   deathDuration: 5
   graphics: {fileID: 1199862583488942}
@@ -260,6 +264,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1d0153d79868b24fa766ea94121a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114239789042690250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57427ffccd8c1194fa5a73806f49aac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  HorizontalRayCount: 4
+  VerticalRayCount: 4
 --- !u!114 &114256771093579946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,3 +296,16 @@ MonoBehaviour:
   minTolerance: 0
   ToleranceText: {fileID: 0}
   tolerance: 0
+--- !u!114 &114621463053029716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c46f1e2401be204c8f062e2c1afce39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -9.81
+  movementVelocity: {x: 0, y: 0, z: 0}

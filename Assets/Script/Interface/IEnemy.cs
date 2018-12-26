@@ -36,12 +36,18 @@ public interface IEnemy
 
     EnemyToleranceController GetToleranceCtrl();
 
+    EnemyMovementController GetMovementCtrl();
+
+    EnemyCollisionController GetCollisionCtrl();
+
+    void SetPath();
+
     /// <summary>
     /// Funzione di moviemento
     /// </summary>
     /// <returns></returns>
     void Move();
-    
+
     /// <summary>
     /// Funzione di stop moviemento
     /// </summary>

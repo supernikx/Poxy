@@ -7,11 +7,45 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
+    private float HorizontalMoving()
+    {
+        int direction = 0;
+        if (transform.position.x > path[nextWaypoint] + WaypointOffset)
+        {
+            direction = -1;
+        }
+        else if (transform.position.x < path[nextWaypoint] - WaypointOffset)
+        {
+            direction = 1;
+        }
+        else
+        {
+            nextWaypoint += 1;
+            if (path.Length == nextWaypoint)
+            {
+                nextWaypoint = 0;
+            }
+        }
+
+        return direction * horizontalVelocity;
+    }
 
     #region API
     public override void Move()
     {
-        transform.DOPath(GetWaypoints(), 5).SetOptions(true).SetLoops(-1).SetEase(Ease.Linear);
+        //transform.DOPath(GetWaypoints(), 5).SetOptions(true, AxisConstraint.Y).SetLoops(-1).SetEase(Ease.Linear);
+        Vector3 movementVelocity = movementCtrl.GravityCheck();
+        movementVelocity.x = HorizontalMoving();
+        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        Debug.Log(collisionCtrl.collisions.right);
+        if (collisionCtrl.collisions.right || collisionCtrl.collisions.left)
+        {
+            nextWaypoint += 1;
+            if (path.Length == nextWaypoint)
+            {
+                nextWaypoint = 0;
+            }
+        }
     }
 
     public override void Stop()
