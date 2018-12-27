@@ -56,7 +56,7 @@ public class EnemyManager : MonoBehaviour
             stunnedEnemies.Add(e);
         }
     }
-    
+
     private void HandleEnemyEndStun(IEnemy e)
     {
         if (stunnedEnemies.Contains(e))

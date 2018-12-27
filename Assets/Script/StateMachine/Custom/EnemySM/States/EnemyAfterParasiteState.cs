@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace StateMachine.EnemySM
 {
-    public class EnemyStunState : EnemySMStateBase
+    public class EnemyAfterParasiteState : EnemySMStateBase
     {
         /// <summary>
         /// Duration of the Stun State
@@ -24,7 +25,7 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             //Giusto per notare il cambio di stato nella build (da togliere)
-            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
+            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.yellow;
             Debug.Log("Enter Stun State");
 
             stunDuration = context.enemy.GetStunDuration();
@@ -42,7 +43,7 @@ namespace StateMachine.EnemySM
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
-                    context.EndStunCallback();
+                    context.EndParasiteCallback();
                 }
             }
         }
@@ -57,4 +58,3 @@ namespace StateMachine.EnemySM
         }
     }
 }
-

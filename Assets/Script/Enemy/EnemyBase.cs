@@ -139,6 +139,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
             enemySM.GoToParasite(_player);
     }
 
+    /// <summary>
+    /// Funzione che manda il nemico in stato AfterParasite
+    /// </summary>
+    public void EndParasite()
+    {
+        if (enemySM.GoToAfterParasite != null)
+            enemySM.GoToAfterParasite();
+    }
+
     #region Getters
     /// <summary>
     /// Get stun duration

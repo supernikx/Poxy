@@ -70,4 +70,9 @@ public interface IEnemy
     /// Funzione che "infesta" il nemico
     /// </summary>
     void Parasite(Player _player);
+
+    /// <summary>
+    /// Funzione che termina il parassita
+    /// </summary>
+    void EndParasite();
 }

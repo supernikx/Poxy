@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Normal()
     {
-        parasiteCtrl.GetParasiteEnemy().Stun();
+        parasiteCtrl.GetParasiteEnemy().EndParasite();
 
         if (playerSM.OnPlayerNormal != null)
             playerSM.OnPlayerNormal();        

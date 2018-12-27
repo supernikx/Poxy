@@ -10,6 +10,7 @@ namespace StateMachine.EnemySM
         public delegate void ChangeStateEvents();
         public ChangeStateEvents GoToStun;
         public ChangeStateEvents GoToDeath;
+        public ChangeStateEvents GoToAfterParasite;
 
         public delegate void EnemyParasiteEvents(Player _player);
         public EnemyParasiteEvents GoToParasite;
@@ -27,7 +28,7 @@ namespace StateMachine.EnemySM
             enemy = _enemy;
             enemySM = GetComponent<Animator>();
 
-            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback);
+            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback, EnemyEndParasiteCallback);
 
             foreach (StateMachineBehaviour state in enemySM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -39,6 +40,7 @@ namespace StateMachine.EnemySM
             GoToStun += HandleEnemyStun;
             GoToDeath += HandleEnemyDeath;
             GoToParasite += HandleEnemyParasite;
+            GoToAfterParasite += HandlerEnemyAfterParasite;
 
             enemySM.SetTrigger("StartSM");
         }
@@ -55,15 +57,31 @@ namespace StateMachine.EnemySM
             enemySM.SetTrigger("GoToDeath");
         }
 
-
         private void HandleEnemyParasite(Player _player)
         {
             context.player = _player;
+
+            if (EnemyManager.OnEnemyEndStun != null)
+                EnemyManager.OnEnemyEndStun(enemy);
+
             enemySM.SetTrigger("GoToParasite");
+        }
+
+        private void HandlerEnemyAfterParasite()
+        {
+            enemySM.SetTrigger("GoToAfterParasite");
         }
         #endregion
 
         #region Callbacks
+        /// <summary>
+        /// Callback per la fine dello stato di after parasite
+        /// </summary>
+        private void EnemyEndParasiteCallback()
+        {
+            enemySM.SetTrigger("GoToRoaming");
+        }
+
         /// <summary>
         /// Callback per la fine dello stato di stun
         /// </summary>
@@ -90,16 +108,18 @@ namespace StateMachine.EnemySM
 
     public class EnemySMContext : IStateMachineContext
     {
+        public Action EndParasiteCallback;
         public Action EndStunCallback;
         public Action EndDeathCallback;
         public Player player;
         public IEnemy enemy;
 
-        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback)
+        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback, Action _endParasiteCallback)
         {
             enemy = _enemy;
             EndStunCallback = _endStunCallback;
             EndDeathCallback = _endDeathCallback;
+            EndParasiteCallback = _endParasiteCallback;
         }
     }
 }
