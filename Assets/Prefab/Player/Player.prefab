@@ -420,11 +420,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f82d8c6183335a4989e31accc8cf8da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionMask:
+  collisionLayer:
     serializedVersion: 2
-    m_Bits: 3072
-  HorizontalRayCount: 4
-  VerticalRayCount: 4
+    m_Bits: 1024
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  immunityDuration: 1
+  horizontalRayCount: 4
+  verticalRayCount: 4
 --- !u!114 &114937132506703418
 MonoBehaviour:
   m_ObjectHideFlags: 1

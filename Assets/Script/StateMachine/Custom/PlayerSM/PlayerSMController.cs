@@ -53,7 +53,6 @@ namespace StateMachine.PlayerSM
         /// </summary>
         private void HandlePlayerNormal()
         {
-            context.parasiteEnemy = null;
             playerSM.SetTrigger("GoToNormal");
         }
         #endregion

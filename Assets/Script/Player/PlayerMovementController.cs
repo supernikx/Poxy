@@ -54,7 +54,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (canMove)
         {
-            if (collisionCtrl.collisions.above || collisionCtrl.collisions.below)
+            if (collisionCtrl.GetCollisionInfo().above || collisionCtrl.GetCollisionInfo().below)
             {
                 //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
                 movementVelocity.y = 0;
@@ -64,7 +64,7 @@ public class PlayerMovementController : MonoBehaviour
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             //Controllo se è stato premuto il tasto di salto e se sono a terra
-            if (Input.GetButtonDown("Jump") && collisionCtrl.collisions.below)
+            if (Input.GetButtonDown("Jump") && collisionCtrl.GetCollisionInfo().below)
             {
                 Jump();
             }
@@ -92,7 +92,7 @@ public class PlayerMovementController : MonoBehaviour
     private void Move()
     {
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
-        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
 
         //Mi muovo
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));

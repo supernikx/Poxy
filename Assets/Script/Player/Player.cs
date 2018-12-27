@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using StateMachine.PlayerSM;
 
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    [Header("Other Settings")]
+    #region Delegates
+    public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
+    public PlayerEnemyCollisionDelegate OnEnemyCollision;
+    public Action OnPlayerMaxHealth;
+    #endregion
+    [Header("General Settings")]
     [SerializeField]
     GameObject graphics;
 
@@ -44,7 +48,7 @@ public class Player : MonoBehaviour
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
         if (collisionCtrl != null)
-            collisionCtrl.Init();
+            collisionCtrl.Init(this);
 
         shootCtrl = GetComponent<PlayerShotController>();
         if (shootCtrl != null)
@@ -87,10 +91,9 @@ public class Player : MonoBehaviour
     public void Normal()
     {
         parasiteCtrl.GetParasiteEnemy().Stun();
-        parasiteCtrl.SetParasiteEnemy(null);
 
         if (playerSM.OnPlayerNormal != null)
-            playerSM.OnPlayerNormal();
+            playerSM.OnPlayerNormal();        
     }
 
     /// <summary>

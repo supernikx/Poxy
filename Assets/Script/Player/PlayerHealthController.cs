@@ -52,15 +52,24 @@ public class PlayerHealthController : MonoBehaviour {
     /// <summary>
     /// Lose health every update
     /// </summary>
-    public void LoseHealth()
+    public void LoseHealthOvertime()
     {
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
     }
 
     /// <summary>
+    /// Funzione che diminuisce la vita del valore passato come parametro
+    /// </summary>
+    /// <param name="_health"></param>
+    public void LoseHealth(int _health)
+    {
+        health = Mathf.Clamp(health - _health, minHealth, maxHealth);
+    }
+
+    /// <summary>
     /// gain health every update
     /// </summary>
-    public bool GainHealth()
+    public bool GainHealthOvertime()
     {
         health = Mathf.Clamp(health + lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == maxHealth)

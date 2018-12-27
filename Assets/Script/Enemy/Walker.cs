@@ -37,7 +37,6 @@ public class Walker : EnemyBase
         Vector3 movementVelocity = movementCtrl.GravityCheck();
         movementVelocity.x = HorizontalMoving();
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
-        Debug.Log(collisionCtrl.collisions.right);
         if (collisionCtrl.collisions.right || collisionCtrl.collisions.left)
         {
             nextWaypoint += 1;

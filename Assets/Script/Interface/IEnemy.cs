@@ -14,6 +14,8 @@ public interface IEnemy
     /// </summary>
     GameObject gameObject { get;}
 
+    int GetDamage();
+
     /// <summary>
     /// Get Stun Duration
     /// </summary
@@ -63,11 +65,6 @@ public interface IEnemy
     /// Funzione che uccide il nemico
     /// </summary>
     void Die();
-
-    /// <summary>
-    /// Start depleting enemy's tolerance
-    /// </summary>
-    void StartTolerance();
 
     /// <summary>
     /// Funzione che "infesta" il nemico

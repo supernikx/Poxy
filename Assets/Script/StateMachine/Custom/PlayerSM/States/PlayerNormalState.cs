@@ -8,13 +8,14 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
+            context.player.OnEnemyCollision += OnEnemyCollision;
             context.player.GetShootController().SetCanShoot(false);
             context.player.GetMovementController().SetCanMove(true);
         }
 
         public override void Exit()
         {
-            base.Exit();
+            context.player.OnEnemyCollision -= OnEnemyCollision;
         }
 
         public override void Tick()
@@ -28,7 +29,36 @@ namespace StateMachine.PlayerSM
                 }
             }
 
-            context.player.GetHealthController().LoseHealth();
+            if (_playerImmunity)
+            {
+                if (immunityTime <= 0)
+                    PlayerImmunityEnd();
+
+                immunityTime -= Time.deltaTime;
+            }
+
+            context.player.GetHealthController().LoseHealthOvertime();
+        }
+
+        bool _playerImmunity;
+        float immunityTime;
+        private void OnEnemyCollision(IEnemy _enemy)
+        {
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.GetHealthController().LoseHealth(_enemy.GetDamage());
+            context.player.GetCollisionController().CheckEnemyCollision(false);
+            context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
+
+            immunityTime = context.player.GetCollisionController().GetImmunityDuration();
+            _playerImmunity = true;
+        }
+
+        private void PlayerImmunityEnd()
+        {
+            _playerImmunity = false;
+            context.player.OnEnemyCollision += OnEnemyCollision;
+            context.player.GetCollisionController().CheckEnemyCollision(true);
+            context.player.gameObject.layer = LayerMask.NameToLayer("Player");
         }
     }
 }

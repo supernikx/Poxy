@@ -21,6 +21,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected int nextWaypoint;
     protected float horizontalVelocity = 0;
 
+    [Header("Damage Settings")]
+    [SerializeField]
+    protected int enemyDamage;
+
     [Header("Stun Settings")]
     [SerializeField]
     protected int stunDuration;
@@ -135,14 +139,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
             enemySM.GoToParasite(_player);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public void StartTolerance()
-    {
-        toleranceCtrl.SetCanStart(true);
-    }
-
     #region Getters
     /// <summary>
     /// Get stun duration
@@ -158,6 +154,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual int GetDeathDuration()
     {
         return deathDuration;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il danno del nemico
+    /// </summary>
+    /// <returns></returns>
+    public int GetDamage()
+    {
+        return enemyDamage;
     }
 
     /// <summary>
