@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
     /// Funzione che ritorna lo shoot controller
     /// </summary>
     /// <returns></returns>
-    public PlayerShotController GetShootController()
+    public PlayerShotController GetShotController()
     {
         return shootCtrl;
     }

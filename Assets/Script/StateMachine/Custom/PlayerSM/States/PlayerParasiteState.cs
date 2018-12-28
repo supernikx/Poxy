@@ -21,15 +21,21 @@ namespace StateMachine.PlayerSM
             context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
 
-            context.player.GetShootController().SetCanShoot(true);
-
+            context.player.GetShotController().SetCanShoot(true);
         }
 
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite"))
+            if (Input.GetButtonDown("Parasite") || Input.GetAxisRaw("LT") > 0)
             {
                 context.player.Normal();
+            }
+
+            if (Input.GetButtonDown("RightMouse") || Input.GetAxisRaw("RT") > 0)
+            {
+                //Cambio tipo di sparo
+                context.player.GetShotController().ChangeShotType();
+                Debug.Log("Destro");
             }
 
             if (context.player.GetHealthController().GainHealthOvertime() && !healthMax)

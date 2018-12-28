@@ -9,7 +9,8 @@ namespace StateMachine.PlayerSM
         public override void Enter()
         {
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetShootController().SetCanShoot(false);
+            context.player.GetShotController().SetCanShoot(false);
+            context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
         }
 
@@ -20,7 +21,7 @@ namespace StateMachine.PlayerSM
 
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite"))
+            if (Input.GetButtonDown("Parasite") || Input.GetAxisRaw("LT") > 0)
             {
                 IEnemy e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)
