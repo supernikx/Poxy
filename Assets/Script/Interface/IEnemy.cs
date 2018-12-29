@@ -34,7 +34,7 @@ public interface IEnemy
     /// <summary>
     /// Get Collider Reference
     /// </summary>
-    BoxCollider GetCollider();
+    CapsuleCollider GetCollider();
 
     EnemyToleranceController GetToleranceCtrl();
 
@@ -45,10 +45,14 @@ public interface IEnemy
     void SetPath();
 
     /// <summary>
-    /// Funzione di moviemento
+    /// Funzione di moviemento in stato di roaming
     /// </summary>
-    /// <returns></returns>
-    void Move();
+    void MoveRoaming();
+
+    /// <summary>
+    /// Funzione di movimento in stato di alert
+    /// </summary>
+    void MoveAlert();
 
     /// <summary>
     /// Funzione di stop moviemento
@@ -65,6 +69,11 @@ public interface IEnemy
     /// Funzione che uccide il nemico
     /// </summary>
     void Die();
+
+    /// <summary>
+    /// Funzione che manda il nemico in allerta
+    /// </summary>
+    void Alert();
 
     /// <summary>
     /// Funzione che "infesta" il nemico

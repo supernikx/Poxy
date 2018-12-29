@@ -7,7 +7,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
-    private float HorizontalMoving()
+    private float HorizontalVelocityRoaming()
     {
         int direction = 0;
         if (transform.position.x > path[nextWaypoint] + WaypointOffset)
@@ -30,12 +30,29 @@ public class Walker : EnemyBase
         return direction * horizontalVelocity;
     }
 
+    private float HorizontalVelocityAlert()
+    {
+        int direction = 0;
+        if (transform.position.x > player.transform.position.x)
+        {
+            direction = -1;
+        }
+        else if (transform.position.x < player.transform.position.x)
+        {
+            direction = 1;
+        }
+
+        return direction * horizontalVelocity;
+    }
+
     #region API
-    public override void Move()
+
+    private float velocityXSmoothing;
+    public override void MoveRoaming()
     {
         //transform.DOPath(GetWaypoints(), 5).SetOptions(true, AxisConstraint.Y).SetLoops(-1).SetEase(Ease.Linear);
         Vector3 movementVelocity = movementCtrl.GravityCheck();
-        movementVelocity.x = HorizontalMoving();
+        movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityRoaming(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
         if (collisionCtrl.collisions.right || collisionCtrl.collisions.left)
         {
@@ -47,9 +64,15 @@ public class Walker : EnemyBase
         }
     }
 
+    public override void MoveAlert()
+    {
+        Vector3 movementVelocity = movementCtrl.GravityCheck();
+        movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityAlert(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+    }
+
     public override void Stop()
     {
-        DOTween.Kill(this.transform, false);
     }
 
     #region Getters
@@ -80,9 +103,9 @@ public class Walker : EnemyBase
     /// <summary>
     /// Get Collider Reference
     /// </summary>
-    public override BoxCollider GetCollider()
+    public override CapsuleCollider GetCollider()
     {
-        return GetComponent<BoxCollider>();
+        return GetComponent<CapsuleCollider>();
     }
     #endregion
     #endregion

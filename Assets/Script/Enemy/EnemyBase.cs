@@ -13,13 +13,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     [SerializeField]
     protected GameObject Waypoints;
     [SerializeField]
-    protected float TimeToCompletePath;
+    protected float horizontalVelocity = 0;
     [SerializeField]
-    protected float WaypointOffset;
+    protected float AccelerationTimeOnGround;
+    [SerializeField]
+    protected float AccelerationTimeOnAir;
 
+    protected float WaypointOffset = 0.5f;
     protected float[] path;
     protected int nextWaypoint;
-    protected float horizontalVelocity = 0;
 
     [Header("Damage Settings")]
     [SerializeField]
@@ -43,6 +45,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
+
+    protected GameObject player;
 
 
     #region API
@@ -72,6 +76,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
         SetPath();
 
+        player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     public void SetPath()
@@ -84,32 +90,31 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         }
 
         nextWaypoint = 0;
-        float _distance = 0;
-
-        for (int i = 0; i < path.Length; i++)
-        {
-            int j = i + 1;
-
-            if (path.Length == j)
-            {
-                j = 0;
-            }
-
-            _distance += Mathf.Abs(path[i] - path[j]);
-        }
-
-        horizontalVelocity = _distance / TimeToCompletePath;
     }
 
     /// <summary>
-    /// Funzione che si ovvupa del movimento
+    /// Funzione che si ovvupa del movimento in stato di roaming
     /// </summary>
-    public abstract void Move();
+    public abstract void MoveRoaming();
+
+    /// <summary>
+    /// Funzione che si ovvupa del movimento in stato di alert
+    /// </summary>
+    public abstract void MoveAlert();
 
     /// <summary>
     /// Funzione che si ovvupa di bloccare il movimento
     /// </summary>
     public abstract void Stop();
+
+    /// <summary>
+    /// Funzione che invia il nemico in stato di allerta
+    /// </summary>
+    public void Alert()
+    {
+        if (enemySM.GoToAlert != null)
+            enemySM.GoToAlert();
+    }
 
     /// <summary>
     /// Funzione che manda il nemico in stato Stun
@@ -185,9 +190,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <summary>
     /// Get Collider Reference
     /// </summary>
-    public virtual BoxCollider GetCollider()
+    public virtual CapsuleCollider GetCollider()
     {
-        return GetComponent<BoxCollider>();
+        return GetComponent<CapsuleCollider>();
     }
 
     public virtual EnemyToleranceController GetToleranceCtrl()

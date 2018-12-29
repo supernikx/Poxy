@@ -19,10 +19,25 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4677780932266552}
-  - component: {fileID: 33849528703513802}
-  - component: {fileID: 23739753415694954}
   m_Layer: 11
   m_Name: Graphics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1832011239800834
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4062491663728516}
+  - component: {fileID: 33452707030254808}
+  - component: {fileID: 23386077703723556}
+  m_Layer: 11
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,13 +66,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4084001388929980}
-  - component: {fileID: 65264103652725644}
   - component: {fileID: 114006567803924618}
   - component: {fileID: 114229394083401848}
   - component: {fileID: 95385365963746874}
   - component: {fileID: 114256771093579946}
   - component: {fileID: 114621463053029716}
   - component: {fileID: 114239789042690250}
+  - component: {fileID: 136028677346030830}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -110,6 +125,19 @@ Transform:
   m_Father: {fileID: 4084001388929980}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4062491663728516
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1832011239800834}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4677780932266552}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4084001388929980
 Transform:
   m_ObjectHideFlags: 1
@@ -117,7 +145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.185768, y: -3.9667592, z: 1.9120069}
+  m_LocalPosition: {x: 21.185768, y: -3.47, z: 1.9120069}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -160,16 +188,17 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4062491663728516}
   m_Father: {fileID: 4084001388929980}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23739753415694954
+--- !u!23 &23386077703723556
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1199862583488942}
+  m_GameObject: {fileID: 1832011239800834}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -199,25 +228,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33849528703513802
+--- !u!33 &33452707030254808
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1199862583488942}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65264103652725644
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938858400792474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1832011239800834}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!95 &95385365963746874
 Animator:
   serializedVersion: 3
@@ -248,8 +265,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Waypoints: {fileID: 1856903077613586}
-  TimeToCompletePath: 5
-  WaypointOffset: 0.5
+  horizontalVelocity: 7
+  AccelerationTimeOnGround: 0.1
+  AccelerationTimeOnAir: 0.2
   enemyDamage: 2
   stunDuration: 2
   deathDuration: 5
@@ -297,6 +315,7 @@ MonoBehaviour:
   minTolerance: 0
   ToleranceText: {fileID: 0}
   tolerance: 0
+  inState: 0
 --- !u!114 &114621463053029716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -310,3 +329,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.81
   movementVelocity: {x: 0, y: 0, z: 0}
+--- !u!136 &136028677346030830
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
