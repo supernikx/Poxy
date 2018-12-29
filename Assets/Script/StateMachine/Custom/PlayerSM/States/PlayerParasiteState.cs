@@ -15,6 +15,7 @@ namespace StateMachine.PlayerSM
             context.parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
 
             healthMax = false;
+            ltWasDown = true; //Imposta il tasto del controller come premuto
 
             context.player.transform.position = new Vector3(context.parasiteEnemy.gameObject.transform.position.x, context.parasiteEnemy.gameObject.transform.position.y, context.player.transform.position.z);
 
@@ -26,12 +27,12 @@ namespace StateMachine.PlayerSM
 
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || Input.GetAxisRaw("LT") > 0)
+            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis())
             {
                 context.player.Normal();
             }
 
-            if (Input.GetButtonDown("RightMouse") || Input.GetAxisRaw("RT") > 0)
+            if (Input.GetButtonDown("RightMouse") || CheckJoystickRTAxis())
             {
                 //Cambio tipo di sparo
                 context.player.GetShotController().ChangeShotType();

@@ -21,7 +21,7 @@ namespace StateMachine.PlayerSM
 
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || Input.GetAxisRaw("LT") > 0)
+            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis())
             {
                 IEnemy e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)
