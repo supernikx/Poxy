@@ -48,7 +48,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     protected GameObject player;
 
-
     #region API
     /// <summary>
     /// Initialize Script
