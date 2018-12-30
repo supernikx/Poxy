@@ -37,7 +37,6 @@ public class ParabolicBullet : BulletBase
     {
         if (CurrentState == State.InUse)
         {
-            //Calcolo la direzione di movimento a parabola, tramite la gravità e il tempo trascorso
             Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
 
             if (!Checkcollisions(_movementDirection))
@@ -59,12 +58,53 @@ public class ParabolicBullet : BulletBase
 
     public override void Shot(float _speed, float _range, Transform _shootPosition, Vector3 _direction)
     {
-        base.Shot(_speed * speedMultiplayer, _range, _shootPosition, _direction);
+        base.Shot(Mathf.Sqrt(_speed * speedMultiplayer), _range, _shootPosition, _direction);
 
-        //Calcolo la velocity sui 2 assi di movimento
-        xVelocity = Mathf.Sqrt(speed) * Mathf.Cos(shotAngle * Mathf.Deg2Rad);
-        yVelocity = Mathf.Sqrt(speed) * Mathf.Sin(shotAngle * Mathf.Deg2Rad);
+        //Calcolo la velocity sui 2 assi di movimento in base all'angolo di mira
+        xVelocity = speed * Mathf.Cos(shotAngle * Mathf.Deg2Rad);
+        yVelocity = speed * Mathf.Sin(shotAngle * Mathf.Deg2Rad);
 
         travelTime = 0;
+    }
+
+    public override void Shot(float _speed, float _range,Transform _shotPosition, Transform _target)
+    {
+        base.Shot(Mathf.Sqrt(_speed * speedMultiplayer), _range, _shotPosition, _target);
+
+        //calcolo l'offset sui 2 assi
+        float x = targetPosition.Value.x - transform.position.x;
+        float y = targetPosition.Value.y - transform.position.y;
+
+        //Calcolo la discriminante
+        float b = speed * speed - y * gravity;
+        float discriminant = b * b - gravity * gravity * (x * x + y * y);
+
+        //Controllo se posso raggiungere il target con la mia velocità e gravità
+        if (discriminant < 0)
+        {
+            Debug.LogWarning("Speed is to low for reach the target");
+            ObjectDestroyEvent();
+            return;
+        }
+
+        float discRoot = Mathf.Sqrt(discriminant);
+
+        // Tempo di impatto per un tiro diretto
+        float T_min = Mathf.Sqrt((b - discRoot) * 2 / (gravity * gravity));
+
+        // Tempo d'impatto per il tiro più alto possibile
+        float T_max = Mathf.Sqrt((b + discRoot) * 2 / (gravity * gravity));
+
+        //Faccio una media dei 2 valori
+        float T = (T_max - T_min) * 0.5f + T_min;
+
+        //Calcolo la velocità sui 2 assi di movimento
+        xVelocity = x / T;
+        yVelocity = y / T + T * gravity / 2;
+
+        travelTime = 0;
+
+        //Calcolo l'angolo (ora non serve lo tengo come template)
+        //float angle = Mathf.Atan2(yVelocity, xVelocity) * Mathf.Rad2Deg;
     }
 }

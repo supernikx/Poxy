@@ -50,7 +50,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemyCollisionController collisionCtrl;
     protected EnemyViewController viewCtrl;
 
-
     #region API
     /// <summary>
     /// Initialize Script
