@@ -5,6 +5,7 @@ using StateMachine.EnemySM;
 [RequireComponent(typeof(EnemyToleranceController))]
 [RequireComponent(typeof(EnemyMovementController))]
 [RequireComponent(typeof(EnemyCollisionController))]
+[RequireComponent(typeof(EnemyViewController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy
 {
 
@@ -22,6 +23,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected float WaypointOffset = 0.5f;
     protected float[] path;
     protected int nextWaypoint;
+    [SerializeField]
+    protected int direction;
 
     [Header("Damage Settings")]
     [SerializeField]
@@ -45,8 +48,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
-
-    protected GameObject player;
+    protected EnemyViewController viewCtrl;
 
 
     #region API
@@ -74,9 +76,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         if (movementCtrl != null)
             movementCtrl.Init(collisionCtrl);
 
-        SetPath();
+        viewCtrl = GetComponent<EnemyViewController>();
+        if (viewCtrl != null)
+            viewCtrl.Init();
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        SetPath();
 
     }
 
@@ -99,8 +103,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     /// <summary>
     /// Funzione che si ovvupa del movimento in stato di alert
+    /// Se restituisce false, il player non è più in vista
     /// </summary>
-    public abstract void MoveAlert();
+    public abstract bool AlertActions();
 
     /// <summary>
     /// Funzione che si ovvupa di bloccare il movimento
@@ -179,6 +184,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         return enemyDamage;
     }
 
+    public int GetDirection()
+    {
+        return direction;
+    }
+
     /// <summary>
     /// Get Graphics Reference
     /// </summary>
@@ -208,6 +218,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual EnemyCollisionController GetCollisionCtrl()
     {
         return collisionCtrl;
+    }
+
+    public virtual EnemyViewController GetViewCtrl()
+    {
+        return viewCtrl;
     }
     #endregion
     #endregion

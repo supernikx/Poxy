@@ -16,6 +16,8 @@ public interface IEnemy
 
     int GetDamage();
 
+    int GetDirection();
+
     /// <summary>
     /// Get Stun Duration
     /// </summary
@@ -42,6 +44,8 @@ public interface IEnemy
 
     EnemyCollisionController GetCollisionCtrl();
 
+    EnemyViewController GetViewCtrl();
+
     void SetPath();
 
     /// <summary>
@@ -51,8 +55,9 @@ public interface IEnemy
 
     /// <summary>
     /// Funzione di movimento in stato di alert
+    /// Se restituisce false, il player non è più in vista
     /// </summary>
-    void MoveAlert();
+    bool AlertActions();
 
     /// <summary>
     /// Funzione di stop moviemento

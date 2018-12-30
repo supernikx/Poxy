@@ -15,11 +15,11 @@ public class EnemyAlertState : EnemySMStateBase
 
     public override void Tick()
     {
-        context.enemy.MoveAlert();
-
-        // check gittata shoot e se player in range, spara
-
-        // Quando si ritorna in roaming?
+        if (!context.enemy.AlertActions())
+        {
+            context.EndAlertCallback();
+        }
+        
     }
 
     public override void Exit()

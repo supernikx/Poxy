@@ -31,7 +31,7 @@ namespace StateMachine.EnemySM
             {
                 context.enemy.MoveRoaming();
 
-                if (player.transform.position.y == context.enemy.gameObject.transform.position.y)
+                if (context.enemy.GetViewCtrl().FindPlayer())
                 {
                     context.enemy.Alert();
                 }

@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114621463053029716}
   - component: {fileID: 114239789042690250}
   - component: {fileID: 136028677346030830}
+  - component: {fileID: 114682932104554664}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -329,6 +330,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.81
   movementVelocity: {x: 0, y: 0, z: 0}
+--- !u!114 &114682932104554664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4f3f08a80af42f4bb5ecb2d578898af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 6
+  viewAngle: 90
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  obstaclesLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!136 &136028677346030830
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -7,9 +7,10 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
+    private float velocityXSmoothing;
+
     private float HorizontalVelocityRoaming()
     {
-        int direction = 0;
         if (transform.position.x > path[nextWaypoint] + WaypointOffset)
         {
             direction = -1;
@@ -32,12 +33,11 @@ public class Walker : EnemyBase
 
     private float HorizontalVelocityAlert()
     {
-        int direction = 0;
-        if (transform.position.x > player.transform.position.x)
+        if (transform.position.x > viewCtrl.GetPlayerPosition().x)
         {
             direction = -1;
         }
-        else if (transform.position.x < player.transform.position.x)
+        else if (transform.position.x < viewCtrl.GetPlayerPosition().x)
         {
             direction = 1;
         }
@@ -47,7 +47,6 @@ public class Walker : EnemyBase
 
     #region API
 
-    private float velocityXSmoothing;
     public override void MoveRoaming()
     {
         //transform.DOPath(GetWaypoints(), 5).SetOptions(true, AxisConstraint.Y).SetLoops(-1).SetEase(Ease.Linear);
@@ -64,11 +63,24 @@ public class Walker : EnemyBase
         }
     }
 
-    public override void MoveAlert()
+    public override bool AlertActions()
     {
-        Vector3 movementVelocity = movementCtrl.GravityCheck();
-        movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityAlert(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
-        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        Vector3 target = viewCtrl.GetPlayerPosition();
+
+        if (target != Vector3.zero)
+        {
+            // if check shoot radius
+            //      shoot
+            //      return true
+
+            Vector3 movementVelocity = movementCtrl.GravityCheck();
+            movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityAlert(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+            transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+
+            return true;
+        }
+        
+        return false;
     }
 
     public override void Stop()
