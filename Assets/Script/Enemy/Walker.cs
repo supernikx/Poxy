@@ -82,44 +82,6 @@ public class Walker : EnemyBase
         
         return false;
     }
-
-    public override void Stop()
-    {
-    }
-
-    #region Getters
-    /// <summary>
-    /// Get stun duration
-    /// </summary>
-    public override int GetStunDuration()
-    {
-        return stunDuration;
-    }
-
-    /// <summary>
-    /// Get Death Duration
-    /// </summary>
-    public override int GetDeathDuration()
-    {
-        return deathDuration;
-    }
-
-    /// <summary>
-    /// Get Graphics Reference
-    /// </summary>
-    public override GameObject GetGraphics()
-    {
-        return graphics;
-    }
-
-    /// <summary>
-    /// Get Collider Reference
-    /// </summary>
-    public override CapsuleCollider GetCollider()
-    {
-        return GetComponent<CapsuleCollider>();
-    }
-    #endregion
     #endregion
 
 }

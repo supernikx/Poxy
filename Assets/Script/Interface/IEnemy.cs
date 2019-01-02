@@ -14,8 +14,16 @@ public interface IEnemy
     /// </summary>
     GameObject gameObject { get;}
 
+    /// <summary>
+    /// Funzione che ritorna il danno del nemico
+    /// </summary>
+    /// <returns></returns>
     int GetDamage();
 
+    /// <summary>
+    /// Funzione che ritorna la direzione
+    /// </summary>
+    /// <returns></returns>
     int GetDirection();
 
     /// <summary>
@@ -36,16 +44,41 @@ public interface IEnemy
     /// <summary>
     /// Get Collider Reference
     /// </summary>
-    CapsuleCollider GetCollider();
+    Collider GetCollider();
 
+    /// <summary>
+    /// Funzione che ritorna il Tollerance Bar Controller
+    /// </summary>
+    /// <returns></returns>
     EnemyToleranceController GetToleranceCtrl();
 
+    /// <summary>
+    /// Funzione che ritorna il Movement Controller
+    /// </summary>
+    /// <returns></returns>
     EnemyMovementController GetMovementCtrl();
 
+    /// <summary>
+    /// Funzione che ritorna il Collision Controller
+    /// </summary>
+    /// <returns></returns>
     EnemyCollisionController GetCollisionCtrl();
 
+    /// <summary>
+    /// Funzione che ritorna il View Controller
+    /// </summary>
+    /// <returns></returns>
     EnemyViewController GetViewCtrl();
 
+    /// <summary>
+    /// Funzione che ritorna il parent dei nemici
+    /// </summary>
+    /// <returns></returns>
+    Transform GetEnemyParent();
+
+    /// <summary>
+    /// Funzione che imposta il Path del nemico
+    /// </summary>
     void SetPath();
 
     /// <summary>
@@ -58,12 +91,6 @@ public interface IEnemy
     /// Se restituisce false, il player non è più in vista
     /// </summary>
     bool AlertActions();
-
-    /// <summary>
-    /// Funzione di stop moviemento
-    /// </summary>
-    /// <returns></returns>
-    void Stop();
 
     /// <summary>
     /// Funzione che stunna il nemico
@@ -89,4 +116,9 @@ public interface IEnemy
     /// Funzione che termina il parassita
     /// </summary>
     void EndParasite();
+
+    /// <summary>
+    /// Funzione che reimposta la poszione del nemico con quella iniziale
+    /// </summary>
+    void ResetPosition();
 }

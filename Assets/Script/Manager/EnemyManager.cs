@@ -14,9 +14,12 @@ public class EnemyManager : MonoBehaviour
     public static EnemyEvents OnEnemyEndDeath;
     #endregion
 
-    public List<IEnemy> enemyList;
-    public List<IEnemy> stunnedEnemies;
-    public List<IEnemy> deadEnemies;
+    [SerializeField]
+    private Transform enemyParent;
+
+    private List<IEnemy> enemyList;
+    private List<IEnemy> stunnedEnemies;
+    private List<IEnemy> deadEnemies;
 
     public void Init()
     {
@@ -105,5 +108,16 @@ public class EnemyManager : MonoBehaviour
         }
         return neartesEnemy;
     }
+
+    #region Getter
+    /// <summary>
+    /// Funzione che ritorna il parent dei nemici
+    /// </summary>
+    /// <returns></returns>
+    public Transform GetEnemyParent()
+    {
+        return enemyParent;
+    }
+    #endregion
     #endregion
 }

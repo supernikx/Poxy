@@ -69,6 +69,11 @@ public class PlayerMovementController : MonoBehaviour
                 Jump();
             }
 
+            if (eject)
+            {
+                Eject();
+            }
+
             AddGravity();
 
             Move();
@@ -98,10 +103,10 @@ public class PlayerMovementController : MonoBehaviour
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
     }
 
-    private float jumpVelocity;
     /// <summary>
     /// Funzione che imposta la velocity dell'asse verticale per saltare
     /// </summary>
+    private float jumpVelocity;
     private void Jump()
     {
         movementVelocity.y = jumpVelocity;
@@ -130,6 +135,21 @@ public class PlayerMovementController : MonoBehaviour
     public void SetCanMove(bool _canMove)
     {
         canMove = _canMove;
+    }
+
+    /// <summary>
+    /// Funzione che fa eseguire l'eject al player
+    /// </summary>
+    bool eject;
+    public void Eject()
+    {
+        if (!eject)
+            eject = true;
+        else
+        {
+            movementVelocity.y = jumpVelocity * 1.3f;
+            eject = false;
+        }
     }
     #endregion
 }

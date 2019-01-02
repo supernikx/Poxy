@@ -18,6 +18,9 @@ namespace StateMachine.PlayerSM
             ltWasDown = true; //Imposta il tasto del controller come premuto
 
             context.player.transform.position = new Vector3(context.parasiteEnemy.gameObject.transform.position.x, context.parasiteEnemy.gameObject.transform.position.y, context.player.transform.position.z);
+            context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
+            context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
+            context.parasiteEnemy.Parasite(context.player);
 
             context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);

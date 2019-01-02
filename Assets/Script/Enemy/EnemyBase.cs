@@ -41,6 +41,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     [Header("Other Settings")]
     [SerializeField]
     protected GameObject graphics;
+    protected Vector3 startPosition;
 
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
@@ -57,6 +58,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public virtual void Init(EnemyManager _enemyMng)
     {
         enemyMng = _enemyMng;
+        startPosition = transform.position;
 
         // Initialize Enemy State Machine
         enemySM = GetComponent<EnemySMController>();
@@ -83,6 +85,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     }
 
+    /// <summary>
+    /// Funzione che imposta il Path del nemico
+    /// </summary>
     public void SetPath()
     {
         int _childCount = Waypoints.transform.childCount;
@@ -105,11 +110,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// Se restituisce false, il player non è più in vista
     /// </summary>
     public abstract bool AlertActions();
-
-    /// <summary>
-    /// Funzione che si ovvupa di bloccare il movimento
-    /// </summary>
-    public abstract void Stop();
 
     /// <summary>
     /// Funzione che invia il nemico in stato di allerta
@@ -153,15 +153,23 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// </summary>
     public void EndParasite()
     {
-        if (enemySM.GoToAfterParasite != null)
-            enemySM.GoToAfterParasite();
+        if (enemySM.GoToDeath != null)
+            enemySM.GoToDeath();
+    }
+
+    /// <summary>
+    /// Funzione che reimposta la posizione del nemico con quella iniziale
+    /// </summary>
+    public void ResetPosition()
+    {
+        transform.position = startPosition;
     }
 
     #region Getters
     /// <summary>
     /// Get stun duration
     /// </summary>
-    public virtual int GetStunDuration()
+    public int GetStunDuration()
     {
         return stunDuration;
     }
@@ -169,7 +177,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <summary>
     /// Get Death Duration
     /// </summary>
-    public virtual int GetDeathDuration()
+    public int GetDeathDuration()
     {
         return deathDuration;
     }
@@ -183,6 +191,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         return enemyDamage;
     }
 
+    /// <summary>
+    /// Funzione che ritorna la direzione del nemico
+    /// </summary>
+    /// <returns></returns>
     public int GetDirection()
     {
         return direction;
@@ -191,35 +203,60 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <summary>
     /// Get Graphics Reference
     /// </summary>
-    public virtual GameObject GetGraphics()
+    public GameObject GetGraphics()
     {
         return graphics;
     }
 
     /// <summary>
+    /// Funzione che ritorna il parent del nemico
+    /// </summary>
+    /// <returns></returns>
+    public Transform GetEnemyParent()
+    {
+        return enemyMng.GetEnemyParent();
+    }
+
+    /// <summary>
     /// Get Collider Reference
     /// </summary>
-    public virtual CapsuleCollider GetCollider()
+    public Collider GetCollider()
     {
         return GetComponent<CapsuleCollider>();
     }
 
-    public virtual EnemyToleranceController GetToleranceCtrl()
+    /// <summary>
+    /// Funzione che ritorna il Tollerance Bar Controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyToleranceController GetToleranceCtrl()
     {
         return toleranceCtrl;
     }
 
-    public virtual EnemyMovementController GetMovementCtrl()
+    /// <summary>
+    /// Funzione che ritorna il Movement Controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyMovementController GetMovementCtrl()
     {
         return movementCtrl;
     }
 
-    public virtual EnemyCollisionController GetCollisionCtrl()
+    /// <summary>
+    /// Funzione che ritorna il Collision Controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyCollisionController GetCollisionCtrl()
     {
         return collisionCtrl;
     }
 
-    public virtual EnemyViewController GetViewCtrl()
+    /// <summary>
+    /// Funzione che ritorna il View Controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyViewController GetViewCtrl()
     {
         return viewCtrl;
     }

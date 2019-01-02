@@ -30,6 +30,7 @@ namespace StateMachine.EnemySM
             timer = 0;
             context.enemy.GetGraphics().SetActive(false);
             context.enemy.GetCollider().enabled = false;
+            context.enemy.ResetPosition();
             start = true;
         }
 

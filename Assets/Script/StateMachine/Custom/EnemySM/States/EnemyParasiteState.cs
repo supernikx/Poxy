@@ -11,13 +11,11 @@ namespace StateMachine.EnemySM
 
         public override void Enter()
         {
-            context.enemy.gameObject.transform.parent = context.player.transform;
-            context.enemy.gameObject.transform.localPosition = Vector3.zero;
-
             tolleranceCtrl = context.enemy.GetToleranceCtrl();
             tolleranceCtrl.Setup();
 
             context.player.OnPlayerMaxHealth += PlayerMaxHealth;
+
             //Giusto per notare il cambio di stato nella build (da togliere)
             context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
         }
@@ -44,7 +42,8 @@ namespace StateMachine.EnemySM
             tolleranceCtrl.SetActive(false);
             tolleranceCtrl = null;
 
-            context.enemy.gameObject.transform.parent = null;
+            context.enemy.gameObject.transform.parent = context.enemy.GetEnemyParent();
+
             //Fix provvisorio per essere sulla linea della gun
             context.enemy.gameObject.transform.position = new Vector3(context.enemy.gameObject.transform.position.x, context.enemy.gameObject.transform.position.y, 1.7f);
         }

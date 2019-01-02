@@ -69,7 +69,7 @@ public class EnemyViewController : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.position, viewRadius);
+        Gizmos.DrawWireSphere(transform.position, viewRadius);
     }
 
 }

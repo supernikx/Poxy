@@ -79,7 +79,6 @@ public class Player : MonoBehaviour
     public void Parasite(IEnemy e)
     {
         parasiteCtrl.SetParasiteEnemy(e);
-        e.Parasite(this);
 
         if (playerSM.OnPlayerParaiste != null)
             playerSM.OnPlayerParaiste(e);
@@ -91,6 +90,7 @@ public class Player : MonoBehaviour
     public void Normal()
     {
         parasiteCtrl.GetParasiteEnemy().EndParasite();
+        movementCtrl.Eject();
 
         if (playerSM.OnPlayerNormal != null)
             playerSM.OnPlayerNormal();        
