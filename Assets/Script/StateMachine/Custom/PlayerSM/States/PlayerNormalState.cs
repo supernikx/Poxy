@@ -26,7 +26,7 @@ namespace StateMachine.PlayerSM
                 IEnemy e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)
                 {
-                    context.player.Parasite(e);
+                    context.player.StartParasiteCoroutine(e);
                 }
             }
 
@@ -47,7 +47,7 @@ namespace StateMachine.PlayerSM
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.player.GetHealthController().LoseHealth(_enemy.GetDamage());
-            context.player.GetCollisionController().CheckEnemyCollision(false);
+            context.player.GetCollisionController().CheckDamageCollision(false);
             context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
 
             immunityTime = context.player.GetCollisionController().GetImmunityDuration();
@@ -58,7 +58,7 @@ namespace StateMachine.PlayerSM
         {
             _playerImmunity = false;
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetCollisionController().CheckEnemyCollision(true);
+            context.player.GetCollisionController().CheckDamageCollision(true);
             context.player.gameObject.layer = LayerMask.NameToLayer("Player");
         }
     }

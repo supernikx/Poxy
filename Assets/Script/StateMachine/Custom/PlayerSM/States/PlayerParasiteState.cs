@@ -17,10 +17,8 @@ namespace StateMachine.PlayerSM
             healthMax = false;
             ltWasDown = true; //Imposta il tasto del controller come premuto
 
-            context.player.transform.position = new Vector3(context.parasiteEnemy.gameObject.transform.position.x, context.parasiteEnemy.gameObject.transform.position.y, context.player.transform.position.z);
             context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
-            context.parasiteEnemy.Parasite(context.player);
 
             context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
@@ -32,7 +30,7 @@ namespace StateMachine.PlayerSM
         {
             if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis())
             {
-                context.player.Normal();
+                context.player.StartNormalCoroutine();
             }
 
             if (Input.GetButtonDown("RightMouse") || CheckJoystickRTAxis())
@@ -73,7 +71,7 @@ namespace StateMachine.PlayerSM
 
         private void OnMaxTolleranceBar()
         {
-            context.player.Normal();
+            context.player.StartNormalCoroutine();
         }
 
         #region EnemyCollision
@@ -83,7 +81,7 @@ namespace StateMachine.PlayerSM
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.parasiteEnemy.GetToleranceCtrl().AddTollerance(_enemy.GetDamage());
-            context.player.GetCollisionController().CheckEnemyCollision(false);
+            context.player.GetCollisionController().CheckDamageCollision(false);
             context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
 
             immunityTime = context.player.GetCollisionController().GetImmunityDuration();
@@ -94,7 +92,7 @@ namespace StateMachine.PlayerSM
         {
             _playerImmunity = false;
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetCollisionController().CheckEnemyCollision(true);
+            context.player.GetCollisionController().CheckDamageCollision(true);
             context.player.gameObject.layer = LayerMask.NameToLayer("Player");
         }
         #endregion

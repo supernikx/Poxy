@@ -57,7 +57,7 @@ public class PlayerCollisionController : MonoBehaviour
     private RaycastStartPoints raycastStartPoints;
     private CollisionInfo collisions;
 
-    bool checkEnemyCollision;
+    bool checkDamageCollisions;
 
     #region API
     /// <summary>
@@ -74,7 +74,7 @@ public class PlayerCollisionController : MonoBehaviour
         //Calcolo lo spazio tra i raycast
         CalculateRaySpacing();
 
-        checkEnemyCollision = true;
+        checkDamageCollisions = true;
     }
 
     /// <summary>
@@ -146,12 +146,12 @@ public class PlayerCollisionController : MonoBehaviour
 
     #region Setter
     /// <summary>
-    /// Funzione che imposta il bool checkEnemyCollision con il valore passato come parametro
+    /// Funzione che imposta il bool checkDamageCollision con il valore passato come parametro
     /// </summary>
     /// <param name="_check"></param>
-    public void CheckEnemyCollision(bool _check)
+    public void CheckDamageCollision(bool _check)
     {
-        checkEnemyCollision = _check;
+        checkDamageCollisions = _check;
     }
     #endregion
     #endregion
@@ -221,7 +221,7 @@ public class PlayerCollisionController : MonoBehaviour
                 collisions.below = directionY == -1;
             }
 
-            if (checkEnemyCollision)
+            if (checkDamageCollisions)
             {
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
@@ -273,7 +273,7 @@ public class PlayerCollisionController : MonoBehaviour
                 collisions.right = directionX == 1;
             }
 
-            if (checkEnemyCollision)
+            if (checkDamageCollisions)
             {
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {

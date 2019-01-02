@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using StateMachine.PlayerSM;
+using System.Collections;
+using DG.Tweening;
 
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
@@ -72,28 +74,59 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che manda il player nello stato di parassita
-    /// rispetto al nemico passato come parametro
+    /// Funzione che attiva la coroutine ParasiteCoroutine
     /// </summary>
     /// <param name="e"></param>
-    public void Parasite(IEnemy e)
+    public void StartParasiteCoroutine(IEnemy _e)
     {
-        parasiteCtrl.SetParasiteEnemy(e);
+        StartCoroutine(ParasiteCoroutine(_e));
+    }
+    /// <summary>
+    /// Coroutine che manda il player in stato parassita rispetto al nemico
+    /// </summary>
+    /// <param name="_e"></param>
+    /// <returns></returns>
+    private IEnumerator ParasiteCoroutine(IEnemy _e)
+    {
+        parasiteCtrl.SetParasiteEnemy(_e);
+        _e.Parasite(this);
+        collisionCtrl.CheckDamageCollision(false);
 
+        #region Animazione(per ora fatta a caso)
+        Vector3 enemyPosition = _e.gameObject.transform.position;
+        enemyPosition.z = transform.position.z;
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphics.transform.DOScale(0.5f, 0.5f));
+        yield return sequence.WaitForCompletion();
+        #endregion
+
+        collisionCtrl.CheckDamageCollision(true);
         if (playerSM.OnPlayerParaiste != null)
-            playerSM.OnPlayerParaiste(e);
+            playerSM.OnPlayerParaiste(_e);
     }
 
     /// <summary>
+    /// Funzione che attiva la coroutine NormalCoroutine
+    /// </summary>
+    public void StartNormalCoroutine()
+    {
+        StartCoroutine(NormalCoroutine());
+    }
+    /// <summary>
     /// Funzione che manda il player nello stato normale
     /// </summary>
-    public void Normal()
+    private IEnumerator NormalCoroutine()
     {
         parasiteCtrl.GetParasiteEnemy().EndParasite();
         movementCtrl.Eject();
 
+        #region Animazione (per ora fatta a caso)
+        graphics.transform.DOScale(1, 0.5f);
+        yield return null;
+        #endregion
+
         if (playerSM.OnPlayerNormal != null)
-            playerSM.OnPlayerNormal();        
+            playerSM.OnPlayerNormal();
     }
 
     /// <summary>

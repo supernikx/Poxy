@@ -45,7 +45,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
-    
+
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
