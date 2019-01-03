@@ -9,8 +9,7 @@ public class DamageBullet : BulletBase
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (EnemyManager.OnEnemyDeath != null)
-                EnemyManager.OnEnemyDeath(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
+            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().DamageHit(this);
         }
 
         ObjectDestroyEvent();

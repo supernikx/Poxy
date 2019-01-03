@@ -34,7 +34,10 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     public event PoolManagerEvets.Events OnObjectSpawn;
     public event PoolManagerEvets.Events OnObjectDestroy;
     #endregion
-
+    /// <summary>
+    /// Danno del proiettile
+    /// </summary>
+    protected int damage;
     /// <summary>
     /// Distanza massima che può percorrere il proiettile
     /// </summary>
@@ -70,14 +73,43 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     /// <summary>
+    /// Funzione che richiama l'evento di spawn del proiettile
+    /// </summary>
+    protected void ObjectSpawnEvent()
+    {
+        if (OnObjectSpawn != null)
+            OnObjectSpawn(this);
+    }
+    /// <summary>
+    /// Funzione che richiama l'evento di Destroy del proiettile
+    /// </summary>
+    protected void ObjectDestroyEvent()
+    {
+        if (OnObjectDestroy != null)
+            OnObjectDestroy(this);
+    }
+
+    /// <summary>
+    /// Funzione che gestisce il behaviour del proiettile
+    /// </summary>
+    protected abstract void Move();
+
+    private void Update()
+    {
+        Move();
+    }
+
+    #region IBullet
+    /// <summary>
     /// Funzione che inizializza il proiettile e lo fa sparare
     /// </summary>
     /// <param name="_speed"></param>
     /// <param name="_range"></param>
     /// <param name="_shootPosition"></param>
     /// <param name="_direction"></param>
-    public virtual void Shot(float _speed, float _range, Transform _shotPosition, Vector3 _direction)
+    public virtual void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Vector3 _direction)
     {
+        damage = _damage;
         speed = _speed;
         range = _range;
         shotDirection = _direction;
@@ -96,8 +128,9 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_speed"></param>
     /// <param name="_shotPosition"></param>
     /// <param name="_target"></param>
-    public virtual void Shot(float _speed, float _range,Transform _shotPosition, Transform _target)
+    public virtual void Shot(int _damage, float _speed, float _range,Transform _shotPosition, Transform _target)
     {
+        damage = _damage;
         speed = _speed;
         range = _range;
         shotPosition = _shotPosition;
@@ -109,31 +142,14 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     /// <summary>
-    /// Funzione che richiama l'evento di spawn del proiettile
+    /// Funzione che ritrona il danno che fa il proiettile
     /// </summary>
-    protected void ObjectSpawnEvent()
+    /// <returns></returns>
+    public int GetBulletDamage()
     {
-        if (OnObjectSpawn != null)
-            OnObjectSpawn(this);
+        return damage;
     }
-    /// <summary>
-    /// Funzione che richiama l'evento di Destroy del proiettile
-    /// </summary>
-    protected void ObjectDestroyEvent()
-    {
-        if (OnObjectDestroy != null)
-            OnObjectDestroy(this);
-    }
-
-    private void Update()
-    {
-        Move();
-    }
-
-    /// <summary>
-    /// Funzione che gestisce il behaviour del proiettile
-    /// </summary>
-    protected abstract void Move();
+    #endregion
 
     #region Collision
     Collider bulletCollider;

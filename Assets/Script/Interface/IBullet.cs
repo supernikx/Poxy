@@ -5,6 +5,12 @@
 /// </summary>
 public interface IBullet
 {
-    void Shot(float _speed, float _range, Transform _shotPosition, Vector3 _direction);
-    void Shot(float _speed, float _range, Transform _shotPosition, Transform _target);
+    void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Vector3 _direction);
+    void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Transform _target);
+
+    /// <summary>
+    /// Funzione che ritrona il danno che fa il proiettile
+    /// </summary>
+    /// <returns></returns>
+    int GetBulletDamage();
 }

@@ -15,6 +15,76 @@ public interface IEnemy
     GameObject gameObject { get;}
 
     /// <summary>
+    /// Funzione di moviemento in stato di roaming
+    /// </summary>
+    void MoveRoaming();
+
+    /// <summary>
+    /// Funzione di movimento in stato di alert
+    /// Se restituisce false, il player non è più in vista
+    /// </summary>
+    bool AlertActions();
+
+    /// <summary>
+    /// Funzione che manda il nemico in allerta
+    /// </summary>
+    void Alert();
+
+    /// <summary>
+    /// Funzione che imposta il Path del nemico
+    /// </summary>
+    void SetPath();
+
+    #region Parasite
+    /// <summary>
+    /// Funzione che "infesta" il nemico
+    /// </summary>
+    void Parasite(Player _player);
+
+    /// <summary>
+    /// Funzione che termina il parassita
+    /// </summary>
+    void EndParasite();
+    #endregion
+
+    #region Stun
+    /// <summary>
+    /// Funzione che aumenta di 1 i colpi stun ricevuti dal nemico
+    /// </summary>
+    void StunHit();
+
+    /// <summary>
+    /// Funzione che stunna il nemico
+    /// </summary>
+    void Stun();
+    #endregion
+
+    #region Damage
+    /// <summary>
+    /// Funzione che toglie al nemico i danni del proiettile
+    /// </summary>
+    void DamageHit(IBullet _bullet);
+
+    /// <summary>
+    /// Funzione che uccide il nemico
+    /// </summary>
+    void Die();
+    #endregion
+
+    #region Reset
+    /// <summary>
+    /// Funzione che reimposta i dati con i valori di default
+    /// </summary>
+    void ResetData();
+
+    /// <summary>
+    /// Funzione che reimposta la poszione del nemico con quella iniziale
+    /// </summary>
+    void ResetPosition();
+    #endregion
+
+    #region Getter
+    /// <summary>
     /// Funzione che ritorna il danno del nemico
     /// </summary>
     /// <returns></returns>
@@ -75,50 +145,5 @@ public interface IEnemy
     /// </summary>
     /// <returns></returns>
     Transform GetEnemyParent();
-
-    /// <summary>
-    /// Funzione che imposta il Path del nemico
-    /// </summary>
-    void SetPath();
-
-    /// <summary>
-    /// Funzione di moviemento in stato di roaming
-    /// </summary>
-    void MoveRoaming();
-
-    /// <summary>
-    /// Funzione di movimento in stato di alert
-    /// Se restituisce false, il player non è più in vista
-    /// </summary>
-    bool AlertActions();
-
-    /// <summary>
-    /// Funzione che stunna il nemico
-    /// </summary>
-    void Stun();
-
-    /// <summary>
-    /// Funzione che uccide il nemico
-    /// </summary>
-    void Die();
-
-    /// <summary>
-    /// Funzione che manda il nemico in allerta
-    /// </summary>
-    void Alert();
-
-    /// <summary>
-    /// Funzione che "infesta" il nemico
-    /// </summary>
-    void Parasite(Player _player);
-
-    /// <summary>
-    /// Funzione che termina il parassita
-    /// </summary>
-    void EndParasite();
-
-    /// <summary>
-    /// Funzione che reimposta la poszione del nemico con quella iniziale
-    /// </summary>
-    void ResetPosition();
+    #endregion
 }

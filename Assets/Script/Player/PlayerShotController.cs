@@ -16,6 +16,8 @@ public class PlayerShotController : MonoBehaviour
     [SerializeField]
     private GameObject gun;
     [SerializeField]
+    private int damage;
+    [SerializeField]
     private float range;
     [SerializeField]
     private float shotSpeed;
@@ -142,7 +144,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.ParabolicBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shotSpeed, range, shotPoint, direction);
+            bullet.Shot(0, shotSpeed, range, shotPoint, direction);
         }
     }
 
@@ -154,7 +156,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.DamageBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shotSpeed, range, shotPoint, direction);
+            bullet.Shot(damage, shotSpeed, range, shotPoint, direction);
         }
     }
     #endregion

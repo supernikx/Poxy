@@ -26,8 +26,7 @@ public class ParabolicBullet : BulletBase
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (EnemyManager.OnEnemyStun != null)
-                EnemyManager.OnEnemyStun(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
+            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
 
         ObjectDestroyEvent();
@@ -56,9 +55,9 @@ public class ParabolicBullet : BulletBase
         }
     }
 
-    public override void Shot(float _speed, float _range, Transform _shootPosition, Vector3 _direction)
+    public override void Shot(int _damage, float _speed, float _range, Transform _shootPosition, Vector3 _direction)
     {
-        base.Shot(Mathf.Sqrt(_speed * speedMultiplayer), _range, _shootPosition, _direction);
+        base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shootPosition, _direction);
 
         //Calcolo la velocity sui 2 assi di movimento in base all'angolo di mira
         xVelocity = speed * Mathf.Cos(shotAngle * Mathf.Deg2Rad);
@@ -67,9 +66,9 @@ public class ParabolicBullet : BulletBase
         travelTime = 0;
     }
 
-    public override void Shot(float _speed, float _range,Transform _shotPosition, Transform _target)
+    public override void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Transform _target)
     {
-        base.Shot(Mathf.Sqrt(_speed * speedMultiplayer), _range, _shotPosition, _target);
+        base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shotPosition, _target);
 
         //calcolo l'offset sui 2 assi
         float x = targetPosition.Value.x - transform.position.x;

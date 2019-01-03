@@ -28,11 +28,18 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     [Header("Damage Settings")]
     [SerializeField]
+    protected int enemyStartLife;
+    protected int enemyLife;
+    [SerializeField]
     protected int enemyDamage;
+
 
     [Header("Stun Settings")]
     [SerializeField]
     protected int stunDuration;
+    [SerializeField]
+    protected int stunHit;
+    protected int stunHitGot;
 
     [Header("Death Settings")]
     [SerializeField]
@@ -59,6 +66,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     {
         enemyMng = _enemyMng;
         startPosition = transform.position;
+
+        ResetData();
 
         // Initialize Enemy State Machine
         enemySM = GetComponent<EnemySMController>();
@@ -120,24 +129,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
             enemySM.GoToAlert();
     }
 
-    /// <summary>
-    /// Funzione che manda il nemico in stato Stun
-    /// </summary>
-    public void Stun()
-    {
-        if (enemySM.GoToStun != null)
-            enemySM.GoToStun();
-    }
-
-    /// <summary>
-    /// Funzione che manda il nemico in stato Morte
-    /// </summary>
-    public void Die()
-    {
-        if (enemySM.GoToDeath != null)
-            enemySM.GoToDeath();
-    }
-
+    #region Parasite
     /// <summary>
     /// Funzione che manda il nemico in stato parassita
     /// </summary>
@@ -149,12 +141,72 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     }
 
     /// <summary>
-    /// Funzione che manda il nemico in stato AfterParasite
+    /// Funzione che manda il nemico in stato di Morte
     /// </summary>
     public void EndParasite()
-    {
+    {        
         if (enemySM.GoToDeath != null)
             enemySM.GoToDeath();
+    }
+    #endregion
+
+    #region Stun
+    /// <summary>
+    /// Funzione che aumenta di 1 i colpi stun ricevuti dal nemico
+    /// </summary>
+    public void StunHit()
+    {
+        stunHitGot++;
+        Debug.Log(stunHitGot);
+        if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
+        {
+            EnemyManager.OnEnemyStun(this);
+            stunHitGot = 0;
+        }
+    }
+
+    /// <summary>
+    /// Funzione che manda il nemico in stato Stun
+    /// </summary>
+    public void Stun()
+    {
+        if (enemySM.GoToStun != null)
+            enemySM.GoToStun();
+    }
+    #endregion
+
+    #region Damage
+    /// <summary>
+    /// Funzione che toglie al nemico i danni del proiettile
+    /// </summary>
+    public void DamageHit(IBullet _bullet)
+    {
+        enemyLife = Mathf.Clamp(enemyLife - _bullet.GetBulletDamage(), 0, enemyStartLife);
+        if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
+        {
+            EnemyManager.OnEnemyDeath(this);
+        }
+    }
+
+    /// <summary>
+    /// Funzione che manda il nemico in stato Morte
+    /// </summary>
+    public void Die()
+    {
+        stunHitGot = 0;
+        if (enemySM.GoToDeath != null)
+            enemySM.GoToDeath();
+    }
+    #endregion
+
+    #region Reset
+    /// <summary>
+    /// Funzione che reimposta i dati con i valori di default
+    /// </summary>
+    public void ResetData()
+    {
+        stunHitGot = 0;
+        enemyLife = enemyStartLife;
     }
 
     /// <summary>
@@ -164,6 +216,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     {
         transform.position = startPosition;
     }
+    #endregion
 
     #region Getters
     /// <summary>

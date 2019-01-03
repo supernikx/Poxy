@@ -13,8 +13,7 @@ public class StunBullet : BulletBase
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (EnemyManager.OnEnemyStun != null)
-                EnemyManager.OnEnemyStun(_collisionInfo.transform.gameObject.GetComponent<IEnemy>());
+            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
 
         ObjectDestroyEvent();
