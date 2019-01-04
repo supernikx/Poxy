@@ -22,14 +22,13 @@ public class ParabolicBullet : BulletBase
 
     protected override void OnBulletCollision(RaycastHit _collisionInfo)
     {
-        Debug.Log("Hit" + _collisionInfo.transform.gameObject.name);
-
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
 
-        ObjectDestroyEvent();
+        if (_collisionInfo.transform.gameObject != ownerObject)
+            ObjectDestroyEvent();
     }
 
     protected override void Move()
@@ -37,20 +36,18 @@ public class ParabolicBullet : BulletBase
         if (CurrentState == State.InUse)
         {
             Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
+            Checkcollisions(_movementDirection);
 
-            if (!Checkcollisions(_movementDirection))
+            //Calcolo la rotazione in base al movimento del proiettile e la applico
+            float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
+
+            transform.position += _movementDirection * Time.deltaTime;
+            travelTime += Time.deltaTime;
+
+            if (Vector3.Distance(shotPosition.position, transform.position) >= range)
             {
-                //Calcolo la rotazione in base al movimento del proiettile e la applico
-                float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
-
-                transform.position += _movementDirection * Time.deltaTime;
-                travelTime += Time.deltaTime;
-
-                if (Vector3.Distance(shotPosition.position, transform.position) >= range)
-                {
-                    ObjectDestroyEvent();
-                }
+                ObjectDestroyEvent();
             }
         }
     }
@@ -105,5 +102,22 @@ public class ParabolicBullet : BulletBase
 
         //Calcolo l'angolo (ora non serve lo tengo come template)
         //float angle = Mathf.Atan2(yVelocity, xVelocity) * Mathf.Rad2Deg;
+    }
+
+    public bool CheckShotRange(Vector3 _target, Transform _shotPosition, float _speed)
+    {
+        //calcolo l'offset sui 2 assi
+        float x = _target.x - _shotPosition.position.x;
+        float y = _target.y - _shotPosition.position.y;
+
+        //Calcolo la discriminante
+        float b = _speed * _speed - y * gravity;
+        float discriminant = b * b - gravity * gravity * (x * x + y * y);
+
+        //Controllo se posso raggiungere il target con la mia velocità e gravità
+        if (discriminant < 0)
+            return false;
+
+        return true;
     }
 }

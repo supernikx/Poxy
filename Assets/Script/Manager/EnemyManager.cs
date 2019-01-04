@@ -16,6 +16,8 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]
     private Transform enemyParent;
+    [SerializeField]
+    private LayerMask enemyLayer;
 
     private List<IEnemy> enemyList;
     private List<IEnemy> stunnedEnemies;
@@ -29,8 +31,6 @@ public class EnemyManager : MonoBehaviour
 
         enemyList = (FindObjectsOfType<EnemyBase>() as IEnemy[]).ToList();
 
-        EnemySetup();
-
         OnEnemyStun += HandleEnemyStun;
         OnEnemyEndStun += HandleEnemyEndStun;
         OnEnemyDeath += HandleEnemyDeath;
@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
         OnEnemyDeath -= HandleEnemyDeath;
     }
 
-    private void EnemySetup()
+    public void EnemiesSetup()
     {
         foreach (IEnemy e in enemyList)
         {
@@ -117,6 +117,15 @@ public class EnemyManager : MonoBehaviour
     public Transform GetEnemyParent()
     {
         return enemyParent;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il layer dei nemici
+    /// </summary>
+    /// <returns></returns>
+    public LayerMask GetEnemyLayer()
+    {
+        return enemyLayer;
     }
     #endregion
     #endregion

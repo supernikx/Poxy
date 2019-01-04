@@ -23,7 +23,7 @@ public interface IEnemy
     /// Funzione di movimento in stato di alert
     /// Se restituisce false, il player non è più in vista
     /// </summary>
-    bool AlertActions();
+    void AlertActions();
 
     /// <summary>
     /// Funzione che manda il nemico in allerta
@@ -144,6 +144,12 @@ public interface IEnemy
     /// Funzione che ritorna il parent dei nemici
     /// </summary>
     /// <returns></returns>
-    Transform GetEnemyParent();
+    Transform GetEnemyDefaultParent();
+
+    /// <summary>
+    /// Funzione che ritorna il layer dei nemici
+    /// </summary>
+    /// <returns></returns>
+    LayerMask GetEnemyDefaultLayer();
     #endregion
 }

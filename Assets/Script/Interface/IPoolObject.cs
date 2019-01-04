@@ -16,7 +16,6 @@ public enum State
 {
     InPool,
     InUse,
-    Destroying,
 }
 
 /// <summary>

@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init()
+    public void Init(EnemyManager _enemyMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)
-            parasiteCtrl.Init(this);
+            parasiteCtrl.Init(this, _enemyMng);
 
         healthCtrl = GetComponent<PlayerHealthController>();
         if (healthCtrl != null)

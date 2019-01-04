@@ -16,9 +16,9 @@ public class PlayerParasiteController : MonoBehaviour
     /// Funzione di inizializzazione
     /// </summary>
     /// <param name="_player"></param>
-    public void Init(Player _player)
+    public void Init(Player _player, EnemyManager _enemyMng)
     {
-        enemyMng = LevelManager.singleton.GetEnemyManager();
+        enemyMng = _enemyMng;
         player = _player;
     }
 

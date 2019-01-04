@@ -5,21 +5,27 @@ using StateMachine.EnemySM;
 
 public class EnemyAlertState : EnemySMStateBase
 {
+    private Transform _playerTransform;
+    private EnemyViewController viewCtrl;
 
     public override void Enter()
     {
         //Giusto per notare il cambio di stato nella build (da togliere)
         context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.green;
         Debug.Log("Enter Alert State");
+
+        viewCtrl = context.enemy.GetViewCtrl();
+        _playerTransform = LevelManager.singleton.GetPlayerTransform();
     }
 
     public override void Tick()
     {
-        if (!context.enemy.AlertActions())
+        context.enemy.AlertActions();
+
+        if (!viewCtrl.CheckPlayerDistance(_playerTransform.position))
         {
             context.EndAlertCallback();
-        }
-        
+        }        
     }
 
     public override void Exit()

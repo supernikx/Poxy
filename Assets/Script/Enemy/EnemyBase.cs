@@ -118,7 +118,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// Funzione che si ovvupa del movimento in stato di alert
     /// Se restituisce false, il player non è più in vista
     /// </summary>
-    public abstract bool AlertActions();
+    public abstract void AlertActions();
 
     /// <summary>
     /// Funzione che invia il nemico in stato di allerta
@@ -157,7 +157,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public void StunHit()
     {
         stunHitGot++;
-        Debug.Log(stunHitGot);
         if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
         {
             EnemyManager.OnEnemyStun(this);
@@ -265,9 +264,18 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// Funzione che ritorna il parent del nemico
     /// </summary>
     /// <returns></returns>
-    public Transform GetEnemyParent()
+    public Transform GetEnemyDefaultParent()
     {
         return enemyMng.GetEnemyParent();
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il layer dei nemici
+    /// </summary>
+    /// <returns></returns>
+    public LayerMask GetEnemyDefaultLayer()
+    {
+        return enemyMng.GetEnemyLayer();
     }
 
     /// <summary>

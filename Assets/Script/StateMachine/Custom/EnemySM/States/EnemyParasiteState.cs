@@ -42,7 +42,8 @@ namespace StateMachine.EnemySM
             tolleranceCtrl.SetActive(false);
             tolleranceCtrl = null;
 
-            context.enemy.gameObject.transform.parent = context.enemy.GetEnemyParent();
+            context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
+            context.enemy.gameObject.layer = context.enemy.GetEnemyDefaultLayer();
 
             //Fix provvisorio per essere sulla linea della gun
             context.enemy.gameObject.transform.position = new Vector3(context.enemy.gameObject.transform.position.x, context.enemy.gameObject.transform.position.y, 1.7f);

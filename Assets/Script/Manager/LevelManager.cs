@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     {
         singleton = this;
 
+        //Init
         poolMng = GetComponent<PoolManager>();
         if (poolMng != null)
             poolMng.Init();
@@ -35,7 +36,10 @@ public class LevelManager : MonoBehaviour
 
         player = FindObjectOfType<Player>();
         if (player != null)
-            player.Init();
+            player.Init(enemyMng);
+
+        //Setup
+        enemyMng.EnemiesSetup();
     }
 
     private void Update()
@@ -48,6 +52,11 @@ public class LevelManager : MonoBehaviour
     public EnemyManager GetEnemyManager()
     {
         return enemyMng;
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return player.transform;
     }
     #endregion
 }

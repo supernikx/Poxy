@@ -185,7 +185,6 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
             //Determina il punto da cui deve partire il ray (centro del proiettile)
             Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * test);
             rayOrigin += transform.up * (raySpacing * i);
-            //Debug.Log(transform.right);
 
             //Crea il ray
             Ray ray = new Ray(rayOrigin, transform.right);
