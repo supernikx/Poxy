@@ -150,6 +150,6 @@ public interface IEnemy
     /// Funzione che ritorna il layer dei nemici
     /// </summary>
     /// <returns></returns>
-    LayerMask GetEnemyDefaultLayer();
+    int GetEnemyDefaultLayer();
     #endregion
 }

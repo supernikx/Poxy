@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 114256771093579946}
   - component: {fileID: 114621463053029716}
   - component: {fileID: 114239789042690250}
-  - component: {fileID: 136028677346030830}
+  - component: {fileID: 65277727789808130}
   - component: {fileID: 114682932104554664}
   m_Layer: 11
   m_Name: Enemy
@@ -264,7 +264,19 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1832011239800834}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65277727789808130
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1938858400792474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95385365963746874
 Animator:
   serializedVersion: 3
@@ -294,11 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 30
   Waypoints: {fileID: 1856903077613586}
-  horizontalVelocity: 7
   AccelerationTimeOnGround: 0.1
   AccelerationTimeOnAir: 0.2
-  direction: 0
   enemyStartLife: 2
   enemyDamage: 2
   stunDuration: 2
@@ -306,7 +317,7 @@ MonoBehaviour:
   deathDuration: 5
   graphics: {fileID: 1199862583488942}
   shotPosition: {fileID: 4912578008841264}
-  bulletSpeed: 20
+  bulletSpeed: 10
   firingRate: 1
 --- !u!114 &114229394083401848
 MonoBehaviour:
@@ -384,16 +395,3 @@ MonoBehaviour:
   obstaclesLayer:
     serializedVersion: 2
     m_Bits: 1024
---- !u!136 &136028677346030830
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1938858400792474}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

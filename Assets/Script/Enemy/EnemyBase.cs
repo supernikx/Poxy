@@ -10,11 +10,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 {
 
     [Header("General Movement Settings")]
+    [SerializeField]
     protected float movementSpeed;
     [SerializeField]
     protected GameObject Waypoints;
-    [SerializeField]
-    protected float horizontalVelocity = 0;
     [SerializeField]
     protected float AccelerationTimeOnGround;
     [SerializeField]
@@ -23,7 +22,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected float WaypointOffset = 0.5f;
     protected float[] path;
     protected int nextWaypoint;
-    [SerializeField]
     protected int direction;
 
     [Header("Damage Settings")]
@@ -273,7 +271,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// Funzione che ritorna il layer dei nemici
     /// </summary>
     /// <returns></returns>
-    public LayerMask GetEnemyDefaultLayer()
+    public int GetEnemyDefaultLayer()
     {
         return enemyMng.GetEnemyLayer();
     }
@@ -283,7 +281,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// </summary>
     public Collider GetCollider()
     {
-        return GetComponent<CapsuleCollider>();
+        return GetComponent<Collider>();
     }
 
     /// <summary>

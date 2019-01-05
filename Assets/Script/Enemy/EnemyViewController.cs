@@ -51,12 +51,6 @@ public class EnemyViewController : MonoBehaviour
 
     public Transform GetPlayerInRadius()
     {
-        Collider[] hits3 = Physics.OverlapSphere(transform.position, viewRadius);
-        foreach (var item in hits3)
-        {
-            Debug.Log(item);
-        }
-
         Collider[] hits = Physics.OverlapSphere(transform.position, viewRadius, playerLayer);
 
         if (hits.Length > 0)
@@ -72,7 +66,7 @@ public class EnemyViewController : MonoBehaviour
     public bool CanSeePlayer(Vector3 _playerPosition)
     {
         Vector3 dirToPlayer = (_playerPosition - transform.position).normalized;
-        float angleBetweenMeAndPlayer = Vector3.Angle(transform.right, dirToPlayer);
+        float angleBetweenMeAndPlayer = Vector3.Angle(transform.right * enemy.GetDirection(), dirToPlayer);
         if (angleBetweenMeAndPlayer < viewAngle / 2f)
             if (!Physics.Linecast(transform.position, _playerPosition, obstaclesLayer))
                 return true;

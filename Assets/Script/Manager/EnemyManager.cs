@@ -15,9 +15,10 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private Transform enemyParent;
+    private Transform enemiesParent;
     [SerializeField]
-    private LayerMask enemyLayer;
+    private LayerMask enemiesLayerMask;
+    private int enemiesLayerValue;
 
     private List<IEnemy> enemyList;
     private List<IEnemy> stunnedEnemies;
@@ -25,6 +26,8 @@ public class EnemyManager : MonoBehaviour
 
     public void Init()
     {
+        enemiesLayerValue = LayerMaskToLayer(enemiesLayerMask);
+
         enemyList = new List<IEnemy>();
         stunnedEnemies = new List<IEnemy>();
         deadEnemies = new List<IEnemy>();
@@ -86,6 +89,23 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Ritorna l'id del layer corrispondente alla layer mask
+    /// </summary>
+    /// <param name="_layerMask"></param>
+    /// <returns></returns>
+    private int LayerMaskToLayer(LayerMask _layerMask)
+    {
+        int layerNumber = 0;
+        int layer = enemiesLayerMask.value;
+        while (layer > 0)
+        {
+            layer = layer >> 1;
+            layerNumber++;
+        }
+        return layerNumber - 1;
+    }
+
     #region API
     public IEnemy GetNearestStunnedEnemy(Transform _pointTransform, float _range)
     {
@@ -116,16 +136,16 @@ public class EnemyManager : MonoBehaviour
     /// <returns></returns>
     public Transform GetEnemyParent()
     {
-        return enemyParent;
+        return enemiesParent;
     }
 
     /// <summary>
     /// Funzione che ritorna il layer dei nemici
     /// </summary>
     /// <returns></returns>
-    public LayerMask GetEnemyLayer()
+    public int GetEnemyLayer()
     {
-        return enemyLayer;
+        return enemiesLayerValue;
     }
     #endregion
     #endregion

@@ -35,7 +35,7 @@ public class Walker : EnemyBase
             }
         }
 
-        return direction * horizontalVelocity;
+        return direction * movementSpeed;
     }
 
     private float HorizontalVelocityAlert()
@@ -49,7 +49,7 @@ public class Walker : EnemyBase
             direction = 1;
         }
 
-        return direction * horizontalVelocity;
+        return direction * movementSpeed;
     }
 
     public override void Init(EnemyManager _enemyMng)
@@ -66,10 +66,11 @@ public class Walker : EnemyBase
     }
 
     #region API
+    Vector3 movementVelocity;
     public override void MoveRoaming()
     {
         //transform.DOPath(GetWaypoints(), 5).SetOptions(true, AxisConstraint.Y).SetLoops(-1).SetEase(Ease.Linear);
-        Vector3 movementVelocity = movementCtrl.GravityCheck();
+        movementVelocity = movementCtrl.GravityCheck();
         movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityRoaming(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
         if (collisionCtrl.collisions.right || collisionCtrl.collisions.left)
@@ -99,7 +100,7 @@ public class Walker : EnemyBase
         }
         else
         {            
-            Vector3 movementVelocity = movementCtrl.GravityCheck();
+            movementVelocity = movementCtrl.GravityCheck();
             movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityAlert(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
             transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
         }
