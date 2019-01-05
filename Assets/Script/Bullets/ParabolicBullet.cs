@@ -106,6 +106,8 @@ public class ParabolicBullet : BulletBase
 
     public bool CheckShotRange(Vector3 _target, Transform _shotPosition, float _speed)
     {
+        _speed = Mathf.Sqrt(_speed * speedMultiplayer);
+
         //calcolo l'offset sui 2 assi
         float x = _target.x - _shotPosition.position.x;
         float y = _target.y - _shotPosition.position.y;
