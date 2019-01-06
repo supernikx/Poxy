@@ -29,15 +29,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected int enemyStartLife;
     protected int enemyLife;
     [SerializeField]
-    protected ObjectTypes enemyBullet;
-    [SerializeField]
-    protected int enemyDamage;
-    [SerializeField]
     protected Transform shotPosition;
     [SerializeField]
-    protected float bulletSpeed;
-    [SerializeField]
-    protected float firingRate;
+    protected ShotSettings enemyShotSettings;
 
     [Header("Stun Settings")]
     [SerializeField]
@@ -229,7 +223,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <returns></returns>
     public ObjectTypes GetShotType()
     {
-        return enemyBullet;
+        return enemyShotSettings.bulletType;
     }
 
     /// <summary>
@@ -254,7 +248,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <returns></returns>
     public int GetDamage()
     {
-        return enemyDamage;
+        return enemyShotSettings.damage;
     }
 
     /// <summary>

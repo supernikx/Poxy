@@ -311,11 +311,13 @@ MonoBehaviour:
   AccelerationTimeOnGround: 0.1
   AccelerationTimeOnAir: 0.2
   enemyStartLife: 2
-  enemyBullet: 2
-  enemyDamage: 2
   shotPosition: {fileID: 4912578008841264}
-  bulletSpeed: 10
-  firingRate: 1
+  enemyShotSettings:
+    bulletType: 2
+    damage: 2
+    range: 10
+    shotSpeed: 7
+    firingRate: 1
   stunDuration: 2
   stunHit: 2
   deathDuration: 5

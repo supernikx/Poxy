@@ -54,7 +54,7 @@ public class Walker : EnemyBase
     private IEnumerator FiringRateCoroutine()
     {
         CanShot = false;
-        yield return new WaitForSeconds(1 / firingRate);
+        yield return new WaitForSeconds(1 / enemyShotSettings.firingRate);
         CanShot = true;
     }
 
@@ -82,12 +82,12 @@ public class Walker : EnemyBase
         if (target == null)
             return;
 
-        IBullet bullet = PoolManager.instance.GetPooledObject(enemyBullet, gameObject).GetComponent<IBullet>();
-        if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, bulletSpeed))
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, enemyShotSettings.shotSpeed))
         {
             if (CanShot)
             {
-                bullet.Shot(enemyDamage, bulletSpeed, 5f, shotPosition, target);
+                bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, target);
                 StartCoroutine(FiringRateCoroutine());
             }
         }
