@@ -442,10 +442,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotPoint: {fileID: 4205649023355074}
   gun: {fileID: 1957076048558246}
-  damage: 1
-  range: 5
-  shotSpeed: 10
-  firingRate: 5
+  stunShotSettings:
+    bulletType: 0
+    damage: 0
+    range: 5
+    shotSpeed: 10
+    firingRate: 5
+  damageShotSettings:
+  - bulletType: 1
+    damage: 1
+    range: 5
+    shotSpeed: 10
+    firingRate: 5
+  - bulletType: 2
+    damage: 2
+    range: 10
+    shotSpeed: 10
+    firingRate: 5
 --- !u!136 &136339827800590912
 CapsuleCollider:
   m_ObjectHideFlags: 1

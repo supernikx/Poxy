@@ -29,11 +29,6 @@ public class PlayerParasiteController : MonoBehaviour
     public IEnemy CheckParasite()
     {
         IEnemy e = enemyMng.GetNearestStunnedEnemy(transform, parasiteRange);
-        if (e != null)
-        {
-            Debug.Log("Posso entrare dentro " + e);
-        }
-
         return e;
     }
 

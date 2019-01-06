@@ -16,13 +16,10 @@ public class PlayerShotController : MonoBehaviour
     [SerializeField]
     private GameObject gun;
     [SerializeField]
-    private int damage;
+    ShotSettings stunShotSettings;
     [SerializeField]
-    private float range;
-    [SerializeField]
-    private float shotSpeed;
-    [SerializeField]
-    private float firingRate;
+    private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
+    ShotSettings shotSettingsInUse;
 
     /// <summary>
     /// Referenza al pool manager
@@ -31,7 +28,7 @@ public class PlayerShotController : MonoBehaviour
     /// <summary>
     /// Boolean che definisce se posso sparare o no
     /// </summary>
-    bool canShot;
+    bool canShotDamage;
 
     void Update()
     {
@@ -130,7 +127,7 @@ public class PlayerShotController : MonoBehaviour
     {
         if (firingRateTimer < 0)
         {
-            firingRateTimer = 1f / firingRate;
+            firingRateTimer = 1f / shotSettingsInUse.firingRate;
             return true;
         }
         return false;
@@ -141,22 +138,22 @@ public class PlayerShotController : MonoBehaviour
     /// </summary>
     private void ShotStunBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.ParabolicBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(0, shotSpeed, range, shotPoint, direction);
+            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint, direction);
         }
     }
 
     /// <summary>
     /// Funzione che prende un proiettile danneggiante dal pool manager e lo imposta per sparare
     /// </summary>
-    private void ShotDamageBullet()
+    private void ShotEnemyBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.DamageBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(enemyShotSetting.bulletType, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(damage, shotSpeed, range, shotPoint, direction);
+            bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint, direction);
         }
     }
     #endregion
@@ -182,7 +179,7 @@ public class PlayerShotController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(shotPoint.position, range);
+        Gizmos.DrawWireSphere(shotPoint.position, shotSettingsInUse.range);
     }
 
     #region API
@@ -192,7 +189,7 @@ public class PlayerShotController : MonoBehaviour
     public void Init(PoolManager _poolManager)
     {
         pool = _poolManager;
-        canShot = false;
+        canShotDamage = false;
     }
 
     /// <summary>
@@ -200,9 +197,9 @@ public class PlayerShotController : MonoBehaviour
     /// con quella passata come parametro
     /// </summary>
     /// <param name="_canShoot"></param>
-    public void SetCanShoot(bool _canShoot)
+    public void SetCanShootDamage(bool _canShoot)
     {
-        canShot = _canShoot;
+        canShotDamage = _canShoot;
     }
 
     /// <summary>
@@ -212,16 +209,57 @@ public class PlayerShotController : MonoBehaviour
     public void ChangeShotType()
     {
         //Controllo se posso cambiare tipo di sparo
-        if (useStunBullets && canShot)
+        if (useStunBullets && canShotDamage)
         {
-            Shot = ShotDamageBullet;
+            Shot = ShotEnemyBullet;
+            shotSettingsInUse = enemyShotSetting;
             useStunBullets = false;
         }
         else
         {
             Shot = ShotStunBullet;
+            shotSettingsInUse = stunShotSettings;
             useStunBullets = true;
         }
     }
+
+    /// <summary>
+    /// Funzione che imposta l'enemyShotSetting con i valori presenti nella lista di shot settings
+    /// corrispondenti al tipo di proiettile passato come parametro
+    /// </summary>
+    ShotSettings enemyShotSetting;
+    public void SetEnemyShot(ObjectTypes _enemyBullet)
+    {
+        ShotSettings newShotSettings = GetShotSettingByBullet(_enemyBullet);
+        if (newShotSettings != null)
+        {
+            enemyShotSetting = newShotSettings;
+        }
+    }
+
+    /// <summary>
+    /// Funzione che ritorna i Shot Settings in base al tipo di proiettile passato come parametro
+    /// </summary>
+    /// <param name="_bullet"></param>
+    /// <returns></returns>
+    public ShotSettings GetShotSettingByBullet(ObjectTypes _bullet)
+    {
+        foreach (ShotSettings shot in damageShotSettings)
+        {
+            if (shot.bulletType == _bullet)
+                return shot;
+        }
+        return null;
+    }
     #endregion
+}
+
+[System.Serializable]
+public class ShotSettings
+{
+    public ObjectTypes bulletType;
+    public int damage;
+    public float range;
+    public float shotSpeed;
+    public float firingRate;
 }

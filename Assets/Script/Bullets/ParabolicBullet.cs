@@ -24,7 +24,7 @@ public class ParabolicBullet : BulletBase
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
+            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().DamageHit(this);
         }
 
         if (_collisionInfo.transform.gameObject != ownerObject)

@@ -12,7 +12,6 @@ public class EnemyAlertState : EnemySMStateBase
     {
         //Giusto per notare il cambio di stato nella build (da togliere)
         context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.green;
-        Debug.Log("Enter Alert State");
 
         viewCtrl = context.enemy.GetViewCtrl();
         _playerTransform = LevelManager.singleton.GetPlayerTransform();

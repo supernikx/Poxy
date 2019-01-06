@@ -24,7 +24,8 @@ namespace StateMachine.PlayerSM
             context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
 
-            context.player.GetShotController().SetCanShoot(true);
+            context.player.GetMovementController().SetCanMove(true);
+            context.player.GetShotController().SetCanShootDamage(true);
         }
 
         public override void Tick()
@@ -38,7 +39,6 @@ namespace StateMachine.PlayerSM
             {
                 //Cambio tipo di sparo
                 context.player.GetShotController().ChangeShotType();
-                Debug.Log("Destro");
             }
 
             if (context.player.GetHealthController().GainHealthOvertime() && !healthMax)
@@ -67,6 +67,8 @@ namespace StateMachine.PlayerSM
             context.player.transform.position = new Vector3(context.player.transform.position.x, context.player.transform.position.y + 0.5f, context.player.transform.position.z);
             context.player.EnableGraphics(true);
             context.player.GetCollisionController().CalculateNormalCollision();
+
+            context.player.GetShotController().SetCanShootDamage(false);
             healthMax = false;
         }
 

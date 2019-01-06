@@ -5,13 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
-    [Header("Walker Settings")]
-    [SerializeField]
-    private Transform shotPosition;
-    [SerializeField]
-    private float bulletSpeed;
-    [SerializeField]
-    private float firingRate;
     bool CanShot;
 
     private float velocityXSmoothing;
@@ -89,7 +82,7 @@ public class Walker : EnemyBase
         if (target == null)
             return;
 
-        IBullet bullet = PoolManager.instance.GetPooledObject(ObjectTypes.ParabolicBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyBullet, gameObject).GetComponent<IBullet>();
         if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, bulletSpeed))
         {
             if (CanShot)
@@ -99,7 +92,7 @@ public class Walker : EnemyBase
             }
         }
         else
-        {            
+        {
             movementVelocity = movementCtrl.GravityCheck();
             movementVelocity.x = Mathf.SmoothDamp(0, HorizontalVelocityAlert(), ref velocityXSmoothing, (collisionCtrl.collisions.below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
             transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));

@@ -29,8 +29,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected int enemyStartLife;
     protected int enemyLife;
     [SerializeField]
+    protected ObjectTypes enemyBullet;
+    [SerializeField]
     protected int enemyDamage;
-
+    [SerializeField]
+    protected Transform shotPosition;
+    [SerializeField]
+    protected float bulletSpeed;
+    [SerializeField]
+    protected float firingRate;
 
     [Header("Stun Settings")]
     [SerializeField]
@@ -216,6 +223,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     #endregion
 
     #region Getters
+    /// <summary>
+    /// Funzione che ritorna il tipo di sparo del nemico
+    /// </summary>
+    /// <returns></returns>
+    public ObjectTypes GetShotType()
+    {
+        return enemyBullet;
+    }
+
     /// <summary>
     /// Get stun duration
     /// </summary>

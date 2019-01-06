@@ -25,7 +25,6 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             // If exists a reference to the enemy object
-            Debug.Log("Enter Dead State");
             deathDuration = context.enemy.GetDeathDuration();
             timer = 0;
             context.enemy.GetGraphics().SetActive(false);
@@ -57,7 +56,6 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
-            Debug.Log("Leaving Dead State");
             start = false;
             context.enemy.GetGraphics().SetActive(true);
             context.enemy.GetCollider().enabled = true;

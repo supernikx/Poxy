@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
     private IEnumerator ParasiteCoroutine(IEnemy _e)
     {
         parasiteCtrl.SetParasiteEnemy(_e);
+        shootCtrl.SetEnemyShot(_e.GetShotType());
         _e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
 

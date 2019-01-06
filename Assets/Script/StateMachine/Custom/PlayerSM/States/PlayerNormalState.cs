@@ -8,8 +8,7 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
-            context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetShotController().SetCanShoot(false);
+            context.player.OnEnemyCollision += OnEnemyCollision;            
             context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
         }
@@ -27,7 +26,10 @@ namespace StateMachine.PlayerSM
                 if (e != null)
                 {
                     context.player.StartParasiteCoroutine(e);
+                    context.player.GetMovementController().SetCanMove(false);
                 }
+                else
+                    Debug.Log("Non ci sono nemici stunnati nelle vicinanze");
             }
 
             if (_playerImmunity)

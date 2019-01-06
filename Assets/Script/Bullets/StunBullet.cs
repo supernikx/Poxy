@@ -9,14 +9,13 @@ public class StunBullet : BulletBase
 {
     protected override void OnBulletCollision(RaycastHit _collisionInfo)
     {
-        Debug.Log("Hit" + _collisionInfo.transform.gameObject.name);
-
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
 
-        ObjectDestroyEvent();
+        if (_collisionInfo.transform.gameObject != ownerObject)
+            ObjectDestroyEvent();
     }
 
     protected override void Move()

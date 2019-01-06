@@ -25,7 +25,6 @@ namespace StateMachine.EnemySM
         {
             //Giusto per notare il cambio di stato nella build (da togliere)
             context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
-            Debug.Log("Enter Stun State");
 
             stunDuration = context.enemy.GetStunDuration();
             timer = 0;
@@ -52,7 +51,6 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
-            Debug.Log("Leaving Stun State");
             start = false;
         }
     }
