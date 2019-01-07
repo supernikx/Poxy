@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour
         //Setup
         enemyMng.EnemiesSetup();
 
+        //Iscrizione Eventi
         player.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion

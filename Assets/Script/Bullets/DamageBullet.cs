@@ -10,6 +10,11 @@ public class DamageBullet : BulletBase
             _collisionInfo.transform.gameObject.GetComponent<IEnemy>().DamageHit(this);
         }
 
+        if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            _collisionInfo.transform.gameObject.GetComponent<Player>().GetHealthController().LoseHealth(damage);
+        }
+
         if (_collisionInfo.transform.gameObject != ownerObject)
             ObjectDestroyEvent();
     }

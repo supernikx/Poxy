@@ -51,7 +51,7 @@ namespace StateMachine.PlayerSM
             context.player.GetHealthController().LoseHealth(_enemy.GetDamage());
             context.player.GetCollisionController().CheckDamageCollision(false);
             context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-
+            
             immunityTime = context.player.GetCollisionController().GetImmunityDuration();
             _playerImmunity = true;
         }
