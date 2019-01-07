@@ -15,6 +15,8 @@ public class PlayerHealthController : MonoBehaviour {
     [SerializeField]
     [Tooltip("Min Health")]
     private float minHealth = 0;
+    [SerializeField]
+    private bool canDie = true;
 
     [Header("UI Settings")]
     [SerializeField]
@@ -32,6 +34,11 @@ public class PlayerHealthController : MonoBehaviour {
     private float lossPerSecond;
 
     /// <summary>
+    /// Reference to Player
+    /// </summary>
+    private Player player;
+
+    /// <summary>
     /// Temporary for debugging
     /// </summary>
     void Update()
@@ -43,10 +50,12 @@ public class PlayerHealthController : MonoBehaviour {
     /// <summary>
     /// Initialize this script
     /// </summary>
-    public void Init()
+    public void Init(Player _player)
     {
         lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
         health = maxHealth;
+
+        player = _player;
     }
 
     /// <summary>
@@ -55,6 +64,11 @@ public class PlayerHealthController : MonoBehaviour {
     public void LoseHealthOvertime()
     {
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
+        if (health == minHealth && canDie)
+        {
+            if (player.OnPlayerDeath != null)
+                player.OnPlayerDeath();
+        }
     }
 
     /// <summary>
@@ -64,6 +78,11 @@ public class PlayerHealthController : MonoBehaviour {
     public void LoseHealth(int _health)
     {
         health = Mathf.Clamp(health - _health, minHealth, maxHealth);
+        if (health == minHealth && canDie)
+        {
+            if (player.OnPlayerDeath != null)
+                player.OnPlayerDeath();
+        }
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
     public PlayerEnemyCollisionDelegate OnEnemyCollision;
     public Action OnPlayerMaxHealth;
+    public Action OnPlayerDeath;
     #endregion
     [Header("General Settings")]
     [SerializeField]
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Init(EnemyManager _enemyMng)
     {
+
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
         if (collisionCtrl != null)
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
 
         healthCtrl = GetComponent<PlayerHealthController>();
         if (healthCtrl != null)
-            healthCtrl.Init();
+            healthCtrl.Init(this);
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)

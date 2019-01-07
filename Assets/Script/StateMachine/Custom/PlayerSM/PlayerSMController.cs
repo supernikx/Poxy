@@ -34,6 +34,8 @@ namespace StateMachine.PlayerSM
             OnPlayerParaiste += HandlePlayerParasite;
             OnPlayerNormal += HandlePlayerNormal;
 
+            _player.OnPlayerDeath += HandlePlayerDeath;
+
             playerSM.SetTrigger("StartSM");
         }
 
@@ -54,6 +56,14 @@ namespace StateMachine.PlayerSM
         private void HandlePlayerNormal()
         {
             playerSM.SetTrigger("GoToNormal");
+        }
+
+        /// <summary>
+        /// Handler per mandare il player nello stato di morte
+        /// </summary>
+        private void HandlePlayerDeath()
+        {
+            playerSM.SetTrigger("GoToDeath");
         }
         #endregion
     }

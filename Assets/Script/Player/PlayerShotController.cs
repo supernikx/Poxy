@@ -179,7 +179,7 @@ public class PlayerShotController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(shotPoint.position, shotSettingsInUse.range);
+        //Gizmos.DrawWireSphere(shotPoint.position, shotSettingsInUse.range);
     }
 
     #region API

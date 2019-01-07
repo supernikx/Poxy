@@ -18,6 +18,13 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     EnemyManager enemyMng;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
+    #region API
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
     /// </summary>
@@ -40,13 +47,17 @@ public class LevelManager : MonoBehaviour
 
         //Setup
         enemyMng.EnemiesSetup();
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
+        player.OnPlayerDeath += HandlePlayerDeath;
     }
+    #endregion
+
+    #region Handlers
+    private void HandlePlayerDeath()
+    {
+        Debug.Log("The Player is dead");
+    }
+    #endregion
 
     #region Getter
     public EnemyManager GetEnemyManager()
