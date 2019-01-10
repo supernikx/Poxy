@@ -21,9 +21,7 @@ namespace StateMachine.PlayerSM
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
             context.parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
 
-            context.player.EnableGraphics(false);
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
-
             context.player.GetMovementController().SetCanMove(true);
             context.player.GetShotController().SetCanShootDamage(true);
         }
@@ -47,14 +45,6 @@ namespace StateMachine.PlayerSM
                 if (context.player.OnPlayerMaxHealth != null)
                     context.player.OnPlayerMaxHealth();
             }
-
-            if (_playerImmunity)
-            {
-                if (immunityTime <= 0)
-                    PlayerImmunityEnd();
-
-                immunityTime -= Time.deltaTime;
-            }
         }
 
         public override void Exit()
@@ -65,7 +55,6 @@ namespace StateMachine.PlayerSM
 
             //Fix provvisorio altrimenti non detecta collision
             context.player.transform.position = new Vector3(context.player.transform.position.x, context.player.transform.position.y + 0.5f, context.player.transform.position.z);
-            context.player.EnableGraphics(true);
             context.player.GetCollisionController().CalculateNormalCollision();
 
             context.player.GetShotController().SetCanShootDamage(false);
@@ -78,25 +67,18 @@ namespace StateMachine.PlayerSM
         }
 
         #region EnemyCollision
-        bool _playerImmunity;
-        float immunityTime;
         private void OnEnemyCollision(IEnemy _enemy)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.parasiteEnemy.GetToleranceCtrl().AddTollerance(_enemy.GetDamage());
-            context.player.GetCollisionController().CheckDamageCollision(false);
-            context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-
-            immunityTime = context.player.GetCollisionController().GetImmunityDuration();
-            _playerImmunity = true;
+            context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+            context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }
 
         private void PlayerImmunityEnd()
         {
-            _playerImmunity = false;
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetCollisionController().CheckDamageCollision(true);
-            context.player.gameObject.layer = LayerMask.NameToLayer("Player");
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
         }
         #endregion
     }

@@ -8,13 +8,15 @@ namespace StateMachine.PlayerSM
     {
         public override void Enter()
         {
-            context.player.OnEnemyCollision += OnEnemyCollision;            
+            context.player.OnEnemyCollision += OnEnemyCollision;
             context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
+            loseHealth = true;
         }
 
         public override void Exit()
         {
+            loseHealth = false;
             context.player.OnEnemyCollision -= OnEnemyCollision;
         }
 
@@ -32,36 +34,27 @@ namespace StateMachine.PlayerSM
                     Debug.Log("Non ci sono nemici stunnati nelle vicinanze");
             }
 
-            if (_playerImmunity)
-            {
-                if (immunityTime <= 0)
-                    PlayerImmunityEnd();
-
-                immunityTime -= Time.deltaTime;
-            }
-
-            context.player.GetHealthController().LoseHealthOvertime();
+            if (loseHealth)
+                context.player.GetHealthController().LoseHealthOvertime();
         }
 
-        bool _playerImmunity;
-        float immunityTime;
+        #region Enemy Collision
+        bool loseHealth;
         private void OnEnemyCollision(IEnemy _enemy)
         {
+            loseHealth = false;
             context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.player.GetHealthController().LoseHealth(_enemy.GetDamage());
-            context.player.GetCollisionController().CheckDamageCollision(false);
-            context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-            
-            immunityTime = context.player.GetCollisionController().GetImmunityDuration();
-            _playerImmunity = true;
+            context.player.GetHealthController().LoseHealth(_enemy.GetDamage());        
+            context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+            context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }
 
         private void PlayerImmunityEnd()
         {
-            _playerImmunity = false;
+            loseHealth = true;
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.GetCollisionController().CheckDamageCollision(true);
-            context.player.gameObject.layer = LayerMask.NameToLayer("Player");
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
         }
+        #endregion
     }
 }

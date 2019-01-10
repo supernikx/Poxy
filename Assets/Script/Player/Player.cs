@@ -12,9 +12,11 @@ public class Player : MonoBehaviour
     public PlayerEnemyCollisionDelegate OnEnemyCollision;
     public Action OnPlayerMaxHealth;
     public Action OnPlayerDeath;
+    public Action OnPlayerImmunityEnd;
     #endregion
     [Header("General Settings")]
     [SerializeField]
+    GameObject playerGraphics;
     GameObject graphics;
 
     /// <summary>
@@ -48,7 +50,6 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Init(EnemyManager _enemyMng)
     {
-
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
         if (collisionCtrl != null)
@@ -73,6 +74,9 @@ public class Player : MonoBehaviour
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)
             playerSM.Init(this);
+
+        //Setup cose locali
+        graphics = playerGraphics;
     }
 
     /// <summary>
@@ -103,6 +107,7 @@ public class Player : MonoBehaviour
         yield return sequence.WaitForCompletion();
         #endregion
 
+        ChangeGraphics(_e.GetGraphics());
         collisionCtrl.CheckDamageCollision(true);
         if (playerSM.OnPlayerParaiste != null)
             playerSM.OnPlayerParaiste(_e);
@@ -120,6 +125,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private IEnumerator NormalCoroutine()
     {
+        ChangeGraphics(playerGraphics);
         parasiteCtrl.GetParasiteEnemy().EndParasite();
         movementCtrl.Eject();
 
@@ -130,6 +136,51 @@ public class Player : MonoBehaviour
 
         if (playerSM.OnPlayerNormal != null)
             playerSM.OnPlayerNormal();
+    }
+
+    /// <summary>
+    /// Funzione che attiva la coroutine ImmunityCoroutine
+    /// </summary>
+    /// <param name="_immunityDuration"></param>
+    public void StartImmunityCoroutine(float _immunityDuration)
+    {
+        StartCoroutine(ImmunityCoroutine(_immunityDuration));
+    }
+    /// <summary>
+    /// Coroutine che rende il player immune e avvisa quando è finità l'immunità
+    /// </summary>
+    /// <param name="_immunityDuration"></param>
+    /// <returns></returns>
+    private IEnumerator ImmunityCoroutine(float _immunityDuration)
+    {
+        GetCollisionController().CheckDamageCollision(false);
+        gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
+        float timer = _immunityDuration;
+        while(timer > 0)
+        {
+            EnableGraphics(false);
+            yield return new WaitForSeconds(0.1f);
+            timer -= 0.1f;
+            EnableGraphics(true);
+            yield return new WaitForSeconds(0.2f);
+            timer -= 0.2f;
+        }
+
+        GetCollisionController().CheckDamageCollision(true);
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        if (OnPlayerImmunityEnd != null)
+            OnPlayerImmunityEnd();
+    }
+
+    /// <summary>
+    /// Funzione che cambia la grafica con quella passata come parametro
+    /// </summary>
+    /// <param name="_newGraphic"></param>
+    public void ChangeGraphics(GameObject _newGraphic)
+    {
+        EnableGraphics(false);
+        graphics = _newGraphic;
+        EnableGraphics(true);
     }
 
     /// <summary>

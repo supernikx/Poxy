@@ -29,7 +29,11 @@ public class ParabolicBullet : BulletBase
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<Player>().GetHealthController().LoseHealth(damage);
+            Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
+            if (player != null)
+                player.GetHealthController().LoseHealth(damage);
+            else
+                _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTollerance(damage);
         }
 
         if (_collisionInfo.transform.gameObject != ownerObject)
