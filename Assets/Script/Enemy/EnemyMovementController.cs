@@ -40,9 +40,8 @@ public class EnemyMovementController : MonoBehaviour
         collisionCtrl = _collisionCtrl;
     }
 
-    public Vector3 GravityCheck()
+    public void MovementCheck(Vector3? _movementVector = null)
     {
-
         if (collisionCtrl.collisions.above || collisionCtrl.collisions.below)
         {
             //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
@@ -51,8 +50,18 @@ public class EnemyMovementController : MonoBehaviour
 
         AddGravity();
 
-        return movementVelocity;
-        //transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        if (_movementVector == null)
+        {
+            movementVelocity.x = 0;
+            movementVelocity.z = 0;
+        }
+        else
+        {
+            movementVelocity.x = _movementVector.Value.x;
+            movementVelocity.z = _movementVector.Value.z;
+            movementVelocity.y += _movementVector.Value.y;
+        }
+        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
     }
     #endregion
 

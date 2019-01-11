@@ -17,23 +17,18 @@ public interface IEnemy
     /// <summary>
     /// Funzione di moviemento in stato di roaming
     /// </summary>
-    void MoveRoaming();
+    void MoveRoaming(bool _enabled);
 
     /// <summary>
     /// Funzione di movimento in stato di alert
     /// Se restituisce false, il player non è più in vista
     /// </summary>
-    void AlertActions();
+    void AlertActions(bool _enabled);
 
     /// <summary>
     /// Funzione che manda il nemico in allerta
     /// </summary>
     void Alert();
-
-    /// <summary>
-    /// Funzione che imposta il Path del nemico
-    /// </summary>
-    void SetPath();
 
     #region Parasite
     /// <summary>
@@ -95,12 +90,6 @@ public interface IEnemy
     /// </summary>
     /// <returns></returns>
     int GetDamage();
-
-    /// <summary>
-    /// Funzione che ritorna la direzione
-    /// </summary>
-    /// <returns></returns>
-    int GetDirection();
 
     /// <summary>
     /// Get Stun Duration

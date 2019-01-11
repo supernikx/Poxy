@@ -65,15 +65,5 @@ public class LevelManager : MonoBehaviour
     {
         return enemyMng;
     }
-
-    public Transform GetPlayerTransform()
-    {
-        return player.transform;
-    }
     #endregion
-
-    private IEnumerator PlayerEnemyRangeCheck()
-    {
-
-    }
 }

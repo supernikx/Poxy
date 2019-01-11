@@ -11,18 +11,17 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     [Header("General Movement Settings")]
     [SerializeField]
+    protected float roamingMovementSpeed;
+    [SerializeField]
+    protected float alertMovementSpeed;
     protected float movementSpeed;
     [SerializeField]
+    protected float turnSpeed;
+    [SerializeField]
     protected GameObject Waypoints;
-    [SerializeField]
-    protected float AccelerationTimeOnGround;
-    [SerializeField]
-    protected float AccelerationTimeOnAir;
 
+    protected Vector3[] path;
     protected float WaypointOffset = 0.5f;
-    protected float[] path;
-    protected int nextWaypoint;
-    protected int direction;
 
     [Header("Damage Settings")]
     [SerializeField]
@@ -94,30 +93,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     }
 
     /// <summary>
-    /// Funzione che imposta il Path del nemico
-    /// </summary>
-    public void SetPath()
-    {
-        int _childCount = Waypoints.transform.childCount;
-        path = new float[_childCount];
-        for (int i = 0; i < _childCount; i++)
-        {
-            path[i] = Waypoints.transform.GetChild(i).position.x;
-        }
-
-        nextWaypoint = 0;
-    }
-
-    /// <summary>
     /// Funzione che si ovvupa del movimento in stato di roaming
     /// </summary>
-    public abstract void MoveRoaming();
+    public abstract void MoveRoaming(bool _enabled);
 
     /// <summary>
     /// Funzione che si ovvupa del movimento in stato di alert
     /// Se restituisce false, il player non è più in vista
     /// </summary>
-    public abstract void AlertActions();
+    public abstract void AlertActions(bool _enabled);
 
     /// <summary>
     /// Funzione che invia il nemico in stato di allerta
@@ -252,15 +236,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     }
 
     /// <summary>
-    /// Funzione che ritorna la direzione del nemico
-    /// </summary>
-    /// <returns></returns>
-    public int GetDirection()
-    {
-        return direction;
-    }
-
-    /// <summary>
     /// Get Graphics Reference
     /// </summary>
     public GameObject GetGraphics()
@@ -330,5 +305,34 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         return viewCtrl;
     }
     #endregion
+    #endregion
+
+    #region Waypoints
+    /// <summary>
+    /// Funzione che imposta il Path del nemico
+    /// </summary>
+    protected void SetPath()
+    {
+        int _childCount = Waypoints.transform.childCount;
+        path = new Vector3[_childCount];
+        for (int i = 0; i < _childCount; i++)
+        {
+            path[i] = Waypoints.transform.GetChild(i).position;
+        }
+        currentWaypoint = 0;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna la posizione del waypoint successivo
+    /// </summary>
+    int currentWaypoint;
+    protected Vector3 GetNextWaypointPosition()
+    {
+        if (currentWaypoint + 1 >= path.Length)
+            currentWaypoint = 0;
+        else
+            currentWaypoint++;
+        return path[currentWaypoint];
+    }
     #endregion
 }

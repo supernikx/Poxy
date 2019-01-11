@@ -164,7 +164,7 @@ public class EnemyCollisionController : MonoBehaviour
     private void HorizontalCollisions(ref Vector3 _movementVelocity)
     {
         //Rileva la direzione in cui si sta andando
-        float directionX = Mathf.Sign(_movementVelocity.x);
+        float directionX = (transform.right == Vector3.right) ? 1 : -1;
         //Determina la lunghezza del raycast
         float rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
 
