@@ -14,6 +14,7 @@ namespace StateMachine.PlayerSM
             context.player.OnEnemyCollision += OnEnemyCollision;
             context.parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
 
+            parasitePressed = false;
             healthMax = false;
             ltWasDown = true; //Imposta il tasto del controller come premuto
 
@@ -26,10 +27,12 @@ namespace StateMachine.PlayerSM
             context.player.GetShotController().SetCanShootDamage(true);
         }
 
+        bool parasitePressed;
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis())
+            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis() && !parasitePressed)
             {
+                parasitePressed = true;
                 context.player.StartNormalCoroutine();
             }
 
@@ -58,6 +61,7 @@ namespace StateMachine.PlayerSM
             context.player.GetCollisionController().CalculateNormalCollision();
 
             context.player.GetShotController().SetCanShootDamage(false);
+            parasitePressed = false;
             healthMax = false;
         }
 

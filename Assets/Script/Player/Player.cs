@@ -120,6 +120,7 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(NormalCoroutine());
     }
+
     /// <summary>
     /// Funzione che manda il player nello stato normale
     /// </summary>

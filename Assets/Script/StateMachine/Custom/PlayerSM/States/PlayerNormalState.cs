@@ -11,22 +11,26 @@ namespace StateMachine.PlayerSM
             context.player.OnEnemyCollision += OnEnemyCollision;
             context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
+            parasitePressed = false;
             loseHealth = true;
         }
 
         public override void Exit()
         {
+            parasitePressed = false;
             loseHealth = false;
             context.player.OnEnemyCollision -= OnEnemyCollision;
         }
 
+        bool parasitePressed;
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis())
+            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis() && !parasitePressed)
             {
                 IEnemy e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)
                 {
+                    parasitePressed = true;
                     context.player.StartParasiteCoroutine(e);
                     context.player.GetMovementController().SetCanMove(false);
                 }
