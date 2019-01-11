@@ -71,4 +71,9 @@ public class LevelManager : MonoBehaviour
         return player.transform;
     }
     #endregion
+
+    private IEnumerator PlayerEnemyRangeCheck()
+    {
+
+    }
 }
