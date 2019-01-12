@@ -66,7 +66,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Funzione di Setup
     /// </summary>
-    public void Setup()
+    public virtual void Setup()
     {
         bulletCollider = GetComponent<Collider>();
         CalculateRaySpacing();

@@ -8,8 +8,9 @@ using UnityEngine;
 public enum ObjectTypes
 {
     StunBullet,
-    DamageBullet,
     ParabolicBullet,
+    StickyBullet,
+    SticyObject,
 }
 
 /// <summary>
