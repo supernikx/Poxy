@@ -1,10 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class PlayerCollisionController : MonoBehaviour
 {
+    #region Delegates
+    public Action OnStickyCollision;
+    #endregion
+
     [Header("Collision Settings")]
     [SerializeField]
     /// <summary>
@@ -250,11 +255,19 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
-                //Se colpisco un oggetto sticky
+                //Se colpisco un oggetto sticky imposto le variabili sticky della direzione su true
                 collisions.verticalStickyCollision = true;
                 collisions.horizontalStickyCollision = false;
+
+                //Azzero la velocity per questo frame
                 _movementVelocity.x = 0;
                 _movementVelocity.y = 0;
+
+                //Lanzio l'evento OnStickycollision
+                if (OnStickyCollision != null)
+                    OnStickyCollision();
+
+                //Finisco il loop
                 break;
             }
 
@@ -312,12 +325,19 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
-                //Se colpisco un oggetto sticky
+                //Se colpisco un oggetto sticky imposto le variabili sticky della direzione su true
                 collisions.horizontalStickyCollision = true;
                 collisions.verticalStickyCollision = false;
+
+                //Azzero la velocity per questo frame
                 _movementVelocity.x = 0;
                 _movementVelocity.y = 0;
-                Debug.Log("Sticky");
+
+                //Lanzio l'evento OnStickycollision
+                if (OnStickyCollision != null)
+                    OnStickyCollision();
+
+                //Finisco il loop
                 break;
             }
 
@@ -325,6 +345,10 @@ public class PlayerCollisionController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Funzione che controlla in entrambe le direzioni orrizontali se ci sono collisioni con oggetti del layer sticky
+    /// </summary>
+    /// <param name="_movementVelocity"></param>
     private void CheckHorizontalStickyCollision(ref Vector3 _movementVelocity)
     {
         //Determina la lunghezza del raycast
@@ -344,11 +368,13 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
+                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
                 collisions.horizontalStickyCollision = true;
                 _movementVelocity.x = 0;
                 return;
             }
 
+            //Determina il punto da cui deve partire il ray opposto
             rayOrigin = raycastStartPoints.bottomRight;
             rayOrigin += Vector3.up * (horizontalRaySpacing * i);
 
@@ -357,15 +383,21 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
             {
+                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
                 collisions.horizontalStickyCollision = true;
                 _movementVelocity.x = 0;
                 return;
             }
         }
 
+        //Se non ho colpito niente metto la variabile a false
         collisions.horizontalStickyCollision = false;
     }
 
+    /// <summary>
+    /// Funzione che controlla in entrambe le direzioni verticali se ci sono collisioni con oggetti del layer sticky
+    /// </summary>
+    /// <param name="_movementVelocity"></param>
     private void CheckVerticalStickyCollision(ref Vector3 _movementVelocity)
     {
         //Determina la lunghezza del raycast
@@ -385,11 +417,13 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
+                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
                 collisions.verticalStickyCollision = true;
                 _movementVelocity.y = 0;
                 return;
             }
 
+            //Determina il punto da cui deve partire il ray opposto
             rayOrigin = raycastStartPoints.topLeft;
             rayOrigin += Vector3.right * (verticalRaySpacing * i);
 
@@ -398,12 +432,14 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
             {
+                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
                 collisions.verticalStickyCollision = true;
                 _movementVelocity.y = 0;
                 return;
             }
         }
 
+        //Se non ho colpito niente metto la variabile a false
         collisions.verticalStickyCollision = false;
     }
 

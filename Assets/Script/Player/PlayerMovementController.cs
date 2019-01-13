@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -113,6 +114,14 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.y = jumpVelocity;
     }
 
+    /// <summary>
+    /// Funzione che tratta l'evento OnStickyCollision
+    /// </summary>
+    private void OnStickyCollision()
+    {
+        movementVelocity.y = 0;
+    }
+
     #region API
     /// <summary>
     /// Funzione di inizializzazione del player
@@ -120,6 +129,8 @@ public class PlayerMovementController : MonoBehaviour
     public void Init(PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
+        collisionCtrl.OnStickyCollision += OnStickyCollision;
+
         //Calcolo la gravità
         gravity = -(2 * JumpUnitHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
         //Calcolo la velocità del salto
