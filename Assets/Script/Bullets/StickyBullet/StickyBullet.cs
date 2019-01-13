@@ -5,33 +5,13 @@ public class StickyBullet : BulletBase
 {
     [Header("Sticky Bullet Settings")]
     [SerializeField]
-    private GameObject stickyObjectPrefab;
-    [SerializeField]
-    private GameObject rightDebug;
-    [SerializeField]
-    private GameObject leftDebug;
-
-    /// <summary>
-    /// Offset del bound del collider
-    /// </summary>
-    private float collisionOffset = 0.015f;
-    [SerializeField]
-    /// <summary>
-    /// Numero di raycast per lo sticky object
-    /// </summary>
-    private int stickyObjectRayCount = 4;
-    private float stickyObjectRaySpacing;
-    [SerializeField]
-    /// <summary>
-    /// Layer per le collisioni degli oggetti
-    /// </summary>
-    private LayerMask stickyObjectCollisionLayer;
+    private ObjectTypes stickyObjectType;
 
     public override void Setup()
     {
         base.Setup();
-        GameObject stickyObject = PoolManager.instance.GetPooledObject(ObjectTypes.SticyObject, gameObject);
-        CalculateRaySpacing(stickyObject.GetComponent<BoxCollider>());
+        GameObject stickyObject = PoolManager.instance.GetPooledObject(ObjectTypes.StickyObject, gameObject);
+        CalculateRaySpacing(stickyObject.GetComponent<StickyObject>());
     }
 
     protected override void Move()
@@ -74,38 +54,48 @@ public class StickyBullet : BulletBase
 
     }
 
+    /// <summary>
+    /// Funzione che spawna uno sticky object 
+    /// </summary>
+    /// <param name="_spawnPosition"></param>
+    /// <param name="_normal"></param>
     private void SpawnStickyObject(Vector3 _spawnPosition, Vector3 _normal)
     {
-        StickyObject stickyObject = PoolManager.instance.GetPooledObject(ObjectTypes.SticyObject, gameObject).GetComponent<StickyObject>();
+        StickyObject stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
         stickyObject.Init(_spawnPosition, Quaternion.LookRotation(_normal, Vector3.forward));
 
-        Vector3 leftMaxSize = VerticalCollisions(stickyObject, _normal, 1);
-        Vector3 rightMaxSize = VerticalCollisions(stickyObject, _normal, -1);
-        Instantiate(rightDebug, rightMaxSize, Quaternion.identity);
-        Instantiate(leftDebug, leftMaxSize, Quaternion.identity);
+        Vector3 leftMaxSize = CheckSpace(stickyObject, _normal, 1);
+        Vector3 rightMaxSize = CheckSpace(stickyObject, _normal, -1);
         stickyObject.Spawn(rightMaxSize, leftMaxSize);
     }
 
+    #region CheckSpace
     /// <summary>
     /// Funzione che calcola lo spazio tra i raycast sia verticali che orrizontali
     /// </summary>
-    private void CalculateRaySpacing(BoxCollider _boxCollider)
-    {
-        stickyObjectRayCount = Mathf.Clamp(stickyObjectRayCount, 2, int.MaxValue);
-        stickyObjectRaySpacing = _boxCollider.bounds.size.x * 0.5f / (stickyObjectRayCount - 1);
+    private float stickyObjectRaySpacing;
+    private void CalculateRaySpacing(StickyObject _stickyObject)
+    {        
+        stickyObjectRaySpacing = _stickyObject.GetBoxCollider().bounds.size.x * 0.5f / (_stickyObject.GetRayCount() - 1);
     }
 
-    private Vector3 VerticalCollisions(StickyObject _stickyObject, Vector3 _normal, int _direction)
+    /// <summary>
+    /// Funzione che calcola ritorna l'ultimo punto con cui si collide con il collision layer
+    /// nella direzione passata come parametro
+    /// </summary>
+    /// <param name="_stickyObject"></param>
+    /// <param name="_normal"></param>
+    /// <param name="_direction"></param>
+    /// <returns></returns>
+    private Vector3 CheckSpace(StickyObject _stickyObject, Vector3 _normal, int _direction)
     {
         BoxCollider _collider = _stickyObject.GetBoxCollider();
 
-        //Determina la lunghezza del raycast
-        float rayLenght = collisionOffset;
+        float rayLenght = 1f;
 
         Vector3 previewRayOrigin = _collider.bounds.center;
 
-        //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
-        for (int i = 0; i < stickyObjectRayCount; i++)
+        for (int i = 0; i < _stickyObject.GetRayCount(); i++)
         {
             //Determina il punto da cui deve partire il ray
             Vector3 rayOrigin = _collider.bounds.center;
@@ -114,8 +104,9 @@ public class StickyBullet : BulletBase
             //Crea il ray
             Ray ray = new Ray(rayOrigin, -_normal);
             RaycastHit hit;
+
             //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyObjectCollisionLayer))
+            if (Physics.Raycast(ray, out hit, rayLenght, _stickyObject.GetCollisionLayer()))
             {
                 rayLenght = hit.distance;
                 previewRayOrigin = rayOrigin;
@@ -128,4 +119,5 @@ public class StickyBullet : BulletBase
 
         return previewRayOrigin;
     }
+    #endregion
 }

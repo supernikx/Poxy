@@ -36,10 +36,19 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public event PoolManagerEvets.Events OnObjectDestroy;
     #endregion
 
+    [Header("Stickyobject Settings")]
+    [SerializeField]
+    private float duration;
+    [SerializeField]
+    private int stickyObjectRayCount = 4;
+    [SerializeField]
+    private LayerMask stickyObjectCollisionLayer;
+
     private BoxCollider boxCollider;
     float maxDistance;
     float maxXScale;
 
+    #region API
     public void Setup()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -58,15 +67,47 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public void Spawn(Vector3 _rightPosition, Vector3 _leftPostion)
     {
         float actualDistance = Vector3.Distance(_rightPosition, _leftPostion);
-        transform.localScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
+        Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
+        transform.localScale = newScale;
+        boxCollider.size.Scale(newScale);
         transform.position = Vector3.Lerp(_rightPosition, _leftPostion, 0.5f);
+        //StartCoroutine(DespawnCoroutine());
 
         if (OnObjectSpawn != null)
             OnObjectSpawn(this);
     }
 
+    #region Getter
+    public float GetDuration()
+    {
+        return duration;
+    }
+
+    public int GetRayCount()
+    {
+        return stickyObjectRayCount;
+    }
+
+    public LayerMask GetCollisionLayer()
+    {
+        return stickyObjectCollisionLayer;
+    }
+
     public BoxCollider GetBoxCollider()
     {
         return boxCollider;
+    }
+    #endregion
+    #endregion
+
+    /// <summary>
+    /// Funzione che conta il tempo per far despawnare l'oggetto
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DespawnCoroutine()
+    {
+        yield return new WaitForSeconds(duration);
+        if (OnObjectDestroy != null)
+            OnObjectDestroy(this);
     }
 }

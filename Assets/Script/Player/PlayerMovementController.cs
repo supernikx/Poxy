@@ -74,7 +74,8 @@ public class PlayerMovementController : MonoBehaviour
                 Eject();
             }
 
-            AddGravity();
+            if (!collisionCtrl.GetCollisionInfo().stickyCollision)
+                AddGravity();
 
             Move();
         }

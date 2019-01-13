@@ -10,7 +10,7 @@ public enum ObjectTypes
     StunBullet,
     ParabolicBullet,
     StickyBullet,
-    SticyObject,
+    StickyObject,
 }
 
 /// <summary>

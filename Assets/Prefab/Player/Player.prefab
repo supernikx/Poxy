@@ -385,7 +385,7 @@ MonoBehaviour:
   timeToDeplete: 30
   maxHealth: 100
   minHealth: 0
-  canDie: 1
+  canDie: 0
   healthText: {fileID: 0}
 --- !u!114 &114465911311599940
 MonoBehaviour:
@@ -427,6 +427,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  stickyLayer:
+    serializedVersion: 2
+    m_Bits: 8192
   immunityDuration: 1
   horizontalRayCount: 4
   verticalRayCount: 4

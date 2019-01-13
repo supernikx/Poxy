@@ -18,6 +18,11 @@ public class PlayerCollisionController : MonoBehaviour
     private LayerMask enemyLayer;
     [SerializeField]
     /// <summary>
+    /// Layer per le collisioni con gli oggetti appiccicosi
+    /// </summary>
+    private LayerMask stickyLayer;
+    [SerializeField]
+    /// <summary>
     /// Variabile che definisce il tempo di immunità del player se entra in collisione con un nemico
     /// </summar
     private float immunityDuration;
@@ -287,9 +292,45 @@ public class PlayerCollisionController : MonoBehaviour
                 }
             }
 
+            if (CheckHorizontalStickyCollision(ray, rayLenght, i, directionX))
+            {
+                //Se colpisco un oggetto sticky
+                _movementVelocity.x = 0;
+                rayLenght = hit.distance;
+            }
+
             Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
         }
     }
+
+    private bool CheckHorizontalStickyCollision(Ray _ray, float _rayLenght, int _rayIndex, float _direction)
+    {
+        RaycastHit hit;
+
+        Vector3 rayOrigin = (-_direction == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight;
+        rayOrigin += Vector3.up * (horizontalRaySpacing * _rayIndex);
+        Ray oppositeRay = new Ray(rayOrigin, Vector3.right * -_direction);
+        Debug.DrawRay(rayOrigin, Vector3.right * -_direction * 1, Color.blue);
+
+        if (Physics.Raycast(oppositeRay, out hit, _rayLenght, stickyLayer))
+        {
+            collisions.stickyCollision = true;
+            return true;
+        }
+
+
+        Debug.DrawRay(_ray.origin, Vector3.right * _direction * 1, Color.blue);
+        if (Physics.Raycast(_ray, out hit, _rayLenght, stickyLayer))
+        {
+            collisions.stickyCollision = true;
+            return true;
+        }
+
+        collisions.stickyCollision = false;
+        return false;
+    }
+
+
 
     /// <summary>
     /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
@@ -312,6 +353,8 @@ public class PlayerCollisionController : MonoBehaviour
         public bool below;
         public bool left;
         public bool right;
+
+        public bool stickyCollision;
 
         public void Reset()
         {
