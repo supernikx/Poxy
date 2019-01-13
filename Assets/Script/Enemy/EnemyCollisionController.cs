@@ -152,7 +152,6 @@ public class EnemyCollisionController : MonoBehaviour
                 collisions.above = directionY == 1;
                 collisions.below = directionY == -1;
             }
-
             Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.yellow);
         }
     }

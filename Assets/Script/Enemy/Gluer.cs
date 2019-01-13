@@ -4,51 +4,9 @@ using UnityEngine;
 using DG.Tweening;
 
 [RequireComponent(typeof(Animator))]
-public class Walker : EnemyBase
+public class Gluer : EnemyBase
 {
     bool CanShot;
-
-    /*private float HorizontalVelocityRoaming()
-    {
-        if (transform.position.x > path[nextWaypoint] + WaypointOffset)
-        {
-            direction = -1;
-        }
-        else if (transform.position.x < path[nextWaypoint] - WaypointOffset)
-        {
-            direction = 1;
-        }
-        else
-        {
-            nextWaypoint += 1;
-            if (path.Length == nextWaypoint)
-            {
-                nextWaypoint = 0;
-            }
-        }
-
-        return direction * movementSpeed;
-    }*/
-
-    /*private float HorizontalVelocityAlert()
-    {
-        if (transform.position.x > viewCtrl.FindPlayer().position.x)
-        {
-            direction = -1;
-        }
-        else if (transform.position.x < viewCtrl.FindPlayer().position.x)
-        {
-            direction = 1;
-        }
-
-        return direction * movementSpeed;
-    }*/
-
-    public override void Init(EnemyManager _enemyMng)
-    {
-        base.Init(_enemyMng);
-        CanShot = true;
-    }
 
     private IEnumerator FiringRateCoroutine()
     {
@@ -58,6 +16,13 @@ public class Walker : EnemyBase
     }
 
     #region API
+    public override void Init(EnemyManager _enemyMng)
+    {
+        base.Init(_enemyMng);
+        CanShot = true;
+    }
+
+    #region Roaming Behaviour
     IEnumerator moveRoaming;
     public override void MoveRoaming(bool _enabled)
     {
@@ -75,6 +40,8 @@ public class Walker : EnemyBase
     }
     private IEnumerator MoveRoamingCoroutine()
     {
+        // Mentre cammina dovrebbe sparare a caso
+
         while (true)
         {
             Vector3 nextWaypoint = GetNextWaypointPosition();
@@ -92,7 +59,9 @@ public class Walker : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
+    #endregion
 
+    #region Alert Behaviour
     IEnumerator alertCoroutine;
     public override void AlertActions(bool _enable)
     {
@@ -127,7 +96,8 @@ public class Walker : EnemyBase
             if (target == null)
                 yield return null;
 
-            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+            // Lo sparo è da definire quindi per ora questo nemico si muove e basta
+            /*IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, enemyShotSettings.shotSpeed))
             {
                 if (CanShot)
@@ -153,9 +123,27 @@ public class Walker : EnemyBase
                 movementVector.y = 0;
                 movementVector.x = movementSpeed;
                 movementCtrl.MovementCheck(movementVector);
+            }*/
+
+            //Rotazione Nemico
+            Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
+            direction = (targetRotation - transform.position).normalized;
+            if (direction.x != 0)
+            {
+                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
             }
+
+            //Movimento Nemico
+            Vector3 movementVector = new Vector3();
+            movementVector.z = 0;
+            movementVector.y = 0;
+            movementVector.x = movementSpeed;
+            movementCtrl.MovementCheck(movementVector);
+
             yield return new WaitForFixedUpdate();
         }
     }
+    #endregion
     #endregion
 }
