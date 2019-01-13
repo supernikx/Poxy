@@ -8,10 +8,16 @@ public class Gluer : EnemyBase
 {
     bool CanShot;
 
-    private IEnumerator FiringRateCoroutine()
+    Transform player;
+
+    [Header("Enemy Specifics Settings")]
+    [SerializeField]
+    private float roamingFiringRate;
+
+    private IEnumerator FiringRateCoroutine(float _firingRate)
     {
         CanShot = false;
-        yield return new WaitForSeconds(1 / enemyShotSettings.firingRate);
+        yield return new WaitForSeconds(1 / _firingRate);
         CanShot = true;
     }
 
@@ -20,6 +26,7 @@ public class Gluer : EnemyBase
     {
         base.Init(_enemyMng);
         CanShot = true;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     #region Roaming Behaviour
@@ -40,7 +47,6 @@ public class Gluer : EnemyBase
     }
     private IEnumerator MoveRoamingCoroutine()
     {
-        // Mentre cammina dovrebbe sparare a caso
 
         while (true)
         {
@@ -52,11 +58,25 @@ public class Gluer : EnemyBase
             if (direction != transform.right)
             {
                 rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed).SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+                yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed).SetEase(Ease.Linear).OnUpdate(() => MoveRoamingUpdate()).WaitForCompletion();
             }
 
-            yield return transform.DOMoveX(nextWaypoint.x, movementSpeed).SetSpeedBased().SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+            yield return transform.DOMoveX(nextWaypoint.x, movementSpeed).SetSpeedBased().SetEase(Ease.Linear).OnUpdate(() => MoveRoamingUpdate()).WaitForCompletion();
             yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private void MoveRoamingUpdate()
+    {
+        // Vertical movement
+        movementCtrl.MovementCheck();
+        
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        if (CanShot)
+        {
+            Debug.Log("Shot");
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, player.position);
+            StartCoroutine(FiringRateCoroutine(roamingFiringRate));
         }
     }
     #endregion
@@ -95,16 +115,13 @@ public class Gluer : EnemyBase
             target = viewCtrl.FindPlayer();
             if (target == null)
                 yield return null;
-
-            // Lo sparo è da definire quindi per ora questo nemico si muove e basta
-            /*IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, enemyShotSettings.shotSpeed))
+            
+            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+            if (CanShot)
             {
-                if (CanShot)
-                {
-                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, target);
-                    StartCoroutine(FiringRateCoroutine());
-                }
+                Vector3 _direction = (target.position - shotPosition.position);
+                bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, _direction);
+                StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
             }
             else
             {
@@ -123,23 +140,7 @@ public class Gluer : EnemyBase
                 movementVector.y = 0;
                 movementVector.x = movementSpeed;
                 movementCtrl.MovementCheck(movementVector);
-            }*/
-
-            //Rotazione Nemico
-            Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
-            direction = (targetRotation - transform.position).normalized;
-            if (direction.x != 0)
-            {
-                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
             }
-
-            //Movimento Nemico
-            Vector3 movementVector = new Vector3();
-            movementVector.z = 0;
-            movementVector.y = 0;
-            movementVector.x = movementSpeed;
-            movementCtrl.MovementCheck(movementVector);
 
             yield return new WaitForFixedUpdate();
         }

@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 114768301126713536}
   - component: {fileID: 114464339899697110}
   - component: {fileID: 136074907527069884}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Gluer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961723527231292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45.8, y: -3.22, z: 0}
+  m_LocalPosition: {x: -45.8, y: -1.55, z: 1.912007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4210835360919982}
@@ -217,7 +217,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1644364247825714}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.259, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4524415756016280}
@@ -314,21 +314,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamingMovementSpeed: 5
-  alertMovementSpeed: 7
+  alertMovementSpeed: 6
   turnSpeed: 2
   Waypoints: {fileID: 1882647396919294}
   enemyStartLife: 2
   shotPosition: {fileID: 4606801526718126}
   enemyShotSettings:
     bulletType: 0
-    damage: 0
-    range: 0
-    shotSpeed: 0
-    firingRate: 0
+    damage: 2
+    range: 10
+    shotSpeed: 8
+    firingRate: 1
   stunDuration: 2
   stunHit: 2
   deathDuration: 5
   graphics: {fileID: 1635613260782438}
+  roamingFiringRate: 0.34
 --- !u!114 &114464339899697110
 MonoBehaviour:
   m_ObjectHideFlags: 1
