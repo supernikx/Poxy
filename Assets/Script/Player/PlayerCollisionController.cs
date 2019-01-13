@@ -93,13 +93,21 @@ public class PlayerCollisionController : MonoBehaviour
         //Reset delle collisioni attuali
         collisions.Reset();
 
-        if (_movementVelocity.x != 0)
+        if (collisions.horizontalStickyCollision)
+        {
+            CheckHorizontalStickyCollision(ref _movementVelocity);
+        }
+        else if (_movementVelocity.x != 0)
         {
             //Se mi sto muovendo sull'asse X controllo se entro in collisione con qualcosa
             HorizontalCollisions(ref _movementVelocity);
         }
 
-        if (_movementVelocity.y != 0)
+        if (collisions.verticalStickyCollision)
+        {
+            CheckVerticalStickyCollision(ref _movementVelocity);
+        }
+        else if (_movementVelocity.y != 0)
         {
             //Se mi sto muovendo sull'asse Y controllo se entro in collisione con qualcosa
             VerticalCollisions(ref _movementVelocity);
@@ -240,6 +248,16 @@ public class PlayerCollisionController : MonoBehaviour
                 }
             }
 
+            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
+            {
+                //Se colpisco un oggetto sticky
+                collisions.verticalStickyCollision = true;
+                collisions.horizontalStickyCollision = false;
+                _movementVelocity.x = 0;
+                _movementVelocity.y = 0;
+                break;
+            }
+
             Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
         }
     }
@@ -292,45 +310,102 @@ public class PlayerCollisionController : MonoBehaviour
                 }
             }
 
-            if (CheckHorizontalStickyCollision(ray, rayLenght, i, directionX))
+            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
                 //Se colpisco un oggetto sticky
+                collisions.horizontalStickyCollision = true;
+                collisions.verticalStickyCollision = false;
                 _movementVelocity.x = 0;
-                rayLenght = hit.distance;
+                _movementVelocity.y = 0;
+                Debug.Log("Sticky");
+                break;
             }
 
             Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
         }
     }
 
-    private bool CheckHorizontalStickyCollision(Ray _ray, float _rayLenght, int _rayIndex, float _direction)
+    private void CheckHorizontalStickyCollision(ref Vector3 _movementVelocity)
     {
-        RaycastHit hit;
+        //Determina la lunghezza del raycast
+        float rayLenght = 0.5f;
 
-        Vector3 rayOrigin = (-_direction == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight;
-        rayOrigin += Vector3.up * (horizontalRaySpacing * _rayIndex);
-        Ray oppositeRay = new Ray(rayOrigin, Vector3.right * -_direction);
-        Debug.DrawRay(rayOrigin, Vector3.right * -_direction * 1, Color.blue);
-
-        if (Physics.Raycast(oppositeRay, out hit, _rayLenght, stickyLayer))
+        //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
+        for (int i = 0; i < horizontalRayCount; i++)
         {
-            collisions.stickyCollision = true;
-            return true;
+            RaycastHit hit;
+
+            //Determina il punto da cui deve partire il ray
+            Vector3 rayOrigin = raycastStartPoints.bottomLeft;
+            rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+
+            //Crea il ray
+            Ray ray = new Ray(rayOrigin, -Vector3.right);
+
+            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
+            {
+                collisions.horizontalStickyCollision = true;
+                _movementVelocity.x = 0;
+                return;
+            }
+
+            rayOrigin = raycastStartPoints.bottomRight;
+            rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+
+            //Creo il ray opposto
+            Ray oppositeRay = new Ray(rayOrigin, Vector3.right);
+
+            if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
+            {
+                collisions.horizontalStickyCollision = true;
+                _movementVelocity.x = 0;
+                return;
+            }
         }
 
-
-        Debug.DrawRay(_ray.origin, Vector3.right * _direction * 1, Color.blue);
-        if (Physics.Raycast(_ray, out hit, _rayLenght, stickyLayer))
-        {
-            collisions.stickyCollision = true;
-            return true;
-        }
-
-        collisions.stickyCollision = false;
-        return false;
+        collisions.horizontalStickyCollision = false;
     }
 
+    private void CheckVerticalStickyCollision(ref Vector3 _movementVelocity)
+    {
+        //Determina la lunghezza del raycast
+        float rayLenght = 0.5f;
 
+        //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
+        for (int i = 0; i < horizontalRayCount; i++)
+        {
+            RaycastHit hit;
+
+            //Determina il punto da cui deve partire il ray
+            Vector3 rayOrigin = raycastStartPoints.bottomLeft;
+            rayOrigin += Vector3.right * (verticalRaySpacing * i);
+
+            //Crea il ray
+            Ray ray = new Ray(rayOrigin, -Vector3.up);
+
+            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
+            {
+                collisions.verticalStickyCollision = true;
+                _movementVelocity.y = 0;
+                return;
+            }
+
+            rayOrigin = raycastStartPoints.topLeft;
+            rayOrigin += Vector3.right * (verticalRaySpacing * i);
+
+            //Creo il ray opposto
+            Ray oppositeRay = new Ray(rayOrigin, Vector3.up);
+
+            if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
+            {
+                collisions.verticalStickyCollision = true;
+                _movementVelocity.y = 0;
+                return;
+            }
+        }
+
+        collisions.verticalStickyCollision = false;
+    }
 
     /// <summary>
     /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
@@ -354,7 +429,8 @@ public class PlayerCollisionController : MonoBehaviour
         public bool left;
         public bool right;
 
-        public bool stickyCollision;
+        public bool horizontalStickyCollision;
+        public bool verticalStickyCollision;
 
         public void Reset()
         {
