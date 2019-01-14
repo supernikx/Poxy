@@ -61,15 +61,14 @@ public class PlayerMovementController : MonoBehaviour
 
         if (canMove)
         {
-            if (collisionCtrl.GetCollisionInfo().below)
+            if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().above)
             {
-                isJumping = false;
+                //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
+                movementVelocity.y = 0;
 
-                if (collisionCtrl.GetCollisionInfo().above)
-                {
-                    //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
-                    movementVelocity.y = 0;
-
+                if (collisionCtrl.GetCollisionInfo().below)
+                {                    
+                    isJumping = false;
                 }
             }
 
