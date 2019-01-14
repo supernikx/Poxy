@@ -53,8 +53,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private bool isJumping;
 
+    private float jumpTimer = 0;
+
     private void Update()
     {
+        jumpTimer += Time.deltaTime;
+
         if (canMove)
         {
             if (collisionCtrl.GetCollisionInfo().below)
@@ -78,7 +82,7 @@ public class PlayerMovementController : MonoBehaviour
                 Jump();
             }
 
-            if (Input.GetButtonUp("Jump") && isJumping)
+            if (Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop)
             {
                 StopJump();
             }
@@ -126,6 +130,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         movementVelocity.y = jumpVelocity;
         isJumping = true;
+        jumpTimer = 0;
     }
 
     private void StopJump()

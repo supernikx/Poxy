@@ -74,7 +74,6 @@ public class Gluer : EnemyBase
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
         if (CanShot)
         {
-            Debug.Log("Shot");
             bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, player.position);
             StartCoroutine(FiringRateCoroutine(roamingFiringRate));
         }
