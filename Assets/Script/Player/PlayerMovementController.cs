@@ -50,14 +50,22 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     bool canMove;
 
+    private bool isJumping;
+
     private void Update()
     {
         if (canMove)
         {
-            if (collisionCtrl.GetCollisionInfo().above || collisionCtrl.GetCollisionInfo().below)
+            if (collisionCtrl.GetCollisionInfo().below)
             {
-                //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
-                movementVelocity.y = 0;
+                isJumping = false;
+
+                if (collisionCtrl.GetCollisionInfo().above)
+                {
+                    //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
+                    movementVelocity.y = 0;
+
+                }
             }
 
             //Leggo input orrizontali e verticali
@@ -67,6 +75,11 @@ public class PlayerMovementController : MonoBehaviour
             if (Input.GetButtonDown("Jump") && collisionCtrl.GetCollisionInfo().below)
             {
                 Jump();
+            }
+
+            if (Input.GetButtonUp("Jump") && isJumping)
+            {
+                StopJump();
             }
 
             if (eject)
@@ -110,6 +123,13 @@ public class PlayerMovementController : MonoBehaviour
     private void Jump()
     {
         movementVelocity.y = jumpVelocity;
+        isJumping = true;
+    }
+
+    private void StopJump()
+    {
+        movementVelocity.y = 0;
+        isJumping = false;
     }
 
     #region API
@@ -125,6 +145,7 @@ public class PlayerMovementController : MonoBehaviour
         jumpVelocity = Mathf.Abs(gravity * JumpTimeToReachTop);
 
         canMove = false;
+        isJumping = false;
     }
 
     /// <summary>
