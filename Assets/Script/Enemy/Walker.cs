@@ -8,8 +8,6 @@ public class Walker : EnemyBase
 {
     bool CanShot;
 
-    private float velocityXSmoothing;
-
     public override void Init(EnemyManager _enemyMng)
     {
         base.Init(_enemyMng);
