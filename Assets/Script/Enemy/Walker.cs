@@ -10,42 +10,6 @@ public class Walker : EnemyBase
 
     private float velocityXSmoothing;
 
-    /*private float HorizontalVelocityRoaming()
-    {
-        if (transform.position.x > path[nextWaypoint] + WaypointOffset)
-        {
-            direction = -1;
-        }
-        else if (transform.position.x < path[nextWaypoint] - WaypointOffset)
-        {
-            direction = 1;
-        }
-        else
-        {
-            nextWaypoint += 1;
-            if (path.Length == nextWaypoint)
-            {
-                nextWaypoint = 0;
-            }
-        }
-
-        return direction * movementSpeed;
-    }*/
-
-    /*private float HorizontalVelocityAlert()
-    {
-        if (transform.position.x > viewCtrl.FindPlayer().position.x)
-        {
-            direction = -1;
-        }
-        else if (transform.position.x < viewCtrl.FindPlayer().position.x)
-        {
-            direction = 1;
-        }
-
-        return direction * movementSpeed;
-    }*/
-
     public override void Init(EnemyManager _enemyMng)
     {
         base.Init(_enemyMng);
@@ -126,6 +90,8 @@ public class Walker : EnemyBase
         while (true)
         {
             target = viewCtrl.FindPlayer();
+            Vector3 movementVector = Vector3.zero;
+
             if (target == null)
                 yield return null;
 
@@ -137,6 +103,7 @@ public class Walker : EnemyBase
                     bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, target);
                     StartCoroutine(FiringRateCoroutine());
                 }
+                movementCtrl.MovementCheck(movementVector);
             }
             else
             {
@@ -149,10 +116,7 @@ public class Walker : EnemyBase
                     transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
                 }
 
-                //Movimento Nemico
-                Vector3 movementVector = new Vector3();
-                movementVector.z = 0;
-                movementVector.y = 0;
+                //Movimento Nemico                
                 movementVector.x = movementSpeed;
                 movementCtrl.MovementCheck(movementVector);
             }

@@ -48,10 +48,11 @@ public class StickyBullet : BulletBase
 
         if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
-            SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);
-            ObjectDestroyEvent();
+            SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);            
         }
 
+        if (_collisionInfo.transform.gameObject != ownerObject)
+            ObjectDestroyEvent();
     }
 
     /// <summary>

@@ -27,6 +27,8 @@ public class PlayerCollisionController : MonoBehaviour
     /// </summary>
     private LayerMask stickyLayer;
     [SerializeField]
+    private int stickyRayRequired;
+    [SerializeField]
     /// <summary>
     /// Variabile che definisce il tempo di immunità del player se entra in collisione con un nemico
     /// </summar
@@ -215,6 +217,8 @@ public class PlayerCollisionController : MonoBehaviour
         float directionY = Mathf.Sign(_movementVelocity.y);
         //Determina la lunghezza del raycast
         float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
+        //Variabile che conterà con quanti ray colpisco un oggetto sticky
+        int stickyCollision = 0;
 
         //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
         for (int i = 0; i < verticalRayCount; i++)
@@ -255,20 +259,27 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
-                //Se colpisco un oggetto sticky imposto le variabili sticky della direzione su true
-                collisions.verticalStickyCollision = true;
-                collisions.horizontalStickyCollision = false;
+                //Aumento il counter dei ray
+                stickyCollision++;
+                if (stickyCollision >= stickyRayRequired)
+                {
+                    stickyCollision = 0;
 
-                //Azzero la velocity per questo frame
-                _movementVelocity.x = 0;
-                _movementVelocity.y = 0;
+                    //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
+                    collisions.verticalStickyCollision = true;
+                    collisions.horizontalStickyCollision = false;
 
-                //Lanzio l'evento OnStickycollision
-                if (OnStickyCollision != null)
-                    OnStickyCollision();
+                    //Azzero la velocity per questo frame
+                    _movementVelocity.x = 0;
+                    _movementVelocity.y = 0;
 
-                //Finisco il loop
-                break;
+                    //Lanzio l'evento OnStickycollision
+                    if (OnStickyCollision != null)
+                        OnStickyCollision();
+
+                    //Finisco il loop
+                    break;
+                }
             }
 
             Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
@@ -285,6 +296,8 @@ public class PlayerCollisionController : MonoBehaviour
         float directionX = Mathf.Sign(_movementVelocity.x);
         //Determina la lunghezza del raycast
         float rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
+        //Variabile che conterà con quanti ray colpisco un oggetto sticky
+        int stickyCollision = 0;
 
         //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
         for (int i = 0; i < horizontalRayCount; i++)
@@ -325,20 +338,27 @@ public class PlayerCollisionController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
-                //Se colpisco un oggetto sticky imposto le variabili sticky della direzione su true
-                collisions.horizontalStickyCollision = true;
-                collisions.verticalStickyCollision = false;
+                //Aumento il counter dei ray
+                stickyCollision++;
+                if (stickyCollision >= stickyRayRequired)
+                {
+                    stickyCollision = 0;
 
-                //Azzero la velocity per questo frame
-                _movementVelocity.x = 0;
-                _movementVelocity.y = 0;
+                    //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
+                    collisions.horizontalStickyCollision = true;
+                    collisions.verticalStickyCollision = false;
 
-                //Lanzio l'evento OnStickycollision
-                if (OnStickyCollision != null)
-                    OnStickyCollision();
+                    //Azzero la velocity per questo frame
+                    _movementVelocity.x = 0;
+                    _movementVelocity.y = 0;
 
-                //Finisco il loop
-                break;
+                    //Lanzio l'evento OnStickycollision
+                    if (OnStickyCollision != null)
+                        OnStickyCollision();
+
+                    //Finisco il loop
+                    break;
+                }
             }
 
             Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);

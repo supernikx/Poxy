@@ -40,6 +40,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
     [SerializeField]
     private float duration;
     [SerializeField]
+    private float minRange;
+    [SerializeField]
     private int stickyObjectRayCount = 4;
     [SerializeField]
     private LayerMask stickyObjectCollisionLayer;
@@ -61,20 +63,29 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public void Init(Vector3 _spawnPosition, Quaternion _rotation)
     {
         transform.position = _spawnPosition;
-        transform.rotation = _rotation;        
+        transform.rotation = _rotation;
     }
 
     public void Spawn(Vector3 _rightPosition, Vector3 _leftPostion)
     {
         float actualDistance = Vector3.Distance(_rightPosition, _leftPostion);
-        Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
-        transform.localScale = newScale;
-        boxCollider.size.Scale(newScale);
-        transform.position = Vector3.Lerp(_rightPosition, _leftPostion, 0.5f);
-        //StartCoroutine(DespawnCoroutine());
 
-        if (OnObjectSpawn != null)
-            OnObjectSpawn(this);
+        if (actualDistance < minRange)
+        {
+            if (OnObjectDestroy != null)
+                OnObjectDestroy(this);
+        }
+        else
+        {
+            Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
+            transform.localScale = newScale;
+            boxCollider.size.Scale(newScale);
+            transform.position = Vector3.Lerp(_rightPosition, _leftPostion, 0.5f);
+            StartCoroutine(DespawnCoroutine());
+
+            if (OnObjectSpawn != null)
+                OnObjectSpawn(this);
+        }
     }
 
     #region Getter
