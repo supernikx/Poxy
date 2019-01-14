@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -72,7 +73,7 @@ public class PlayerMovementController : MonoBehaviour
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             //Controllo se è stato premuto il tasto di salto e se sono a terra
-            if (Input.GetButtonDown("Jump") && collisionCtrl.GetCollisionInfo().below)
+            if (Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().horizontalStickyCollision))
             {
                 Jump();
             }
@@ -87,7 +88,8 @@ public class PlayerMovementController : MonoBehaviour
                 Eject();
             }
 
-            AddGravity();
+            if (!(collisionCtrl.GetCollisionInfo().horizontalStickyCollision || collisionCtrl.GetCollisionInfo().verticalStickyCollision))
+                AddGravity();
 
             Move();
         }
@@ -132,6 +134,14 @@ public class PlayerMovementController : MonoBehaviour
         isJumping = false;
     }
 
+    /// <summary>
+    /// Funzione che tratta l'evento OnStickyCollision
+    /// </summary>
+    private void OnStickyCollision()
+    {
+        movementVelocity.y = 0;
+    }
+
     #region API
     /// <summary>
     /// Funzione di inizializzazione del player
@@ -139,6 +149,8 @@ public class PlayerMovementController : MonoBehaviour
     public void Init(PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
+        collisionCtrl.OnStickyCollision += OnStickyCollision;
+
         //Calcolo la gravità
         gravity = -(2 * JumpUnitHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
         //Calcolo la velocità del salto
