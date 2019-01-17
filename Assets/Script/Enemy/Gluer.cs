@@ -8,8 +8,6 @@ public class Gluer : EnemyBase
 {
     bool CanShot;
 
-    Transform player;
-
     [Header("Enemy Specifics Settings")]
     [SerializeField]
     private float roamingFiringRate;
@@ -26,7 +24,6 @@ public class Gluer : EnemyBase
     {
         base.Init(_enemyMng);
         CanShot = true;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     #region Roaming Behaviour
@@ -57,24 +54,27 @@ public class Gluer : EnemyBase
             Vector3 direction = (targetPosition - transform.position).normalized;
             if (direction != transform.right)
             {
+                isRotating = true;
                 rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed).SetEase(Ease.Linear).OnUpdate(() => MoveRoamingUpdate()).WaitForCompletion();
             }
+            isRotating = false;
 
             yield return transform.DOMoveX(nextWaypoint.x, movementSpeed).SetSpeedBased().SetEase(Ease.Linear).OnUpdate(() => MoveRoamingUpdate()).WaitForCompletion();
             yield return new WaitForFixedUpdate();
         }
     }
 
+    private bool isRotating = false;
     private void MoveRoamingUpdate()
     {
         // Vertical movement
         movementCtrl.MovementCheck();
         
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-        if (CanShot)
+        if (CanShot && !isRotating)
         {
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, player.position);
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, transform.right);
             StartCoroutine(FiringRateCoroutine(roamingFiringRate));
         }
     }
