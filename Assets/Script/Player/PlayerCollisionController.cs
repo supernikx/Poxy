@@ -100,7 +100,7 @@ public class PlayerCollisionController : MonoBehaviour
         //Reset delle collisioni attuali
         collisions.Reset();
 
-        if (collisions.horizontalStickyCollision)
+        if (collisions.leftStickyCollision || collisions.rightStickyCollision)
         {
             CheckHorizontalStickyCollision(ref _movementVelocity);
         }
@@ -110,7 +110,7 @@ public class PlayerCollisionController : MonoBehaviour
             HorizontalCollisions(ref _movementVelocity);
         }
 
-        if (collisions.verticalStickyCollision)
+        if (collisions.belowStickyCollision || collisions.aboveStickyCollision)
         {
             CheckVerticalStickyCollision(ref _movementVelocity);
         }
@@ -261,13 +261,16 @@ public class PlayerCollisionController : MonoBehaviour
             {
                 //Aumento il counter dei ray
                 stickyCollision++;
+                rayLenght = hit.distance;
                 if (stickyCollision >= stickyRayRequired)
                 {
                     stickyCollision = 0;
 
                     //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
-                    collisions.verticalStickyCollision = true;
-                    collisions.horizontalStickyCollision = false;
+                    collisions.aboveStickyCollision = directionY == 1;
+                    collisions.belowStickyCollision = directionY == -1;
+                    collisions.leftStickyCollision = false;
+                    collisions.rightStickyCollision = false;
 
                     //Azzero la velocity per questo frame
                     _movementVelocity.x = 0;
@@ -345,8 +348,10 @@ public class PlayerCollisionController : MonoBehaviour
                     stickyCollision = 0;
 
                     //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
-                    collisions.horizontalStickyCollision = true;
-                    collisions.verticalStickyCollision = false;
+                    collisions.leftStickyCollision = directionX == -1;
+                    collisions.rightStickyCollision = directionX == 1;
+                    collisions.aboveStickyCollision = false;
+                    collisions.belowStickyCollision = false;
 
                     //Azzero la velocity per questo frame
                     _movementVelocity.x = 0;
@@ -389,7 +394,9 @@ public class PlayerCollisionController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
                 //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.horizontalStickyCollision = true;
+                collisions.leftStickyCollision = true;
+                collisions.rightStickyCollision = false;
+
                 _movementVelocity.x = 0;
                 return;
             }
@@ -404,14 +411,17 @@ public class PlayerCollisionController : MonoBehaviour
             if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
             {
                 //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.horizontalStickyCollision = true;
+                collisions.leftStickyCollision = false;
+                collisions.rightStickyCollision = true;
+
                 _movementVelocity.x = 0;
                 return;
             }
         }
 
-        //Se non ho colpito niente metto la variabile a false
-        collisions.horizontalStickyCollision = false;
+        //Se non ho colpito niente metto le variabili a false
+        collisions.leftStickyCollision = false;
+        collisions.rightStickyCollision = false;
     }
 
     /// <summary>
@@ -438,7 +448,8 @@ public class PlayerCollisionController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
             {
                 //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.verticalStickyCollision = true;
+                collisions.aboveStickyCollision = false;
+                collisions.belowStickyCollision = true;
                 _movementVelocity.y = 0;
                 return;
             }
@@ -453,14 +464,16 @@ public class PlayerCollisionController : MonoBehaviour
             if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
             {
                 //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.verticalStickyCollision = true;
+                collisions.aboveStickyCollision = true;
+                collisions.belowStickyCollision = false;
                 _movementVelocity.y = 0;
                 return;
             }
         }
 
-        //Se non ho colpito niente metto la variabile a false
-        collisions.verticalStickyCollision = false;
+        //Se non ho colpito niente metto le variabili a false
+        collisions.belowStickyCollision = false;
+        collisions.aboveStickyCollision = false;
     }
 
     /// <summary>
@@ -485,8 +498,10 @@ public class PlayerCollisionController : MonoBehaviour
         public bool left;
         public bool right;
 
-        public bool horizontalStickyCollision;
-        public bool verticalStickyCollision;
+        public bool leftStickyCollision;
+        public bool rightStickyCollision;
+        public bool aboveStickyCollision;
+        public bool belowStickyCollision;
 
         public void Reset()
         {
@@ -494,6 +509,27 @@ public class PlayerCollisionController : MonoBehaviour
             below = false;
             left = false;
             right = false;
+        }
+
+        public bool StickyCollision()
+        {
+            if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)
+                return true;
+            return false;
+        }
+
+        public bool HorizontalStickyCollision()
+        {
+            if (leftStickyCollision || rightStickyCollision)
+                return true;
+            return false;
+        }
+
+        public bool VerticalStickyCollision()
+        {
+            if (aboveStickyCollision || belowStickyCollision)
+                return true;
+            return false;
         }
     }
     #endregion

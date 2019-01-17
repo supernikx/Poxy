@@ -20,6 +20,7 @@ namespace StateMachine.PlayerSM
 
             context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
+            context.parasiteEnemy.gameObject.transform.localRotation = Quaternion.identity;
             context.parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
 
             context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);

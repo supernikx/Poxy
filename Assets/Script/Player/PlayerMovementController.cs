@@ -76,7 +76,7 @@ public class PlayerMovementController : MonoBehaviour
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             //Controllo se è stato premuto il tasto di salto e se sono a terra
-            if (Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().horizontalStickyCollision))
+            if (Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
             {
                 Jump();
             }
@@ -91,7 +91,7 @@ public class PlayerMovementController : MonoBehaviour
                 Eject();
             }
 
-            if (!(collisionCtrl.GetCollisionInfo().horizontalStickyCollision || collisionCtrl.GetCollisionInfo().verticalStickyCollision))
+            if (!collisionCtrl.GetCollisionInfo().StickyCollision())
                 AddGravity();
 
             Move();
@@ -180,6 +180,9 @@ public class PlayerMovementController : MonoBehaviour
     bool eject;
     public void Eject()
     {
+        if (collisionCtrl.GetCollisionInfo().aboveStickyCollision)
+            return;
+
         if (!eject)
             eject = true;
         else
