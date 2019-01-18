@@ -187,7 +187,7 @@ public class PlayerMovementController : MonoBehaviour
             eject = true;
         else
         {
-            movementVelocity.y = jumpVelocity * 1.3f;
+            movementVelocity.y += jumpVelocity * 1.3f;
             eject = false;
         }
     }

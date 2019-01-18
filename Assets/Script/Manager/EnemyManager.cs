@@ -73,6 +73,11 @@ public class EnemyManager : MonoBehaviour
 
     private void HandleEnemyDeath(IEnemy e)
     {
+        if (stunnedEnemies.Contains(e))
+        {
+            stunnedEnemies.Remove(e);
+        }
+
         if (!deadEnemies.Contains(e))
         {
             e.Die();
