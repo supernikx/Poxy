@@ -17,6 +17,10 @@ public class LevelManager : MonoBehaviour
     /// Referenza all'Enemy Manager
     /// </summary>
     EnemyManager enemyMng;
+    /// <summary>
+    /// Reference to Platform Manager
+    /// </summary>
+    private PlatformManager platformMng;
 
     private void Update()
     {
@@ -44,6 +48,10 @@ public class LevelManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         if (player != null)
             player.Init(enemyMng);
+
+        platformMng = GetComponent<PlatformManager>();
+        if (platformMng != null)
+            platformMng.Init();
 
         //Setup
         enemyMng.EnemiesSetup();

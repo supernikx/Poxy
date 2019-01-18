@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114917987509132736}
   - component: {fileID: 114950736676009152}
   - component: {fileID: 114103655760773738}
+  - component: {fileID: 114105362086096742}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -57,6 +58,18 @@ MonoBehaviour:
   enemiesLayerMask:
     serializedVersion: 2
     m_Bits: 2048
+--- !u!114 &114105362086096742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1618661823558618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7392e4893d629134694a5a60aca419f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlatformContainer: {fileID: 0}
 --- !u!114 &114917987509132736
 MonoBehaviour:
   m_ObjectHideFlags: 1
