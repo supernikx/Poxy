@@ -96,10 +96,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 5
   minRange: 1
-  stickyObjectRayCount: 10
+  checkSpaceRayCount: 10
   stickyObjectCollisionLayer:
     serializedVersion: 2
     m_Bits: 1024
+  checkStuckedObjectsRayCount: 30
+  rayRequiredStuckObject: 3
+  layersWhichCanBeStucked:
+    serializedVersion: 2
+    m_Bits: 2560
 --- !u!212 &212666472634876840
 SpriteRenderer:
   m_ObjectHideFlags: 1
