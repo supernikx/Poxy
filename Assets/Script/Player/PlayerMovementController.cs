@@ -81,14 +81,14 @@ public class PlayerMovementController : MonoBehaviour
                 Jump();
             }
 
-            if (Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop)
-            {
-                StopJump();
-            }
-
             if (eject)
             {
                 Eject();
+            }
+
+            if (Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop && !eject)
+            {
+                StopJump();
             }
 
             if (!collisionCtrl.GetCollisionInfo().StickyCollision())
