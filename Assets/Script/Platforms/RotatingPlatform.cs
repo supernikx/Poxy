@@ -9,7 +9,7 @@ public class RotatingPlatform : Platform
     [SerializeField]
     private float angle;
     [SerializeField]
-    private float rotateTime;
+    private float rotationTime;
     [SerializeField]
     private float timeBetweenRotate;
 
@@ -26,13 +26,9 @@ public class RotatingPlatform : Platform
     #region Coroutines 
     private IEnumerator CRotate()
     {
-        int _direction = 1;
-        float _targetAngle = angle + transform.rotation.z;
-
         while(isActive)
         {
-            yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, 0.0f, _direction * _targetAngle), rotateTime).SetEase(Ease.Linear).WaitForCompletion();
-            _direction = _direction * -1;
+            yield return transform.DORotate(new Vector3(0, 0, transform.rotation.eulerAngles.z + angle), rotationTime).SetEase(Ease.Linear).WaitForCompletion();
             yield return new WaitForSeconds(timeBetweenRotate);
         }
     }
