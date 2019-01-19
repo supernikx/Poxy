@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class PlayerCollisionController : MonoBehaviour
+public class PlayerCollisionController : MonoBehaviour, ISticky
 {
     #region Delegates
     public Action OnStickyCollision;
@@ -21,13 +21,6 @@ public class PlayerCollisionController : MonoBehaviour
     /// Layer per le collisioni dei nemici
     /// </summary>
     private LayerMask enemyLayer;
-    [SerializeField]
-    /// <summary>
-    /// Layer per le collisioni con gli oggetti appiccicosi
-    /// </summary>
-    private LayerMask stickyLayer;
-    [SerializeField]
-    private int stickyRayRequired;
     [SerializeField]
     /// <summary>
     /// Variabile che definisce il tempo di immunità del player se entra in collisione con un nemico
@@ -100,24 +93,28 @@ public class PlayerCollisionController : MonoBehaviour
         //Reset delle collisioni attuali
         collisions.Reset();
 
-        if (collisions.leftStickyCollision || collisions.rightStickyCollision)
+        //Controllo se sono in collisione con oggetti sticky sull'asse orrizontale
+        if (collisions.HorizontalStickyCollision())
         {
-            CheckHorizontalStickyCollision(ref _movementVelocity);
+            //Se si controllo se entro in collisione con qualcosa
+            HorizontalCollisions(ref _movementVelocity, true);
         }
         else if (_movementVelocity.x != 0)
         {
             //Se mi sto muovendo sull'asse X controllo se entro in collisione con qualcosa
-            HorizontalCollisions(ref _movementVelocity);
+            HorizontalCollisions(ref _movementVelocity, false);
         }
 
-        if (collisions.belowStickyCollision || collisions.aboveStickyCollision)
+        //Controllo se sono in collisione con oggetti sticky sull'asse verticale
+        if (collisions.VerticalStickyCollision())
         {
-            CheckVerticalStickyCollision(ref _movementVelocity);
+            //Se si controllo se entro in collisione con qualcosa
+            VerticalCollisions(ref _movementVelocity, true);
         }
         else if (_movementVelocity.y != 0)
         {
             //Se mi sto muovendo sull'asse Y controllo se entro in collisione con qualcosa
-            VerticalCollisions(ref _movementVelocity);
+            VerticalCollisions(ref _movementVelocity, false);
         }
 
         return _movementVelocity;
@@ -211,81 +208,96 @@ public class PlayerCollisionController : MonoBehaviour
     /// Funzione che controlla se avviene una collisione sugli assi verticali
     /// </summary>
     /// <param name="_movementVelocity"></param>
-    private void VerticalCollisions(ref Vector3 _movementVelocity)
+    private void VerticalCollisions(ref Vector3 _movementVelocity, bool _sticky)
     {
-        //Rileva la direzione in cui si sta andando
-        float directionY = Mathf.Sign(_movementVelocity.y);
-        //Determina la lunghezza del raycast
-        float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
-        //Variabile che conterà con quanti ray colpisco un oggetto sticky
-        int stickyCollision = 0;
-
-        //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
-        for (int i = 0; i < verticalRayCount; i++)
+        if (_sticky)
         {
-            //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = (directionY == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.topLeft;
-            rayOrigin += Vector3.right * (verticalRaySpacing * i + _movementVelocity.x);
+            //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
+            if (!checkDamageCollisions)
+                return;
 
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
-            RaycastHit hit;
-
-            //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
+            //Determina la lunghezza del raycast
+            float rayLenght = 0.3f;
+            //Azzero la velocity sull'asse delle y
+            _movementVelocity.y = 0f;
+            //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
+            for (int i = 0; i < verticalRayCount; i++)
             {
-                //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                rayLenght = hit.distance;
+                //Determina il punto da cui deve partire il ray
+                Vector3 rayOrigin = raycastStartPoints.bottomLeft;
+                rayOrigin += Vector3.right * (verticalRaySpacing * i);
 
-                //Assegno la direzione della collisione al CollisionInfo
-                collisions.above = directionY == 1;
-                collisions.below = directionY == -1;
-            }
+                //Crea il ray
+                Ray ray = new Ray(rayOrigin, Vector3.up);
+                RaycastHit hit;
 
-            if (checkDamageCollisions)
-            {
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                    rayLenght = hit.distance;
+                    //Mando l'evento
+                    if (player.OnEnemyCollision != null)
+                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                }
 
+                //Determina il punto da cui deve partire il ray opposto
+                rayOrigin = raycastStartPoints.topLeft;
+                rayOrigin += Vector3.right * (verticalRaySpacing * i);
+
+                //Creo il ray opposto
+                Ray oppositeRay = new Ray(rayOrigin, Vector3.up);
+
+                if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
+                {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
                 }
             }
+        }
+        else
+        {
+            //Rileva la direzione in cui si sta andando
+            float directionY = Mathf.Sign(_movementVelocity.y);
+            //Determina la lunghezza del raycast
+            float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
 
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
+            //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
+            for (int i = 0; i < verticalRayCount; i++)
             {
-                //Aumento il counter dei ray
-                stickyCollision++;
-                rayLenght = hit.distance;
-                if (stickyCollision >= stickyRayRequired)
+                //Determina il punto da cui deve partire il ray
+                Vector3 rayOrigin = (directionY == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.topLeft;
+                rayOrigin += Vector3.right * (verticalRaySpacing * i + _movementVelocity.x);
+
+                //Crea il ray
+                Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
+                RaycastHit hit;
+
+                //Eseguo il raycast
+                if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
                 {
-                    stickyCollision = 0;
+                    //Se colpisco qualcosa sul layer di collisione azzero la velocity
+                    _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
+                    rayLenght = hit.distance;
 
-                    //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
-                    collisions.aboveStickyCollision = directionY == 1;
-                    collisions.belowStickyCollision = directionY == -1;
-                    collisions.leftStickyCollision = false;
-                    collisions.rightStickyCollision = false;
-
-                    //Azzero la velocity per questo frame
-                    _movementVelocity.x = 0;
-                    _movementVelocity.y = 0;
-
-                    //Lanzio l'evento OnStickycollision
-                    if (OnStickyCollision != null)
-                        OnStickyCollision();
-
-                    //Finisco il loop
-                    break;
+                    //Assegno la direzione della collisione al CollisionInfo
+                    collisions.above = directionY == 1;
+                    collisions.below = directionY == -1;
                 }
-            }
 
-            Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
+                if (checkDamageCollisions)
+                {
+                    if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
+                    {
+                        //Se colpisco un nemico azzero la velocity
+                        _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
+                        rayLenght = hit.distance;
+
+                        //Mando l'evento
+                        if (player.OnEnemyCollision != null)
+                            player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                    }
+                }
+                Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
+            }
         }
     }
 
@@ -293,187 +305,139 @@ public class PlayerCollisionController : MonoBehaviour
     /// Funzione che controlla se avviene una collisione sugli assi orizzontali
     /// </summary>
     /// <param name="_movementVelocity"></param>
-    private void HorizontalCollisions(ref Vector3 _movementVelocity)
-    {
-        //Rileva la direzione in cui si sta andando
-        float directionX = Mathf.Sign(_movementVelocity.x);
-        //Determina la lunghezza del raycast
-        float rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
-        //Variabile che conterà con quanti ray colpisco un oggetto sticky
-        int stickyCollision = 0;
-
-        //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
-        for (int i = 0; i < horizontalRayCount; i++)
+    private void HorizontalCollisions(ref Vector3 _movementVelocity, bool _sticky)
+    {        
+        if (_sticky)
         {
-            //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = (directionX == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight;
-            rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+            //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
+            if (!checkDamageCollisions)
+                return;
 
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, Vector3.right * directionX);
-            RaycastHit hit;
-
-            //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
+            //Determino la lunghezza del ray
+            float rayLenght = 0.3f;
+            //Azzero la velocity sull'asse delle X
+            _movementVelocity.x = 0f;
+            //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
+            for (int i = 0; i < horizontalRayCount; i++)
             {
-                //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                rayLenght = hit.distance;
+                //Determina il punto da cui deve partire il ray
+                Vector3 rayOrigin = raycastStartPoints.bottomLeft;
+                rayOrigin += Vector3.up * (horizontalRaySpacing * i);
 
-                //Assegno la direzione della collisione al CollisionInfo
-                collisions.left = directionX == -1;
-                collisions.right = directionX == 1;
-            }
+                //Crea il ray
+                Ray ray = new Ray(rayOrigin, Vector3.right);
+                RaycastHit hit;
 
-            if (checkDamageCollisions)
-            {
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                    rayLenght = hit.distance;
+                    //Mando l'evento
+                    if (player.OnEnemyCollision != null)
+                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                }
 
+                //Determina il punto da cui deve partire il ray opposto
+                rayOrigin = raycastStartPoints.bottomRight;
+                rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+
+                //Creo il ray opposto
+                Ray oppositeRay = new Ray(rayOrigin, Vector3.right);
+
+                if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
+                {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
                 }
             }
+        }
+        else
+        {
+            //Rileva la direzione in cui si sta andando
+            float directionX = Mathf.Sign(_movementVelocity.x);
+            //Determina la lunghezza del raycast
+            float rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
 
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
+            //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
+            for (int i = 0; i < horizontalRayCount; i++)
             {
-                //Aumento il counter dei ray
-                stickyCollision++;
-                if (stickyCollision >= stickyRayRequired)
+                //Determina il punto da cui deve partire il ray
+                Vector3 rayOrigin = (directionX == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight;
+                rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+
+                //Crea il ray
+                Ray ray = new Ray(rayOrigin, Vector3.right * directionX);
+                RaycastHit hit;
+
+                //Eseguo il raycast
+                if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
                 {
-                    stickyCollision = 0;
+                    //Se colpisco qualcosa sul layer di collisione azzero la velocity
+                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                    rayLenght = hit.distance;
 
-                    //Se colpisco un oggetto con i ray necessari sticky imposto le variabili sticky della direzione su true
-                    collisions.leftStickyCollision = directionX == -1;
-                    collisions.rightStickyCollision = directionX == 1;
-                    collisions.aboveStickyCollision = false;
-                    collisions.belowStickyCollision = false;
-
-                    //Azzero la velocity per questo frame
-                    _movementVelocity.x = 0;
-                    _movementVelocity.y = 0;
-
-                    //Lanzio l'evento OnStickycollision
-                    if (OnStickyCollision != null)
-                        OnStickyCollision();
-
-                    //Finisco il loop
-                    break;
+                    //Assegno la direzione della collisione al CollisionInfo
+                    collisions.left = directionX == -1;
+                    collisions.right = directionX == 1;
                 }
-            }
 
-            Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
+                if (checkDamageCollisions)
+                {
+                    if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
+                    {
+                        //Se colpisco un nemico azzero la velocity
+                        _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                        rayLenght = hit.distance;
+
+                        //Mando l'evento
+                        if (player.OnEnemyCollision != null)
+                            player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                    }
+                }
+                Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
+            }
         }
     }
 
     /// <summary>
-    /// Funzione che controlla in entrambe le direzioni orrizontali se ci sono collisioni con oggetti del layer sticky
+    /// Funzione chiamata quando si entra in collisione con un oggetto sticky
     /// </summary>
-    /// <param name="_movementVelocity"></param>
-    private void CheckHorizontalStickyCollision(ref Vector3 _movementVelocity)
+    /// <param name="_direction"></param>
+    public void OnSticky(Direction _direction)
     {
-        //Determina la lunghezza del raycast
-        float rayLenght = 0.5f;
-
-        //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
-        for (int i = 0; i < horizontalRayCount; i++)
+        Debug.Log("Allacciato");
+     
+        collisions.ResetStickyCollision();
+        switch (_direction)
         {
-            RaycastHit hit;
-
-            //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = raycastStartPoints.bottomLeft;
-            rayOrigin += Vector3.up * (horizontalRaySpacing * i);
-
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, -Vector3.right);
-
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
-            {
-                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
+            case Direction.Left:
                 collisions.leftStickyCollision = true;
-                collisions.rightStickyCollision = false;
-
-                _movementVelocity.x = 0;
-                return;
-            }
-
-            //Determina il punto da cui deve partire il ray opposto
-            rayOrigin = raycastStartPoints.bottomRight;
-            rayOrigin += Vector3.up * (horizontalRaySpacing * i);
-
-            //Creo il ray opposto
-            Ray oppositeRay = new Ray(rayOrigin, Vector3.right);
-
-            if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
-            {
-                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.leftStickyCollision = false;
+                break;
+            case Direction.Right:
                 collisions.rightStickyCollision = true;
-
-                _movementVelocity.x = 0;
-                return;
-            }
+                break;
+            case Direction.Above:
+                collisions.aboveStickyCollision = true;
+                break;
+            case Direction.Below:
+                collisions.belowStickyCollision = true;
+                break;
+            case Direction.None:
+                Debug.LogWarning("Direzione di collisione non prevista");
+                break;
         }
 
-        //Se non ho colpito niente metto le variabili a false
-        collisions.leftStickyCollision = false;
-        collisions.rightStickyCollision = false;
+        //Lanzio l'evento OnStickycollision
+        if (OnStickyCollision != null)
+            OnStickyCollision();
     }
 
     /// <summary>
-    /// Funzione che controlla in entrambe le direzioni verticali se ci sono collisioni con oggetti del layer sticky
+    /// Funzione chiamata quando non si è più in collisione con un oggetto sticky
     /// </summary>
-    /// <param name="_movementVelocity"></param>
-    private void CheckVerticalStickyCollision(ref Vector3 _movementVelocity)
+    public void OnStickyEnd()
     {
-        //Determina la lunghezza del raycast
-        float rayLenght = 0.5f;
-
-        //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
-        for (int i = 0; i < horizontalRayCount; i++)
-        {
-            RaycastHit hit;
-
-            //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = raycastStartPoints.bottomLeft;
-            rayOrigin += Vector3.right * (verticalRaySpacing * i);
-
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, -Vector3.up);
-
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyLayer))
-            {
-                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.aboveStickyCollision = false;
-                collisions.belowStickyCollision = true;
-                _movementVelocity.y = 0;
-                return;
-            }
-
-            //Determina il punto da cui deve partire il ray opposto
-            rayOrigin = raycastStartPoints.topLeft;
-            rayOrigin += Vector3.right * (verticalRaySpacing * i);
-
-            //Creo il ray opposto
-            Ray oppositeRay = new Ray(rayOrigin, Vector3.up);
-
-            if (Physics.Raycast(oppositeRay, out hit, rayLenght, stickyLayer))
-            {
-                //Se colpisco qualcosa imposto la variabile a true accero la velocity e finisco
-                collisions.aboveStickyCollision = true;
-                collisions.belowStickyCollision = false;
-                _movementVelocity.y = 0;
-                return;
-            }
-        }
-
-        //Se non ho colpito niente metto le variabili a false
-        collisions.belowStickyCollision = false;
-        collisions.aboveStickyCollision = false;
+        collisions.ResetStickyCollision();
+        Debug.Log("Free");
     }
 
     /// <summary>
@@ -530,6 +494,14 @@ public class PlayerCollisionController : MonoBehaviour
             if (aboveStickyCollision || belowStickyCollision)
                 return true;
             return false;
+        }
+
+        public void ResetStickyCollision()
+        {
+            aboveStickyCollision = false;
+            belowStickyCollision = false;
+            leftStickyCollision = false;
+            rightStickyCollision = false;
         }
     }
     #endregion
