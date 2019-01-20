@@ -51,9 +51,33 @@ public class Walker : EnemyBase
                 rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed).SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
             }
-
-            yield return transform.DOMoveX(nextWaypoint.x, movementSpeed).SetSpeedBased().SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+            yield return transform.DOMoveX(nextWaypoint.x, movementSpeed)
+                .SetSpeedBased()
+                .SetEase(Ease.Linear)
+                .OnUpdate(() => movementCtrl.MovementCheck())
+                .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
+                .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
+                .WaitForCompletion();
             yield return new WaitForFixedUpdate();
+        }
+    }
+    private IEnumerator MoveRoamingStickyChecker(bool _pause)
+    {        
+        if (_pause)
+        {
+            while (collisionCtrl.collisions.StickyCollision())
+            {
+                yield return null;
+            }
+            transform.DOPlay();
+        }
+        else
+        {
+            while (!collisionCtrl.collisions.StickyCollision())
+            {
+                yield return null;
+            }
+            transform.DOPause();
         }
     }
 

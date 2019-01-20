@@ -86,9 +86,9 @@ GameObject:
   - component: {fileID: 95385365963746874}
   - component: {fileID: 114256771093579946}
   - component: {fileID: 114621463053029716}
-  - component: {fileID: 114239789042690250}
-  - component: {fileID: 65277727789808130}
   - component: {fileID: 114682932104554664}
+  - component: {fileID: 114239789042690250}
+  - component: {fileID: 65937786546274496}
   m_Layer: 11
   m_Name: Walker
   m_TagString: Untagged
@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.185768, y: -3.47, z: 1.9120069}
+  m_LocalPosition: {x: 20.66, y: -3.47, z: 2.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -265,7 +265,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1832011239800834}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65277727789808130
+--- !u!65 &65937786546274496
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,8 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamingMovementSpeed: 0
-  alertMovementSpeed: 0
+  roamingMovementSpeed: 5
+  alertMovementSpeed: 7
   turnSpeed: 2
   Waypoints: {fileID: 1856903077613586}
   enemyStartLife: 2

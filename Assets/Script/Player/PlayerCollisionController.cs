@@ -404,8 +404,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// <param name="_direction"></param>
     public void OnSticky(Direction _direction)
     {
-        Debug.Log("Allacciato");
-     
         collisions.ResetStickyCollision();
         switch (_direction)
         {
@@ -437,7 +435,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     public void OnStickyEnd()
     {
         collisions.ResetStickyCollision();
-        Debug.Log("Free");
     }
 
     /// <summary>

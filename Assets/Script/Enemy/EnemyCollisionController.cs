@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyCollisionController : MonoBehaviour
+public class EnemyCollisionController : MonoBehaviour, ISticky
 {
 
     [Header("Collision Settings")]
@@ -30,7 +30,6 @@ public class EnemyCollisionController : MonoBehaviour
     /// </summary>
     private float collisionOffset = 0.015f;
 
-    private Collider colliderToCheck;
     private Collider enemyCollider;
     private RaycastStartPoints raycastStartPoints;
     public CollisionInfo collisions;
@@ -43,7 +42,6 @@ public class EnemyCollisionController : MonoBehaviour
     {
         //Prendo le referenze ai component
         enemyCollider = GetComponent<Collider>();
-        colliderToCheck = enemyCollider;
 
         //Calcolo lo spazio tra i raycast
         CalculateRaySpacing();
@@ -59,14 +57,24 @@ public class EnemyCollisionController : MonoBehaviour
         UpdateRaycastOrigins();
         //Reset delle collisioni attuali
         collisions.Reset();
-        
-        if (_movementVelocity.x != 0)
+
+        if (collisions.HorizontalStickyCollision())
+        {
+            _movementVelocity.x = 0f;
+            _movementVelocity.y = 0f;
+        }
+        else if (_movementVelocity.x != 0)
         {
             //Se mi sto muovendo sull'asse X controllo se entro in collisione con qualcosa
             HorizontalCollisions(ref _movementVelocity);
         }
-        
-        if (_movementVelocity.y != 0)
+
+        if (collisions.VerticalStickyCollision())
+        {
+            _movementVelocity.y = 0f;
+            _movementVelocity.x = 0f;
+        }
+        else if (_movementVelocity.y != 0)
         {
             //Se mi sto muovendo sull'asse Y controllo se entro in collisione con qualcosa
             VerticalCollisions(ref _movementVelocity);
@@ -74,18 +82,6 @@ public class EnemyCollisionController : MonoBehaviour
 
         return _movementVelocity;
     }
-
-    /// <summary>
-    /// Funzione che ricalcola le collisioni sul collider normale del nemico
-    /// </summary>
-    public void CalculateNormalCollision()
-    {
-        enemyCollider.enabled = true;
-        colliderToCheck = enemyCollider;
-        CalculateRaySpacing();
-    }
-
-
     #endregion
 
     #region Collision
@@ -94,7 +90,7 @@ public class EnemyCollisionController : MonoBehaviour
     /// </summary>
     private void CalculateRaySpacing()
     {
-        Bounds bounds = colliderToCheck.bounds;
+        Bounds bounds = enemyCollider.bounds;
         bounds.Expand(collisionOffset * -2);
 
         HorizontalRayCount = Mathf.Clamp(HorizontalRayCount, 2, int.MaxValue);
@@ -110,7 +106,7 @@ public class EnemyCollisionController : MonoBehaviour
     /// </summary>
     private void UpdateRaycastOrigins()
     {
-        Bounds bounds = colliderToCheck.bounds;
+        Bounds bounds = enemyCollider.bounds;
         bounds.Expand(collisionOffset * -2);
 
         raycastStartPoints.bottomLeft = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
@@ -195,6 +191,41 @@ public class EnemyCollisionController : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione chiamata quando si entra in collisione con un oggetto sticky
+    /// </summary>
+    /// <param name="_direction"></param>
+    public void OnSticky(Direction _direction)
+    {
+        collisions.ResetStickyCollision();
+        switch (_direction)
+        {
+            case Direction.Left:
+                collisions.leftStickyCollision = true;
+                break;
+            case Direction.Right:
+                collisions.rightStickyCollision = true;
+                break;
+            case Direction.Above:
+                collisions.aboveStickyCollision = true;
+                break;
+            case Direction.Below:
+                collisions.belowStickyCollision = true;
+                break;
+            case Direction.None:
+                Debug.LogWarning("Direzione di collisione non prevista");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Funzione chiamata quando non si è più in collisione con un oggetto sticky
+    /// </summary>
+    public void OnStickyEnd()
+    {
+        collisions.ResetStickyCollision();
+    }
+
+    /// <summary>
     /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
     /// che controllano le collisioni
     /// </summary>
@@ -216,12 +247,47 @@ public class EnemyCollisionController : MonoBehaviour
         public bool left;
         public bool right;
 
+
+        public bool leftStickyCollision;
+        public bool rightStickyCollision;
+        public bool aboveStickyCollision;
+        public bool belowStickyCollision;
+
         public void Reset()
         {
             above = false;
             below = false;
             left = false;
             right = false;
+        }
+
+        public bool StickyCollision()
+        {
+            if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)
+                return true;
+            return false;
+        }
+
+        public bool HorizontalStickyCollision()
+        {
+            if (leftStickyCollision || rightStickyCollision)
+                return true;
+            return false;
+        }
+
+        public bool VerticalStickyCollision()
+        {
+            if (aboveStickyCollision || belowStickyCollision)
+                return true;
+            return false;
+        }
+
+        public void ResetStickyCollision()
+        {
+            aboveStickyCollision = false;
+            belowStickyCollision = false;
+            leftStickyCollision = false;
+            rightStickyCollision = false;
         }
     }
     #endregion

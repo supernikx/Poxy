@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4066627015925322}
-  - component: {fileID: 65329265650140540}
   - component: {fileID: 114314481716261678}
+  - component: {fileID: 65069642625816246}
   m_Layer: 13
   m_Name: StickyObject
   m_TagString: Untagged
@@ -71,7 +71,7 @@ Transform:
   m_Father: {fileID: 4066627015925322}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65329265650140540
+--- !u!65 &65069642625816246
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,8 +81,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.18107627, y: 0.18402536, z: 0.011661369}
-  m_Center: {x: 0.00063970685, y: 0.001090175, z: 0.0005352413}
+  m_Size: {x: 0.17561837, y: 0.18069945, z: 0.007230984}
+  m_Center: {x: -0.00066568854, y: -0.002496487, z: -0.000063401094}
 --- !u!114 &114314481716261678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +104,7 @@ MonoBehaviour:
   rayRequiredStuckObject: 3
   layersWhichCanBeStucked:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 6656
 --- !u!212 &212666472634876840
 SpriteRenderer:
   m_ObjectHideFlags: 1

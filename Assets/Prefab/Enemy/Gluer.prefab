@@ -111,13 +111,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4524415756016280}
-  - component: {fileID: 114569112804020924}
   - component: {fileID: 114351204569046758}
+  - component: {fileID: 114569112804020924}
   - component: {fileID: 95638227156610964}
+  - component: {fileID: 114464339899697110}
+  - component: {fileID: 114768301126713536}
   - component: {fileID: 114350090664658652}
   - component: {fileID: 114575268189776780}
-  - component: {fileID: 114768301126713536}
-  - component: {fileID: 114464339899697110}
   - component: {fileID: 136074907527069884}
   m_Layer: 11
   m_Name: Gluer
@@ -137,7 +137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4597249902162028}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4197860754667950
 Transform:
@@ -146,11 +146,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860879133052594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.57, y: 0, z: 0}
+  m_LocalPosition: {x: -3.71, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4597249902162028}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4210835360919982
 Transform:
@@ -172,8 +172,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961723527231292}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -45.8, y: -1.55, z: 1.912007}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.68, y: -1.55, z: 1.912007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4210835360919982}
@@ -181,7 +181,7 @@ Transform:
   - {fileID: 4606801526718126}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4554777971662540
 Transform:
   m_ObjectHideFlags: 1
@@ -205,8 +205,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4177696146470916}
   - {fileID: 4197860754667950}
+  - {fileID: 4177696146470916}
   m_Father: {fileID: 4524415756016280}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

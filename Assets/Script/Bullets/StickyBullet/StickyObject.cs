@@ -60,13 +60,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private BoxCollider boxCollider;
     float maxDistance;
     float maxXScale;
-
+    float yOffeset;
     #region API
     public void Setup()
     {
         boxCollider = GetComponent<BoxCollider>();
         Vector3 bottomLeftCorner = new Vector3(boxCollider.bounds.min.x, boxCollider.bounds.min.y, transform.position.z);
         Vector3 bottomRightCorner = new Vector3(boxCollider.bounds.max.x, boxCollider.bounds.min.y, transform.position.z);
+        yOffeset = boxCollider.bounds.size.y * 0.5f;
         maxDistance = Vector3.Distance(bottomLeftCorner, bottomRightCorner);
         maxXScale = transform.localScale.x;
         checkSpaceRaySpacing = CalculateRaySpacing(checkSpaceRayCount);
@@ -111,14 +112,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// <returns></returns>
     public Vector3 CheckSpace(Vector3 _normal, int _direction)
     {
-        float rayLenght = 1f;
-
-        Vector3 previewRayOrigin = boxCollider.bounds.center;
+        float rayLenght = 0.3f;
+        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.forward.normalized * yOffeset;
+        Vector3 previewRayOrigin = maxCenterPoint;
 
         for (int i = 0; i < checkSpaceRayCount; i++)
         {
             //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = boxCollider.bounds.center;
+            Vector3 rayOrigin = maxCenterPoint;
             rayOrigin += transform.right * _direction * (checkSpaceRaySpacing * 0.5f * i);
 
             //Crea il ray
@@ -222,6 +223,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
     {
         //Calcolo lo spazio tra un ray e l'altro
         checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
+        Vector3 rightPositionFixY = _rightPosition - transform.forward.normalized * yOffeset;
+
         while (CurrentState == State.InUse)
         {
             //Determina la lunghezza del raycast
@@ -230,7 +233,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             for (int i = 0; i < checkStuckedObjectsRayCount; i++)
             {
                 //Determina il punto da cui deve partire il ray
-                Vector3 rayOrigin = _rightPosition;
+                Vector3 rayOrigin = rightPositionFixY;
                 rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
 
                 //Crea il ray
