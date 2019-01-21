@@ -6,6 +6,10 @@ public class StickyBullet : BulletBase
     [Header("Sticky Bullet Settings")]
     [SerializeField]
     private ObjectTypes stickyObjectType;
+    [SerializeField]
+    private int percentageLife;
+    [SerializeField]
+    private int timeInSeconds;
 
     protected override void Move()
     {
@@ -27,16 +31,26 @@ public class StickyBullet : BulletBase
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().DamageHit(this);
+            IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+            int damage = Mathf.RoundToInt(enemyHit.GetHealth() * percentageLife / 100);
+            enemyHit.DamageHit(damage);
         }
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
             if (player != null)
-                player.GetHealthController().LoseHealth(damage);
+            {
+                int damage = Mathf.RoundToInt(player.GetHealthController().GetHealth() * percentageLife / 100);
+                player.GetHealthController().DamageHit(damage, timeInSeconds);
+
+            }
             else
-                _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTollerance(damage);
+            {
+                IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+                int damage = Mathf.RoundToInt(enemyHit.GetToleranceCtrl().GetTolerance() * percentageLife / 100);
+                enemyHit.GetToleranceCtrl().AddTolerance(damage);
+            }
         }
 
         if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))

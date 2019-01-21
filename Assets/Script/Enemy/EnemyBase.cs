@@ -127,7 +127,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// Funzione che manda il nemico in stato di Morte
     /// </summary>
     public void EndParasite()
-    {        
+    {
         if (enemySM.GoToDeath != null)
             enemySM.GoToDeath();
     }
@@ -161,12 +161,38 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    public void DamageHit(IBullet _bullet)
+    public void DamageHit(int _damage, float _time = 0)
     {
-        enemyLife = Mathf.Clamp(enemyLife - _bullet.GetBulletDamage(), 0, enemyStartLife);
-        if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
+        if (_time == 0)
         {
-            EnemyManager.OnEnemyDeath(this);
+            enemyLife = Mathf.Clamp(enemyLife - _damage, 0, enemyStartLife);
+            if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
+            {
+                EnemyManager.OnEnemyDeath(this);
+            }
+        }
+        else
+        {
+            StartCoroutine(LoseHealthOverTime(_damage, _time));
+        }
+    }
+    /// <summary>
+    /// Coroutine che fa perdere vita overtime al nemico
+    /// </summary>
+    /// <param name="_damage"></param>
+    /// <param name="_time"></param>
+    /// <returns></returns>
+    private IEnumerator LoseHealthOverTime(int _damage, float _time)
+    {
+        float tickDuration = 0.5f;
+        float damgeEachTick = tickDuration * _damage / _time;
+        int ticks = Mathf.RoundToInt(_time / tickDuration);
+        int tickCounter = 0;
+        while (tickCounter < ticks)
+        {
+            enemyLife = Mathf.RoundToInt(Mathf.Clamp(enemyLife - damgeEachTick, 0, enemyStartLife));
+            tickCounter++;
+            yield return new WaitForSeconds(tickDuration);
         }
     }
 
@@ -224,6 +250,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public int GetDeathDuration()
     {
         return deathDuration;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna la vita del nemico
+    /// </summary>
+    /// <returns></returns>
+    public int GetHealth()
+    {
+        return enemyLife;
     }
 
     /// <summary>

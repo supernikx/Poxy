@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerHealthController : MonoBehaviour {
+public class PlayerHealthController : MonoBehaviour
+{
 
     [Header("Health Settings")]
     [SerializeField]
@@ -61,7 +62,7 @@ public class PlayerHealthController : MonoBehaviour {
     /// <summary>
     /// Lose health every update
     /// </summary>
-    public void LoseHealthOvertime()
+    public void LoseHealthOverTime()
     {
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == minHealth && canDie)
@@ -75,20 +76,46 @@ public class PlayerHealthController : MonoBehaviour {
     /// Funzione che diminuisce la vita del valore passato come parametro
     /// </summary>
     /// <param name="_health"></param>
-    public void LoseHealth(int _health)
+    public void DamageHit(int _health, float _time = 0)
     {
-        health = Mathf.Clamp(health - _health, minHealth, maxHealth);
-        if (health == minHealth && canDie)
+        if (_time == 0)
         {
-            if (player.OnPlayerDeath != null)
-                player.OnPlayerDeath();
+            health = Mathf.Clamp(health - _health, minHealth, maxHealth);
+            if (health == minHealth && canDie)
+            {
+                if (player.OnPlayerDeath != null)
+                    player.OnPlayerDeath();
+            }
+        }
+        else
+        {
+            StartCoroutine(DamageHitOverTime(_health, _time));
+        }
+    }
+    /// <summary>
+    /// Coroutine che fa perdere vita overtime al player
+    /// </summary>
+    /// <param name="_health"></param>
+    /// <param name="_time"></param>
+    /// <returns></returns>
+    private IEnumerator DamageHitOverTime(int _health, float _time)
+    {
+        float tickDuration = 0.5f;
+        float damgeEachTick = tickDuration * _health / _time;
+        int ticks = Mathf.RoundToInt(_time / tickDuration);
+        int tickCounter = 0;
+        while (tickCounter < ticks)
+        {
+            health = Mathf.Clamp(health - damgeEachTick, minHealth, maxHealth);
+            tickCounter++;
+            yield return new WaitForSeconds(tickDuration);
         }
     }
 
     /// <summary>
     /// gain health every update
     /// </summary>
-    public bool GainHealthOvertime()
+    public bool GainHealthOverTime()
     {
         health = Mathf.Clamp(health + lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == maxHealth)
@@ -97,6 +124,17 @@ public class PlayerHealthController : MonoBehaviour {
         }
         return false;
     }
+
+    #region Getter
+    /// <summary>
+    /// Funzione che ritorna la vita attuale
+    /// </summary>
+    /// <returns></returns>
+    public float GetHealth()
+    {
+        return health;
+    }
+    #endregion
     #endregion
 
 }

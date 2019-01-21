@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using TMPro;
+using System.Collections;
 
 /**
  * Nel SetCanStart c'è una riga usata solo per debug. DA RIMUOVERE
@@ -72,16 +73,42 @@ public class EnemyToleranceController : MonoBehaviour
     /// <summary>
     /// Funzione che aumenta la tolleranza del valore passato come parametro
     /// </summary>
-    public void AddTollerance(float _damage)
+    public void AddTolerance(int _damage, float _time = 0)
     {
-        tolerance = Mathf.Clamp(tolerance + _damage, minTolerance, maxTolerance);
+        if (_time == 0)
+        {
+            tolerance = Mathf.Clamp(tolerance + _damage, minTolerance, maxTolerance);
+        }
+        else
+        {
+            StartCoroutine(AddToleranceOverTimeCoroutine(_damage, _time));
+        }
+    }
+    /// <summary>
+    /// Coroutine che fa aumentare la tollercane dle nemcio overtime
+    /// </summary>
+    /// <param name="_damage"></param>
+    /// <param name="_time"></param>
+    /// <returns></returns>
+    private IEnumerator AddToleranceOverTimeCoroutine(int _damage, float _time)
+    {
+        float tickDuration = 0.5f;
+        float damgeEachTick = tickDuration * _damage / _time;
+        int ticks = Mathf.RoundToInt(_time / tickDuration);
+        int tickCounter = 0;
+        while (tickCounter < ticks)
+        {
+            tolerance = Mathf.Clamp(tolerance - damgeEachTick, minTolerance, maxTolerance);
+            tickCounter++;
+            yield return new WaitForSeconds(tickDuration);
+        }
     }
 
     /// <summary>
     /// Funzione che controlla la tolleranza e ritorna true se è maggiore di quella massima
     /// </summary>
     /// <returns></returns>
-    public bool CheckTollerance()
+    public bool CheckTolerance()
     {
         if (tolerance == maxTolerance)
             return true;
@@ -96,6 +123,11 @@ public class EnemyToleranceController : MonoBehaviour
     public bool IsActive()
     {
         return active;
+    }
+
+    public float GetTolerance()
+    {
+        return tolerance;
     }
     #endregion
 

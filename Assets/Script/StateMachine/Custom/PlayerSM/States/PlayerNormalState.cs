@@ -39,7 +39,7 @@ namespace StateMachine.PlayerSM
             }
 
             if (loseHealth)
-                context.player.GetHealthController().LoseHealthOvertime();
+                context.player.GetHealthController().LoseHealthOverTime();
         }
 
         #region Enemy Collision
@@ -48,7 +48,7 @@ namespace StateMachine.PlayerSM
         {
             loseHealth = false;
             context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.player.GetHealthController().LoseHealth(_enemy.GetDamage());        
+            context.player.GetHealthController().DamageHit(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }

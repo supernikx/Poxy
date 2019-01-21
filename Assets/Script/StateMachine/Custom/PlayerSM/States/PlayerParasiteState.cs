@@ -43,7 +43,7 @@ namespace StateMachine.PlayerSM
                 context.player.GetShotController().ChangeShotType();
             }
 
-            if (context.player.GetHealthController().GainHealthOvertime() && !healthMax)
+            if (context.player.GetHealthController().GainHealthOverTime() && !healthMax)
             {
                 healthMax = true;
                 if (context.player.OnPlayerMaxHealth != null)
@@ -75,7 +75,7 @@ namespace StateMachine.PlayerSM
         private void OnEnemyCollision(IEnemy _enemy)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.parasiteEnemy.GetToleranceCtrl().AddTollerance(_enemy.GetDamage());
+            context.parasiteEnemy.GetToleranceCtrl().AddTolerance(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }

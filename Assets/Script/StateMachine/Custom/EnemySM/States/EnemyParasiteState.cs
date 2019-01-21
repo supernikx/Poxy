@@ -26,7 +26,7 @@ namespace StateMachine.EnemySM
             {
                 tolleranceCtrl.AddTolleranceOvertime();
 
-                if (tolleranceCtrl.CheckTollerance())
+                if (tolleranceCtrl.CheckTolerance())
                 {
                     if (tolleranceCtrl.OnMaxTolleranceBar != null)
                         tolleranceCtrl.OnMaxTolleranceBar();
@@ -51,7 +51,6 @@ namespace StateMachine.EnemySM
 
         private void PlayerMaxHealth()
         {
-            Debug.Log("Player max health");
             tolleranceCtrl.SetActive(true);
         }
     }

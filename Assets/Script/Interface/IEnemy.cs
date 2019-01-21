@@ -58,7 +58,7 @@ public interface IEnemy
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    void DamageHit(IBullet _bullet);
+    void DamageHit(int _damage, float _time = 0);
 
     /// <summary>
     /// Funzione che uccide il nemico
@@ -84,6 +84,12 @@ public interface IEnemy
     /// </summary>
     /// <returns></returns>
     ObjectTypes GetShotType();
+
+    /// <summary>
+    /// Funzione che ritorna la vita del nemico
+    /// </summary>
+    /// <returns></returns>
+    int GetHealth();
 
     /// <summary>
     /// Funzione che ritorna il danno del nemico
