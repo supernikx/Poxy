@@ -141,9 +141,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     {
         stunHitGot++;
         if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
-        {
+        {                       
             EnemyManager.OnEnemyStun(this);
-            stunHitGot = 0;
         }
     }
 
