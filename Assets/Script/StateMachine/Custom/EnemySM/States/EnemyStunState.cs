@@ -38,6 +38,7 @@ namespace StateMachine.EnemySM
         {
             if (start)
             {
+                context.enemy.GetMovementCtrl().MovementCheck();
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
