@@ -862,7 +862,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911186250763120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.51, y: 1.35, z: 2.07}
+  m_LocalPosition: {x: -3.05, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4449267859801146}
@@ -1395,7 +1395,7 @@ Animator:
   m_GameObject: {fileID: 1483983454683830}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0d57b6d1012357e4592c73099f0b2c03, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8eeaac34299ec1e479d05e95615b47ce, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1507,6 +1507,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   immunityDuration: 1
+  maxClimbAngle: 50
+  maxDecendingAngle: 70
   horizontalRayCount: 10
   verticalRayCount: 10
 --- !u!114 &114937132506703418
@@ -1549,9 +1551,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.38097945
-  m_Height: 1.1607841
+  m_Height: 1.0601429
   m_Direction: 1
-  m_Center: {x: 0.043462843, y: 0.4665739, z: -0.011544526}
+  m_Center: {x: 0.043462843, y: 0.5168945, z: -0.011544526}
 --- !u!137 &137433572755753964
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
