@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     #endregion
     [Header("General Settings")]
     [SerializeField]
-    GameObject playerGraphics;
-    GameObject graphics;
+    GameObject playerGraphic;
+    GameObject graphic;
 
     /// <summary>
     /// Riferimento al player controller
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
 
         shootCtrl = GetComponent<PlayerShotController>();
         if (shootCtrl != null)
-            shootCtrl.Init(PoolManager.instance);
+            shootCtrl.Init(this, PoolManager.instance);
 
         movementCtrl = GetComponent<PlayerMovementController>();
         if (movementCtrl != null)
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
             playerSM.Init(this);
 
         //Setup cose locali
-        graphics = playerGraphics;
+        graphic = playerGraphic;
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         Vector3 enemyPosition = _e.gameObject.transform.position;
         enemyPosition.z = transform.position.z;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphics.transform.DOScale(0.5f, 0.5f));
+        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
         yield return sequence.WaitForCompletion();
         #endregion
 
@@ -126,12 +126,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private IEnumerator NormalCoroutine()
     {
-        ChangeGraphics(playerGraphics);
+        ChangeGraphics(playerGraphic);
         parasiteCtrl.GetParasiteEnemy().EndParasite();
         movementCtrl.Eject();
 
         #region Animazione (per ora fatta a caso)
-        graphics.transform.DOScale(1, 0.5f);
+        graphic.transform.DOScale(1, 0.5f);
         yield return null;
         #endregion
 
@@ -180,7 +180,7 @@ public class Player : MonoBehaviour
     public void ChangeGraphics(GameObject _newGraphic)
     {
         EnableGraphics(false);
-        graphics = _newGraphic;
+        graphic = _newGraphic;
         EnableGraphics(true);
     }
 
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour
     /// <param name="_switch"></param>
     public void EnableGraphics(bool _switch)
     {
-        graphics.SetActive(_switch);
+        graphic.SetActive(_switch);
     }
 
     #region Getter
@@ -233,6 +233,14 @@ public class Player : MonoBehaviour
     public PlayerParasiteController GetParasiteController()
     {
         return parasiteCtrl;
+    }
+    /// <summary>
+    /// Funzione che ritorna la grafica attiva del player
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetActualGraphic()
+    {
+        return graphic;
     }
     #endregion
     #endregion

@@ -14,13 +14,17 @@ public class PlayerShotController : MonoBehaviour
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
-    private GameObject gun;
+    private GameObject aimObject;
     [SerializeField]
     ShotSettings stunShotSettings;
     [SerializeField]
     private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
     ShotSettings shotSettingsInUse;
 
+    /// <summary>
+    /// Referenza al player
+    /// </summary>
+    Player player;
     /// <summary>
     /// Referenza al pool manager
     /// </summary>
@@ -80,11 +84,13 @@ public class PlayerShotController : MonoBehaviour
         if (direction.x < 0)
         {
             //Se si sta mirando nel senso opposto flippo l'arma
-            gun.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         }
         else
         {
-            gun.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
     }
 
@@ -108,11 +114,13 @@ public class PlayerShotController : MonoBehaviour
         if (direction.x < 0)
         {
             //Se si sta mirando nel senso opposto flippo l'arma
-            gun.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         }
         else
         {
-            gun.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
         return true;
     }
@@ -186,8 +194,9 @@ public class PlayerShotController : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(PoolManager _poolManager)
+    public void Init(Player _player, PoolManager _poolManager)
     {
+        player = _player;
         pool = _poolManager;
         canShotDamage = false;
     }

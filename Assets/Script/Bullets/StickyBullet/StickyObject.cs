@@ -245,12 +245,20 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 {
                     //Se colpisco qualcosa che rientra nei layer stuck
                     GameObject objectHit = hit.transform.gameObject;
+                    if (objectHit.layer == LayerMask.NameToLayer("Player") && objectHit.transform.parent != null)
+                    {
+                        objectHit = objectHit.transform.parent.gameObject;
+                    }
+
+
                     StickyCollisionsInfos stickyInfo = stickyList.FirstOrDefault(g => g.Gobject == objectHit);
+
                     //Controllo se è presente nella lista
                     if (stickyInfo == null)
                     {
                         //Se non è presente controllo che sia un oggetto ISticky
                         ISticky stickyRef = objectHit.GetComponent<ISticky>();
+
                         if (stickyRef != null)
                         {
                             //Se lo è creo un nuovo StickyCollisionsInfos con i dati del GameObject e lo aggiunto alla lista
