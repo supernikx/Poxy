@@ -115,7 +115,7 @@ public class Walker : EnemyBase
             Vector3 movementVector = Vector3.zero;
 
             if (target == null)
-                yield return null;
+                yield return new WaitForFixedUpdate();
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, enemyShotSettings.shotSpeed))

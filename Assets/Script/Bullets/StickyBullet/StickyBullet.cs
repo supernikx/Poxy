@@ -27,7 +27,7 @@ public class StickyBullet : BulletBase
         }
     }
 
-    protected override void OnBulletCollision(RaycastHit _collisionInfo)
+    protected override bool OnBulletCollision(RaycastHit _collisionInfo)
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -58,8 +58,7 @@ public class StickyBullet : BulletBase
             SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);
         }
 
-        if (_collisionInfo.transform.gameObject != ownerObject)
-            ObjectDestroyEvent();
+        return base.OnBulletCollision(_collisionInfo);
     }
 
     /// <summary>

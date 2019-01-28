@@ -7,15 +7,14 @@ using UnityEngine;
 /// </summary>
 public class StunBullet : BulletBase
 {
-    protected override void OnBulletCollision(RaycastHit _collisionInfo)
+    protected override bool OnBulletCollision(RaycastHit _collisionInfo)
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
 
-        if (_collisionInfo.transform.gameObject != ownerObject)
-            ObjectDestroyEvent();
+        return base.OnBulletCollision(_collisionInfo);
     }
 
     protected override void Move()

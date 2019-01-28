@@ -20,7 +20,7 @@ public class ParabolicBullet : BulletBase
     private float yVelocity;
     private float xVelocity;
 
-    protected override void OnBulletCollision(RaycastHit _collisionInfo)
+    protected override bool OnBulletCollision(RaycastHit _collisionInfo)
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -36,8 +36,7 @@ public class ParabolicBullet : BulletBase
                 _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
         }
 
-        if (_collisionInfo.transform.gameObject != ownerObject)
-            ObjectDestroyEvent();
+        return base.OnBulletCollision(_collisionInfo);
     }
 
     protected override void Move()

@@ -113,8 +113,8 @@ public class Gluer : EnemyBase
         {
             target = viewCtrl.FindPlayer();
             if (target == null)
-                yield return null;
-            
+                yield return new WaitForFixedUpdate();
+
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             if (CanShot)
             {

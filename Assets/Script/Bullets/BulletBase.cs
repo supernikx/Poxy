@@ -128,7 +128,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_speed"></param>
     /// <param name="_shotPosition"></param>
     /// <param name="_target"></param>
-    public virtual void Shot(int _damage, float _speed, float _range,Transform _shotPosition, Transform _target)
+    public virtual void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Transform _target)
     {
         damage = _damage;
         speed = _speed;
@@ -193,9 +193,8 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
             //Eseguo il raycast
             if (Physics.Raycast(ray, out hit, rayLenght))
             {
-                //Se colpisce qualcosa chiama la funzione e ritorna true
-                OnBulletCollision(hit);
-                return true;
+                //Se colpisce qualcosa chiama la funzione e ritorna il valore di ritorno di OnBulletCollision            
+                return OnBulletCollision(hit);
             }
 
             Debug.DrawRay(rayOrigin, transform.right * rayLenght, Color.red);
@@ -207,6 +206,16 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// Funzione chiamata quando il proiettile entra in collisione con qualcosa
     /// </summary>
     /// <param name="_collisionInfo"></param>
-    protected abstract void OnBulletCollision(RaycastHit _collisionInfo);
+    protected virtual bool OnBulletCollision(RaycastHit _collisionInfo)
+    {
+        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+            return false;
+
+        if (_collisionInfo.transform.gameObject == ownerObject)         
+            return false;
+
+        ObjectDestroyEvent();
+        return true;
+    }
     #endregion
 }
