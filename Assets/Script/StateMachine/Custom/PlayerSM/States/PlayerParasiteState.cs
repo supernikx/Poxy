@@ -57,8 +57,6 @@ namespace StateMachine.PlayerSM
             context.parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
             context.player.GetParasiteController().SetParasiteEnemy(null);
 
-            //Fix provvisorio altrimenti non detecta collision
-            context.player.transform.position = new Vector3(context.player.transform.position.x, context.player.transform.position.y + 0.5f, context.player.transform.position.z);
             context.player.GetCollisionController().CalculateNormalCollision();
 
             context.player.GetShotController().SetCanShootDamage(false);
