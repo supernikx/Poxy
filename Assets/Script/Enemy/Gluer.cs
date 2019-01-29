@@ -11,6 +11,8 @@ public class Gluer : EnemyBase
     [Header("Enemy Specifics Settings")]
     [SerializeField]
     private float roamingFiringRate;
+    [SerializeField]
+    private float shotRadius;
 
     private IEnumerator FiringRateCoroutine(float _firingRate)
     {
@@ -111,16 +113,23 @@ public class Gluer : EnemyBase
 
         while (true)
         {
+            Vector3 movementVector = Vector3.zero;
+
             target = viewCtrl.FindPlayer();
             if (target == null)
                 yield return new WaitForFixedUpdate();
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            if (CanShot)
+            float _distance = Vector3.Distance(targetPosition, shotPosition.position);
+            if (_distance <= shotRadius)
             {
-                Vector3 _direction = (target.position - shotPosition.position);
-                bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, _direction);
-                StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
+                if (CanShot)
+                {
+                    Vector3 _direction = (target.position - shotPosition.position);
+                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition, _direction);
+                    StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
+                }
+                movementCtrl.MovementCheck(movementVector);
             }
             else
             {
@@ -134,7 +143,6 @@ public class Gluer : EnemyBase
                 }
 
                 //Movimento Nemico
-                Vector3 movementVector = new Vector3();
                 movementVector.z = 0;
                 movementVector.y = 0;
                 movementVector.x = movementSpeed;
