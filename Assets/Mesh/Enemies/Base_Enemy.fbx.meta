@@ -250,7 +250,7 @@ ModelImporter:
     4300006: occhio_DX
     7400000: NemicoBase_Idle
     7400002: NemicoBase_Attacco
-    7400004: NemicoBase_Walk
+    7400004: NemicoBase_Movimento
     9500000: //RootNode
     13700000: body_enemy
     13700002: occhio_DX
@@ -316,7 +316,7 @@ ModelImporter:
       name: NemicoBase_Attacco
       takeName: Take 001
       firstFrame: 80
-      lastFrame: 180
+      lastFrame: 170
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -341,7 +341,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: NemicoBase_Walk
+      name: NemicoBase_Movimento
       takeName: Take 001
       firstFrame: 190
       lastFrame: 230
@@ -351,7 +351,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
