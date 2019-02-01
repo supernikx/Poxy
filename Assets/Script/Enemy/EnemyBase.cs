@@ -37,7 +37,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected int stunDuration;
     [SerializeField]
     protected int stunHit;
-    protected int stunHitGot;
+    public int stunHitGot;
 
     [Header("Death Settings")]
     [SerializeField]
@@ -65,7 +65,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         enemyMng = _enemyMng;
         startPosition = transform.position;
 
-        ResetData();
+        ResetLife();
+        ResetStunHit();
 
         // Initialize Enemy State Machine
         enemySM = GetComponent<EnemySMController>();
@@ -139,10 +140,13 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// </summary>
     public void StunHit()
     {
-        stunHitGot++;
-        if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
-        {                       
-            EnemyManager.OnEnemyStun(this);
+        if (stunHitGot < stunHit)
+        {
+            stunHitGot++;
+            if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
+            {
+                EnemyManager.OnEnemyStun(this);
+            }
         }
     }
 
@@ -210,9 +214,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     /// <summary>
     /// Funzione che reimposta i dati con i valori di default
     /// </summary>
-    public void ResetData()
-    {
-        stunHitGot = 0;
+    public void ResetLife()
+    {        
         enemyLife = enemyStartLife;
     }
 
@@ -222,6 +225,14 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public void ResetPosition()
     {
         transform.position = startPosition;
+    }
+
+    /// <summary>
+    /// Funzione che reimposta gli stunhit
+    /// </summary> 
+    public void ResetStunHit()
+    {
+        stunHitGot = 0;
     }
     #endregion
 

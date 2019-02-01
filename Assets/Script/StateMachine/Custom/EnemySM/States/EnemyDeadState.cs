@@ -31,7 +31,8 @@ namespace StateMachine.EnemySM
             context.enemy.GetCollider().enabled = false;
 
             context.enemy.ResetPosition();
-            context.enemy.ResetData();
+            context.enemy.ResetLife();
+            context.enemy.ResetStunHit();
 
             start = true;
         }

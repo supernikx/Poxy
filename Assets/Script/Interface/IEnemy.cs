@@ -70,12 +70,17 @@ public interface IEnemy
     /// <summary>
     /// Funzione che reimposta i dati con i valori di default
     /// </summary>
-    void ResetData();
+    void ResetLife();
 
     /// <summary>
     /// Funzione che reimposta la poszione del nemico con quella iniziale
     /// </summary>
     void ResetPosition();
+
+    /// <summary>
+    /// Funzione che reimposta gli stunhit
+    /// </summary>
+    void ResetStunHit();
     #endregion
 
     #region Getter

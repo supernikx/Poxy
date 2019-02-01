@@ -83,6 +83,8 @@ namespace StateMachine.EnemySM
                 EnemyManager.OnEnemyEndStun(enemy);
 
             enemySM.SetTrigger("GoToRoaming");
+
+
         }
 
         /// <summary>

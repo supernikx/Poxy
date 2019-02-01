@@ -24,8 +24,7 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             //Giusto per notare il cambio di stato nella build (da togliere)
-            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
-
+            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.black;            
             stunDuration = context.enemy.GetStunDuration();
             timer = 0;
             start = true;
@@ -53,6 +52,7 @@ namespace StateMachine.EnemySM
         public override void Exit()
         {
             start = false;
+            context.enemy.ResetStunHit();
         }
     }
 }
