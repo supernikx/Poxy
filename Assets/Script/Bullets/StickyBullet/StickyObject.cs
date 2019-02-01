@@ -97,7 +97,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             if (OnObjectSpawn != null)
                 OnObjectSpawn(this);
 
-            //StartCoroutine(DespawnCoroutine());
+            StartCoroutine(DespawnCoroutine());
             StartCoroutine(CheckCollisionCoroutine(_rightPosition, _leftPostion));
         }
     }
