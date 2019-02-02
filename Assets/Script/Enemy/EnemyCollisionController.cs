@@ -172,7 +172,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
                 collisions.above = directionY == 1;
                 collisions.below = directionY == -1;
             }
-            Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.yellow);
+            Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.blue);
         }
     }
 
@@ -183,7 +183,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
     private void HorizontalCollisions(ref Vector3 _movementVelocity)
     {
         //Rileva la direzione in cui si sta andando
-        float directionX = (transform.right == Vector3.right) ? 1 : -1;
+        float directionX = (transform.right.x > 0f) ? 1 : -1;
         //Determina la lunghezza del raycast
         float rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
 
@@ -238,7 +238,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
                 }
             }
 
-            Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
+            Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.blue);
         }
 
         #region Fix Freez frame tra un cambio di pendenza e l'altro
@@ -294,7 +294,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
     private void DescendSlope(ref Vector3 _movementVelocity)
     {
         //Calcolo la direzione
-        float directionX = Mathf.Sign(_movementVelocity.x);
+        float directionX = (transform.right.x > 0f) ? 1 : -1;
         //Calcolo la lunghezza del ray
         float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
         //Calcolo il punto di inizio del ray

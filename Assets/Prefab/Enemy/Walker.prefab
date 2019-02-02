@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1938858400792474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34.09, y: -7.35, z: 1.9120069}
+  m_LocalPosition: {x: -7.54, y: -1.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677780932266552}
@@ -177,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953191035772588}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.57, y: 0, z: 0}
+  m_LocalPosition: {x: -14.63, y: -4.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4008191905364286}
@@ -190,7 +190,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1950132592694822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.06, y: 0, z: 0}
+  m_LocalPosition: {x: 13.67, y: -3.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4008191905364286}
@@ -320,6 +320,7 @@ MonoBehaviour:
     firingRate: 1
   stunDuration: 2
   stunHit: 2
+  stunHitGot: 0
   deathDuration: 5
   graphics: {fileID: 1199862583488942}
 --- !u!114 &114229394083401848
@@ -344,11 +345,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57427ffccd8c1194fa5a73806f49aac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionMask:
+  collisionLayer:
     serializedVersion: 2
-    m_Bits: 1536
-  HorizontalRayCount: 4
-  VerticalRayCount: 4
+    m_Bits: 1024
+  HorizontalRayCount: 10
+  VerticalRayCount: 10
+  maxClimbAngle: 70
+  maxDecendingAngle: 70
 --- !u!114 &114256771093579946
 MonoBehaviour:
   m_ObjectHideFlags: 1

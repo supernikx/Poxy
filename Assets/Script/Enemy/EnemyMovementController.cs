@@ -61,6 +61,7 @@ public class EnemyMovementController : MonoBehaviour
             movementVelocity.z = _movementVector.Value.z;
             movementVelocity.y += _movementVector.Value.y;
         }
+
         transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
     }
     #endregion

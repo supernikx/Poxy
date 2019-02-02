@@ -39,30 +39,39 @@ public class Walker : EnemyBase
     }
     private IEnumerator MoveRoamingCoroutine()
     {
+        Vector3 movementVector = Vector3.zero;
+        Vector3 nextWaypoint = GetCurrentWaypointPosition();
+        Vector3 targetPosition = new Vector3(nextWaypoint.x, transform.position.y, transform.position.z);
+
         while (true)
         {
-            Vector3 nextWaypoint = GetNextWaypointPosition();
-            Vector3 targetPosition = new Vector3(nextWaypoint.x, transform.position.y, nextWaypoint.z);
-
-            float rotationY;
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            if (direction != transform.right)
+            if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.1f)
             {
-                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed).SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+                nextWaypoint = GetNextWaypointPosition();
+                targetPosition = new Vector3(nextWaypoint.x, transform.position.y, nextWaypoint.z);
+                float rotationY;
+                Vector3 direction = (targetPosition - transform.position).normalized;
+                if (direction != transform.right)
+                {
+                    rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed)
+                        .SetEase(Ease.Linear)
+                        .OnUpdate(() => movementCtrl.MovementCheck())
+                        .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
+                        .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
+                        .WaitForCompletion();
+                }
             }
-            yield return transform.DOMoveX(nextWaypoint.x, movementSpeed)
-                .SetSpeedBased()
-                .SetEase(Ease.Linear)
-                .OnUpdate(() => movementCtrl.MovementCheck())
-                .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
-                .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
-                .WaitForCompletion();
+
+            //Movimento Nemico                
+            movementVector.x = movementSpeed;
+            movementCtrl.MovementCheck(movementVector);
+
             yield return new WaitForFixedUpdate();
         }
     }
     private IEnumerator MoveRoamingStickyChecker(bool _pause)
-    {        
+    {
         if (_pause)
         {
             while (collisionCtrl.GetCollisionInfo().StickyCollision())

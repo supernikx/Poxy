@@ -125,7 +125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4177696146470916
 Transform:
   m_ObjectHideFlags: 1
@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1551167941563162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.27, y: 0, z: 0}
+  m_LocalPosition: {x: 2.99, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4597249902162028}
@@ -146,7 +146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860879133052594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.71, y: 0, z: 0}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4597249902162028}
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961723527231292}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.68, y: -1.55, z: 2.07}
+  m_LocalPosition: {x: 33.13, y: -7.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4210835360919982}
@@ -327,9 +327,11 @@ MonoBehaviour:
     firingRate: 1
   stunDuration: 2
   stunHit: 2
+  stunHitGot: 0
   deathDuration: 5
   graphics: {fileID: 1635613260782438}
   roamingFiringRate: 0.34
+  shotRadius: 0
 --- !u!114 &114464339899697110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -369,11 +371,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57427ffccd8c1194fa5a73806f49aac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionMask:
+  collisionLayer:
     serializedVersion: 2
-    m_Bits: 1536
-  HorizontalRayCount: 4
-  VerticalRayCount: 4
+    m_Bits: 1024
+  HorizontalRayCount: 10
+  VerticalRayCount: 10
+  maxClimbAngle: 70
+  maxDecendingAngle: 70
 --- !u!114 &114768301126713536
 MonoBehaviour:
   m_ObjectHideFlags: 1

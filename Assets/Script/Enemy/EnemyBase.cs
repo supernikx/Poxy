@@ -379,5 +379,14 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
             currentWaypoint++;
         return path[currentWaypoint];
     }
+
+    /// <summary>
+    /// Funzione che ritorna il waypoint attuale
+    /// </summary>
+    /// <returns></returns>
+    protected Vector3 GetCurrentWaypointPosition()
+    {
+        return path[currentWaypoint];
+    }
     #endregion
 }
