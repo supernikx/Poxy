@@ -40,7 +40,7 @@ public class EnemyMovementController : MonoBehaviour
         collisionCtrl = _collisionCtrl;
     }
 
-    public void MovementCheck(Vector3? _movementVector = null)
+    public Vector3 MovementCheck(Vector3? _movementVector = null)
     {
         if (collisionCtrl.GetCollisionInfo().above || collisionCtrl.GetCollisionInfo().below)
         {
@@ -62,7 +62,9 @@ public class EnemyMovementController : MonoBehaviour
             movementVelocity.y += _movementVector.Value.y;
         }
 
-        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        Vector3 movementTranslation = collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime);
+        transform.Translate(movementTranslation);
+        return movementTranslation;
     }
     #endregion
 

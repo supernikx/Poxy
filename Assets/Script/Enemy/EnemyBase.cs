@@ -18,10 +18,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     [SerializeField]
     protected float turnSpeed;
     [SerializeField]
-    protected GameObject Waypoints;
-
-    protected Vector3[] path;
-    protected float WaypointOffset = 0.5f;
+    protected GameObject wayPoint;
+    private float pathLenght;
 
     [Header("Damage Settings")]
     [SerializeField]
@@ -89,7 +87,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         if (viewCtrl != null)
             viewCtrl.Init();
 
-        SetPath();
+        CalculatePathLenght();
 
     }
 
@@ -354,39 +352,20 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
     #region Waypoints
     /// <summary>
-    /// Funzione che imposta il Path del nemico
+    /// Funzione che calcola la lunghezza del path del nemico
     /// </summary>
-    protected void SetPath()
+    protected void CalculatePathLenght()
     {
-        int _childCount = Waypoints.transform.childCount;
-        path = new Vector3[_childCount];
-        for (int i = 0; i < _childCount; i++)
-        {
-            path[i] = Waypoints.transform.GetChild(i).position;
-        }
-        currentWaypoint = 0;
+        pathLenght = Mathf.Abs(wayPoint.transform.position.x - transform.position.x);
     }
 
     /// <summary>
-    /// Funzione che ritorna la posizione del waypoint successivo
-    /// </summary>
-    int currentWaypoint;
-    protected Vector3 GetNextWaypointPosition()
-    {
-        if (currentWaypoint + 1 >= path.Length)
-            currentWaypoint = 0;
-        else
-            currentWaypoint++;
-        return path[currentWaypoint];
-    }
-
-    /// <summary>
-    /// Funzione che ritorna il waypoint attuale
+    /// Funzione che ritorna la lunghezza del path
     /// </summary>
     /// <returns></returns>
-    protected Vector3 GetCurrentWaypointPosition()
+    protected float GetPathLenght()
     {
-        return path[currentWaypoint];
+        return pathLenght;
     }
     #endregion
 }

@@ -40,33 +40,41 @@ public class Walker : EnemyBase
     private IEnumerator MoveRoamingCoroutine()
     {
         Vector3 movementVector = Vector3.zero;
-        Vector3 nextWaypoint = GetCurrentWaypointPosition();
-        Vector3 targetPosition = new Vector3(nextWaypoint.x, transform.position.y, transform.position.z);
+        float pathLenght = GetPathLenght();
+        float pathTraveled = 0f;
+        bool movementBlocked = false;
 
         while (true)
         {
-            if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.1f)
+            if (pathTraveled >= pathLenght - 0.1f)
             {
-                nextWaypoint = GetNextWaypointPosition();
-                targetPosition = new Vector3(nextWaypoint.x, transform.position.y, nextWaypoint.z);
-                float rotationY;
-                Vector3 direction = (targetPosition - transform.position).normalized;
-                if (direction != transform.right)
-                {
-                    rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                    yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), turnSpeed)
-                        .SetEase(Ease.Linear)
-                        .OnUpdate(() => movementCtrl.MovementCheck())
-                        .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
-                        .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
-                        .WaitForCompletion();
-                }
+                pathTraveled = 0f;
+                movementBlocked = false;
+                Vector3 rotationVector = Vector3.zero;
+                if (transform.rotation.y == 0)
+                    rotationVector.y = 180f;
+                yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
+                    .SetEase(Ease.Linear)
+                    .OnUpdate(() => movementCtrl.MovementCheck())
+                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
+                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
+                    .WaitForCompletion();
             }
 
             //Movimento Nemico                
             movementVector.x = movementSpeed;
-            movementCtrl.MovementCheck(movementVector);
+            Vector3 distanceTraveled = movementCtrl.MovementCheck(movementVector);
 
+            if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == false)
+                movementBlocked = true;
+            else if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == true)
+            {
+                pathTraveled = pathLenght;
+            }
+            else if ((distanceTraveled - Vector3.zero).sqrMagnitude > 0.001f && movementBlocked == true)
+                movementBlocked = false;
+
+            pathTraveled += distanceTraveled.x;
             yield return new WaitForFixedUpdate();
         }
     }
