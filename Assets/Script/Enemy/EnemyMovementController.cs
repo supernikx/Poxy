@@ -42,7 +42,7 @@ public class EnemyMovementController : MonoBehaviour
 
     public void MovementCheck(Vector3? _movementVector = null)
     {
-        if (collisionCtrl.collisions.above || collisionCtrl.collisions.below)
+        if (collisionCtrl.GetCollisionInfo().above || collisionCtrl.GetCollisionInfo().below)
         {
             //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
             movementVelocity.y = 0;

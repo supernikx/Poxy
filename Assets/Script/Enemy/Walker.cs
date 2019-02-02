@@ -65,7 +65,7 @@ public class Walker : EnemyBase
     {        
         if (_pause)
         {
-            while (collisionCtrl.collisions.StickyCollision())
+            while (collisionCtrl.GetCollisionInfo().StickyCollision())
             {
                 yield return null;
             }
@@ -73,7 +73,7 @@ public class Walker : EnemyBase
         }
         else
         {
-            while (!collisionCtrl.collisions.StickyCollision())
+            while (!collisionCtrl.GetCollisionInfo().StickyCollision())
             {
                 yield return null;
             }

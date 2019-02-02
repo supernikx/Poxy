@@ -5,26 +5,37 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
 {
 
     [Header("Collision Settings")]
-    public LayerMask CollisionMask;
+    [SerializeField]
+    private LayerMask collisionLayer;
 
+    [SerializeField]
     /// <summary>
     /// Numero di raycast orrizontali
     /// </summary>
-    public int HorizontalRayCount = 4;
+    private int HorizontalRayCount = 4;
     /// <summary>
     /// Spazio tra un raycast orrizontale e l'altro
     /// </summary>
     private float horizontalRaySpacing;
-
+    [SerializeField]
     /// <summary>
     /// Numero di raycast orrizontali
     /// </summary>
-    public int VerticalRayCount = 4;
+    private int VerticalRayCount = 4;
     /// <summary>
     /// Spazio tra un raycast verticale e l'altro
     /// </summary>
     private float verticalRaySpacing;
-
+    [SerializeField]
+    /// <summary>
+    /// Angolo massimo che si può scalare
+    /// </summar
+    private float maxClimbAngle;
+    [SerializeField]
+    /// <summary>
+    /// Angolo massimo che si può scendere
+    /// </summar
+    private float maxDecendingAngle;
     /// <summary>
     /// Offset del bound del collider
     /// </summary>
@@ -32,7 +43,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
 
     private Collider enemyCollider;
     private RaycastStartPoints raycastStartPoints;
-    public CollisionInfo collisions;
+    private CollisionInfo collisions;
 
     #region API
     /// <summary>
@@ -57,6 +68,13 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
         UpdateRaycastOrigins();
         //Reset delle collisioni attuali
         collisions.Reset();
+
+        //Se sto scendendo
+        if (_movementVelocity.y < 0)
+        {
+            //Controllo se posso scendere
+            DescendSlope(ref _movementVelocity);
+        }
 
         if (collisions.HorizontalStickyCollision())
         {
@@ -138,11 +156,17 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
             RaycastHit hit;
 
             //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, CollisionMask))
+            if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
             {
                 //Se colpisco qualcosa sul layer di collisione azzero la velocity
                 _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
                 rayLenght = hit.distance;
+
+                //Se sto scalando qualcosa
+                if (collisions.climbingSlope)
+                {
+                    _movementVelocity.x = _movementVelocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(_movementVelocity.x);
+                }
 
                 //Assegno la direzione della collisione al CollisionInfo
                 collisions.above = directionY == 1;
@@ -175,18 +199,138 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
             RaycastHit hit;
 
             //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, CollisionMask))
+            if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
             {
-                //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                rayLenght = hit.distance;
+                //Calcolo e controllo l'angolo e se lo posso scalare
+                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+                if (i == 0 && slopeAngle <= maxClimbAngle)
+                {
+                    //Controllo se è un nuovo angolo
+                    float distanceSlopeStart = 0f;
+                    if (slopeAngle != collisions.oldSlopeAngle)
+                    {
+                        //Faccio avvicinare il player il più possibile alla salita
+                        distanceSlopeStart = hit.distance - collisionOffset;
+                        _movementVelocity.x -= distanceSlopeStart * directionX;
+                    }
 
-                //Assegno la direzione della collisione al CollisionInfo
-                collisions.left = directionX == -1;
-                collisions.right = directionX == 1;
+                    //Se è minore dell'angolo massimo che posso scalare lo scalo
+                    ClimbSlope(ref _movementVelocity, slopeAngle);
+                    _movementVelocity.x += distanceSlopeStart * directionX;
+                }
+
+                //Se non sto scalando nulla o se l'angolo sa scalare è troppo grande
+                if (!collisions.climbingSlope || collisions.slopeAngle > maxClimbAngle)
+                {
+                    //Se colpisco qualcosa sul layer di collisione azzero la velocity
+                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                    rayLenght = hit.distance;
+
+                    //Se sto scalando qualcosa
+                    if (collisions.climbingSlope)
+                    {
+                        _movementVelocity.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad * Mathf.Abs(_movementVelocity.x));
+                    }
+
+                    //Assegno la direzione della collisione al CollisionInfo
+                    collisions.left = directionX == -1;
+                    collisions.right = directionX == 1;
+                }
             }
 
             Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
+        }
+
+        #region Fix Freez frame tra un cambio di pendenza e l'altro
+        if (collisions.climbingSlope)
+        {
+            directionX = Mathf.Sign(_movementVelocity.x);
+            rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
+            Vector3 rayOrigin = ((directionX == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight) + Vector3.up * _movementVelocity.y;
+            Ray ray = new Ray(rayOrigin, Vector3.right * directionX);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
+            {
+                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+                if (slopeAngle != collisions.slopeAngle)
+                {
+                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                    collisions.slopeAngle = slopeAngle;
+                }
+            }
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Funzione che imposta la velocity per scalare l'angolo passato come parametro
+    /// </summary>
+    /// <param name="_movementVelocity"></param>
+    /// <param name="slopeAngle"></param>
+    private void ClimbSlope(ref Vector3 _movementVelocity, float slopeAngle)
+    {
+        //Calcolo la distanza e la velocity sulla Y
+        float moveDistance = Mathf.Abs(_movementVelocity.x);
+        float newVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+        //Se la mia velocity è minore (non sto saltando)
+        if (_movementVelocity.y <= newVelocityY)
+        {
+            //Imposto la velocity Y con quella calcolata e calcolo la veloctity X
+            _movementVelocity.y = newVelocityY;
+            _movementVelocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(_movementVelocity.x);
+
+            //Imposto le informazioni sulla collisione
+            collisions.below = true;
+            collisions.climbingSlope = true;
+            collisions.slopeAngle = slopeAngle;
+        }
+    }
+
+    /// <summary>
+    /// Funzione che imposta la velocity per scendere una discesa se non è troppo ripida
+    /// </summary>
+    /// <param name="_movementVelocity"></param>
+    private void DescendSlope(ref Vector3 _movementVelocity)
+    {
+        //Calcolo la direzione
+        float directionX = Mathf.Sign(_movementVelocity.x);
+        //Calcolo la lunghezza del ray
+        float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
+        //Calcolo il punto di inizio del ray
+        Vector3 rayOrigin = (directionX == -1) ? raycastStartPoints.bottomRight : raycastStartPoints.bottomLeft;
+        //Creo il ray (che punta verso il basso)
+        Ray ray = new Ray(rayOrigin, -Vector3.up);
+        RaycastHit hit;
+        //Faccio paritre il ray
+        if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
+        {
+            //Calcolo l'angolazione se colpisco qualcosa
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            //Se l'angolo è diverso da 0 e minore dell'angolo minimo da scendere
+            if (slopeAngle != 0 && slopeAngle <= maxDecendingAngle)
+            {
+                //Se la direzione dell'oggetto colpito è uguale a quella del player
+                if (Mathf.Sign(hit.normal.x) == directionX)
+                {
+                    //Se la distanza tra il player e il punto colpito è minore della tangente tra l'angolo e la mia velocità sulla X
+                    if (hit.distance - collisionOffset <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(_movementVelocity.x))
+                    {
+                        //Calcolo la distanza, la velocità sulla Y, la veloictà sulla X e le applico
+                        float moveDistance = Mathf.Abs(_movementVelocity.x);
+                        float newVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+                        _movementVelocity.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(_movementVelocity.x);
+
+                        //Sottraggo alla movementVelocity la velocity appena calcolata
+                        _movementVelocity.y -= newVelocityY;
+
+                        //Imposto le informazioni sulla collisione
+                        collisions.slopeAngle = slopeAngle;
+                        collisions.descendingSlope = true;
+                        collisions.below = true;
+                    }
+                }
+            }
         }
     }
 
@@ -225,6 +369,17 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
         collisions.ResetStickyCollision();
     }
 
+    #region Getter
+    /// <summary>
+    /// Funzione che ritorna le informazioni sulle collisioni
+    /// </summary>
+    /// <returns></returns>
+    public CollisionInfo GetCollisionInfo()
+    {
+        return collisions;
+    }
+    #endregion
+
     /// <summary>
     /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
     /// che controllano le collisioni
@@ -247,6 +402,10 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
         public bool left;
         public bool right;
 
+        public bool climbingSlope;
+        public bool descendingSlope;
+        public float oldSlopeAngle;
+        public float slopeAngle;
 
         public bool leftStickyCollision;
         public bool rightStickyCollision;
@@ -259,6 +418,10 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
             below = false;
             left = false;
             right = false;
+            climbingSlope = false;
+            descendingSlope = false;
+            oldSlopeAngle = slopeAngle;
+            slopeAngle = 0f;
         }
 
         public bool StickyCollision()
