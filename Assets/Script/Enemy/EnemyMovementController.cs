@@ -21,6 +21,7 @@ public class EnemyMovementController : MonoBehaviour
     /// </summary>
     [SerializeField]
     private Vector3 movementVelocity;
+    private float velocityXSmoothing;
 
     /// <summary>
     /// Funzione che aggiunge gravità al player
@@ -57,7 +58,8 @@ public class EnemyMovementController : MonoBehaviour
         }
         else
         {
-            movementVelocity.x = _movementVector.Value.x;
+            //movementVelocity.x = _movementVector.Value.x;
+            movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, _movementVector.Value.x, ref velocityXSmoothing, 0.01f);
             movementVelocity.z = _movementVector.Value.z;
             movementVelocity.y += _movementVector.Value.y;
         }

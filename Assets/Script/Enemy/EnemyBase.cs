@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using StateMachine.EnemySM;
+using DG.Tweening;
 
 [RequireComponent(typeof(EnemyToleranceController))]
 [RequireComponent(typeof(EnemyMovementController))]
@@ -89,26 +90,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
 
         CalculatePathLenght();
 
-    }
-
-    /// <summary>
-    /// Funzione che si ovvupa del movimento in stato di roaming
-    /// </summary>
-    public abstract void MoveRoaming(bool _enabled);
-
-    /// <summary>
-    /// Funzione che si ovvupa del movimento in stato di alert
-    /// Se restituisce false, il player non è più in vista
-    /// </summary>
-    public abstract void AlertActions(bool _enabled);
-
-    /// <summary>
-    /// Funzione che invia il nemico in stato di allerta
-    /// </summary>
-    public void Alert()
-    {
-        if (enemySM.GoToAlert != null)
-            enemySM.GoToAlert();
     }
 
     #region Parasite
@@ -348,9 +329,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
         return viewCtrl;
     }
     #endregion
-    #endregion
 
-    #region Waypoints
+    #region Movement Roaming
     /// <summary>
     /// Funzione che calcola la lunghezza del path del nemico
     /// </summary>
@@ -367,5 +347,131 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     {
         return pathLenght;
     }
+
+    IEnumerator moveRoaming;
+    /// <summary>
+    /// Funzione che si ovvupa si attivare/disattivare il movimento in stato di roaming
+    /// </summary>
+    public void MoveRoaming(bool _enabled)
+    {
+        if (_enabled)
+        {
+            movementSpeed = roamingMovementSpeed;
+            moveRoaming = MoveRoamingCoroutine();
+            StartCoroutine(moveRoaming);
+        }
+        else
+        {
+            StopCoroutine(moveRoaming);
+            transform.DOKill();
+        }
+    }
+
+    /// <summary>
+    /// Coroutine che gestisce il movimento del nemico
+    /// </summary>
+    /// <returns></returns>
+    protected virtual IEnumerator MoveRoamingCoroutine()
+    {
+        Vector3 movementVector = Vector3.zero;
+        float pathLenght = GetPathLenght();
+        float pathTraveled = 0f;
+        bool movementBlocked = false;
+
+        while (true)
+        {
+            if (pathTraveled >= pathLenght - 0.1f)
+            {
+                pathTraveled = 0f;
+                movementBlocked = false;
+                Vector3 rotationVector = Vector3.zero;
+                if (transform.rotation.y == 0)
+                    rotationVector.y = 180f;
+                yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
+                    .SetEase(Ease.Linear)
+                    .OnUpdate(() => movementCtrl.MovementCheck())
+                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
+                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
+                    .WaitForCompletion();
+            }
+
+            //Movimento Nemico                
+            movementVector.x = movementSpeed;
+            Vector3 distanceTraveled = MoveRoamingUpdate(movementVector);
+
+            if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == false)
+                movementBlocked = true;
+            else if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == true)
+            {
+                pathTraveled = pathLenght;
+            }
+            else if ((distanceTraveled - Vector3.zero).sqrMagnitude > 0.001f && movementBlocked == true)
+                movementBlocked = false;
+
+            pathTraveled += distanceTraveled.x;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    /// <summary>
+    /// Funzione che controlla se si è attaccati ad un oggetto sticky
+    /// </summary>
+    /// <param name="_pause"></param>
+    /// <returns></returns>
+    protected IEnumerator MoveRoamingStickyChecker(bool _pause)
+    {
+        if (_pause)
+        {
+            while (collisionCtrl.GetCollisionInfo().StickyCollision())
+            {
+                yield return null;
+            }
+            transform.DOPlay();
+        }
+        else
+        {
+            while (!collisionCtrl.GetCollisionInfo().StickyCollision())
+            {
+                yield return null;
+            }
+            transform.DOPause();
+        }
+    }
+
+    protected abstract Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
+    #endregion
+
+    #region Movement Alert
+    /// <summary>
+    /// Funzione che invia il nemico in stato di allerta
+    /// </summary>
+    public void Alert()
+    {
+        if (enemySM.GoToAlert != null)
+            enemySM.GoToAlert();
+    }
+
+    IEnumerator alertCoroutine;
+    /// <summary>
+    /// Funzione che si ovvupa del movimento in stato di alert
+    /// Se restituisce false, il player non è più in vista
+    /// </summary>
+    public virtual void AlertActions(bool _enable)
+    {
+        if (_enable)
+        {
+            movementSpeed = alertMovementSpeed;
+            alertCoroutine = AlertActionCoroutine();
+            StartCoroutine(alertCoroutine);
+        }
+        else
+        {
+            StopCoroutine(alertCoroutine);
+            transform.DOKill();
+        }
+
+    }
+    protected abstract IEnumerator AlertActionCoroutine();
+    #endregion
     #endregion
 }

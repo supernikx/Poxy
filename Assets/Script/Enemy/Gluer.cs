@@ -28,86 +28,8 @@ public class Gluer : EnemyBase
         CanShot = true;
     }
 
-    #region Roaming Behaviour
-    IEnumerator moveRoaming;
-    public override void MoveRoaming(bool _enabled)
-    {
-        if (_enabled)
-        {
-            movementSpeed = roamingMovementSpeed;
-            moveRoaming = MoveRoamingCoroutine();
-            StartCoroutine(moveRoaming);
-        }
-        else
-        {
-            StopCoroutine(moveRoaming);
-            transform.DOKill();
-        }
-    }
-    private IEnumerator MoveRoamingCoroutine()
-    {
-        Vector3 movementVector = Vector3.zero;
-        float pathLenght = GetPathLenght();
-        float pathTraveled = 0f;
-        bool movementBlocked = false;
-
-        while (true)
-        {
-            if (pathTraveled >= pathLenght - 0.1f)
-            {
-                pathTraveled = 0f;
-
-                Vector3 rotationVector = Vector3.zero;
-                if (transform.rotation.y == 0)
-                    rotationVector.y = 180f;
-                yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
-                    .SetEase(Ease.Linear)
-                    .OnUpdate(() => MoveRoamingUpdate())
-                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
-                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
-                    .WaitForCompletion();
-            }
-
-            //Movimento Nemico                
-            movementVector.x = movementSpeed;
-            Vector3 distanceTraveled = MoveRoamingUpdate(movementVector);
-
-            if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == false)
-                movementBlocked = true;
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == true)
-            {
-                pathTraveled = pathLenght;
-            }
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude > 0.001f && movementBlocked == true)
-                movementBlocked = false;
-
-            pathTraveled += distanceTraveled.x;
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    private IEnumerator MoveRoamingStickyChecker(bool _pause)
-    {
-        if (_pause)
-        {
-            while (collisionCtrl.GetCollisionInfo().StickyCollision())
-            {
-                yield return null;
-            }
-            transform.DOPlay();
-        }
-        else
-        {
-            while (!collisionCtrl.GetCollisionInfo().StickyCollision())
-            {
-                yield return null;
-            }
-            transform.DOPause();
-        }
-    }
-
     private bool isRotating = false;
-    private Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
+    protected override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
     {
         // Vertical movement
         Vector3 movementTranslation = movementCtrl.MovementCheck(movementVector);
@@ -121,28 +43,13 @@ public class Gluer : EnemyBase
 
         return movementTranslation;
     }
-    #endregion
 
-    #region Alert Behaviour
-    IEnumerator alertCoroutine;
-    public override void AlertActions(bool _enable)
-    {
-        if (_enable)
-        {
-            movementSpeed = alertMovementSpeed;
-            alertCoroutine = AlertActionCoroutine();
-            StartCoroutine(alertCoroutine);
-        }
-        else
-        {
-            StopCoroutine(alertCoroutine);
-            transform.DOKill();
-        }
-
-    }
-    private IEnumerator AlertActionCoroutine()
+    protected override IEnumerator AlertActionCoroutine()
     {
         Transform target = viewCtrl.FindPlayer();
+        if (target == null)
+            yield return new WaitForFixedUpdate();
+
         float rotationY;
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
         Vector3 direction = (targetPosition - transform.position).normalized;
@@ -193,6 +100,5 @@ public class Gluer : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
-    #endregion
     #endregion
 }
