@@ -40,6 +40,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
     [Header("Stickyobject General Settings")]
     [SerializeField]
     private float duration;
+    [SerializeField]
+    private BoxCollider boxCollider;
     [Header("Stickyobject Range Settings")]
     [SerializeField]
     private float minRange;
@@ -48,6 +50,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private float checkSpaceRaySpacing;
     [SerializeField]
     private LayerMask stickyObjectCollisionLayer;
+    [SerializeField]
+    private LayerMask avoidStickyObjectLayer;
+
     [Header("Stickyobject Stuck Settings")]
     [SerializeField]
     private int checkStuckedObjectsRayCount = 4;
@@ -57,17 +62,16 @@ public class StickyObject : MonoBehaviour, IPoolObject
     [SerializeField]
     private LayerMask layersWhichCanBeStucked;
 
-    private BoxCollider boxCollider;
     float maxDistance;
     float maxXScale;
-    float yOffeset;
+    float yOffset;
     #region API
     public void Setup()
     {
         boxCollider = GetComponent<BoxCollider>();
         Vector3 bottomLeftCorner = new Vector3(boxCollider.bounds.min.x, boxCollider.bounds.min.y, transform.position.z);
         Vector3 bottomRightCorner = new Vector3(boxCollider.bounds.max.x, boxCollider.bounds.min.y, transform.position.z);
-        yOffeset = boxCollider.bounds.size.y * 0.5f;
+        yOffset = boxCollider.bounds.size.y * 0.5f;
         maxDistance = Vector3.Distance(bottomLeftCorner, bottomRightCorner);
         maxXScale = transform.localScale.x;
         checkSpaceRaySpacing = CalculateRaySpacing(checkSpaceRayCount);
@@ -97,6 +101,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             if (OnObjectSpawn != null)
                 OnObjectSpawn(this);
 
+            gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
             StartCoroutine(DespawnCoroutine());
             StartCoroutine(CheckCollisionCoroutine(_rightPosition, _leftPostion));
         }
@@ -113,7 +118,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public Vector3 CheckSpace(Vector3 _normal, int _direction)
     {
         float rayLenght = 0.3f;
-        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.forward.normalized * yOffeset;
+        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.forward.normalized * yOffset;
         Vector3 previewRayOrigin = maxCenterPoint;
 
         for (int i = 0; i < checkSpaceRayCount; i++)
@@ -123,13 +128,19 @@ public class StickyObject : MonoBehaviour, IPoolObject
             rayOrigin += transform.right * _direction * (checkSpaceRaySpacing * 0.5f * i);
 
             //Crea il ray
-            Ray ray = new Ray(rayOrigin, -_normal);
+            Ray ray = new Ray(rayOrigin, -transform.forward);
             RaycastHit hit;
+
+            //Eseguo il raycast
+            if (Physics.Raycast(ray, out hit, rayLenght, avoidStickyObjectLayer))
+            {
+                if (hit.transform.gameObject != gameObject)
+                    break;
+            }
 
             //Eseguo il raycast
             if (Physics.Raycast(ray, out hit, rayLenght, stickyObjectCollisionLayer))
             {
-                //rayLenght = hit.distance;
                 previewRayOrigin = rayOrigin;
             }
             else
@@ -190,6 +201,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             stickyList[i].GIStickyRef.OnStickyEnd();
         }
         stickyList.Clear();
+        gameObject.layer = LayerMask.NameToLayer("Sticky");
         if (OnObjectDestroy != null)
             OnObjectDestroy(this);
     }
@@ -223,7 +235,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     {
         //Calcolo lo spazio tra un ray e l'altro
         checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
-        Vector3 rightPositionFixY = _rightPosition - transform.forward.normalized * yOffeset;
+        Vector3 rightPositionFixY = _rightPosition;
 
         while (CurrentState == State.InUse)
         {

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4066627015925322}
   - component: {fileID: 114314481716261678}
   - component: {fileID: 65069642625816246}
+  - component: {fileID: 65372765478826074}
   m_Layer: 13
   m_Name: StickyObject
   m_TagString: Untagged
@@ -50,14 +51,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1910663658558934}
-  m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: -3.1, y: -0.1, z: 2.16}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 10, z: 10}
   m_Children:
   - {fileID: 4847489466284258}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4847489466284258
 Transform:
   m_ObjectHideFlags: 1
@@ -82,7 +83,19 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.17561837, y: 0.18069945, z: 0.007230984}
-  m_Center: {x: -0.00066568854, y: -0.002496487, z: -0.000063401094}
+  m_Center: {x: -0, y: 0, z: 0}
+--- !u!65 &65372765478826074
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910663658558934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.17561837, y: 0.18069948, z: 0.0058139917}
+  m_Center: {x: 0, y: 3.2458958e-17, z: -0.0063454453}
 --- !u!114 &114314481716261678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,12 +108,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 5
+  boxCollider: {fileID: 65069642625816246}
   minRange: 1
   checkSpaceRayCount: 10
   stickyObjectCollisionLayer:
     serializedVersion: 2
     m_Bits: 1024
-  checkStuckedObjectsRayCount: 30
+  avoidStickyObjectLayer:
+    serializedVersion: 2
+    m_Bits: 16384
+  checkStuckedObjectsRayCount: 50
   rayRequiredStuckObject: 3
   layersWhichCanBeStucked:
     serializedVersion: 2
