@@ -29,7 +29,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1526682150006846
 GameObject:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1314380001880374}
   m_LocalRotation: {x: 0.026787622, y: 0, z: 0, w: 0.9996412}
-  m_LocalPosition: {x: -3.05, y: 2.1533403, z: -14.978473}
+  m_LocalPosition: {x: -3.05, y: 3.243684, z: -14.919994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4759210349201766}
@@ -93,7 +93,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 3, y: 0, z: 0}
 --- !u!4 &4759210349201766
 Transform:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526682150006846}
@@ -153,7 +153,7 @@ AudioListener:
   m_Enabled: 1
 --- !u!114 &114283745531718116
 MonoBehaviour:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526682150006846}
@@ -176,7 +176,7 @@ MonoBehaviour:
   profile: {fileID: 11400000, guid: 7a70be306151ca345b9430345e2f7258, type: 2}
 --- !u!114 &114542558537565686
 MonoBehaviour:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526682150006846}
@@ -192,16 +192,16 @@ MonoBehaviour:
   m_YDamping: 1.5
   m_ZDamping: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.6
   m_CameraDistance: 15
   m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0.1
+  m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
-  m_BiasY: -0.099999994
+  m_BiasY: -0.09999998
   m_GroupFramingMode: 2
   m_AdjustmentMode: 2
   m_GroupFramingSize: 0.8

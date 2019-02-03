@@ -129,7 +129,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             //Eseguo il raycast
             if (Physics.Raycast(ray, out hit, rayLenght, stickyObjectCollisionLayer))
             {
-                rayLenght = hit.distance;
+                //rayLenght = hit.distance;
                 previewRayOrigin = rayOrigin;
             }
             else
