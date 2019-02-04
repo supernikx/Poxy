@@ -25,7 +25,7 @@ namespace StateMachine.PlayerSM
         bool parasitePressed;
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis() && !parasitePressed)
+            if (Input.GetButtonDown("Parasite") && !parasitePressed)
             {
                 IEnemy e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)

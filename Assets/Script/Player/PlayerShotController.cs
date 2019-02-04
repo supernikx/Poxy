@@ -51,7 +51,9 @@ public class PlayerShotController : MonoBehaviour
         }
         else
         {
-            if (JoystickAim())
+            JoystickAim();
+
+            if (InputManager.GetRT())
             {
                 //Controllo se posso sparare
                 if (CheckFiringRate())
@@ -97,14 +99,14 @@ public class PlayerShotController : MonoBehaviour
     /// <summary>
     /// Funzione che muove l'arma in base alla direzione del right stick
     /// </summary>
-    private bool JoystickAim()
+    private void JoystickAim()
     {
         float rotationZ;
         //Prendo gli input
         Vector2 input = new Vector3(Input.GetAxisRaw("HorizontalJoystickRightStick"), Input.GetAxisRaw("VerticalJoystickRightStick"));
         //Se non muovo lo stick lascio l'arma nella posizione precedente
         if (input.x == 0 && input.y == 0)
-            return false;
+            return;
         //Prendo la direzione a cui devo mirare
         direction = new Vector3(input.x, input.y);
         //Calcolo la rotazione che deve fare il fucile
@@ -122,7 +124,6 @@ public class PlayerShotController : MonoBehaviour
             aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
-        return true;
     }
     #endregion
 
@@ -146,7 +147,7 @@ public class PlayerShotController : MonoBehaviour
     /// </summary>
     private void ShotStunBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.StickyBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
             bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint, direction);

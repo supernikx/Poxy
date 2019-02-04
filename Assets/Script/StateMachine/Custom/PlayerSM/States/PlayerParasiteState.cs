@@ -16,7 +16,6 @@ namespace StateMachine.PlayerSM
 
             parasitePressed = false;
             healthMax = false;
-            ltWasDown = true; //Imposta il tasto del controller come premuto
 
             context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
             context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
@@ -31,13 +30,13 @@ namespace StateMachine.PlayerSM
         bool parasitePressed;
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") || CheckJoystickLTAxis() && !parasitePressed)
+            if (Input.GetButtonDown("Parasite") && !parasitePressed)
             {
                 parasitePressed = true;
                 context.player.StartNormalCoroutine();
             }
 
-            if (Input.GetButtonDown("RightMouse") || CheckJoystickRTAxis())
+            if (Input.GetButtonDown("SwitchFire"))
             {
                 //Cambio tipo di sparo
                 context.player.GetShotController().ChangeShotType();
