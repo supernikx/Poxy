@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(EnemyManager _enemyMng)
+    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
 
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)
-            parasiteCtrl.Init(this, _enemyMng);
+            parasiteCtrl.Init(this, _enemyMng, _platformMng);
 
         healthCtrl = GetComponent<PlayerHealthController>();
         if (healthCtrl != null)
@@ -111,6 +111,42 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckDamageCollision(true);
         if (playerSM.OnPlayerParaiste != null)
             playerSM.OnPlayerParaiste(_e);
+    }
+
+    /// <summary>
+    /// Funzione che attiva la coroutine ParasitePlatformCoroutine
+    /// </summary>
+    /// <param name="e"></param>
+    public void StartParasitePlatformCoroutine(LaunchingPlatform _e)
+    {
+        StartCoroutine(ParasitePlatformCoroutine(_e));
+    }
+    /// <summary>
+    /// Coroutine che manda il player in stato parassita rispetto alla piattaforma
+    /// </summary>
+    /// <param name="_e"></param>
+    /// <returns></returns>
+    private IEnumerator ParasitePlatformCoroutine(LaunchingPlatform _e)
+    {
+        /*
+        parasiteCtrl.SetParasiteEnemy(_e);
+        shootCtrl.SetEnemyShot(_e.GetShotType());
+        _e.Parasite(this);
+        collisionCtrl.CheckDamageCollision(false);
+
+        #region Animazione(per ora fatta a caso)
+        Vector3 enemyPosition = _e.gameObject.transform.position;
+        enemyPosition.z = transform.position.z;
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
+        yield return sequence.WaitForCompletion();
+        #endregion
+
+        ChangeGraphics(_e.GetGraphics());
+        collisionCtrl.CheckDamageCollision(true);
+        if (playerSM.OnPlayerParaiste != null)
+            playerSM.OnPlayerParaiste(_e);*/
+        yield return null;
     }
 
     /// <summary>

@@ -8,17 +8,21 @@ public class PlayerParasiteController : MonoBehaviour
     float parasiteRange;
 
     EnemyManager enemyMng;
+    PlatformManager platformMng;
     Player player;
     IEnemy parasiteEnemy;
+    // eliminare se non serve
+    LaunchingPlatform parasitePlatform;
 
     #region API
     /// <summary>
     /// Funzione di inizializzazione
     /// </summary>
     /// <param name="_player"></param>
-    public void Init(Player _player, EnemyManager _enemyMng)
+    public void Init(Player _player, EnemyManager _enemyMng, PlatformManager _platformMng)
     {
         enemyMng = _enemyMng;
+        platformMng = _platformMng;
         player = _player;
     }
 
@@ -26,9 +30,9 @@ public class PlayerParasiteController : MonoBehaviour
     /// Funzione che controlla se si può possedere un nemico
     /// </summary>
     /// <returns></returns>
-    public IEnemy CheckParasite()
+    public IControllable CheckParasite()
     {
-        IEnemy e = enemyMng.GetNearestStunnedEnemy(transform, parasiteRange);
+        IControllable e = enemyMng.GetNearestStunnedEnemy(transform, parasiteRange);
         return e;
     }
 

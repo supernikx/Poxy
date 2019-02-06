@@ -7,7 +7,7 @@ using DG.Tweening;
 [RequireComponent(typeof(EnemyMovementController))]
 [RequireComponent(typeof(EnemyCollisionController))]
 [RequireComponent(typeof(EnemyViewController))]
-public abstract class EnemyBase : MonoBehaviour, IEnemy
+public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
 
     [Header("General Movement Settings")]
@@ -54,6 +54,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
     protected EnemyViewController viewCtrl;
+
+    protected ControllableType controllableType = ControllableType.Enemy;
 
     #region API
     /// <summary>
@@ -327,6 +329,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy
     public EnemyViewController GetViewCtrl()
     {
         return viewCtrl;
+    }
+
+    public ControllableType GetControllableType()
+    {
+        return controllableType;
     }
     #endregion
 

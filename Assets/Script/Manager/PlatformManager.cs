@@ -13,12 +13,17 @@ public class PlatformManager : MonoBehaviour
     [SerializeField]
     private Transform PlatformContainer;
 
-    private List<IPlatform> platforms = new List<IPlatform>();
-    private List<LaunchingPlatform> launchingPlatforms = new List<LaunchingPlatform>();
+    private List<IPlatform> platforms;
+    private List<LaunchingPlatform> launchingPlatforms;
+    private List<LaunchingPlatform> launchingPlatformsInUse;
 
     #region API
     public void Init()
     {
+        platforms = new List<IPlatform>();
+        launchingPlatforms = new List<LaunchingPlatform>();
+        launchingPlatformsInUse = new List<LaunchingPlatform>();
+
         for (int i = 0; i < PlatformContainer.childCount; i++)
         {
             IPlatform _current = PlatformContainer.GetChild(i).GetComponent<IPlatform>();
@@ -33,9 +38,27 @@ public class PlatformManager : MonoBehaviour
         }
     }
 
-    public LaunchingPlatform GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
+    public IControllable GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
     {
-        return null;
+        if (launchingPlatforms.Count <= 0 || launchingPlatforms == null)
+            return null;
+
+        IControllable target = null;
+        float minDistance = -1;
+        foreach (IControllable _current in launchingPlatforms)
+        {
+            float distance = Vector3.Distance(_pointTransform.position, _current.gameObject.transform.position);
+            if (_range <= distance)
+            {
+                if (minDistance == -1 || distance < minDistance)
+                {
+                    minDistance = distance;
+                    target = _current;
+                }
+            }
+        }
+
+        return target;
     }
     #endregion
 

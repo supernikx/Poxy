@@ -21,6 +21,8 @@ public class PlayerShotController : MonoBehaviour
     private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
     ShotSettings shotSettingsInUse;
 
+    //private bool canShot;
+
     /// <summary>
     /// Referenza al player
     /// </summary>

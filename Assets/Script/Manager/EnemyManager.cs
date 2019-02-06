@@ -112,14 +112,14 @@ public class EnemyManager : MonoBehaviour
     }
 
     #region API
-    public IEnemy GetNearestStunnedEnemy(Transform _pointTransform, float _range)
+    public IControllable GetNearestStunnedEnemy(Transform _pointTransform, float _range)
     {
         if (stunnedEnemies == null || stunnedEnemies.Count <= 0)
             return null;
 
-        IEnemy neartesEnemy = null;
+        IControllable neartesEnemy = null;
         float nearestDistance = -1;
-        foreach (IEnemy e in stunnedEnemies)
+        foreach (IControllable e in stunnedEnemies)
         {
             float distance = Vector3.Distance(_pointTransform.position, e.gameObject.transform.position);
             if (distance <= _range)
