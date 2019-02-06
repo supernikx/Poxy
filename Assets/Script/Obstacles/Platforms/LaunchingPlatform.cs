@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LaunchingPlatform : MonoBehaviour, IPlatform, IControllable
+public class LaunchingPlatform : Platform, IControllable
 {
+    [Header("Platform Specific Settings")]
+    [SerializeField]
+    private GameObject graphics;
+
     private ControllableType controllableType = ControllableType.Platform;
 
-    public void Init()
+    //vuota per ora
+    public override void Init()
     {
 
     }
@@ -14,6 +19,11 @@ public class LaunchingPlatform : MonoBehaviour, IPlatform, IControllable
     public ControllableType GetControllableType()
     {
         return controllableType;
+    }
+
+    public GameObject GetGraphics()
+    {
+        return graphics;
     }
     #endregion
 }

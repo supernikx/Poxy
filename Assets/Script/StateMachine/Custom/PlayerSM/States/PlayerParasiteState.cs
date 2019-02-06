@@ -8,21 +8,24 @@ namespace StateMachine.PlayerSM
     public class PlayerParasiteState : PlayerSMStateBase
     {
         private bool healthMax;
+        private IEnemy parasiteEnemy;
 
         public override void Enter()
         {
+            parasiteEnemy = context.parasite as IEnemy;
+
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
+            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
 
             parasitePressed = false;
             healthMax = false;
 
-            context.parasiteEnemy.gameObject.transform.parent = context.player.transform;
-            context.parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
-            context.parasiteEnemy.gameObject.transform.localRotation = Quaternion.identity;
-            context.parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
+            parasiteEnemy.gameObject.transform.parent = context.player.transform;
+            parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
+            parasiteEnemy.gameObject.transform.localRotation = Quaternion.identity;
+            parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
 
-            context.player.GetCollisionController().CalculateParasiteCollision(context.parasiteEnemy);
+            context.player.GetCollisionController().CalculateParasiteCollision(parasiteEnemy);
             context.player.GetMovementController().SetCanMove(true);
             context.player.GetShotController().SetCanShootDamage(true);
         }
@@ -53,7 +56,7 @@ namespace StateMachine.PlayerSM
         public override void Exit()
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
+            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
             context.player.GetParasiteController().SetParasiteEnemy(null);
 
             context.player.GetCollisionController().CalculateNormalCollision();
@@ -72,7 +75,7 @@ namespace StateMachine.PlayerSM
         private void OnEnemyCollision(IEnemy _enemy)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.parasiteEnemy.GetToleranceCtrl().AddTolerance(_enemy.GetDamage());
+            parasiteEnemy.GetToleranceCtrl().AddTolerance(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }

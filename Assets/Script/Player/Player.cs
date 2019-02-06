@@ -109,8 +109,8 @@ public class Player : MonoBehaviour
 
         ChangeGraphics(_e.GetGraphics());
         collisionCtrl.CheckDamageCollision(true);
-        if (playerSM.OnPlayerParaiste != null)
-            playerSM.OnPlayerParaiste(_e);
+        if (playerSM.OnPlayerEnemyParaiste != null)
+            playerSM.OnPlayerEnemyParaiste(_e as IControllable);
     }
 
     /// <summary>
@@ -128,25 +128,22 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ParasitePlatformCoroutine(LaunchingPlatform _e)
     {
-        /*
-        parasiteCtrl.SetParasiteEnemy(_e);
-        shootCtrl.SetEnemyShot(_e.GetShotType());
-        _e.Parasite(this);
+        parasiteCtrl.SetParasitePlatform(_e);
+        //_e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
 
         #region Animazione(per ora fatta a caso)
-        Vector3 enemyPosition = _e.gameObject.transform.position;
-        enemyPosition.z = transform.position.z;
+        Vector3 platformPosition = _e.gameObject.transform.position;
+        platformPosition.z = transform.position.z;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
+        sequence.Append(transform.DOJump(platformPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
         yield return sequence.WaitForCompletion();
         #endregion
 
         ChangeGraphics(_e.GetGraphics());
         collisionCtrl.CheckDamageCollision(true);
-        if (playerSM.OnPlayerParaiste != null)
-            playerSM.OnPlayerParaiste(_e);*/
-        yield return null;
+        if (playerSM.OnPlayerPlatformParaiste != null)
+            playerSM.OnPlayerPlatformParaiste(_e);
     }
 
     /// <summary>
@@ -163,7 +160,7 @@ public class Player : MonoBehaviour
     private IEnumerator NormalCoroutine()
     {
         ChangeGraphics(playerGraphic);
-        parasiteCtrl.GetParasiteEnemy().EndParasite();
+        //parasiteCtrl.GetParasiteEnemy().EndParasite();
         movementCtrl.Eject();
 
         #region Animazione (per ora fatta a caso)

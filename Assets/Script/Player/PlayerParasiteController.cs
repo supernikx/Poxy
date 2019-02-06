@@ -11,7 +11,6 @@ public class PlayerParasiteController : MonoBehaviour
     PlatformManager platformMng;
     Player player;
     IEnemy parasiteEnemy;
-    // eliminare se non serve
     LaunchingPlatform parasitePlatform;
 
     #region API
@@ -33,7 +32,27 @@ public class PlayerParasiteController : MonoBehaviour
     public IControllable CheckParasite()
     {
         IControllable e = enemyMng.GetNearestStunnedEnemy(transform, parasiteRange);
-        return e;
+        IControllable p = platformMng.GetNearestLaunchingPlatform(transform, parasiteRange);
+        if (e == null && p == null)
+        {
+            return null;
+        }
+        else if (e != null && p == null)
+        {
+            return e;
+        }
+        else if (e == null && p != null) 
+        {
+            return p;
+        }
+        else if (e != null && p != null)
+        {
+            float distanceE = Vector3.Distance(transform.position, e.gameObject.transform.position);
+            float distanceP = Vector3.Distance(transform.position, p.gameObject.transform.position);
+
+            return (distanceE <= distanceP) ? e : p;
+        }
+        return null;
     }
 
     #region Setters
@@ -45,6 +64,11 @@ public class PlayerParasiteController : MonoBehaviour
     {
         parasiteEnemy = _enemy;
     }
+
+    public void SetParasitePlatform(LaunchingPlatform _platform)
+    {
+        parasitePlatform = _platform;
+    }
     #endregion
 
     #region Getters
@@ -55,6 +79,11 @@ public class PlayerParasiteController : MonoBehaviour
     public IEnemy GetParasiteEnemy()
     {
         return parasiteEnemy;
+    }
+
+    public LaunchingPlatform GetParasitePlatform()
+    {
+        return parasitePlatform;
     }
     #endregion
     #endregion

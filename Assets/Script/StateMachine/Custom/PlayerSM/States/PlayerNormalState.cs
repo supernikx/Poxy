@@ -41,6 +41,7 @@ namespace StateMachine.PlayerSM
                             parasitePressed = true;
                             context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);  
                             context.player.GetMovementController().SetCanMove(false);
+                            context.player.GetShotController().SetCanShoot(false);
                             break;
                         default:
                             break;
