@@ -21,6 +21,10 @@ public class LevelManager : MonoBehaviour
     /// Reference to Platform Manager
     /// </summary>
     private PlatformManager platformMng;
+    /// <summary>
+    /// Reference to Doors and Buttons Manager
+    /// </summary>
+    private DoorsButtonsManager doorsButtonsMng;
 
     private void Update()
     {
@@ -52,6 +56,10 @@ public class LevelManager : MonoBehaviour
         platformMng = GetComponent<PlatformManager>();
         if (platformMng != null)
             platformMng.Init();
+
+        doorsButtonsMng = GetComponent<DoorsButtonsManager>();
+        if (doorsButtonsMng != null)
+            doorsButtonsMng.Init();
 
         //Setup
         enemyMng.EnemiesSetup();

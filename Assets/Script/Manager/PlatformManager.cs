@@ -14,6 +14,7 @@ public class PlatformManager : MonoBehaviour
     private Transform PlatformContainer;
 
     private List<IPlatform> platforms = new List<IPlatform>();
+    private List<LaunchingPlatform> launchingPlatforms = new List<LaunchingPlatform>();
 
     #region API
     public void Init()
@@ -25,10 +26,19 @@ public class PlatformManager : MonoBehaviour
             {
                 platforms.Add(_current);
                 _current.Init();
+
+                if (_current is LaunchingPlatform)
+                    launchingPlatforms.Add(_current as LaunchingPlatform);
             }
         }
     }
+
+    public LaunchingPlatform GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
+    {
+        return null;
+    }
     #endregion
+
 
 }
 
