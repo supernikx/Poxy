@@ -207,6 +207,26 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che attiva la coroutine DeathCoroutine
+    /// </summary>
+    public void StartDeathCoroutine()
+    {
+        StartCoroutine(DeathCoroutine());
+    }
+    /// <summary>
+    /// Coroutine che manda il player in stato di morte
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeathCoroutine()
+    {
+        if (OnPlayerDeath != null)
+            OnPlayerDeath();
+        if (playerSM.OnPlayerDeath != null)
+            playerSM.OnPlayerDeath();
+        yield return null;
+    }
+
+    /// <summary>
     /// Funzione che cambia la grafica con quella passata come parametro
     /// </summary>
     /// <param name="_newGraphic"></param>

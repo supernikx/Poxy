@@ -25,6 +25,10 @@ public class LevelManager : MonoBehaviour
     /// Reference to Doors and Buttons Manager
     /// </summary>
     private DoorsButtonsManager doorsButtonsMng;
+    /// <summary>
+    /// Reference to Checkpoint Manager
+    /// </summary>
+    private CheckpointManager checkpointMng;
 
     private void Update()
     {
@@ -56,6 +60,10 @@ public class LevelManager : MonoBehaviour
         doorsButtonsMng = GetComponent<DoorsButtonsManager>();
         if (doorsButtonsMng != null)
             doorsButtonsMng.Init();
+
+        checkpointMng = GetComponent<CheckpointManager>();
+        if (checkpointMng != null)
+            checkpointMng.Init();
 
         player = FindObjectOfType<Player>();
         if (player != null)

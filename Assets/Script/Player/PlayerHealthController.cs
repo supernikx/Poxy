@@ -66,10 +66,7 @@ public class PlayerHealthController : MonoBehaviour
     {
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == minHealth && canDie)
-        {
-            if (player.OnPlayerDeath != null)
-                player.OnPlayerDeath();
-        }
+            player.StartDeathCoroutine();
     }
 
     /// <summary>
@@ -82,10 +79,7 @@ public class PlayerHealthController : MonoBehaviour
         {
             health = Mathf.Clamp(health - _health, minHealth, maxHealth);
             if (health == minHealth && canDie)
-            {
-                if (player.OnPlayerDeath != null)
-                    player.OnPlayerDeath();
-            }
+                player.StartDeathCoroutine();
         }
         else
         {
