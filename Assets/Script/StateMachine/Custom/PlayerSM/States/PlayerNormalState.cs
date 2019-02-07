@@ -27,12 +27,26 @@ namespace StateMachine.PlayerSM
         {
             if (Input.GetButtonDown("Parasite") && !parasitePressed)
             {
-                IEnemy e = context.player.GetParasiteController().CheckParasite();
+                IControllable e = context.player.GetParasiteController().CheckParasite();
                 if (e != null)
                 {
-                    parasitePressed = true;
-                    context.player.StartParasiteCoroutine(e);
-                    context.player.GetMovementController().SetCanMove(false);
+                    switch (e.GetControllableType())
+                    {
+                        case ControllableType.Enemy:
+                            parasitePressed = true;
+                            context.player.StartParasiteCoroutine(e as IEnemy);
+                            context.player.GetMovementController().SetCanMove(false);
+                            break;
+                        case ControllableType.Platform:
+                            parasitePressed = true;
+                            context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);  
+                            context.player.GetMovementController().SetCanMove(false);
+                            context.player.GetShotController().SetCanShoot(false);
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
                 else
                     Debug.Log("Non ci sono nemici stunnati nelle vicinanze");

@@ -8,8 +8,9 @@ namespace StateMachine.PlayerSM
     public class PlayerSMController : MonoBehaviour
     {
         #region Delegates
-        public delegate void PlayerParasiteEvent(IEnemy _enemy);
-        public PlayerParasiteEvent OnPlayerParaiste;
+        public delegate void PlayerParasiteEvent(IControllable _enemy);
+        public PlayerParasiteEvent OnPlayerEnemyParaiste;
+        public PlayerParasiteEvent OnPlayerPlatformParaiste;
 
         public delegate void PlayerNormalevent();
         public PlayerNormalevent OnPlayerNormal;
@@ -31,7 +32,8 @@ namespace StateMachine.PlayerSM
                     newstate.Setup(context);
             }
 
-            OnPlayerParaiste += HandlePlayerParasite;
+            OnPlayerEnemyParaiste += HandlePlayerEnemyParasite;
+            OnPlayerPlatformParaiste += HandlePlayerPlatformParasite;
             OnPlayerNormal += HandlePlayerNormal;
 
             _player.OnPlayerDeath += HandlePlayerDeath;
@@ -44,10 +46,16 @@ namespace StateMachine.PlayerSM
         /// Handler per mandare il player nello stato di parassita
         /// </summary>
         /// <param name="_enemy"></param>
-        private void HandlePlayerParasite(IEnemy _enemy)
+        private void HandlePlayerEnemyParasite(IControllable _enemy)
         {
-            context.parasiteEnemy = _enemy;
+            context.parasite = _enemy;
             playerSM.SetTrigger("GoToParasite");
+        }
+
+        private void HandlePlayerPlatformParasite(IControllable _platform)
+        {
+            context.parasite = _platform;
+            playerSM.SetTrigger("GoToPlatform");
         }
 
         /// <summary>
@@ -71,7 +79,7 @@ namespace StateMachine.PlayerSM
     public class PlayerSMContext : IStateMachineContext
     {
         public Player player;
-        public IEnemy parasiteEnemy;
+        public IControllable parasite;
 
         public PlayerSMContext(Player _player)
         {

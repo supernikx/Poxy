@@ -49,10 +49,6 @@ public class LevelManager : MonoBehaviour
         if (enemyMng != null)
             enemyMng.Init();
 
-        player = FindObjectOfType<Player>();
-        if (player != null)
-            player.Init(enemyMng);
-
         platformMng = GetComponent<PlatformManager>();
         if (platformMng != null)
             platformMng.Init();
@@ -60,6 +56,10 @@ public class LevelManager : MonoBehaviour
         doorsButtonsMng = GetComponent<DoorsButtonsManager>();
         if (doorsButtonsMng != null)
             doorsButtonsMng.Init();
+
+        player = FindObjectOfType<Player>();
+        if (player != null)
+            player.Init(enemyMng, platformMng);
 
         //Setup
         enemyMng.EnemiesSetup();
