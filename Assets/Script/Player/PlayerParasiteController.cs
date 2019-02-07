@@ -10,8 +10,11 @@ public class PlayerParasiteController : MonoBehaviour
     EnemyManager enemyMng;
     PlatformManager platformMng;
     Player player;
+    // sostituire con un solo IController
+    /*
     IEnemy parasiteEnemy;
-    LaunchingPlatform parasitePlatform;
+    LaunchingPlatform parasitePlatform*/
+    IControllable parasiteTarget;
 
     #region API
     /// <summary>
@@ -60,15 +63,15 @@ public class PlayerParasiteController : MonoBehaviour
     /// Funzione che setta il nemico posseduto
     /// </summary>
     /// <param name="_enemy"></param>
-    public void SetParasiteEnemy(IEnemy _enemy)
+    public void SetParasite(IControllable _parasite)
     {
-        parasiteEnemy = _enemy;
+        parasiteTarget = _parasite;
     }
-
+    /*
     public void SetParasitePlatform(LaunchingPlatform _platform)
     {
         parasitePlatform = _platform;
-    }
+    }*/
     #endregion
 
     #region Getters
@@ -76,15 +79,16 @@ public class PlayerParasiteController : MonoBehaviour
     /// Funzione che ritorna il nemico posseduto
     /// </summary>
     /// <returns></returns>
-    public IEnemy GetParasiteEnemy()
+    public IControllable GetParasite()
     {
-        return parasiteEnemy;
+        return parasiteTarget;
     }
 
+    /*
     public LaunchingPlatform GetParasitePlatform()
     {
         return parasitePlatform;
-    }
+    }*/
     #endregion
     #endregion
 

@@ -12,7 +12,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform = context.parasite as LaunchingPlatform;
 
         // ?? context.player.OnEnemyCollision += OnEnemyCollision;
-        //parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
+        parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
 
         parasitePressed = false;
         healthMax = false;
@@ -46,9 +46,10 @@ public class PlayerPlatformState : PlayerSMStateBase
     public override void Exit()
     {
         //context.player.OnEnemyCollision -= OnEnemyCollision;
-        //parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
+        if (parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar != null)
+            parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
 
-        context.player.GetParasiteController().SetParasiteEnemy(null);
+        context.player.GetParasiteController().SetParasite(null);
 
         context.player.GetCollisionController().CalculateNormalCollision();
 

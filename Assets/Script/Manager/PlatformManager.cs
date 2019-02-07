@@ -8,14 +8,38 @@ using System.Collections.Generic;
 
 public class PlatformManager : MonoBehaviour
 {
+    #region Delegates
+    public delegate void ParasiteEvent(LaunchingPlatform _platform);
+    public static ParasiteEvent OnParasite;
+    public static ParasiteEvent OnParasiteEnd;
+    #endregion
 
     [Header("Platforms Container")]
     [SerializeField]
     private Transform PlatformContainer;
+    [SerializeField]
+    private LayerMask defaultLayer;
 
     private List<IPlatform> platforms;
     private List<LaunchingPlatform> launchingPlatforms;
     private List<LaunchingPlatform> launchingPlatformsInUse;
+
+    /// <summary>
+    /// Ritorna l'id del layer corrispondente alla layer mask
+    /// </summary>
+    /// <param name="_layerMask"></param>
+    /// <returns></returns>
+    private int LayerMaskToLayer(LayerMask _layerMask)
+    {
+        int layerNumber = 0;
+        int layer = defaultLayer.value;
+        while (layer > 0)
+        {
+            layer = layer >> 1;
+            layerNumber++;
+        }
+        return layerNumber - 1;
+    }
 
     #region API
     public void Init()
@@ -36,6 +60,9 @@ public class PlatformManager : MonoBehaviour
                     launchingPlatforms.Add(_current as LaunchingPlatform);
             }
         }
+
+        OnParasite += HandleOnParasite;
+        OnParasiteEnd += HandleOnParasiteEnd;
     }
 
     public IControllable GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
@@ -61,7 +88,20 @@ public class PlatformManager : MonoBehaviour
     }
     #endregion
 
+    #region Handlers
+    private void HandleOnParasite(LaunchingPlatform _platform)
+    {
+        launchingPlatformsInUse.Add(_platform);
+    }
 
+    private void HandleOnParasiteEnd(LaunchingPlatform _platform)
+    {
+        launchingPlatformsInUse.Remove(_platform);
+
+        _platform.gameObject.transform.parent = PlatformContainer;
+        _platform.gameObject.layer = LayerMaskToLayer(defaultLayer);
+    }
+    #endregion
 }
 
 public abstract class Platform : MonoBehaviour, IPlatform

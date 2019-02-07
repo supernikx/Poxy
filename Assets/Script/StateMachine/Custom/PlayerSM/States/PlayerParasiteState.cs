@@ -57,7 +57,7 @@ namespace StateMachine.PlayerSM
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
-            context.player.GetParasiteController().SetParasiteEnemy(null);
+            context.player.GetParasiteController().SetParasite(null);
 
             context.player.GetCollisionController().CalculateNormalCollision();
 

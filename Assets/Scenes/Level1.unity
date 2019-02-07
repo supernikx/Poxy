@@ -872,7 +872,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -110.81
+      value: -109.35
       objectReference: {fileID: 0}
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
       propertyPath: m_LocalPosition.y
@@ -917,6 +917,19 @@ Prefab:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
       propertyPath: m_LocalScale.x
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1198279032145018, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114746045794896908, guid: 809bc0e2658ba0e409207cf024f1f6b8,
+        type: 2}
+      propertyPath: respawnTime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 65595202905040224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 2}
@@ -1722,6 +1735,11 @@ Prefab:
       propertyPath: PlatformContainer
       value: 
       objectReference: {fileID: 78251670}
+    - target: {fileID: 114105362086096742, guid: 84526066e1e9c8a4093714f8e4e0d78a,
+        type: 2}
+      propertyPath: defaultLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84526066e1e9c8a4093714f8e4e0d78a, type: 2}
   m_IsPrefabAsset: 0
@@ -1825,6 +1843,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8,
     type: 2}
   m_PrefabInternal: {fileID: 583199768}
+--- !u!114 &1972251081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1972251079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f6252e9ba07fd4d9834042dc3a1e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToFill: 5
+  maxTolerance: 25
+  minTolerance: 0
+  ToleranceText: {fileID: 131800869}
+  tolerance: 0
+  inState: 0
 --- !u!65 &1972251082
 BoxCollider:
   m_ObjectHideFlags: 0

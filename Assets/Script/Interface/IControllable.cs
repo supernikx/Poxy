@@ -9,6 +9,8 @@ public interface IControllable
     GameObject gameObject { get; }
 
     ControllableType GetControllableType();
+
+    void EndParasite();
 }
 
 public enum ControllableType

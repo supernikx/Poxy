@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ParasiteCoroutine(IEnemy _e)
     {
-        parasiteCtrl.SetParasiteEnemy(_e);
+        parasiteCtrl.SetParasite(_e as IControllable);
         shootCtrl.SetEnemyShot(_e.GetShotType());
         _e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
@@ -128,8 +128,8 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ParasitePlatformCoroutine(LaunchingPlatform _e)
     {
-        parasiteCtrl.SetParasitePlatform(_e);
-        //_e.Parasite(this);
+        parasiteCtrl.SetParasite(_e as IControllable);
+        _e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
 
         #region Animazione(per ora fatta a caso)
@@ -160,7 +160,7 @@ public class Player : MonoBehaviour
     private IEnumerator NormalCoroutine()
     {
         ChangeGraphics(playerGraphic);
-        //parasiteCtrl.GetParasiteEnemy().EndParasite();
+        parasiteCtrl.GetParasite().EndParasite();
         movementCtrl.Eject();
 
         #region Animazione (per ora fatta a caso)
