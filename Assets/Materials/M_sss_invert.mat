@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: M_sss_invert
   m_Shader: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHABLEND_ON _METALLICGLOSSMAP
+  m_ShaderKeywords: _ALPHABLEND_ON _DETAIL_MULX2 _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -25,24 +25,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.8, y: 1.5}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c12c38bec35091f46b7f1412fa010d06, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 18efe21c43d6e45428eabad1fb4eae2c, type: 3}
-        m_Scale: {x: 0.29, y: 0.2}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 1.48, y: 0}
+        m_Offset: {x: 0.92, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 335c919c58705aa42b2d59f06cbba7c3, type: 3}
-        m_Scale: {x: 0.29, y: 0.2}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 1.48, y: 0}
+        m_Offset: {x: 0.92, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: b55e8c707e714ce43946227f8560ea72, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -62,10 +62,10 @@ Material:
     m_Floats:
     - _BumpScale: 0.06
     - _Cutoff: 0
-    - _DetailNormalMapScale: -0.07
+    - _DetailNormalMapScale: 0.23
     - _DstBlend: 10
     - _GlossMapScale: 1
-    - _Glossiness: 0.466
+    - _Glossiness: 0.97
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 2
