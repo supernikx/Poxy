@@ -22,23 +22,6 @@ public class PlatformManager : MonoBehaviour
     private List<LaunchingPlatform> launchingPlatforms;
     private List<LaunchingPlatform> launchingPlatformsInUse;
 
-    /// <summary>
-    /// Ritorna l'id del layer corrispondente alla layer mask
-    /// </summary>
-    /// <param name="_layerMask"></param>
-    /// <returns></returns>
-    private int LayerMaskToLayer(LayerMask _layerMask)
-    {
-        int layerNumber = 0;
-        int layer = defaultLayer.value;
-        while (layer > 0)
-        {
-            layer = layer >> 1;
-            layerNumber++;
-        }
-        return layerNumber - 1;
-    }
-
     #region API
     public void Init()
     {

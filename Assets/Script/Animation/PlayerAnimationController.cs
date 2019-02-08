@@ -90,14 +90,11 @@ public class PlayerAnimationController : MonoBehaviour
                 BodyMovement(false);
             }
         }
-        else
+        else if (!collisionCtrl.GetCollisionInfo().below && !jumping)
         {
-            if (!jumping && (_movementVelocity.y < -0.001f || _movementVelocity.y > 0.001f))
-            {
-                jumping = true;
-                BodyJump(true);
-                HeadJump(true);
-            }
+            jumping = true;
+            BodyJump(true);
+            HeadJump(true);
         }
     }
     #endregion
