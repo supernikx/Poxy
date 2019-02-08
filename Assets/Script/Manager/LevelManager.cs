@@ -21,6 +21,10 @@ public class LevelManager : MonoBehaviour
     /// Reference to Platform Manager
     /// </summary>
     private PlatformManager platformMng;
+    /// <summary>
+    /// Reference to Doors and Buttons Manager
+    /// </summary>
+    private DoorsButtonsManager doorsButtonsMng;
 
     private void Update()
     {
@@ -45,13 +49,17 @@ public class LevelManager : MonoBehaviour
         if (enemyMng != null)
             enemyMng.Init();
 
-        player = FindObjectOfType<Player>();
-        if (player != null)
-            player.Init(enemyMng);
-
         platformMng = GetComponent<PlatformManager>();
         if (platformMng != null)
             platformMng.Init();
+
+        doorsButtonsMng = GetComponent<DoorsButtonsManager>();
+        if (doorsButtonsMng != null)
+            doorsButtonsMng.Init();
+
+        player = FindObjectOfType<Player>();
+        if (player != null)
+            player.Init(enemyMng, platformMng);
 
         //Setup
         enemyMng.EnemiesSetup();

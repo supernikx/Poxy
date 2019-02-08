@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(EnemyManager _enemyMng)
+    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
 
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)
-            parasiteCtrl.Init(this, _enemyMng);
+            parasiteCtrl.Init(this, _enemyMng, _platformMng);
 
         healthCtrl = GetComponent<PlayerHealthController>();
         if (healthCtrl != null)
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ParasiteCoroutine(IEnemy _e)
     {
-        parasiteCtrl.SetParasiteEnemy(_e);
+        parasiteCtrl.SetParasite(_e as IControllable);
         shootCtrl.SetEnemyShot(_e.GetShotType());
         _e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
@@ -109,8 +109,41 @@ public class Player : MonoBehaviour
 
         ChangeGraphics(_e.GetGraphics());
         collisionCtrl.CheckDamageCollision(true);
-        if (playerSM.OnPlayerParaiste != null)
-            playerSM.OnPlayerParaiste(_e);
+        if (playerSM.OnPlayerEnemyParaiste != null)
+            playerSM.OnPlayerEnemyParaiste(_e as IControllable);
+    }
+
+    /// <summary>
+    /// Funzione che attiva la coroutine ParasitePlatformCoroutine
+    /// </summary>
+    /// <param name="e"></param>
+    public void StartParasitePlatformCoroutine(LaunchingPlatform _e)
+    {
+        StartCoroutine(ParasitePlatformCoroutine(_e));
+    }
+    /// <summary>
+    /// Coroutine che manda il player in stato parassita rispetto alla piattaforma
+    /// </summary>
+    /// <param name="_e"></param>
+    /// <returns></returns>
+    private IEnumerator ParasitePlatformCoroutine(LaunchingPlatform _e)
+    {
+        parasiteCtrl.SetParasite(_e as IControllable);
+        _e.Parasite(this);
+        collisionCtrl.CheckDamageCollision(false);
+
+        #region Animazione(per ora fatta a caso)
+        Vector3 platformPosition = _e.gameObject.transform.position;
+        platformPosition.z = transform.position.z;
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOJump(platformPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
+        yield return sequence.WaitForCompletion();
+        #endregion
+
+        ChangeGraphics(_e.GetGraphics());
+        collisionCtrl.CheckDamageCollision(true);
+        if (playerSM.OnPlayerPlatformParaiste != null)
+            playerSM.OnPlayerPlatformParaiste(_e);
     }
 
     /// <summary>
@@ -127,7 +160,7 @@ public class Player : MonoBehaviour
     private IEnumerator NormalCoroutine()
     {
         ChangeGraphics(playerGraphic);
-        parasiteCtrl.GetParasiteEnemy().EndParasite();
+        parasiteCtrl.GetParasite().EndParasite();
         movementCtrl.Eject();
 
         #region Animazione (per ora fatta a caso)

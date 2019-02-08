@@ -8,16 +8,46 @@ using System.Collections.Generic;
 
 public class PlatformManager : MonoBehaviour
 {
+    #region Delegates
+    public delegate void ParasiteEvent(LaunchingPlatform _platform);
+    public static ParasiteEvent OnParasite;
+    public static ParasiteEvent OnParasiteEnd;
+    #endregion
 
     [Header("Platforms Container")]
     [SerializeField]
     private Transform PlatformContainer;
+    [SerializeField]
+    private LayerMask defaultLayer;
 
-    private List<IPlatform> platforms = new List<IPlatform>();
+    private List<IPlatform> platforms;
+    private List<LaunchingPlatform> launchingPlatforms;
+    private List<LaunchingPlatform> launchingPlatformsInUse;
+
+    /// <summary>
+    /// Ritorna l'id del layer corrispondente alla layer mask
+    /// </summary>
+    /// <param name="_layerMask"></param>
+    /// <returns></returns>
+    private int LayerMaskToLayer(LayerMask _layerMask)
+    {
+        int layerNumber = 0;
+        int layer = defaultLayer.value;
+        while (layer > 0)
+        {
+            layer = layer >> 1;
+            layerNumber++;
+        }
+        return layerNumber - 1;
+    }
 
     #region API
     public void Init()
     {
+        platforms = new List<IPlatform>();
+        launchingPlatforms = new List<LaunchingPlatform>();
+        launchingPlatformsInUse = new List<LaunchingPlatform>();
+
         for (int i = 0; i < PlatformContainer.childCount; i++)
         {
             IPlatform _current = PlatformContainer.GetChild(i).GetComponent<IPlatform>();
@@ -25,11 +55,53 @@ public class PlatformManager : MonoBehaviour
             {
                 platforms.Add(_current);
                 _current.Init();
+
+                if (_current is LaunchingPlatform)
+                    launchingPlatforms.Add(_current as LaunchingPlatform);
             }
         }
+
+        OnParasite += HandleOnParasite;
+        OnParasiteEnd += HandleOnParasiteEnd;
+    }
+
+    public IControllable GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
+    {
+        if (launchingPlatforms.Count <= 0 || launchingPlatforms == null)
+            return null;
+
+        IControllable target = null;
+        float minDistance = -1;
+        foreach (IControllable _current in launchingPlatforms)
+        {
+            float distance = Vector3.Distance(_pointTransform.position, _current.gameObject.transform.position);
+            if (_range >= distance && !launchingPlatformsInUse.Contains(_current as LaunchingPlatform))
+            {
+                if (minDistance == -1 || distance < minDistance)
+                {
+                    minDistance = distance;
+                    target = _current;
+                }
+            }
+        }
+        return target;
     }
     #endregion
 
+    #region Handlers
+    private void HandleOnParasite(LaunchingPlatform _platform)
+    {
+        launchingPlatformsInUse.Add(_platform);
+    }
+
+    private void HandleOnParasiteEnd(LaunchingPlatform _platform)
+    {
+        launchingPlatformsInUse.Remove(_platform);
+
+        _platform.gameObject.transform.parent = PlatformContainer;
+        _platform.gameObject.layer = LayerMaskToLayer(defaultLayer);
+    }
+    #endregion
 }
 
 public abstract class Platform : MonoBehaviour, IPlatform

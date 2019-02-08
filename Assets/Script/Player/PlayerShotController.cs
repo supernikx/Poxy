@@ -21,6 +21,8 @@ public class PlayerShotController : MonoBehaviour
     private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
     ShotSettings shotSettingsInUse;
 
+    //private bool canShot;
+
     /// <summary>
     /// Referenza al player
     /// </summary>
@@ -33,32 +35,41 @@ public class PlayerShotController : MonoBehaviour
     /// Boolean che definisce se posso sparare o no
     /// </summary>
     bool canShotDamage;
+    /// <summary>
+    /// Boolean che definisce se posso stunnare o no
+    /// </summary>
+    bool canShot;
 
     void Update()
     {
-        if (UseMouseInput())
+        // non so se mettere il bool solo per controllare che possa sparare stun possa rompere qualcosa,
+        // eventualmente si cambia venerdì
+        if (canShot)
         {
-            MouseAim();
-
-            if (Input.GetButton("LeftMouse"))
+            if (UseMouseInput())
             {
-                //Controllo se posso sparare
-                if (CheckFiringRate())
+                MouseAim();
+
+                if (Input.GetButton("LeftMouse"))
                 {
-                    Shot();
+                    //Controllo se posso sparare
+                    if (CheckFiringRate())
+                    {
+                        Shot();
+                    }
                 }
             }
-        }
-        else
-        {
-            JoystickAim();
-
-            if (InputManager.GetRT())
+            else
             {
-                //Controllo se posso sparare
-                if (CheckFiringRate())
+                JoystickAim();
+
+                if (InputManager.GetRT())
                 {
-                    Shot();
+                    //Controllo se posso sparare
+                    if (CheckFiringRate())
+                    {
+                        Shot();
+                    }
                 }
             }
         }
@@ -200,6 +211,7 @@ public class PlayerShotController : MonoBehaviour
         player = _player;
         pool = _poolManager;
         canShotDamage = false;
+        canShot = true;
     }
 
     /// <summary>
@@ -210,6 +222,11 @@ public class PlayerShotController : MonoBehaviour
     public void SetCanShootDamage(bool _canShoot)
     {
         canShotDamage = _canShoot;
+    }
+
+    public void SetCanShoot(bool _newValue)
+    {
+        canShot = _newValue;
     }
 
     /// <summary>
