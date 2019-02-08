@@ -6,6 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerCollisionController))]
 public class PlayerMovementController : MonoBehaviour
 {
+    #region Delegates
+    public delegate void MovementDelegate(Vector3 _movementVelocity);
+    public static MovementDelegate OnMovement;
+    #endregion
+
     [Header("Movement Settings")]
     [Header("Ground Settings")]
     /// <summary>
@@ -118,7 +123,11 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
 
         //Mi muovo
-        transform.Translate(collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime));
+        Vector3 movementVelocityCollision = collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime);
+        transform.Translate(movementVelocityCollision);
+
+        if (OnMovement != null)
+            OnMovement(movementVelocityCollision);
     }
 
     /// <summary>

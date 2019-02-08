@@ -17,8 +17,6 @@ public class PlatformManager : MonoBehaviour
     [Header("Platforms Container")]
     [SerializeField]
     private Transform PlatformContainer;
-    [SerializeField]
-    private LayerMask defaultLayer;
 
     private List<IPlatform> platforms;
     private List<LaunchingPlatform> launchingPlatforms;
@@ -99,7 +97,6 @@ public class PlatformManager : MonoBehaviour
         launchingPlatformsInUse.Remove(_platform);
 
         _platform.gameObject.transform.parent = PlatformContainer;
-        _platform.gameObject.layer = LayerMaskToLayer(defaultLayer);
     }
     #endregion
 }

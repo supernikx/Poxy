@@ -22,9 +22,7 @@ namespace StateMachine.EnemySM
         /// Function that activate on state enter
         /// </summary>
         public override void Enter()
-        {
-            //Giusto per notare il cambio di stato nella build (da togliere)
-            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.black;            
+        {          
             stunDuration = context.enemy.GetStunDuration();
             timer = 0;
             start = true;

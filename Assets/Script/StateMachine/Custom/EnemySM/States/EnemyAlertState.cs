@@ -9,8 +9,6 @@ public class EnemyAlertState : EnemySMStateBase
 
     public override void Enter()
     {
-        //Giusto per notare il cambio di stato nella build (da togliere)
-        context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.green;
         viewCtrl = context.enemy.GetViewCtrl();
         context.enemy.AlertActions(true);
     }
