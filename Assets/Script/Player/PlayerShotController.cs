@@ -6,8 +6,8 @@ using System.Linq;
 public class PlayerShotController : MonoBehaviour
 {
     #region Delegates
-    private delegate void ShotDelegate();
-    ShotDelegate Shot;
+    public delegate void ShotDelegate();
+    public static ShotDelegate OnShot;
     #endregion
 
     [Header("Shoot Settings")]
@@ -55,7 +55,8 @@ public class PlayerShotController : MonoBehaviour
                     //Controllo se posso sparare
                     if (CheckFiringRate())
                     {
-                        Shot();
+                        if (OnShot != null)
+                            OnShot();
                     }
                 }
             }
@@ -68,7 +69,8 @@ public class PlayerShotController : MonoBehaviour
                     //Controllo se posso sparare
                     if (CheckFiringRate())
                     {
-                        Shot();
+                        if (OnShot != null)
+                            OnShot();
                     }
                 }
             }
@@ -238,13 +240,15 @@ public class PlayerShotController : MonoBehaviour
         //Controllo se posso cambiare tipo di sparo
         if (useStunBullets && canShotDamage)
         {
-            Shot = ShotEnemyBullet;
+            OnShot += ShotEnemyBullet;
+            OnShot -= ShotStunBullet;
             shotSettingsInUse = enemyShotSetting;
             useStunBullets = false;
         }
         else
         {
-            Shot = ShotStunBullet;
+            OnShot += ShotStunBullet;
+            OnShot -= ShotEnemyBullet;
             shotSettingsInUse = stunShotSettings;
             useStunBullets = true;
         }

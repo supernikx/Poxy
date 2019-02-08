@@ -43,6 +43,10 @@ public class Player : MonoBehaviour
     /// Reference to Health Controller
     /// </summary>
     private PlayerHealthController healthCtrl;
+    /// <summary>
+    /// Reference all'animation controller
+    /// </summary>
+    private PlayerAnimationController animCtrl;
 
     #region API
     /// <summary>
@@ -74,6 +78,10 @@ public class Player : MonoBehaviour
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)
             playerSM.Init(this);
+
+        animCtrl = GetComponentInChildren<PlayerAnimationController>();
+        if (animCtrl != null)
+            animCtrl.Init(collisionCtrl);
 
         //Setup cose locali
         graphic = playerGraphic;

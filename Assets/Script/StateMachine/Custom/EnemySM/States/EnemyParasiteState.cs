@@ -15,9 +15,6 @@ namespace StateMachine.EnemySM
             tolleranceCtrl.Setup();
 
             context.player.OnPlayerMaxHealth += PlayerMaxHealth;
-
-            //Giusto per notare il cambio di stato nella build (da togliere)
-            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
         }
 
         public override void Tick()

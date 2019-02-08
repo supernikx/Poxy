@@ -20,7 +20,8 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform.gameObject.transform.parent = context.player.transform;
         parasitePlatform.gameObject.transform.localPosition = Vector3.zero;
         parasitePlatform.gameObject.transform.localRotation = Quaternion.identity;
-        parasitePlatform.gameObject.layer = context.player.gameObject.layer;
+
+        context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
 
         //sbatta
         //context.player.GetCollisionController().CalculateParasiteCollision(parasitePlatform);
@@ -57,6 +58,8 @@ public class PlayerPlatformState : PlayerSMStateBase
         context.player.GetMovementController().SetCanMove(true);
         parasitePressed = false;
         healthMax = false;
+
+        context.player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     private void OnMaxTolleranceBar()

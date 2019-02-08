@@ -13,8 +13,6 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Enter()
         {
-            //Giusto per notare il cambio di stato nella build (da togliere)
-            context.enemy.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
             viewCtrl = context.enemy.GetViewCtrl();
 
             context.enemy.MoveRoaming(true);

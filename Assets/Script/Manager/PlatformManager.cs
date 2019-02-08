@@ -17,29 +17,10 @@ public class PlatformManager : MonoBehaviour
     [Header("Platforms Container")]
     [SerializeField]
     private Transform PlatformContainer;
-    [SerializeField]
-    private LayerMask defaultLayer;
 
     private List<IPlatform> platforms;
     private List<LaunchingPlatform> launchingPlatforms;
     private List<LaunchingPlatform> launchingPlatformsInUse;
-
-    /// <summary>
-    /// Ritorna l'id del layer corrispondente alla layer mask
-    /// </summary>
-    /// <param name="_layerMask"></param>
-    /// <returns></returns>
-    private int LayerMaskToLayer(LayerMask _layerMask)
-    {
-        int layerNumber = 0;
-        int layer = defaultLayer.value;
-        while (layer > 0)
-        {
-            layer = layer >> 1;
-            layerNumber++;
-        }
-        return layerNumber - 1;
-    }
 
     #region API
     public void Init()
@@ -99,7 +80,6 @@ public class PlatformManager : MonoBehaviour
         launchingPlatformsInUse.Remove(_platform);
 
         _platform.gameObject.transform.parent = PlatformContainer;
-        _platform.gameObject.layer = LayerMaskToLayer(defaultLayer);
     }
     #endregion
 }
