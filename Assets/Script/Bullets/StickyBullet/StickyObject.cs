@@ -58,7 +58,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private int checkStuckedObjectsRayCount = 4;
     private float checkStuckedObjectsRaySpacing;
     [SerializeField]
-    private int rayRequiredStuckObject;
+    private int horizontalRayRequiredStuckObject;
+    [SerializeField]
+    private int verticalRayRequiredStuckObject;
     [SerializeField]
     private LayerMask layersWhichCanBeStucked;
 
@@ -236,6 +238,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
         //Calcolo lo spazio tra un ray e l'altro
         checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
         Vector3 rightPositionFixY = _rightPosition;
+        Direction hitDirection = GetHitDirection();
+        int rayRequiredStuckObject = (hitDirection == Direction.Above || hitDirection == Direction.Below) ? horizontalRayRequiredStuckObject : verticalRayRequiredStuckObject;
 
         while (CurrentState == State.InUse)
         {
@@ -279,7 +283,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                             stickyList.Add(stickyInfo);
                         }
                     }
-                    else
+                    else if (!tempImmunityObjectList.Contains(objectHit))
                     {
                         //Se è resente aumento i ray che lo colpiscono di uno
                         stickyInfo.StickyRay++;
@@ -304,6 +308,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                     //Lo scollo chiamo la callback di fine sticky
                     stickyList[i].Sticky = false;
                     stickyList[i].GIStickyRef.OnStickyEnd();
+                    StartCoroutine(DelayTempListCoroutine(i));
                 }
                 //Se i ray che colpiscono l'oggetto sono 0
                 else if (stickyList[i].StickyRay == 0)
@@ -321,19 +326,28 @@ public class StickyObject : MonoBehaviour, IPoolObject
         }
     }
 
+    List<GameObject> tempImmunityObjectList = new List<GameObject>();
+    private IEnumerator DelayTempListCoroutine(int _index)
+    {
+        GameObject objectToAdd = stickyList[_index].Gobject;
+        tempImmunityObjectList.Add(objectToAdd);
+        yield return new WaitForSeconds(0.2f);
+        tempImmunityObjectList.Remove(objectToAdd);
+    }
+
     /// <summary>
     /// Funzione che ritorna la direzione opposta alla posizione attuale dell'oggetto
     /// </summary>
     /// <returns></returns>
     private Direction GetHitDirection()
     {
-        if (transform.right.y > 0.9f)
+        if (transform.right.y > 0.5f)
             return Direction.Left;
-        if (transform.right.y < -0.9f)
+        if (transform.right.y < -0.5f)
             return Direction.Right; ;
-        if (transform.right.x > 0.9f)
+        if (transform.right.x > 0.5f)
             return Direction.Above;
-        if (transform.right.x < -0.9f)
+        if (transform.right.x < -0.5f)
             return Direction.Below;
 
         return Direction.None;
