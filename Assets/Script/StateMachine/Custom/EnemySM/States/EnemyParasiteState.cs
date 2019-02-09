@@ -13,7 +13,7 @@ namespace StateMachine.EnemySM
         {
             tolleranceCtrl = context.enemy.GetToleranceCtrl();
             tolleranceCtrl.Setup();
-
+            context.enemy.SetCanStun(false);
             context.player.OnPlayerMaxHealth += PlayerMaxHealth;
         }
 
@@ -39,6 +39,7 @@ namespace StateMachine.EnemySM
             tolleranceCtrl.SetActive(false);
             tolleranceCtrl = null;
 
+            context.enemy.SetCanStun(true);
             context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
             context.enemy.gameObject.layer = context.enemy.GetEnemyDefaultLayer();
         }

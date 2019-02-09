@@ -33,6 +33,7 @@ namespace StateMachine.EnemySM
             context.enemy.ResetPosition();
             context.enemy.ResetLife();
             context.enemy.ResetStunHit();
+            context.enemy.SetCanStun(false);
 
             start = true;
         }
@@ -58,6 +59,7 @@ namespace StateMachine.EnemySM
         public override void Exit()
         {
             start = false;
+            context.enemy.SetCanStun(true);
             context.enemy.GetGraphics().SetActive(true);
             context.enemy.GetCollider().enabled = true;
         }

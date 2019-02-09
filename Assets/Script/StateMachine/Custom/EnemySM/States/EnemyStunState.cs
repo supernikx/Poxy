@@ -23,6 +23,7 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Enter()
         {          
+            context.enemy.SetCanStun(false);
             stunDuration = context.enemy.GetStunDuration();
             timer = 0;
             start = true;
@@ -51,6 +52,7 @@ namespace StateMachine.EnemySM
         {
             start = false;
             context.enemy.ResetStunHit();
+            context.enemy.SetCanStun(true);
         }
     }
 }

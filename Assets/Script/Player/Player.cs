@@ -103,6 +103,7 @@ public class Player : MonoBehaviour
     private IEnumerator ParasiteCoroutine(IEnemy _e)
     {
         parasiteCtrl.SetParasite(_e as IControllable);
+        shootCtrl.SetCanShoot(false);
         shootCtrl.SetEnemyShot(_e.GetShotType());
         _e.Parasite(this);
         collisionCtrl.CheckDamageCollision(false);
@@ -117,6 +118,7 @@ public class Player : MonoBehaviour
 
         ChangeGraphics(_e.GetGraphics());
         collisionCtrl.CheckDamageCollision(true);
+        shootCtrl.SetCanShoot(true);
         if (playerSM.OnPlayerEnemyParaiste != null)
             playerSM.OnPlayerEnemyParaiste(_e as IControllable);
     }
@@ -138,6 +140,7 @@ public class Player : MonoBehaviour
     {
         parasiteCtrl.SetParasite(_e as IControllable);
         _e.Parasite(this);
+        shootCtrl.SetCanShoot(false);
         collisionCtrl.CheckDamageCollision(false);
 
         #region Animazione(per ora fatta a caso)

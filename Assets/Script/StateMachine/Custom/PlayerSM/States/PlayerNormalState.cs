@@ -34,14 +34,13 @@ namespace StateMachine.PlayerSM
                     {
                         case ControllableType.Enemy:
                             parasitePressed = true;
-                            context.player.StartParasiteCoroutine(e as IEnemy);
                             context.player.GetMovementController().SetCanMove(false);
+                            context.player.StartParasiteCoroutine(e as IEnemy);
                             break;
                         case ControllableType.Platform:
                             parasitePressed = true;
-                            context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);  
                             context.player.GetMovementController().SetCanMove(false);
-                            context.player.GetShotController().SetCanShoot(false);
+                            context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);  
                             break;
                         default:
                             break;

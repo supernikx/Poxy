@@ -158,4 +158,8 @@ public interface IEnemy
     /// <returns></returns>
     int GetEnemyDefaultLayer();
     #endregion
+
+    #region Setter
+    void SetCanStun(bool _switc);
+    #endregion
 }

@@ -68,6 +68,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
         ResetLife();
         ResetStunHit();
+        SetCanStun(true);
 
         // Initialize Enemy State Machine
         enemySM = GetComponent<EnemySMController>();
@@ -91,7 +92,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             viewCtrl.Init();
 
         CalculatePathLenght();
-
     }
 
     #region Parasite
@@ -116,17 +116,21 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     #endregion
 
     #region Stun
+    bool canStun;
     /// <summary>
     /// Funzione che aumenta di 1 i colpi stun ricevuti dal nemico
     /// </summary>
     public void StunHit()
     {
-        if (stunHitGot < stunHit)
+        if (canStun)
         {
-            stunHitGot++;
-            if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
+            if (stunHitGot < stunHit)
             {
-                EnemyManager.OnEnemyStun(this);
+                stunHitGot++;
+                if (stunHitGot == stunHit && EnemyManager.OnEnemyStun != null)
+                {
+                    EnemyManager.OnEnemyStun(this);
+                }
             }
         }
     }
@@ -138,6 +142,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         if (enemySM.GoToStun != null)
             enemySM.GoToStun();
+    }
+
+    public void SetCanStun(bool _switch)
+    {
+        canStun = _switch;
     }
     #endregion
 
@@ -196,7 +205,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// Funzione che reimposta i dati con i valori di default
     /// </summary>
     public void ResetLife()
-    {        
+    {
         enemyLife = enemyStartLife;
     }
 
@@ -206,6 +215,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public void ResetPosition()
     {
         transform.position = startPosition;
+        graphics.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
     }
 
     /// <summary>
