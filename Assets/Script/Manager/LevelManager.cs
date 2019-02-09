@@ -67,7 +67,7 @@ public class LevelManager : MonoBehaviour
 
         player = FindObjectOfType<Player>();
         if (player != null)
-            player.Init(enemyMng, platformMng);
+            player.Init(enemyMng, platformMng, checkpointMng);
 
         //Setup
         enemyMng.EnemiesSetup();

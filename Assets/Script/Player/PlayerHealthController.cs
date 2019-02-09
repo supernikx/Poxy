@@ -54,9 +54,15 @@ public class PlayerHealthController : MonoBehaviour
     public void Init(Player _player)
     {
         lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
-        health = maxHealth;
 
         player = _player;
+
+        Setup();
+    }
+
+    public void Setup()
+    {
+        health = maxHealth;
     }
 
     /// <summary>

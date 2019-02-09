@@ -48,6 +48,11 @@ public class CheckpointManager : MonoBehaviour
     {
         return activeCheckpoint;
     }
+
+    public CheckpointBase GetInitialCheckpoint()
+    {
+        return initialCheckpoint;
+    }
     #endregion
 }
 

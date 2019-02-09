@@ -46,13 +46,17 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Reference all'animation controller
     /// </summary>
+    private PlayerLivesController livesCtrl;
+    /// <summary>
+    /// Reference all'animation controller
+    /// </summary>
     private PlayerAnimationController animCtrl;
 
     #region API
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng)
+    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng, CheckpointManager _checkpointMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -74,6 +78,10 @@ public class Player : MonoBehaviour
         healthCtrl = GetComponent<PlayerHealthController>();
         if (healthCtrl != null)
             healthCtrl.Init(this);
+
+        livesCtrl = GetComponent<PlayerLivesController>();
+        if (livesCtrl != null)
+            livesCtrl.Init(_checkpointMng);
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)
@@ -155,6 +163,12 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckDamageCollision(true);
         if (playerSM.OnPlayerPlatformParaiste != null)
             playerSM.OnPlayerPlatformParaiste(_e);
+    }
+
+    public void GoToNormalState()
+    {
+        if (playerSM.OnPlayerNormal != null)
+            playerSM.OnPlayerNormal();
     }
 
     /// <summary>
@@ -297,6 +311,11 @@ public class Player : MonoBehaviour
     public PlayerParasiteController GetParasiteController()
     {
         return parasiteCtrl;
+    }
+
+    public PlayerLivesController GetLivesController()
+    {
+        return livesCtrl;
     }
     /// <summary>
     /// Funzione che ritorna la grafica attiva del player
