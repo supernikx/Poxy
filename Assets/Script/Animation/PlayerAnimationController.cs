@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    Animator anim;
+    Animator playerAnim;
+    Animator animToUse;
     PlayerCollisionController collisionCtrl;
 
     public void Init(PlayerCollisionController _collisionCtrl)
     {
-        anim = GetComponentInChildren<Animator>();
+        animToUse = playerAnim = GetComponent<Animator>();
         collisionCtrl = _collisionCtrl;
 
         PlayerShotController.OnShot += ShotAnimation;
@@ -22,34 +23,34 @@ public class PlayerAnimationController : MonoBehaviour
     #region Head Animations
     private void HeadShot()
     {
-        anim.SetTrigger("HeadShot");
+        animToUse.SetTrigger("HeadShot");
     }
 
     private void HeadMovement(bool _enabled)
     {
-        anim.SetBool("HeadWalk", _enabled);
+        animToUse.SetBool("HeadWalk", _enabled);
     }
 
     private void HeadJump(bool _enabled)
     {
-        anim.SetBool("HeadJump", _enabled);
+        animToUse.SetBool("HeadJump", _enabled);
     }
     #endregion
 
     #region Body Animations
     private void BodyShot()
     {
-        anim.SetTrigger("BodyShot");
+        animToUse.SetTrigger("BodyShot");
     }
 
     private void BodyMovement(bool _enabled)
     {
-        anim.SetBool("BodyWalk", _enabled);
+        animToUse.SetBool("BodyWalk", _enabled);
     }
 
     private void BodyJump(bool _enabled)
     {
-        anim.SetBool("BodyJump", _enabled);
+        animToUse.SetBool("BodyJump", _enabled);
     }
     #endregion
 
@@ -97,5 +98,29 @@ public class PlayerAnimationController : MonoBehaviour
             HeadJump(true);
         }
     }
+
+    public void ResetAnimator()
+    {
+        animToUse = playerAnim;
+    }
+
+    #region Setter
+    public void SetAnimator(Animator _anim)
+    {
+        animToUse = _anim;
+    }
+    #endregion
+
+    #region Getter
+    public Animator GetPlayerAnimator()
+    {
+        return playerAnim;
+    }
+
+    public Animator GetCurrentAnimator()
+    {
+        return animToUse;
+    }
+    #endregion
     #endregion
 }

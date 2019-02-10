@@ -49,7 +49,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
-
+    protected EnemyAnimationController animCtrl;
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
@@ -86,6 +86,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         movementCtrl = GetComponent<EnemyMovementController>();
         if (movementCtrl != null)
             movementCtrl.Init(collisionCtrl);
+
+        animCtrl = GetComponentInChildren<EnemyAnimationController>();
+        if (animCtrl != null)
+            animCtrl.Init(collisionCtrl);
 
         viewCtrl = GetComponent<EnemyViewController>();
         if (viewCtrl != null)
@@ -323,6 +327,16 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         return movementCtrl;
     }
 
+
+    /// <summary>
+    /// Funzione che ritorna l'animation controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyAnimationController GetAnimationController()
+    {
+        return animCtrl;
+    }
+
     /// <summary>
     /// Funzione che ritorna il Collision Controller
     /// </summary>
@@ -341,6 +355,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         return viewCtrl;
     }
 
+    /// <summary>
+    /// Funzione che ritorna il controllable type
+    /// </summary>
+    /// <returns></returns>
     public ControllableType GetControllableType()
     {
         return controllableType;

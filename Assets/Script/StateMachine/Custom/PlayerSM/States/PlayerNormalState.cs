@@ -35,7 +35,7 @@ namespace StateMachine.PlayerSM
                         case ControllableType.Enemy:
                             parasitePressed = true;
                             context.player.GetMovementController().SetCanMove(false);
-                            context.player.StartParasiteCoroutine(e as IEnemy);
+                            context.player.StartParasiteEnemyCoroutine(e as IEnemy);
                             break;
                         case ControllableType.Platform:
                             parasitePressed = true;

@@ -200,7 +200,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4449267859801146}
-  - component: {fileID: 114712183068659382}
   m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
@@ -306,6 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4103723853506896}
+  - component: {fileID: 114251479102878280}
   - component: {fileID: 95649017426160524}
   m_Layer: 0
   m_Name: Character_Angry_DEF
@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 114937132506703418}
   - component: {fileID: 114298822093579080}
   - component: {fileID: 114309646099034652}
+  - component: {fileID: 114064413602365514}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -863,7 +864,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911186250763120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7, y: 1.35, z: 0}
+  m_LocalPosition: {x: -2.61, y: 0.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4449267859801146}
@@ -1423,6 +1424,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114064413602365514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911186250763120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80b2c99b13706d438aabc9b286ebcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 3
+  currentLives: 0
 --- !u!114 &114236308554139784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1439,6 +1453,17 @@ MonoBehaviour:
   JumpUnitHeight: 4
   JumpTimeToReachTop: 0.4
   AccelerationTimeOnAir: 0.2
+--- !u!114 &114251479102878280
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483983454683830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7902b0e04f5a814e9551495ebe8b3b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114298822093579080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1465,7 +1490,7 @@ MonoBehaviour:
   timeToDeplete: 8
   maxHealth: 100
   minHealth: 0
-  canDie: 0
+  canDie: 1
   healthText: {fileID: 0}
 --- !u!114 &114465911311599940
 MonoBehaviour:
@@ -1476,17 +1501,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21842c276494d3747ba874a97a112b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114712183068659382
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1399866741584012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7902b0e04f5a814e9551495ebe8b3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114842883902325374
@@ -1514,7 +1528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 66560
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
