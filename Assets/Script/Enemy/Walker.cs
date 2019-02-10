@@ -24,7 +24,9 @@ public class Walker : EnemyBase
     #region API
     protected override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
     {
-        return movementCtrl.MovementCheck(movementVector);
+        Vector3 movementVelocity = movementCtrl.MovementCheck(movementVector);
+        animCtrl.MovementAnimation(movementVelocity);
+        return movementVelocity;
     }
 
     protected override IEnumerator AlertActionCoroutine()
@@ -46,6 +48,7 @@ public class Walker : EnemyBase
         {
             target = viewCtrl.FindPlayer();
             Vector3 movementVector = Vector3.zero;
+            Vector3 movementVelocity = movementVector;
 
             if (target == null)
                 yield return new WaitForFixedUpdate();
@@ -55,10 +58,11 @@ public class Walker : EnemyBase
             {
                 if (CanShot)
                 {
+                    animCtrl.ShotAnimation();
                     bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, target);
                     StartCoroutine(FiringRateCoroutine());
                 }
-                movementCtrl.MovementCheck(movementVector);
+                movementVelocity = movementCtrl.MovementCheck(movementVector);
             }
             else
             {
@@ -73,8 +77,10 @@ public class Walker : EnemyBase
 
                 //Movimento Nemico                
                 movementVector.x = movementSpeed;
-                movementCtrl.MovementCheck(movementVector);
+                movementVelocity = movementCtrl.MovementCheck(movementVector);
             }
+
+            animCtrl.MovementAnimation(movementVelocity);
             yield return new WaitForFixedUpdate();
         }
     }

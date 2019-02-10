@@ -96,19 +96,19 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che attiva la coroutine ParasiteCoroutine
+    /// Funzione che attiva la coroutine ParasiteEnemyCoroutine
     /// </summary>
     /// <param name="e"></param>
-    public void StartParasiteCoroutine(IEnemy _e)
+    public void StartParasiteEnemyCoroutine(IEnemy _e)
     {
-        StartCoroutine(ParasiteCoroutine(_e));
+        StartCoroutine(ParasiteEnemyCoroutine(_e));
     }
     /// <summary>
     /// Coroutine che manda il player in stato parassita rispetto al nemico
     /// </summary>
     /// <param name="_e"></param>
     /// <returns></returns>
-    private IEnumerator ParasiteCoroutine(IEnemy _e)
+    private IEnumerator ParasiteEnemyCoroutine(IEnemy _e)
     {
         parasiteCtrl.SetParasite(_e as IControllable);
         shootCtrl.SetCanShoot(false);
@@ -125,6 +125,8 @@ public class Player : MonoBehaviour
         #endregion
 
         ChangeGraphics(_e.GetGraphics());
+        animCtrl.SetAnimator(_e.GetAnimationController().GetAnimator());
+
         collisionCtrl.CheckDamageCollision(true);
         shootCtrl.SetCanShoot(true);
         if (playerSM.OnPlayerEnemyParaiste != null)
@@ -185,6 +187,8 @@ public class Player : MonoBehaviour
     private IEnumerator NormalCoroutine()
     {
         ChangeGraphics(playerGraphic);
+        animCtrl.ResetAnimator();
+
         parasiteCtrl.GetParasite().EndParasite();
         movementCtrl.Eject();
 

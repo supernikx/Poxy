@@ -147,6 +147,12 @@ public interface IEnemy
     EnemyViewController GetViewCtrl();
 
     /// <summary>
+    /// Funzione che ritorna l'animation controller
+    /// </summary>
+    /// <returns></returns>
+    EnemyAnimationController GetAnimationController();
+
+    /// <summary>
     /// Funzione che ritorna il parent dei nemici
     /// </summary>
     /// <returns></returns>
