@@ -13,7 +13,7 @@ public class StunBullet : BulletBase
         {
             _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
         }
-        else if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             _collisionInfo.transform.gameObject.GetComponent<IButton>().Activate();
         }

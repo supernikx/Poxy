@@ -36,6 +36,11 @@ public class ParabolicBullet : BulletBase
                 _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
         }
 
+        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        {
+            _collisionInfo.transform.gameObject.GetComponent<IButton>().Activate();
+        }
+
         return base.OnBulletCollision(_collisionInfo);
     }
 
