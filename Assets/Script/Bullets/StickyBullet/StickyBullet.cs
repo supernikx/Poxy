@@ -53,6 +53,11 @@ public class StickyBullet : BulletBase
             }
         }
 
+        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        {
+            _collisionInfo.transform.gameObject.GetComponent<IButton>().Activate();
+        }
+
         if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);
