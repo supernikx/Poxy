@@ -62,16 +62,26 @@ public class PlatformCollisionController : MonoBehaviour
         Bounds bounds = platformCollider.bounds;
         bounds.Expand(collisionOffset * -2);
 
-        raycastStartPoints.bottomLeft = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
-        raycastStartPoints.bottomRight = new Vector3(bounds.max.x, bounds.min.y, transform.position.z);
-        raycastStartPoints.topLeft = new Vector3(bounds.min.x, bounds.max.y, transform.position.z);
-        raycastStartPoints.topRight = new Vector3(bounds.max.x, bounds.max.y, transform.position.z);
+        raycastStartPoints.bottomLeft = new GameObject("BottomLeftPoint").transform;
+        raycastStartPoints.bottomRight = new GameObject("BottomRightPoint").transform;
+        raycastStartPoints.topLeft = new GameObject("TopLeftPoint").transform;
+        raycastStartPoints.topRight = new GameObject("TopRightPoint").transform;
+
+        raycastStartPoints.bottomLeft.SetParent(transform);
+        raycastStartPoints.bottomRight.SetParent(transform);
+        raycastStartPoints.topLeft.SetParent(transform);
+        raycastStartPoints.topRight.SetParent(transform);
+
+        raycastStartPoints.bottomLeft.position = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
+        raycastStartPoints.bottomRight.position = new Vector3(bounds.max.x, bounds.min.y, transform.position.z);
+        raycastStartPoints.topLeft.position = new Vector3(bounds.min.x, bounds.max.y, transform.position.z);
+        raycastStartPoints.topRight.position = new Vector3(bounds.max.x, bounds.max.y, transform.position.z);
     }
 
     #region API
     public void Init()
     {
-        platformCollider = GetComponent<Collider>();
+        platformCollider = GetComponentInChildren<Collider>();
         CalculateRaySpacing();
         UpdateRaycastOrigins();
     }
@@ -79,10 +89,8 @@ public class PlatformCollisionController : MonoBehaviour
     public void MovePassenger(Vector3 _velocity)
     {
         HashSet<Transform> movedPassengers = new HashSet<Transform>();
-        UpdateRaycastOrigins();
         float directionX = Mathf.Sign(_velocity.x);
         float directionY = Mathf.Sign(_velocity.y);
-
         //Vertical Moving platform
         if (_velocity.y != 0)
         {
@@ -91,11 +99,11 @@ public class PlatformCollisionController : MonoBehaviour
             for (int i = 0; i < verticalRayCount; i++)
             {
                 //Determina il punto da cui deve partire il ray
-                Vector3 rayOrigin = (directionY == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.topLeft;
-                rayOrigin += Vector3.right * (verticalRaySpacing * i);
+                Vector3 rayOrigin = (directionY == -1) ? raycastStartPoints.bottomLeft.position : raycastStartPoints.topLeft.position;
+                rayOrigin += transform.right * (verticalRaySpacing * i);
 
                 //Crea il ray
-                Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
+                Ray ray = new Ray(rayOrigin, transform.up * directionY);
                 RaycastHit hit;
 
                 //Eseguo il raycast
@@ -109,10 +117,9 @@ public class PlatformCollisionController : MonoBehaviour
                         float pushY = _velocity.y * directionY;
 
                         hit.transform.Translate(new Vector3(pushX, pushY, 0));
-                        Debug.Log("spinto "+pushY);
                     }
                 }
-                Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.blue);
+                Debug.DrawRay(rayOrigin, transform.up * directionY * rayLenght, Color.blue);
             }
         }
 
@@ -125,11 +132,11 @@ public class PlatformCollisionController : MonoBehaviour
             for (int i = 0; i < horizontalRayCount; i++)
             {
                 //Determina il punto da cui deve partire il ray
-                Vector3 rayOrigin = (directionX == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight;
-                rayOrigin += Vector3.up * (horizontalRaySpacing * i);
+                Vector3 rayOrigin = (directionX == -1) ? raycastStartPoints.bottomLeft.position : raycastStartPoints.bottomRight.position;
+                rayOrigin += transform.up * (horizontalRaySpacing * i);
 
                 //Crea il ray
-                Ray ray = new Ray(rayOrigin, Vector3.right * directionX);
+                Ray ray = new Ray(rayOrigin, transform.right * directionX);
                 RaycastHit hit;
 
                 //Eseguo il raycast
@@ -156,10 +163,10 @@ public class PlatformCollisionController : MonoBehaviour
             for (int i = 0; i < verticalRayCount; i++)
             {
                 //Determina il punto da cui deve partire il ray
-                Vector3 rayOrigin = raycastStartPoints.topLeft + Vector3.right * (verticalRaySpacing * i);
+                Vector3 rayOrigin = raycastStartPoints.topLeft.position + transform.right * (verticalRaySpacing * i);
 
                 //Crea il ray
-                Ray ray = new Ray(rayOrigin, Vector3.up);
+                Ray ray = new Ray(rayOrigin, transform.up);
                 RaycastHit hit;
 
                 //Eseguo il raycast
@@ -186,9 +193,9 @@ public class PlatformCollisionController : MonoBehaviour
     /// </summary>
     private struct RaycastStartPoints
     {
-        public Vector3 topLeft;
-        public Vector3 topRight;
-        public Vector3 bottomLeft;
-        public Vector3 bottomRight;
+        public Transform topLeft;
+        public Transform topRight;
+        public Transform bottomLeft;
+        public Transform bottomRight;
     }
 }

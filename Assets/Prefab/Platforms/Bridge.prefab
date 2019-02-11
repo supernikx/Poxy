@@ -20,7 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4205716599842022}
   - component: {fileID: 114199654871770458}
-  m_Layer: 10
+  - component: {fileID: 114281928121501308}
+  - component: {fileID: 65980614462127004}
+  m_Layer: 16
   m_Name: Bridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,9 +39,7 @@ GameObject:
   - component: {fileID: 4037104447479760}
   - component: {fileID: 33073694937597390}
   - component: {fileID: 23461058282173672}
-  - component: {fileID: 65726250368153588}
-  - component: {fileID: 114750223357141414}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: BridgeBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,14 +65,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366158840347096}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.0008726012, w: 0.99999964}
   m_LocalPosition: {x: -81.19, y: 1.474, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4037104447479760}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.1}
 --- !u!23 &23461058282173672
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -115,18 +115,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1682243127292982}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65726250368153588
+--- !u!65 &65980614462127004
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1682243127292982}
+  m_GameObject: {fileID: 1366158840347096}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 8.074583, y: 1, z: 1}
+  m_Center: {x: -4.0070987, y: -1.860469e-10, z: 0}
 --- !u!114 &114199654871770458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,15 +138,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc86188fae29bcf458fa0de77aa9435f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingSpd: 5
---- !u!114 &114750223357141414
+  rotatingSpeed: 30
+  maxAngle: 270
+--- !u!114 &114281928121501308
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1682243127292982}
+  m_GameObject: {fileID: 1366158840347096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5383a7bd8d6557e458d3fc4d7a730456, type: 3}
+  m_Script: {fileID: 11500000, guid: 0866796bd9ee2474a9eb1e14ad0d3707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passengerLayer:
+    serializedVersion: 2
+    m_Bits: 4608
+  horizontalRayCount: 20
+  verticalRayCount: 20
