@@ -32,7 +32,7 @@ public class PlatformCollisionController : MonoBehaviour
     /// <summary>
     /// Offset del bound del collider
     /// </summary>
-    private float collisionOffset = 0.015f;
+    private float collisionOffset = 0.02f;
     /// <summary>
     /// Referenza agli start point
     /// </summary>
@@ -73,12 +73,13 @@ public class PlatformCollisionController : MonoBehaviour
     {
         platformCollider = GetComponent<Collider>();
         CalculateRaySpacing();
+        UpdateRaycastOrigins();
     }
 
     public void MovePassenger(Vector3 _velocity)
     {
         HashSet<Transform> movedPassengers = new HashSet<Transform>();
-
+        UpdateRaycastOrigins();
         float directionX = Mathf.Sign(_velocity.x);
         float directionY = Mathf.Sign(_velocity.y);
 
@@ -105,11 +106,13 @@ public class PlatformCollisionController : MonoBehaviour
                         movedPassengers.Add(hit.transform);
 
                         float pushX = (directionY == 1) ? _velocity.x : 0;
-                        float pushY = _velocity.y - (hit.distance - collisionOffset) * directionY;
+                        float pushY = _velocity.y * directionY;
 
                         hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        Debug.Log("spinto "+pushY);
                     }
                 }
+                Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.blue);
             }
         }
 

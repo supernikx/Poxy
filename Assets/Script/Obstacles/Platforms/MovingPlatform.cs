@@ -9,52 +9,55 @@ public class MovingPlatform : Platform
     [SerializeField]
     private float movingSpd;
     [SerializeField]
-    private MovingDirection movingDirection;
+    private Transform reachPoint;
+    Vector3 reachPosition;
+    private Vector3 startPosition;
+    private Vector3 direction;
 
-    [Header("Waypoints")]
-    [SerializeField]
-    private Transform waypointParent;
-
-    private Vector3[] path;
-
-    private void SetPath()
-    {
-        path = new Vector3[waypointParent.childCount];
-        for (int i = 0; i < path.Length; i++)
-        {
-            path[i] = waypointParent.GetChild(i).position;
-        }
-        waypointParent.gameObject.SetActive(false);
-    }
-
-    private void Move()
-    {
-        if (movingDirection == MovingDirection.horizontal)
-        {
-            transform.DOPath(path, movingSpd).SetEase(Ease.Linear).SetLoops(-1).SetSpeedBased().SetOptions(true, AxisConstraint.Y);
-        }
-        else if (movingDirection == MovingDirection.vertical)
-        {
-            transform.DOPath(path, movingSpd).SetEase(Ease.Linear).SetLoops(-1).SetSpeedBased().SetOptions(true, AxisConstraint.X);
-        }
-        else
-        {
-            transform.DOPath(path, movingSpd).SetEase(Ease.Linear).SetLoops(-1).SetSpeedBased().SetOptions(true);
-        }
-    }
+    private PlatformCollisionController collisionCtrl;
 
     #region API
     public override void Init()
     {
-        SetPath();
-        Move();
+        collisionCtrl = GetComponent<PlatformCollisionController>();
+        if (collisionCtrl != null)
+            collisionCtrl.Init();
+
+        startPosition = transform.position;
+        reachPosition = reachPoint.position;
+        direction = (reachPosition - startPosition).normalized;
+        pointReached = false;
+        StartCoroutine(Move());
     }
     #endregion
-}
+    bool pointReached;
+    private IEnumerator Move()
+    {
+        Vector3 moveVelocity;
+        while (true)
+        {
+            if (!pointReached && Vector3.Distance(transform.position, reachPosition) > 0.1f)
+            {
+                moveVelocity = direction * movingSpd * Time.deltaTime;
+                collisionCtrl.MovePassenger(moveVelocity);
+                transform.Translate(moveVelocity);
+            }
+            else
+            {
+                if (!pointReached)
+                    pointReached = true;
 
-public enum MovingDirection
-{
-    horizontal,
-    vertical,
-    mixed
+                moveVelocity = -direction * movingSpd * Time.deltaTime;
+                collisionCtrl.MovePassenger(moveVelocity);
+                transform.Translate(moveVelocity);
+
+                if (Vector3.Distance(transform.position, startPosition) < 0.1f)
+                {
+                    pointReached = false;
+                }
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
 }

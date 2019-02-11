@@ -23,40 +23,11 @@ GameObject:
   - component: {fileID: 23893551725891336}
   - component: {fileID: 65740096515268138}
   - component: {fileID: 114306541621188008}
-  m_Layer: 0
+  - component: {fileID: 114085475385488242}
+  m_Layer: 10
   m_Name: MovingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1147757163341738
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4005460829205262}
-  m_Layer: 0
-  m_Name: Point1
-  m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1594134316693722
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4537683868302556}
-  m_Layer: 0
-  m_Name: Point2
-  m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -68,39 +39,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4699932509563858}
-  m_Layer: 0
-  m_Name: Waypoints
+  m_Layer: 10
+  m_Name: Waypoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4005460829205262
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1147757163341738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.891, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4699932509563858}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4537683868302556
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1594134316693722}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.809, y: 1.38, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4699932509563858}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4591806901268578
 Transform:
   m_ObjectHideFlags: 1
@@ -108,8 +53,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1022538922327632}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -45.96595, y: 6.462805, z: 2.2}
-  m_LocalScale: {x: 10.729, y: 1, z: 3.26}
+  m_LocalPosition: {x: -94.47, y: 1.73, z: 0}
+  m_LocalScale: {x: 3.41, y: 1, z: 3.26}
   m_Children:
   - {fileID: 4699932509563858}
   m_Father: {fileID: 0}
@@ -122,11 +67,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805304019435012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4005460829205262}
-  - {fileID: 4537683868302556}
+  m_Children: []
   m_Father: {fileID: 4591806901268578}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -184,6 +127,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114085475385488242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1022538922327632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0866796bd9ee2474a9eb1e14ad0d3707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passengerLayer:
+    serializedVersion: 2
+    m_Bits: 4608
+  horizontalRayCount: 20
+  verticalRayCount: 20
 --- !u!114 &114306541621188008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,6 +154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254b8ab90dc33814ca9e49bf18bd2303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingSpd: 5
-  movingDirection: 0
-  waypointParent: {fileID: 4699932509563858}
+  movingSpd: 2
+  reachPoint: {fileID: 4699932509563858}
