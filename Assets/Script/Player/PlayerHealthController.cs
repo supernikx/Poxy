@@ -11,6 +11,9 @@ public class PlayerHealthController : MonoBehaviour
     [Tooltip("The time the energy will take to drop from max to 0")]
     private float timeToDeplete;
     [SerializeField]
+    [Tooltip("The time the energy will take to increase from 0 to max")]
+    private float timeToFill;
+    [SerializeField]
     [Tooltip("Max Health")]
     private float maxHealth = 100;
     [SerializeField]
@@ -35,6 +38,11 @@ public class PlayerHealthController : MonoBehaviour
     private float lossPerSecond;
 
     /// <summary>
+    /// Amount of health gained every frame
+    /// </summary>
+    private float gainPerSecond;
+
+    /// <summary>
     /// Reference to Player
     /// </summary>
     private Player player;
@@ -54,6 +62,7 @@ public class PlayerHealthController : MonoBehaviour
     public void Init(Player _player)
     {
         lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
+        gainPerSecond = (maxHealth - minHealth) / timeToFill;
 
         player = _player;
 
@@ -117,7 +126,7 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     public bool GainHealthOverTime()
     {
-        health = Mathf.Clamp(health + lossPerSecond * Time.deltaTime, minHealth, maxHealth);
+        health = Mathf.Clamp(health + gainPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == maxHealth)
         {
             return true;
