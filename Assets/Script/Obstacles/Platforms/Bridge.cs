@@ -62,7 +62,7 @@ public class Bridge : Platform, ISticky
                     collisionCtrl.MovePassenger(rotatingVelocity);
                     transform.Rotate(-rotatingVector * Time.deltaTime);
 
-                    if (Mathf.Approximately(transform.eulerAngles.z, startAngle))
+                    if (transform.eulerAngles.z > startAngle)
                     {
                         angleReached = false;
                     }

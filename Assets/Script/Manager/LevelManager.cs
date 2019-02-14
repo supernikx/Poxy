@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField]
+    private Transform spawn1Pos;
+    [SerializeField]
+    private Transform spawn2Pos;
+
     public static LevelManager singleton;
     /// <summary>
     /// Referenza al Pool manager
@@ -34,6 +39,16 @@ public class LevelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            player.transform.position = spawn1Pos.position;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            player.transform.position = spawn2Pos.position;
+        }
     }
 
     #region API
