@@ -104,7 +104,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 OnObjectSpawn(this);
 
             gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
-            StartCoroutine(DespawnCoroutine());
+            //StartCoroutine(DespawnCoroutine());
             StartCoroutine(CheckCollisionCoroutine(_rightPosition, _leftPostion));
         }
     }
@@ -120,7 +120,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public Vector3 CheckSpace(Vector3 _normal, int _direction)
     {
         float rayLenght = 0.3f;
-        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.forward.normalized * yOffset;
+        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.up.normalized * yOffset;
         Vector3 previewRayOrigin = maxCenterPoint;
 
         for (int i = 0; i < checkSpaceRayCount; i++)
@@ -130,7 +130,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             rayOrigin += transform.right * _direction * (checkSpaceRaySpacing * 0.5f * i);
 
             //Crea il ray
-            Ray ray = new Ray(rayOrigin, -transform.forward);
+            Ray ray = new Ray(rayOrigin, -transform.up);
             RaycastHit hit;
 
             //Eseguo il raycast
@@ -253,7 +253,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
 
                 //Crea il ray
-                Ray ray = new Ray(rayOrigin, transform.forward);
+                Ray ray = new Ray(rayOrigin, transform.up);
                 RaycastHit hit;
 
                 //Eseguo il raycast
@@ -289,7 +289,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                         stickyInfo.StickyRay++;
                     }
                 }
-                Debug.DrawRay(rayOrigin, transform.forward * rayLenght, Color.black);
+                Debug.DrawRay(rayOrigin, transform.up * rayLenght, Color.black);
             }
 
             //Ciclo tutti gli oggetti con cui sono in collisione
