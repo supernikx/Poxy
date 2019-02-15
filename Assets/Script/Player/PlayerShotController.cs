@@ -163,7 +163,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint, direction);
+            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint.position, direction);
         }
     }
 
@@ -175,7 +175,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(enemyShotSetting.bulletType, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint, direction);
+            bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint.position, direction);
         }
     }
     #endregion

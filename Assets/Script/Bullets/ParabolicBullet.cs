@@ -58,14 +58,14 @@ public class ParabolicBullet : BulletBase
             transform.position += _movementDirection * Time.deltaTime;
             travelTime += Time.deltaTime;
 
-            if (Vector3.Distance(shotPosition.position, transform.position) >= range)
+            if (Vector3.Distance(shotPosition, transform.position) >= range)
             {
                 ObjectDestroyEvent();
             }
         }
     }
 
-    public override void Shot(int _damage, float _speed, float _range, Transform _shootPosition, Vector3 _direction)
+    public override void Shot(int _damage, float _speed, float _range, Vector3 _shootPosition, Vector3 _direction)
     {
         base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shootPosition, _direction);
 
@@ -76,7 +76,7 @@ public class ParabolicBullet : BulletBase
         travelTime = 0;
     }
 
-    public override void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Transform _target)
+    public override void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
     {
         base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shotPosition, _target);
 
@@ -117,13 +117,13 @@ public class ParabolicBullet : BulletBase
         //float angle = Mathf.Atan2(yVelocity, xVelocity) * Mathf.Rad2Deg;
     }
 
-    public bool CheckShotRange(Vector3 _target, Transform _shotPosition, float _speed)
+    public bool CheckShotRange(Vector3 _target, Vector3 _shotPosition, float _speed)
     {
         _speed = Mathf.Sqrt(_speed * speedMultiplayer);
 
         //calcolo l'offset sui 2 assi
-        float x = _target.x - _shotPosition.position.x;
-        float y = _target.y - _shotPosition.position.y;
+        float x = _target.x - _shotPosition.x;
+        float y = _target.y - _shotPosition.y;
 
         //Calcolo la discriminante
         float b = _speed * _speed - y * gravity;

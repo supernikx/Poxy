@@ -37,7 +37,7 @@ public class Gluer : EnemyBase
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
         if (CanShot && !isRotating)
         {
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, transform.right);
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, transform.right);
             StartCoroutine(FiringRateCoroutine(roamingFiringRate));
         }
 
@@ -74,7 +74,7 @@ public class Gluer : EnemyBase
                 if (CanShot)
                 {
                     Vector3 _direction = (target.position - shotPosition.position);
-                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition, _direction);
+                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition.position, _direction);
                     StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
                 }
                 movementCtrl.MovementCheck(movementVector);

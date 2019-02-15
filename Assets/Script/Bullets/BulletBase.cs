@@ -61,7 +61,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Posizione da cui parte lo sparo
     /// </summary>
-    protected Transform shotPosition;
+    protected Vector3 shotPosition;
 
     /// <summary>
     /// Funzione di Setup
@@ -107,7 +107,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_range"></param>
     /// <param name="_shootPosition"></param>
     /// <param name="_direction"></param>
-    public virtual void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Vector3 _direction)
+    public virtual void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Vector3 _direction)
     {
         damage = _damage;
         speed = _speed;
@@ -115,7 +115,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         shotDirection = _direction;
         shotPosition = _shotPosition;
         targetPosition = null;
-        transform.position = shotPosition.position;
+        transform.position = shotPosition;
 
         shotAngle = Mathf.Atan2(shotDirection.Value.y, shotDirection.Value.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, shotAngle);
@@ -128,7 +128,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_speed"></param>
     /// <param name="_shotPosition"></param>
     /// <param name="_target"></param>
-    public virtual void Shot(int _damage, float _speed, float _range, Transform _shotPosition, Transform _target)
+    public virtual void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
     {
         damage = _damage;
         speed = _speed;
@@ -136,7 +136,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         shotPosition = _shotPosition;
         targetPosition = _target.position;
         shotDirection = null;
-        transform.position = shotPosition.position;
+        transform.position = shotPosition;
 
         ObjectSpawnEvent();
     }

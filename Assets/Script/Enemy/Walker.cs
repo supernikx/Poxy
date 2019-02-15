@@ -54,12 +54,12 @@ public class Walker : EnemyBase
                 yield return new WaitForFixedUpdate();
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition, enemyShotSettings.shotSpeed))
+            if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition.position, enemyShotSettings.shotSpeed))
             {
                 if (CanShot)
                 {
                     animCtrl.ShotAnimation();
-                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition, target);
+                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, target);
                     StartCoroutine(FiringRateCoroutine());
                 }
                 movementVelocity = movementCtrl.MovementCheck(movementVector);

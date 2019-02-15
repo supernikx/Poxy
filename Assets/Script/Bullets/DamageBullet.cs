@@ -35,7 +35,7 @@ public class DamageBullet : BulletBase
             if (!Checkcollisions(_movementDirection))
             {
                 transform.position += _movementDirection * Time.deltaTime;
-                if (Vector3.Distance(shotPosition.position, transform.position) >= range)
+                if (Vector3.Distance(shotPosition, transform.position) >= range)
                 {
                     ObjectDestroyEvent();
                 }
