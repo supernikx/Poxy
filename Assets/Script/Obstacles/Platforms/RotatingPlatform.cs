@@ -14,11 +14,16 @@ public class RotatingPlatform : Platform
     [SerializeField]
     private float timeBetweenRotate;
 
+    private PlatformCollisionController collisionCtrl;
     private bool isActive = false;
 
     #region API
     public override void Init()
     {
+        collisionCtrl = GetComponent<PlatformCollisionController>();
+        if (collisionCtrl != null)
+            collisionCtrl.Init();
+
         isActive = true;
         startingAngle = transform.eulerAngles.z;
         StartCoroutine(CRotate());
@@ -37,6 +42,7 @@ public class RotatingPlatform : Platform
             while (Quaternion.Angle(transform.rotation, targetRotation) > 0f)
             {
                 rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4f, 0f) * Time.deltaTime;
+                collisionCtrl.MovePassenger(rotatingVelocity);
                 transform.Rotate(rotatingVector * Time.deltaTime);
                 yield return new WaitForFixedUpdate();
             }
