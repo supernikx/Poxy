@@ -240,15 +240,15 @@ public class PlayerShotController : MonoBehaviour
         //Controllo se posso cambiare tipo di sparo
         if (useStunBullets && canShotDamage)
         {
-            OnShot += ShotEnemyBullet;
             OnShot -= ShotStunBullet;
+            OnShot += ShotEnemyBullet;
             shotSettingsInUse = enemyShotSetting;
             useStunBullets = false;
         }
-        else
+        else if (!useStunBullets)
         {
-            OnShot += ShotStunBullet;
             OnShot -= ShotEnemyBullet;
+            OnShot += ShotStunBullet;
             shotSettingsInUse = stunShotSettings;
             useStunBullets = true;
         }

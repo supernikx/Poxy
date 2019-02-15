@@ -102,6 +102,8 @@ public class PlayerAnimationController : MonoBehaviour
     public void ResetAnimator()
     {
         animToUse = playerAnim;
+        moving = false;
+        jumping = false;
     }
 
     #region Setter
