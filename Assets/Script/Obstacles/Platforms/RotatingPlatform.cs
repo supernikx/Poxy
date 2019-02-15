@@ -8,8 +8,9 @@ public class RotatingPlatform : Platform
     [Header("Rotate Options")]
     [SerializeField]
     private float angle;
+    private float startingAngle;
     [SerializeField]
-    private float rotationTime;
+    private float rotatingSpeed;
     [SerializeField]
     private float timeBetweenRotate;
 
@@ -19,6 +20,7 @@ public class RotatingPlatform : Platform
     public override void Init()
     {
         isActive = true;
+        startingAngle = transform.eulerAngles.z;
         StartCoroutine(CRotate());
     }
     #endregion
@@ -26,9 +28,19 @@ public class RotatingPlatform : Platform
     #region Coroutines 
     private IEnumerator CRotate()
     {
-        while(isActive)
+        while (isActive)
         {
-            yield return transform.DORotate(new Vector3(0, 0, transform.rotation.eulerAngles.z + angle), rotationTime).SetEase(Ease.Linear).WaitForCompletion();
+            //yield return transform.DORotate(new Vector3(0, 0, transform.rotation.eulerAngles.z + angle), rotationTime).SetEase(Ease.Linear).WaitForCompletion();
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, transform.eulerAngles.z + angle));
+            Vector3 rotatingVelocity;
+            Vector3 rotatingVector = new Vector3(0, 0, rotatingSpeed);
+            while (Quaternion.Angle(transform.rotation, targetRotation) > 0f)
+            {
+                rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4f, 0f) * Time.deltaTime;
+                transform.Rotate(rotatingVector * Time.deltaTime);
+                yield return new WaitForFixedUpdate();
+            }
+
             yield return new WaitForSeconds(timeBetweenRotate);
         }
     }
