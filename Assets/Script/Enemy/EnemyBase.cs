@@ -402,6 +402,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         }
     }
 
+    private float targetAngle = 0;
     /// <summary>
     /// Coroutine che gestisce il movimento del nemico
     /// </summary>
@@ -413,6 +414,18 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         float pathTraveled = 0f;
         bool movementBlocked = false;
 
+        if (transform.localEulerAngles.y != targetAngle)
+        {
+            Vector3 rotationVector = Vector3.zero;
+            rotationVector.y = targetAngle;
+            yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
+                    .SetEase(Ease.Linear)
+                    .OnUpdate(() => movementCtrl.MovementCheck())
+                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
+                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
+                    .WaitForCompletion();
+        }
+
         while (true)
         {
             if (pathTraveled >= pathLenght - 0.1f)
@@ -422,6 +435,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
                 Vector3 rotationVector = Vector3.zero;
                 if (transform.rotation.y == 0)
                     rotationVector.y = 180f;
+                targetAngle = rotationVector.y;
                 yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
                     .SetEase(Ease.Linear)
                     .OnUpdate(() => movementCtrl.MovementCheck())
