@@ -9,10 +9,10 @@ public class Bridge : Platform, ISticky
     private float rotatingSpeed;
     [SerializeField]
     private float maxAngle;
-    private float startAngle;
-    private Vector3 rotatingVector;
 
     private PlatformCollisionController collisionCtrl;
+    private bool isActive;
+    private bool sticky;
 
     #region API
     public override void Init()
@@ -21,11 +21,12 @@ public class Bridge : Platform, ISticky
         if (collisionCtrl != null)
             collisionCtrl.Init();
 
-        rotatingVector = new Vector3(0, 0, -rotatingSpeed);
-        startAngle = transform.eulerAngles.z;
-        angleReached = false;
+        rotatingSpeed = (maxAngle < 0)? -rotatingSpeed : rotatingSpeed;
+
+        isActive = true;
         sticky = false;
-        StartCoroutine(Rotate());
+
+        StartCoroutine(CRotate());
     }
 
     public void OnSticky(Direction _direction)
@@ -38,36 +39,45 @@ public class Bridge : Platform, ISticky
         sticky = false;
     }
     #endregion
-    bool sticky;
-    bool angleReached;
-    private IEnumerator Rotate()
+
+    private IEnumerator CRotate()
     {
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, transform.eulerAngles.z + maxAngle));
         Vector3 rotatingVelocity;
-        while (true)
+        Vector3 rotatingVector = new Vector3(0, 0, rotatingSpeed);
+        bool opening = true;
+        while (isActive)
         {
             if (!sticky)
             {
-                if (!angleReached && transform.eulerAngles.z > maxAngle)
+                if (opening)
                 {
-                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4f, 0f) * Time.deltaTime;
-                    collisionCtrl.MovePassenger(rotatingVelocity);
+                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4, 0f) * Time.deltaTime;
+                    collisionCtrl.MovePassengerRotating(rotatingVelocity);
                     transform.Rotate(rotatingVector * Time.deltaTime);
+                    if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
+                    {
+                        transform.rotation = targetRotation;
+                        rotatingVector = new Vector3(0, 0, -rotatingSpeed);
+                        targetRotation = Quaternion.Euler(new Vector3(0, 0, transform.eulerAngles.z - maxAngle));
+                        opening = false;
+                    }
                 }
                 else
                 {
-                    if (!angleReached)
-                        angleReached = true;
-
-                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4f, 0f) * Time.deltaTime;
-                    collisionCtrl.MovePassenger(rotatingVelocity);
-                    transform.Rotate(-rotatingVector * Time.deltaTime);
-
-                    if (transform.eulerAngles.z > startAngle)
+                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4, 0f) * Time.deltaTime;
+                    collisionCtrl.MovePassengerRotating(rotatingVelocity);
+                    transform.Rotate(rotatingVector * Time.deltaTime);
+                    if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
                     {
-                        angleReached = false;
+                        transform.rotation = targetRotation;
+                        rotatingVector = new Vector3(0, 0, rotatingSpeed);
+                        targetRotation = Quaternion.Euler(new Vector3(0, 0, transform.eulerAngles.z + maxAngle));
+                        opening = true;
                     }
-                }
+                }                
             }
+
             yield return new WaitForFixedUpdate();
         }
     }

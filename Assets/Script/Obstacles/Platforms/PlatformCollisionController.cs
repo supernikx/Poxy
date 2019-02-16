@@ -119,7 +119,6 @@ public class PlatformCollisionController : MonoBehaviour
                         hit.transform.Translate(new Vector3(pushX, pushY, 0));
                     }
                 }
-                Debug.DrawRay(rayOrigin, transform.up * directionY * rayLenght, Color.blue);
             }
         }
 
@@ -185,12 +184,73 @@ public class PlatformCollisionController : MonoBehaviour
             }
         }
     }
+
+    public void MovePassengerRotating(Vector3 _velocity)
+    {
+        HashSet<Transform> movedPassengers = new HashSet<Transform>();
+
+        //Vertical Moving platform
+        if (_velocity.y != 0)
+        {
+            float rayLenght = Mathf.Abs(_velocity.y) + collisionOffset;
+
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                //Determina il punto da cui deve partire il ray
+                Vector3 rayOrigin = raycastStartPoints.topLeft.position;
+                rayOrigin += transform.right * (verticalRaySpacing * i);
+
+                //Crea il ray
+                Ray ray = new Ray(rayOrigin, transform.up);
+                RaycastHit hit;
+
+                //Eseguo il raycast
+                if (Physics.Raycast(ray, out hit, rayLenght, passengerLayer))
+                {
+                    if (!movedPassengers.Contains(hit.transform))
+                    {
+                        movedPassengers.Add(hit.transform);
+
+                        float pushX = _velocity.x;
+                        float pushY = _velocity.y;
+
+                        hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                    }
+                }
+
+                //Determina il punto da cui deve partire il ray opposto
+                Vector3 rayOriginOpposite = raycastStartPoints.bottomLeft.position;
+                rayOriginOpposite += transform.right * (verticalRaySpacing * i);
+
+                //Crea il ray opposto
+                Ray rayOpposite = new Ray(rayOriginOpposite, -transform.up);
+                RaycastHit hitOpposite;
+
+                //Eseguo il raycast opposto
+                if (Physics.Raycast(rayOpposite, out hitOpposite, rayLenght, passengerLayer))
+                {
+                    if (!movedPassengers.Contains(hitOpposite.transform))
+                    {
+                        movedPassengers.Add(hitOpposite.transform);
+
+                        float pushX = _velocity.x;
+                        float pushY = _velocity.y;
+
+                        hitOpposite.transform.Translate(new Vector3(pushX, pushY, 0));
+                    }
+                }
+
+                Debug.DrawRay(rayOrigin, transform.up * rayLenght, Color.red);
+                Debug.DrawRay(rayOriginOpposite, -transform.up * rayLenght, Color.blue);
+            }
+        }
+    }
     #endregion
 
-    /// <summary>
-    /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
-    /// che controllano le collisioni
-    /// </summary>
+        /// <summary>
+        /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
+        /// che controllano le collisioni
+        /// </summary>
     private struct RaycastStartPoints
     {
         public Transform topLeft;

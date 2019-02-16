@@ -110,6 +110,8 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetAnimator(Animator _anim)
     {
         animToUse = _anim;
+        moving = false;
+        jumping = false;
     }
     #endregion
 
