@@ -34,6 +34,10 @@ public class LevelManager : MonoBehaviour
     /// Reference to Checkpoint Manager
     /// </summary>
     private CheckpointManager checkpointMng;
+    /// <summary>
+    /// Reference to Token Manager
+    /// </summary>
+    private TokenManager tokenMng;
 
     private void Update()
     {
@@ -80,6 +84,10 @@ public class LevelManager : MonoBehaviour
         if (checkpointMng != null)
             checkpointMng.Init();
 
+        tokenMng = GetComponent<TokenManager>();
+        if (tokenMng != null)
+            tokenMng.Init();
+
         player = FindObjectOfType<Player>();
         if (player != null)
             player.Init(enemyMng, platformMng, checkpointMng);
@@ -89,6 +97,7 @@ public class LevelManager : MonoBehaviour
 
         //Iscrizione Eventi
         player.OnPlayerDeath += HandlePlayerDeath;
+        tokenMng.FinishToken += HandleFinishToken;
     }
     #endregion
 
@@ -96,6 +105,11 @@ public class LevelManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         Debug.Log("The Player is dead");
+    }
+
+    private void HandleFinishToken()
+    {
+        Debug.Log("All tokens have been taken");
     }
     #endregion
 
