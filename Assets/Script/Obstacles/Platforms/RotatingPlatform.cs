@@ -40,7 +40,7 @@ public class RotatingPlatform : Platform
             Vector3 rotatingVector = new Vector3(0, 0, rotatingSpeed);
             while (Quaternion.Angle(transform.rotation, targetRotation) > 1f)
             {
-                rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4, 0f) * Time.deltaTime;
+                rotatingVelocity = new Vector3(transform.up.x * 2f, Mathf.Abs(rotatingSpeed) / 4, 0f) * Time.deltaTime;
                 collisionCtrl.MovePassengerRotating(rotatingVelocity);
                 transform.Rotate(rotatingVector * Time.deltaTime);
                 yield return new WaitForFixedUpdate();

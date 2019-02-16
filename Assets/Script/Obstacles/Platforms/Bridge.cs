@@ -52,7 +52,7 @@ public class Bridge : Platform, ISticky
             {
                 if (opening)
                 {
-                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4, 0f) * Time.deltaTime;
+                    rotatingVelocity = new Vector3(transform.up.x * 2f, Mathf.Abs(rotatingSpeed) / 4, 0f) * Time.deltaTime;
                     collisionCtrl.MovePassengerRotating(rotatingVelocity);
                     transform.Rotate(rotatingVector * Time.deltaTime);
                     if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
@@ -65,7 +65,7 @@ public class Bridge : Platform, ISticky
                 }
                 else
                 {
-                    rotatingVelocity = new Vector3(transform.up.x * 2f, rotatingSpeed / 4, 0f) * Time.deltaTime;
+                    rotatingVelocity = new Vector3(transform.up.x * 2f, Mathf.Abs(rotatingSpeed) / 4, 0f) * Time.deltaTime;
                     collisionCtrl.MovePassengerRotating(rotatingVelocity);
                     transform.Rotate(rotatingVector * Time.deltaTime);
                     if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
