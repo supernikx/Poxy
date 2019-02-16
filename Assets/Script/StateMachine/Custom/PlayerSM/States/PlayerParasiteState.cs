@@ -15,6 +15,7 @@ namespace StateMachine.PlayerSM
             parasiteEnemy = context.parasite as IEnemy;
 
             context.player.OnEnemyCollision += OnEnemyCollision;
+            context.player.OnDemageableCollision += OnDamageableCollision;
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
 
             parasitePressed = false;
@@ -56,6 +57,9 @@ namespace StateMachine.PlayerSM
         public override void Exit()
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnDemageableCollision -= OnDamageableCollision;
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
             context.player.GetParasiteController().SetParasite(null);
 
@@ -75,13 +79,36 @@ namespace StateMachine.PlayerSM
         private void OnEnemyCollision(IEnemy _enemy)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnDemageableCollision -= OnDamageableCollision;
+
             parasiteEnemy.GetToleranceCtrl().AddTolerance(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }
 
+        private void OnDamageableCollision(IDamageable _damageable)
+        {
+            context.player.OnDemageableCollision -= OnDamageableCollision;
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+
+            switch (_damageable.DamageableType)
+            {
+                case DamageableType.Spike:
+                    parasiteEnemy.GetToleranceCtrl().AddTolerance((_damageable as Spike).GetDamage());
+                    context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                    context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
+                    break;
+                case DamageableType.Acid:
+                    context.player.StartNormalCoroutine();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void PlayerImmunityEnd()
         {
+            context.player.OnDemageableCollision += OnDamageableCollision;
             context.player.OnEnemyCollision += OnEnemyCollision;
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
         }

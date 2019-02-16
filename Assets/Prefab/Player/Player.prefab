@@ -864,7 +864,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1911186250763120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -106.67, y: 2.98, z: 0}
+  m_LocalPosition: {x: -2.99, y: 0.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4449267859801146}
@@ -1488,7 +1488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDeplete: 8
-  timeToFill: 8
+  timeToFill: 100
   maxHealth: 100
   minHealth: 0
   canDie: 0
@@ -1533,6 +1533,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
+  damageableLayer:
+    serializedVersion: 2
+    m_Bits: 131072
   immunityDuration: 1
   maxClimbAngle: 70
   maxDecendingAngle: 70

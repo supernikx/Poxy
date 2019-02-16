@@ -23,6 +23,11 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     private LayerMask enemyLayer;
     [SerializeField]
     /// <summary>
+    /// Layer per le collisioni con ostacoli che ti danneggiano
+    /// </summary>
+    private LayerMask damageableLayer;
+    [SerializeField]
+    /// <summary>
     /// Variabile che definisce il tempo di immunità del player se entra in collisione con un nemico
     /// </summar
     private float immunityDuration;
@@ -247,11 +252,20 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 Ray ray = new Ray(rayOrigin, Vector3.up);
                 RaycastHit hit;
 
+                //Controllo se colpisco un nemico
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
-                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                        player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                }
+
+                //Controllo se colpisco un oggetto damageable
+                if (Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
+                {
+                    //Mando l'evento
+                    if (player.OnDemageableCollision != null)
+                        player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
 
                 //Determina il punto da cui deve partire il ray opposto
@@ -261,11 +275,20 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Creo il ray opposto
                 Ray oppositeRay = new Ray(rayOrigin, Vector3.up);
 
+                //Controllo se colpisco un nemico
                 if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
                 {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
-                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                        player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                }
+
+                //Controllo se colpisco un oggetto damageable
+                if (Physics.Raycast(oppositeRay, out hit, rayLenght, damageableLayer))
+                {
+                    //Mando l'evento
+                    if (player.OnDemageableCollision != null)
+                        player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
             }
         }
@@ -307,6 +330,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 
                 if (checkDamageCollisions)
                 {
+                    //Controllo se colpisco un nemico
                     if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                     {
                         //Se colpisco un nemico azzero la velocity
@@ -315,7 +339,19 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 
                         //Mando l'evento
                         if (player.OnEnemyCollision != null)
-                            player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                            player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                    }
+
+                    //Controllo se colpisco un oggetto damageable
+                    if (Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
+                    {
+                        //Se colpisco un nemico azzero la velocity
+                        _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
+                        rayLenght = hit.distance;
+
+                        //Mando l'evento
+                        if (player.OnDemageableCollision != null)
+                            player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                     }
                 }
                 Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
@@ -370,11 +406,20 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 Ray ray = new Ray(rayOrigin, Vector3.right);
                 RaycastHit hit;
 
+                //Controllo se colpisco un nemico
                 if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
-                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                        player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                }
+
+                //Controllo se colpisco un oggetto demageable
+                if (Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
+                {
+                    //Mando l'evento
+                    if (player.OnDemageableCollision != null)
+                        player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
 
                 //Determina il punto da cui deve partire il ray opposto
@@ -384,11 +429,20 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Creo il ray opposto
                 Ray oppositeRay = new Ray(rayOrigin, Vector3.right);
 
+                //Controllo se colpisco un nemico
                 if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
                 {
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
-                        player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                        player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                }
+
+                //Controllo se colpisco un oggetto demageable
+                if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
+                {
+                    //Mando l'evento
+                    if (player.OnDemageableCollision != null)
+                        player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
             }
         }
@@ -452,6 +506,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 
                 if (checkDamageCollisions)
                 {
+                    //Controllo se colpisco un nemico
                     if (Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                     {
                         //Se colpisco un nemico azzero la velocity
@@ -460,7 +515,19 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 
                         //Mando l'evento
                         if (player.OnEnemyCollision != null)
-                            player.OnEnemyCollision(hit.collider.GetComponent<IEnemy>());
+                            player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
+                    }
+
+                    //Controllo se colpisco un oggetto damageable
+                    if (Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
+                    {
+                        //Se colpisco un nemico azzero la velocity
+                        _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                        rayLenght = hit.distance;
+
+                        //Mando l'evento
+                        if (player.OnDemageableCollision != null)
+                            player.OnDemageableCollision(hit.transform.GetComponent<IDamageable>());
                     }
                 }
                 Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);

@@ -9,6 +9,7 @@ namespace StateMachine.PlayerSM
         public override void Enter()
         {
             context.player.OnEnemyCollision += OnEnemyCollision;
+            context.player.OnDemageableCollision += OnDamageableCollision;
             context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
             parasitePressed = false;
@@ -19,6 +20,8 @@ namespace StateMachine.PlayerSM
         {
             parasitePressed = false;
             loseHealth = false;
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnDemageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;
         }
 
@@ -60,16 +63,39 @@ namespace StateMachine.PlayerSM
         private void OnEnemyCollision(IEnemy _enemy)
         {
             loseHealth = false;
+            context.player.OnDemageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.player.GetHealthController().DamageHit(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
         }
 
+        private void OnDamageableCollision(IDamageable _damageable)
+        {
+            loseHealth = false;
+            context.player.OnDemageableCollision -= OnDamageableCollision;
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+
+            switch (_damageable.DamageableType)
+            {
+                case DamageableType.Spike:                    
+                    context.player.GetHealthController().DamageHit((_damageable as Spike).GetDamage());
+                    context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                    context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
+                    break;
+                case DamageableType.Acid:
+                    context.player.StartDeathCoroutine();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void PlayerImmunityEnd()
         {
             loseHealth = true;
             context.player.OnEnemyCollision += OnEnemyCollision;
+            context.player.OnDemageableCollision += OnDamageableCollision;
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
         }
         #endregion

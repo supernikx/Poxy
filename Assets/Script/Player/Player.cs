@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     #region Delegates
     public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
     public PlayerEnemyCollisionDelegate OnEnemyCollision;
+    public delegate void PlayeDamageableCollisionDelegate(IDamageable damageable);
+    public PlayeDamageableCollisionDelegate OnDemageableCollision;
     public Action OnPlayerMaxHealth;
     public Action OnPlayerDeath;
     public Action OnPlayerImmunityEnd;
