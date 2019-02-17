@@ -1475,7 +1475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5fa514d85d39840bc77dbe1826395f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parasiteRange: 5
+  parasiteRange: 4
 --- !u!114 &114309646099034652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1487,8 +1487,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a61818480ac944b8b7127114b0bcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDeplete: 8
-  timeToFill: 100
+  timeToDeplete: 13
+  timeToFill: 20
   maxHealth: 100
   minHealth: 0
   canDie: 0
@@ -1557,20 +1557,20 @@ MonoBehaviour:
   stunShotSettings:
     bulletType: 0
     damage: 0
-    range: 5
-    shotSpeed: 10
-    firingRate: 5
+    range: 11
+    shotSpeed: 15
+    firingRate: 1.5
   damageShotSettings:
   - bulletType: 1
     damage: 1
-    range: 5
-    shotSpeed: 10
-    firingRate: 5
+    range: 20
+    shotSpeed: 15
+    firingRate: 2
   - bulletType: 2
     damage: 2
-    range: 10
-    shotSpeed: 10
-    firingRate: 5
+    range: 11
+    shotSpeed: 9
+    firingRate: 2
 --- !u!136 &136339827800590912
 CapsuleCollider:
   m_ObjectHideFlags: 1

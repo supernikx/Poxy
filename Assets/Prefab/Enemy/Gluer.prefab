@@ -119,7 +119,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961723527231292}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 36.32, y: -7.19, z: 0}
+  m_LocalPosition: {x: 34.56, y: -7.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4210835360919982}
@@ -135,7 +135,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1882647396919294}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.19, y: 0, z: 0}
+  m_LocalPosition: {x: 3.39, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4524415756016280}
@@ -284,9 +284,9 @@ MonoBehaviour:
   enemyShotSettings:
     bulletType: 2
     damage: 2
-    range: 10
-    shotSpeed: 8
-    firingRate: 1
+    range: 11
+    shotSpeed: 9
+    firingRate: 2
   stunDuration: 2
   stunHit: 2
   stunHitGot: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f6252e9ba07fd4d9834042dc3a1e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToFill: 5
+  timeToFill: 35
   maxTolerance: 25
   minTolerance: 0
   ToleranceText: {fileID: 0}
