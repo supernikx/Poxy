@@ -28,6 +28,7 @@ namespace StateMachine.PlayerSM
 
             context.player.GetCollisionController().CalculateParasiteCollision(parasiteEnemy);
             context.player.GetMovementController().SetCanMove(true);
+            context.player.GetShotController().SetShotPoint(parasiteEnemy.GetShotPoint());
             context.player.GetShotController().SetCanShootDamage(true);
         }
 
@@ -65,6 +66,7 @@ namespace StateMachine.PlayerSM
 
             context.player.GetCollisionController().CalculateNormalCollision();
 
+            context.player.GetShotController().SetShotPoint(context.player.GetShotController().GetShotPoint());
             context.player.GetShotController().SetCanShootDamage(false);
             parasitePressed = false;
             healthMax = false;

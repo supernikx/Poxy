@@ -242,6 +242,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     }
 
     /// <summary>
+    /// Funzione che ritorna lo shot point del nemico
+    /// </summary>
+    /// <returns></returns>
+    public Transform GetShotPoint()
+    {
+        return shotPosition;
+    }
+
+    /// <summary>
     /// Get stun duration
     /// </summary>
     public int GetStunDuration()

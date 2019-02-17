@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
     private IEnumerator NormalCoroutine()
     {
         ChangeGraphics(playerGraphic);
-        animCtrl.ResetAnimator();
+        animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
 
         parasiteCtrl.GetParasite().EndParasite();
         movementCtrl.Eject();

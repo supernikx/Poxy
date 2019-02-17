@@ -91,6 +91,12 @@ public interface IEnemy
     ObjectTypes GetShotType();
 
     /// <summary>
+    /// Funzione che ritorna lo shot point del nemico
+    /// </summary>
+    /// <returns></returns>
+    Transform GetShotPoint();
+
+    /// <summary>
     /// Funzione che ritorna la vita del nemico
     /// </summary>
     /// <returns></returns>

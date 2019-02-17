@@ -13,6 +13,7 @@ public class PlayerShotController : MonoBehaviour
     [Header("Shoot Settings")]
     [SerializeField]
     private Transform shotPoint;
+    private Transform shotPointInUse;
     [SerializeField]
     private GameObject aimObject;
     [SerializeField]
@@ -89,7 +90,7 @@ public class PlayerShotController : MonoBehaviour
     {
         float rotationZ;
         //Converto la posizione da cui devo sparare da world a screen
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(shotPoint.position);
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(shotPointInUse.position);
         //Calcolo la direzione tra la posizione del mouse e lo shoot point
         direction = (Input.mousePosition - screenPoint).normalized;
         //Calcolo la rotazione che deve fare il fucile
@@ -163,7 +164,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint.position, direction);
+            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
         }
     }
 
@@ -175,7 +176,7 @@ public class PlayerShotController : MonoBehaviour
         IBullet bullet = pool.GetPooledObject(enemyShotSetting.bulletType, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
-            bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPoint.position, direction);
+            bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
         }
     }
     #endregion
@@ -214,8 +215,10 @@ public class PlayerShotController : MonoBehaviour
         pool = _poolManager;
         canShotDamage = false;
         canShot = true;
+        SetShotPoint(GetShotPoint());
     }
 
+    #region Setter
     /// <summary>
     /// Funzione che imposta la variabile can shoot
     /// con quella passata come parametro
@@ -226,9 +229,22 @@ public class PlayerShotController : MonoBehaviour
         canShotDamage = _canShoot;
     }
 
+    /// <summary>
+    /// Funzione che imposta se il player può sparare o no
+    /// </summary>
+    /// <param name="_newValue"></param>
     public void SetCanShoot(bool _newValue)
     {
         canShot = _newValue;
+    }
+
+    /// <summary>
+    /// Funzione che imposta lo shot point in use con quello passato come parametro
+    /// </summary>
+    /// <param name="_newShotPoint"></param>
+    public void SetShotPoint(Transform _newShotPoint)
+    {
+        shotPointInUse = _newShotPoint;
     }
 
     /// <summary>
@@ -267,7 +283,9 @@ public class PlayerShotController : MonoBehaviour
             enemyShotSetting = newShotSettings;
         }
     }
+    #endregion
 
+    #region Getter
     /// <summary>
     /// Funzione che ritorna i Shot Settings in base al tipo di proiettile passato come parametro
     /// </summary>
@@ -282,6 +300,16 @@ public class PlayerShotController : MonoBehaviour
         }
         return null;
     }
+
+    /// <summary>
+    /// Funzione che ritorna lo shot point del player
+    /// </summary>
+    /// <returns></returns>
+    public Transform GetShotPoint()
+    {
+        return shotPoint;
+    }
+    #endregion
     #endregion
 }
 
