@@ -52,6 +52,10 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private LayerMask stickyObjectCollisionLayer;
     [SerializeField]
     private LayerMask avoidStickyObjectLayer;
+    [SerializeField]
+    private Transform rightPoint;
+    [SerializeField]
+    private Transform leftPoint;
 
     [Header("Stickyobject Stuck Settings")]
     [SerializeField]
@@ -85,9 +89,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
         transform.rotation = _rotation;
     }
 
-    public void Spawn(Vector3 _rightPosition, Vector3 _leftPostion)
+    public void Spawn(Vector3 _leftPoint, Vector3 _rightPoint)
     {
-        float actualDistance = Vector3.Distance(_rightPosition, _leftPostion);
+        float actualDistance = Vector3.Distance(_leftPoint, _rightPoint);
 
         if (actualDistance < minRange)
         {
@@ -99,13 +103,15 @@ public class StickyObject : MonoBehaviour, IPoolObject
             Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
             transform.localScale = newScale;
             boxCollider.size.Scale(newScale);
-            transform.position = Vector3.Lerp(_rightPosition, _leftPostion, 0.5f);
+            transform.position = Vector3.Lerp(_leftPoint, _rightPoint, 0.5f);
+            leftPoint.position = _leftPoint;
+            rightPoint.position = _rightPoint;
             if (OnObjectSpawn != null)
                 OnObjectSpawn(this);
 
             gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
             StartCoroutine(DespawnCoroutine());
-            StartCoroutine(CheckCollisionCoroutine(_rightPosition, _leftPostion));
+            StartCoroutine(CheckCollisionCoroutine());
         }
     }
 
@@ -233,11 +239,10 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// <param name="_leftPostion"></param>
     /// <returns></returns>
     private List<StickyCollisionsInfos> stickyList = new List<StickyCollisionsInfos>();
-    private IEnumerator CheckCollisionCoroutine(Vector3 _rightPosition, Vector3 _leftPostion)
+    private IEnumerator CheckCollisionCoroutine()
     {
         //Calcolo lo spazio tra un ray e l'altro
         checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
-        Vector3 rightPositionFixY = _rightPosition;
         Direction hitDirection = GetHitDirection();
         int rayRequiredStuckObject = (hitDirection == Direction.Above || hitDirection == Direction.Below) ? horizontalRayRequiredStuckObject : verticalRayRequiredStuckObject;
 
@@ -249,7 +254,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             for (int i = 0; i < checkStuckedObjectsRayCount; i++)
             {
                 //Determina il punto da cui deve partire il ray
-                Vector3 rayOrigin = rightPositionFixY;
+                Vector3 rayOrigin = leftPoint.position;
                 rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
 
                 //Crea il ray

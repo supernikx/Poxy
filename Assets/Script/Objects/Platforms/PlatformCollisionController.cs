@@ -152,6 +152,35 @@ public class PlatformCollisionController : MonoBehaviour
                     }
                 }
             }
+
+            if (_velocity.y == 0)
+            {
+                for (int i = 0; i < verticalRayCount; i++)
+                {
+                    //Determina il punto da cui deve partire il ray
+                    Vector3 rayOrigin = raycastStartPoints.bottomLeft.position;
+                    rayOrigin += transform.right * (verticalRaySpacing * i);
+
+                    //Crea il ray
+                    Ray ray = new Ray(rayOrigin, -transform.up);
+                    RaycastHit hit;
+
+                    //Eseguo il raycast
+                    if (Physics.Raycast(ray, out hit, rayLenght, passengerLayer))
+                    {
+                        if (!movedPassengers.Contains(hit.transform))
+                        {
+                            movedPassengers.Add(hit.transform);
+
+                            float pushX = -_velocity.x;
+                            float pushY = 0f;
+
+                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        }
+                    }
+                    Debug.DrawRay(rayOrigin, -transform.up * rayLenght, Color.blue);
+                }
+            }
         }
 
         //Passenger Fix horzizontal top e piattaforma che scende
@@ -247,10 +276,10 @@ public class PlatformCollisionController : MonoBehaviour
     }
     #endregion
 
-        /// <summary>
-        /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
-        /// che controllano le collisioni
-        /// </summary>
+    /// <summary>
+    /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
+    /// che controllano le collisioni
+    /// </summary>
     private struct RaycastStartPoints
     {
         public Transform topLeft;

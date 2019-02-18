@@ -76,8 +76,8 @@ public class StickyBullet : BulletBase
         StickyObject stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
         stickyObject.Init(_spawnPosition, Quaternion.LookRotation(Vector3.forward, _normal));
 
-        Vector3 leftMaxSize = stickyObject.CheckSpace(_normal, 1);
-        Vector3 rightMaxSize = stickyObject.CheckSpace(_normal, -1);
-        stickyObject.Spawn(rightMaxSize, leftMaxSize);
+        Vector3 rightMaxPosition = stickyObject.CheckSpace(_normal, 1);
+        Vector3 leftMaxPosition = stickyObject.CheckSpace(_normal, -1);
+        stickyObject.Spawn(leftMaxPosition, rightMaxPosition);
     }
 }
