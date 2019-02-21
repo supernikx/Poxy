@@ -33,11 +33,12 @@ public class Gluer : EnemyBase
     {
         // Vertical movement
         Vector3 movementTranslation = movementCtrl.MovementCheck(movementVector);
-
+        animCtrl.MovementAnimation(movementTranslation);
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
         if (CanShot && !isRotating)
         {
             bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, transform.right);
+            animCtrl.ShotAnimation();
             StartCoroutine(FiringRateCoroutine(roamingFiringRate));
         }
 
@@ -62,7 +63,7 @@ public class Gluer : EnemyBase
         while (true)
         {
             Vector3 movementVector = Vector3.zero;
-
+            Vector3 movementVelocity = movementVector;
             target = viewCtrl.FindPlayer();
             if (target == null)
                 yield return new WaitForFixedUpdate();
@@ -75,9 +76,10 @@ public class Gluer : EnemyBase
                 {
                     Vector3 _direction = (target.position - shotPosition.position);
                     bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition.position, _direction);
+                    animCtrl.ShotAnimation();
                     StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
                 }
-                movementCtrl.MovementCheck(movementVector);
+                movementVelocity = movementCtrl.MovementCheck(movementVector);
             }
             else
             {
@@ -94,9 +96,9 @@ public class Gluer : EnemyBase
                 movementVector.z = 0;
                 movementVector.y = 0;
                 movementVector.x = movementSpeed;
-                movementCtrl.MovementCheck(movementVector);
+                movementVelocity = movementCtrl.MovementCheck(movementVector);
             }
-
+            animCtrl.MovementAnimation(movementVelocity);
             yield return new WaitForFixedUpdate();
         }
     }

@@ -47,6 +47,8 @@ public class Walker : EnemyBase
         while (true)
         {
             target = viewCtrl.FindPlayer();
+            if (target == null)
+                yield return new WaitForFixedUpdate();
             Vector3 movementVector = Vector3.zero;
             Vector3 movementVelocity = movementVector;
 

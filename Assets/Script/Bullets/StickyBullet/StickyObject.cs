@@ -336,7 +336,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     {
         GameObject objectToAdd = stickyList[_index].Gobject;
         tempImmunityObjectList.Add(objectToAdd);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         tempImmunityObjectList.Remove(objectToAdd);
     }
 
