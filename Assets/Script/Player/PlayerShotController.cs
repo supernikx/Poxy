@@ -91,23 +91,41 @@ public class PlayerShotController : MonoBehaviour
         float rotationZ;
         //Converto la posizione da cui devo sparare da world a screen
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(shotPointInUse.position);
-        //Calcolo la direzione tra la posizione del mouse e lo shoot point
-        direction = (Input.mousePosition - screenPoint).normalized;
+        //Calcolo la poszione del mouse
+        Vector2 mousePosition = (Input.mousePosition - screenPoint).normalized;
         //Calcolo la rotazione che deve fare il fucile
-        rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rotationZ = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
 
         //Ruoto l'arma nella direzione in cui si sta mirando
-        if (direction.x < 0)
+        if (mousePosition.x < 0)
         {
             //Se si sta mirando nel senso opposto flippo l'arma
-            aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            if (rotationZ > -145f && rotationZ <= -90f)
+            {
+                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 145f);
+            }
+            else
+            {
+                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            }
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         }
         else
         {
-            aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            if (rotationZ >= -90f && rotationZ < -35f)
+            {
+                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -35f);
+            }
+            else
+            {
+                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            }
+
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
+
+        //Calcolo la direzione di sparo
+        direction = aimObject.transform.right;
     }
 
     /// <summary>
@@ -121,23 +139,39 @@ public class PlayerShotController : MonoBehaviour
         //Se non muovo lo stick lascio l'arma nella posizione precedente
         if (input.x == 0 && input.y == 0)
             return;
-        //Prendo la direzione a cui devo mirare
-        direction = new Vector3(input.x, input.y);
+
         //Calcolo la rotazione che deve fare il fucile
         rotationZ = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
 
         //Ruoto l'arma nella direzione in cui si sta mirando
-        if (direction.x < 0)
+        if (input.x < 0)
         {
             //Se si sta mirando nel senso opposto flippo l'arma
-            aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            if (rotationZ > -145f && rotationZ <= -90f)
+            {
+                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 145f);
+            }
+            else
+            {
+                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+            }
         }
         else
         {
-            aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            if (rotationZ >= -90f && rotationZ < -35f)
+            {
+                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -35f);
+            }
+            else
+            {
+                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+            }
         }
+
+        //Prendo la direzione a cui devo mirare
+        direction = aimObject.transform.right;
     }
     #endregion
 
@@ -188,8 +222,10 @@ public class PlayerShotController : MonoBehaviour
     Vector3 mousePreviewsPos;
     private bool UseMouseInput()
     {
-        if (Mathf.Approximately(Input.mousePosition.x, mousePreviewsPos.x) && Mathf.Approximately(Input.mousePosition.y, mousePreviewsPos.y))
+        if (Vector3.Distance(Input.mousePosition, mousePreviewsPos) < 0.1f)
         {
+            if (Input.GetButton("LeftMouse"))
+                return true;
             if (Input.GetJoystickNames().Where(j => j != "").FirstOrDefault() != null)
                 return false;
             return true;
