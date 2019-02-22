@@ -49,7 +49,7 @@ public class Gluer : EnemyBase
     {
         Transform target = viewCtrl.FindPlayer();
         if (target == null)
-            yield return new WaitForFixedUpdate();
+            yield break; 
 
         float rotationY;
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
@@ -66,7 +66,7 @@ public class Gluer : EnemyBase
             Vector3 movementVelocity = movementVector;
             target = viewCtrl.FindPlayer();
             if (target == null)
-                yield return new WaitForFixedUpdate();
+                yield break;
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             float _distance = Vector3.Distance(targetPosition, shotPosition.position);

@@ -33,7 +33,7 @@ public class Walker : EnemyBase
     {
         Transform target = viewCtrl.FindPlayer();
         if (target == null)
-            yield return new WaitForFixedUpdate();
+            yield break;
 
         float rotationY;
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
@@ -48,12 +48,9 @@ public class Walker : EnemyBase
         {
             target = viewCtrl.FindPlayer();
             if (target == null)
-                yield return new WaitForFixedUpdate();
+                yield break;
             Vector3 movementVector = Vector3.zero;
             Vector3 movementVelocity = movementVector;
-
-            if (target == null)
-                yield return new WaitForFixedUpdate();
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition.position, enemyShotSettings.shotSpeed))

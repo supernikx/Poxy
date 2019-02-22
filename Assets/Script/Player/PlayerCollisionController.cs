@@ -233,14 +233,15 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     {
         if (_sticky)
         {
+            //Azzero la velocity sull'asse delle y
+            _movementVelocity.y = 0f;
+
             //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
             if (!checkDamageCollisions)
                 return;
 
             //Determina la lunghezza del raycast
             float rayLenght = 0.3f;
-            //Azzero la velocity sull'asse delle y
-            _movementVelocity.y = 0f;
             //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
             for (int i = 0; i < verticalRayCount; i++)
             {
@@ -387,14 +388,15 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     {
         if (_sticky)
         {
+            //Azzero la velocity sull'asse delle X
+            _movementVelocity.x = 0f;
+
             //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
             if (!checkDamageCollisions)
                 return;
 
             //Determino la lunghezza del ray
             float rayLenght = 0.3f;
-            //Azzero la velocity sull'asse delle X
-            _movementVelocity.x = 0f;
             //Cicla tutti i punti da cui deve partire un raycast sull'asse orizzontale
             for (int i = 0; i < horizontalRayCount; i++)
             {
@@ -438,7 +440,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 }
 
                 //Controllo se colpisco un oggetto demageable
-                if (Physics.Raycast(oppositeRay, out hit, rayLenght, enemyLayer))
+                if (Physics.Raycast(oppositeRay, out hit, rayLenght, damageableLayer))
                 {
                     //Mando l'evento
                     if (player.OnDemageableCollision != null)
