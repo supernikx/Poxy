@@ -49,7 +49,7 @@ public class ParabolicBullet : BulletBase
         if (CurrentState == State.InUse)
         {
             Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
-            Checkcollisions(_movementDirection);
+            Checkcollisions(_movementDirection * Time.deltaTime);
 
             //Calcolo la rotazione in base al movimento del proiettile e la applico
             float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;

@@ -32,7 +32,7 @@ public class DamageBullet : BulletBase
         if (CurrentState == State.InUse)
         {
             Vector3 _movementDirection = transform.right * speed;
-            if (!Checkcollisions(_movementDirection))
+            if (!Checkcollisions(_movementDirection * Time.deltaTime))
             {
                 transform.position += _movementDirection * Time.deltaTime;
                 if (Vector3.Distance(shotPosition, transform.position) >= range)

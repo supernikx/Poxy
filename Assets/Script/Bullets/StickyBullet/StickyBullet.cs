@@ -16,7 +16,7 @@ public class StickyBullet : BulletBase
         if (CurrentState == State.InUse)
         {
             Vector3 _movementDirection = transform.right * speed;
-            if (!Checkcollisions(_movementDirection))
+            if (!Checkcollisions(_movementDirection * Time.deltaTime))
             {
                 transform.position += _movementDirection * Time.deltaTime;
                 if (Vector3.Distance(shotPosition, transform.position) >= range)
@@ -32,8 +32,8 @@ public class StickyBullet : BulletBase
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
-            int damage = Mathf.RoundToInt(enemyHit.GetHealth() * percentageLife / 100);
-            enemyHit.DamageHit(damage);
+            enemyHit.DamageHit(GetBulletDamage());
+            Debug.Log(damage);
         }
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))

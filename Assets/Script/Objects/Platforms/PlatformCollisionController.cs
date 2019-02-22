@@ -116,7 +116,18 @@ public class PlatformCollisionController : MonoBehaviour
                         float pushX = (directionY == 1) ? _velocity.x : 0;
                         float pushY = _velocity.y * directionY;
 
-                        hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                        {
+                            Transform playerTransform = hit.transform;
+                            if (hit.transform.parent != null)
+                                playerTransform = hit.transform.parent;
+                            PlayerCollisionController collisionCtrl =  playerTransform.GetComponent<PlayerCollisionController>();
+                            playerTransform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
+                        }
+                        else
+                        {
+                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        }
                     }
                 }
             }
@@ -148,7 +159,18 @@ public class PlatformCollisionController : MonoBehaviour
                         float pushX = _velocity.x - (hit.distance - collisionOffset) * directionX;
                         float pushY = 0;
 
-                        hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                        {
+                            Transform playerTransform = hit.transform;
+                            if (hit.transform.parent != null)
+                                playerTransform = hit.transform.parent;
+                            PlayerCollisionController collisionCtrl = playerTransform.GetComponent<PlayerCollisionController>();
+                            playerTransform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
+                        }
+                        else
+                        {
+                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        }
                     }
                 }
             }
@@ -175,10 +197,20 @@ public class PlatformCollisionController : MonoBehaviour
                             float pushX = -_velocity.x;
                             float pushY = 0f;
 
-                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                            {
+                                Transform playerTransform = hit.transform;
+                                if (hit.transform.parent != null)
+                                    playerTransform = hit.transform.parent;
+                                PlayerCollisionController collisionCtrl = playerTransform.GetComponent<PlayerCollisionController>();
+                                playerTransform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
+                            }
+                            else
+                            {
+                                hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                            }
                         }
                     }
-                    Debug.DrawRay(rayOrigin, -transform.up * rayLenght, Color.blue);
                 }
             }
         }
@@ -207,7 +239,18 @@ public class PlatformCollisionController : MonoBehaviour
                         float pushX = _velocity.x;
                         float pushY = _velocity.y;
 
-                        hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                        {
+                            Transform playerTransform = hit.transform;
+                            if (hit.transform.parent != null)
+                                playerTransform = hit.transform.parent;
+                            PlayerCollisionController collisionCtrl = playerTransform.GetComponent<PlayerCollisionController>();
+                            playerTransform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
+                        }
+                        else
+                        {
+                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                        }
                     }
                 }
             }

@@ -94,7 +94,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     protected abstract void Move();
 
-    private void Update()
+    private void FixedUpdate()
     {
         Move();
     }
@@ -160,7 +160,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     [SerializeField]
     float rayLenght;
     float raySpacing;
-    float test;
+    float offSet;
 
     /// <summary>
     /// Funzione che calcola lo spazio tra i raycast
@@ -170,7 +170,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         Bounds bulletBound = bulletCollider.bounds;
         bulletBound.Expand(colliderOffset * -2f);
         raySpacing = bulletBound.size.y / (rayCount - 1);
-        test = bulletBound.size.x / 2;
+        offSet = bulletBound.size.x / 2;
     }
 
     /// <summary>
@@ -179,11 +179,12 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_movementVelocity"></param>
     protected bool Checkcollisions(Vector3 _direction)
     {
+        rayLenght = Mathf.Abs(_direction.x) + colliderOffset;
         //Cicla tutti i punti da cui deve partire un raycast
         for (int i = 0; i < rayCount; i++)
         {
             //Determina il punto da cui deve partire il ray (centro del proiettile)
-            Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * test);
+            Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * offSet);
             rayOrigin += transform.up * (raySpacing * i);
 
             //Crea il ray
