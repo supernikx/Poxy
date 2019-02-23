@@ -71,6 +71,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     float maxDistance;
     float maxXScale;
     float yOffset;
+
     #region API
     public void Setup()
     {
@@ -106,6 +107,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
             transform.position = Vector3.Lerp(_leftPoint, _rightPoint, 0.5f);
             leftPoint.position = _leftPoint;
             rightPoint.position = _rightPoint;
+            velocity = Vector3.zero;
+            previousPosition = transform.position;
+
             if (OnObjectSpawn != null)
                 OnObjectSpawn(this);
 
@@ -297,6 +301,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 Debug.DrawRay(rayOrigin, transform.up * rayLenght, Color.black);
             }
 
+            CalculateVelocity();
+
             //Ciclo tutti gli oggetti con cui sono in collisione
             for (int i = stickyList.Count - 1; i >= 0; i--)
             {
@@ -325,9 +331,110 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
                 //Azzero i ray che colpiscono l'oggetto
                 stickyList[i].StickyRay = 0;
+                MovePassenger(stickyList[i].Gobject.transform, velocity * Time.deltaTime);
             }
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    /// <summary>
+    /// Funzione che sposta eventuali oggetti attaccati
+    /// </summary>
+    /// <param name="_hitTransform"></param>
+    /// <param name="_velocity"></param>
+    public void MovePassenger(Transform _hitTransform, Vector3 _velocity)
+    {
+        HashSet<Transform> movedPassengers = new HashSet<Transform>();
+        float directionX = Mathf.Sign(_velocity.x);
+        float directionY = Mathf.Sign(_velocity.y);
+
+        //Vertical Moving platform
+        if (_velocity.y != 0)
+        {
+
+            if (!movedPassengers.Contains(_hitTransform))
+            {
+                movedPassengers.Add(_hitTransform);
+
+                float pushX = 0;
+                float pushY = _velocity.y;
+
+                if (_hitTransform.gameObject.layer == LayerMask.NameToLayer("Player") || _hitTransform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                {
+                    PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
+                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                }
+                else
+                {
+                    _hitTransform.Translate(new Vector3(pushX, pushY, 0));
+                }
+            }
+        }
+
+        //Horizontal Moving platform
+        if (_velocity.x != 0)
+        {
+            if (!movedPassengers.Contains(_hitTransform))
+            {
+                movedPassengers.Add(_hitTransform);
+
+                float pushX = _velocity.x;
+                float pushY = 0;
+
+                if (_hitTransform.gameObject.layer == LayerMask.NameToLayer("Player") || _hitTransform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                {
+                    PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
+                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                }
+                else
+                {
+                    _hitTransform.Translate(new Vector3(pushX, pushY, 0));
+                }
+            }
+
+            if (_velocity.y == 0)
+            {
+                if (!movedPassengers.Contains(_hitTransform))
+                {
+                    movedPassengers.Add(_hitTransform);
+
+                    float pushX = -_velocity.x;
+                    float pushY = 0f;
+
+                    if (_hitTransform.gameObject.layer == LayerMask.NameToLayer("Player") || _hitTransform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                    {
+                        PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
+                        collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                    }
+                    else
+                    {
+                        _hitTransform.Translate(new Vector3(pushX, pushY, 0));
+                    }
+                }
+            }
+        }
+
+        //Passenger Fix horzizontal top e piattaforma che scende
+        if (directionY == -1 || _velocity.y == 0 && _velocity.x != 0)
+        {
+            if (!movedPassengers.Contains(_hitTransform))
+            {
+                movedPassengers.Add(_hitTransform);
+
+                float pushX = _velocity.x;
+                float pushY = _velocity.y;
+
+                if (_hitTransform.gameObject.layer == LayerMask.NameToLayer("Player") || _hitTransform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                {
+                    PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
+                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                }
+                else
+                {
+                    _hitTransform.Translate(new Vector3(pushX, pushY, 0));
+                }
+            }
         }
     }
 
@@ -339,6 +446,26 @@ public class StickyObject : MonoBehaviour, IPoolObject
         yield return new WaitForSeconds(0.1f);
         tempImmunityObjectList.Remove(objectToAdd);
     }
+
+    #region Velocity
+    /// <summary>
+    /// Vettore di velocità del player
+    /// </summary>
+    Vector3 velocity;
+    /// <summary>
+    /// Poszione al frame precendente del player
+    /// </summary>
+    Vector3 previousPosition;
+    /// <summary>
+    /// Funzion che calcola la velocità di movimento della marble
+    /// </summary>
+    void CalculateVelocity()
+    {
+        if (Vector3.Distance(transform.position, previousPosition) < 10f)
+            velocity = (transform.position - previousPosition) / Time.fixedDeltaTime;
+        previousPosition = transform.position;
+    }
+    #endregion
 
     /// <summary>
     /// Funzione che ritorna la direzione opposta alla posizione attuale dell'oggetto

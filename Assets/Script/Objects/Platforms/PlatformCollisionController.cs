@@ -9,6 +9,8 @@ public class PlatformCollisionController : MonoBehaviour
     [SerializeField]
     LayerMask passengerLayer;
     [SerializeField]
+    LayerMask alwaysFollowLayer;
+    [SerializeField]
     /// <summary>
     /// Numero di raycast orrizontali
     /// </summary>
@@ -131,6 +133,71 @@ public class PlatformCollisionController : MonoBehaviour
                         }
                     }
                 }
+
+                if (_velocity.x == 0)
+                {
+                    for (int i = 0; i < horizontalRayCount; i++)
+                    {
+                        //Determina il punto da cui deve partire il ray
+                        Vector3 rayOrigin = collidersSettings[k].raycastPoints.bottomLeft.position;
+                        rayOrigin += transform.up * (collidersSettings[k].horizontalRaySpacing * i);
+                        //Crea il ray
+                        Ray ray = new Ray(rayOrigin, -transform.right);
+                        RaycastHit hit;
+
+                        //Eseguo il raycast
+                        if (Physics.Raycast(ray, out hit, rayLenght, alwaysFollowLayer))
+                        {
+                            if (!movedPassengers.Contains(hit.transform))
+                            {
+                                movedPassengers.Add(hit.transform);
+
+                                float pushX = _velocity.y;
+                                float pushY = 0;
+
+                                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                                {
+                                    PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
+                                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                                }
+                                else
+                                {
+                                    hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                                }
+                            }
+                        }
+
+                        //Determina il punto da cui deve partire il ray
+                        Vector3 oppositeRayOrigin = collidersSettings[k].raycastPoints.bottomRight.position;
+                        oppositeRayOrigin += transform.up * (collidersSettings[k].horizontalRaySpacing * i);
+
+                        //Crea il ray
+                        Ray oppositeRay = new Ray(oppositeRayOrigin, transform.right);
+                        RaycastHit oppositeHit;
+
+                        //Eseguo il raycast
+                        if (Physics.Raycast(oppositeRay, out oppositeHit, rayLenght, alwaysFollowLayer))
+                        {
+                            if (!movedPassengers.Contains(oppositeHit.transform))
+                            {
+                                movedPassengers.Add(oppositeHit.transform);
+
+                                float pushX = _velocity.y;
+                                float pushY = 0f;
+
+                                if (oppositeHit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || oppositeHit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+                                {
+                                    PlayerCollisionController collisionCtrl = oppositeHit.transform.GetComponentInParent<PlayerCollisionController>();
+                                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                                }
+                                else
+                                {
+                                    oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             //Horizontal Moving platform
@@ -185,7 +252,7 @@ public class PlatformCollisionController : MonoBehaviour
                         RaycastHit hit;
 
                         //Eseguo il raycast
-                        if (Physics.Raycast(ray, out hit, rayLenght, passengerLayer))
+                        if (Physics.Raycast(ray, out hit, rayLenght, alwaysFollowLayer))
                         {
                             if (!movedPassengers.Contains(hit.transform))
                             {
