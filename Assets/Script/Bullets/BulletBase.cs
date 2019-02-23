@@ -70,6 +70,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     {
         bulletCollider = GetComponent<Collider>();
         CalculateRaySpacing();
+        UpdateRaycastOrigins();
     }
 
     /// <summary>
@@ -94,9 +95,12 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     protected abstract void Move();
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Move();
+        if (CurrentState == State.InUse)
+        {
+            Move();
+        }
     }
 
     #region IBullet
@@ -153,7 +157,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
 
     #region Collision
     Collider bulletCollider;
-    const float colliderOffset = 0.015f;
+    const float colliderOffset = 0.1f;
     [Header("Collision Settings")]
     [SerializeField]
     int rayCount;
@@ -161,6 +165,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     float rayLenght;
     float raySpacing;
     float offSet;
+    RaycastStartPoints raycastPoint;
 
     /// <summary>
     /// Funzione che calcola lo spazio tra i raycast
@@ -174,6 +179,31 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     /// <summary>
+    /// Funzione che calcola i 4 punti principali da cui partono i raycast
+    /// AltoDestra, AltoSinistra, BassoDestra, BassoSinistra
+    /// </summary>
+    private void UpdateRaycastOrigins()
+    {
+        Bounds bounds = bulletCollider.bounds;
+        bounds.Expand(colliderOffset * -2);
+
+        raycastPoint.bottomLeft = new GameObject("BottomLeftPoint").transform;
+        raycastPoint.bottomRight = new GameObject("BottomRightPoint").transform;
+        raycastPoint.topLeft = new GameObject("TopLeftPoint").transform;
+        raycastPoint.topRight = new GameObject("TopRightPoint").transform;
+
+        raycastPoint.bottomLeft.SetParent(transform);
+        raycastPoint.bottomRight.SetParent(transform);
+        raycastPoint.topLeft.SetParent(transform);
+        raycastPoint.topRight.SetParent(transform);
+
+        raycastPoint.bottomLeft.position = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
+        raycastPoint.bottomRight.position = new Vector3(bounds.max.x, bounds.min.y, transform.position.z);
+        raycastPoint.topLeft.position = new Vector3(bounds.min.x, bounds.max.y, transform.position.z);
+        raycastPoint.topRight.position = new Vector3(bounds.max.x, bounds.max.y, transform.position.z);
+    }
+
+    /// <summary>
     /// Funzione che controlla se avviene una collisione sugli assi verticali
     /// </summary>
     /// <param name="_movementVelocity"></param>
@@ -184,10 +214,11 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         for (int i = 0; i < rayCount; i++)
         {
             //Determina il punto da cui deve partire il ray (centro del proiettile)
-            Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * offSet);
-            rayOrigin += transform.up * (raySpacing * i);
+            //Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * offSet);
+            Vector3 rayOrigin = raycastPoint.topLeft.position;
+            rayOrigin += -transform.right * (raySpacing * i);
 
-            //Crea il ray
+            //Crea il ray            
             Ray ray = new Ray(rayOrigin, transform.right);
             RaycastHit hit;
 
@@ -209,14 +240,29 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_collisionInfo"></param>
     protected virtual bool OnBulletCollision(RaycastHit _collisionInfo)
     {
-        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
-            return false;
-
-        if (_collisionInfo.transform.gameObject == ownerObject)         
+        if (
+            _collisionInfo.transform.gameObject == gameObject ||
+            _collisionInfo.transform.gameObject == ownerObject ||
+            _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
+            ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player") ||
+            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
+            )
             return false;
 
         ObjectDestroyEvent();
         return true;
+    }
+
+    /// <summary>
+    /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
+    /// che controllano le collisioni
+    /// </summary>
+    private struct RaycastStartPoints
+    {
+        public Transform topLeft;
+        public Transform topRight;
+        public Transform bottomLeft;
+        public Transform bottomRight;
     }
     #endregion
 }

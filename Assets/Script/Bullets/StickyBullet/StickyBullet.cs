@@ -13,16 +13,13 @@ public class StickyBullet : BulletBase
 
     protected override void Move()
     {
-        if (CurrentState == State.InUse)
+        Vector3 _movementDirection = transform.right * speed;
+        if (!Checkcollisions(_movementDirection * Time.deltaTime))
         {
-            Vector3 _movementDirection = transform.right * speed;
-            if (!Checkcollisions(_movementDirection * Time.deltaTime))
+            transform.position += _movementDirection * Time.deltaTime;
+            if (Vector3.Distance(shotPosition, transform.position) >= range)
             {
-                transform.position += _movementDirection * Time.deltaTime;
-                if (Vector3.Distance(shotPosition, transform.position) >= range)
-                {
-                    ObjectDestroyEvent();
-                }
+                ObjectDestroyEvent();
             }
         }
     }
