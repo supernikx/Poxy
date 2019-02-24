@@ -195,7 +195,7 @@ public class PlayerShotController : MonoBehaviour
     /// </summary>
     private void ShotStunBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(ObjectTypes.StickyBullet, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
             bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
