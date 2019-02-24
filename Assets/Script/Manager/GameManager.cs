@@ -17,13 +17,12 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Riferimento all'ui manager
     /// </summary>
-    UIManager uiManager;
+    UI_ManagerBase uiManager;
 
     private void Awake()
     {
         //Get Components
         gameSM = GetComponent<GameSMController>();
-        uiManager = GetComponent<UIManager>();
 
         // Singleton
         if (singleton == null)
@@ -37,15 +36,29 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        uiManager.Init();
         gameSM.Init(this);
     }
 
     #region API
     /// <summary>
+    /// Funzione che cerca un ui manager in scena e se è diverso da quello precedente lo sostituisce
+    /// </summary>
+    public UI_ManagerBase FindUIManager()
+    {
+        UI_ManagerBase newUi = FindObjectOfType<UI_ManagerBase>();
+        if (newUi != uiManager)
+        {
+            uiManager = newUi;
+            uiManager.Setup(this);
+        }
+        
+        return uiManager;
+    }
+
+    /// <summary>
     /// Funzione che ritorna l'ui manager
     /// </summary>
-    public UIManager GetUIManager()
+    public UI_ManagerBase GetUIManager()
     {
         return uiManager;
     }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class MainMenuUIController : MonoBehaviour
+    public class UIMenu_MainMenu : UIMenu_Base
     {
         [SerializeField]
         Button startButton;
@@ -13,13 +13,13 @@ namespace UI
         /// <summary>
         /// Riferimento all'ui manager
         /// </summary>
-        UIManager uiManager;
+        UI_ManagerBase uiManager;
 
         /// <summary>
         /// Funzione che inizializza il controller
         /// </summary>
         /// <param name="_uiManager"></param>
-        public void Init(UIManager _uiManager)
+        public override void Setup(UI_ManagerBase _uiManager)
         {
             uiManager = _uiManager;
             startButton.onClick.AddListener(HandleStartButton);

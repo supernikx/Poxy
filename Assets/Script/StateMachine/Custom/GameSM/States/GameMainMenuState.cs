@@ -7,17 +7,16 @@ namespace StateMachine.GameSM
 {
     public class GameMainMenuState : GameSMStateBase
     {
-        UIManager uiManager;
+        UI_ManagerBase uiManager;
 
         public override void Enter()
         {
-            uiManager = context.gameManager.GetUIManager();
-            uiManager.ActiveMenu(Menu.MainMenu);
+            uiManager = context.gameManager.FindUIManager();
         }
 
         public override void Exit()
         {
-            uiManager.DisableAllMenu();
+            uiManager.DisableAllMenus();
         }
     }
 }
