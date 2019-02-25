@@ -24,7 +24,7 @@ namespace StateMachine.PlayerSM
         {
             playerSM = GetComponent<Animator>();
 
-            context = new PlayerSMContext(_player);
+            context = new PlayerSMContext(_player, LevelManager.instance.GetUIGameplayManager());
 
             foreach (StateMachineBehaviour state in playerSM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -80,10 +80,12 @@ namespace StateMachine.PlayerSM
     {
         public Player player;
         public IControllable parasite;
+        public UI_GameplayManager UIManager;
 
-        public PlayerSMContext(Player _player)
+        public PlayerSMContext(Player _player, UI_GameplayManager _uiManager)
         {
             player = _player;
+            UIManager = _uiManager;
         }
     }
 }

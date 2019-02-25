@@ -28,7 +28,7 @@ namespace StateMachine.EnemySM
             enemy = _enemy;
             enemySM = GetComponent<Animator>();
 
-            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback, EnemyEndAlertCallback);
+            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback, EnemyEndAlertCallback, LevelManager.instance.GetUIGameplayManager());
 
             foreach (StateMachineBehaviour state in enemySM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -115,10 +115,12 @@ namespace StateMachine.EnemySM
         public Action EndAlertCallback;
         public Player player;
         public IEnemy enemy;
+        public UI_GameplayManager UIManager;
 
-        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback, Action _endAlertCallback)
+        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback, Action _endAlertCallback, UI_GameplayManager _uiManager)
         {
             enemy = _enemy;
+            UIManager = _uiManager;
             EndStunCallback = _endStunCallback;
             EndDeathCallback = _endDeathCallback;
             EndAlertCallback = _endAlertCallback;

@@ -16,7 +16,7 @@ namespace StateMachine.GameSM
 
         public override void Exit()
         {
-            uiManager.DisableAllMenus();
+            uiManager.ToggleMenu(MenuType.None);
         }
     }
 }

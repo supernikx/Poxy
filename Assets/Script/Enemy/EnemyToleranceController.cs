@@ -11,6 +11,8 @@ using System.Collections;
 public class EnemyToleranceController : MonoBehaviour
 {
     #region Delegates
+    public delegate void EnemyToeleranceDelegate(float tolerance);
+    public static EnemyToeleranceDelegate OnToleranceChange;
     public Action OnMaxTolleranceBar;
     #endregion
 
@@ -25,29 +27,27 @@ public class EnemyToleranceController : MonoBehaviour
     [Tooltip("Min Health")]
     private float minTolerance = 0;
 
-
-    [Header("UI Settings")]
-    [SerializeField]
-    [Tooltip("Reference to the health text")]
-    private TextMeshProUGUI ToleranceText;
-
-    [SerializeField]
-    private float tolerance;
+    private float tolerance
+    {
+        set
+        {
+            _tolerance = value;
+            if (OnToleranceChange != null)
+                OnToleranceChange(_tolerance);
+        }
+        get
+        {
+            return _tolerance;
+        }
+    }
+    private float _tolerance;
 
     private bool active = false;
-    //Provvisorio per debug
-    public bool inState = false;
 
     /// <summary>
     /// Amount of tolerance gain every frame
     /// </summary>
     private float gainPerSecond;
-
-    private void Update()
-    {
-        if (inState)
-            ToleranceText.text = "Tolerance: " + Mathf.RoundToInt(tolerance) + " / " + maxTolerance;
-    }
 
     #region API
     public void Init()
@@ -58,8 +58,6 @@ public class EnemyToleranceController : MonoBehaviour
     public void Setup()
     {
         tolerance = minTolerance;
-        ToleranceText.text = "Tolerance: " + Mathf.RoundToInt(tolerance) + " / " + maxTolerance;
-        inState = true;
     }
 
     /// <summary>
@@ -125,9 +123,22 @@ public class EnemyToleranceController : MonoBehaviour
         return active;
     }
 
+    /// <summary>
+    /// Funzione che ritorna la tolerance attuale
+    /// </summary>
+    /// <returns></returns>
     public float GetTolerance()
     {
         return tolerance;
+    }
+
+    /// <summary>
+    /// Funzione che ritrona la tolleranza massima
+    /// </summary>
+    /// <returns></returns>
+    public float GetMaxTolerance()
+    {
+        return maxTolerance;
     }
     #endregion
 
@@ -139,11 +150,6 @@ public class EnemyToleranceController : MonoBehaviour
     public void SetActive(bool _active)
     {
         active = _active;
-        if (!active)
-        {
-            inState = false;
-            ToleranceText.text = "Tolerance: ";
-        }
     }
     #endregion
     #endregion

@@ -12,6 +12,11 @@ public class UI_MenuManager : UI_ManagerBase
     private UIMenu_LoadingPanel loadingPanel;
 
     #region Getter
+    public override UI_MenuManager GetMenuManager()
+    {
+        return this;
+    }
+
     public UIMenu_MainMenu GetMainMenuPanel()
     {
         return mainMenuPanel;

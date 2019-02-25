@@ -5,6 +5,10 @@ using TMPro;
 
 public class PlayerHealthController : MonoBehaviour
 {
+    #region Delegates
+    public delegate void PlayerHealthDelegates(float health);
+    public static PlayerHealthDelegates OnHealthChange;
+    #endregion
 
     [Header("Health Settings")]
     [SerializeField]
@@ -22,15 +26,23 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]
     private bool canDie = true;
 
-    [Header("UI Settings")]
-    [SerializeField]
-    [Tooltip("Reference to the health text")]
-    private TextMeshProUGUI healthText;
-
     /// <summary>
     /// Player Health
     /// </summary>
-    private float health;
+    private float health
+    {
+        set
+        {
+            _health = value;
+            if (OnHealthChange != null)
+                OnHealthChange(_health);
+        }
+        get
+        {
+            return _health;
+        }
+    }
+    private float _health;
 
     /// <summary>
     /// Amount of health lost every frame
@@ -46,14 +58,6 @@ public class PlayerHealthController : MonoBehaviour
     /// Reference to Player
     /// </summary>
     private Player player;
-
-    /// <summary>
-    /// Temporary for debugging
-    /// </summary>
-    void Update()
-    {
-        healthText.text = "Health: " + Mathf.RoundToInt(health);
-    }
 
     #region API
     /// <summary>

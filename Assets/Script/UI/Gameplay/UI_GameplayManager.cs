@@ -8,11 +8,64 @@ public class UI_GameplayManager : UI_ManagerBase
     [Header("Panels")]
     [SerializeField]
     private UIMenu_LoadingPanel loadingPanel;
+    [SerializeField]
+    private UIMenu_GamePanel gamePanel;
+    [SerializeField]
+    private UIMenu_PausePanel pausePanel;
 
     #region Getter
+    /// <summary>
+    /// Funzione che ritorna l'uigameplay manager
+    /// </summary>
+    /// <returns></returns>
+    public override UI_GameplayManager GetGameplayManager()
+    {
+        return this;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il loading panel
+    /// </summary>
+    /// <returns></returns>
     public UIMenu_LoadingPanel GetLoadingPanel()
     {
         return loadingPanel;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il game panel
+    /// </summary>
+    /// <returns></returns>
+    public UIMenu_GamePanel GetGamePanel()
+    {
+        return gamePanel;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il pause panel
+    /// </summary>
+    /// <returns></returns>
+    public UIMenu_PausePanel GetPausePanel()
+    {
+        return pausePanel;
+    }
+    #endregion
+
+    #region Pause
+    /// <summary>
+    /// Funzione che si occupa dell'evento LevelManager.OnGamePause 
+    /// </summary>
+    private void OnGamePause()
+    {
+        ToggleMenu(MenuType.Pause);
+    }
+
+    /// <summary>
+    /// Funzione che si occupa dell'evento LevelManager.OnGameUnPause 
+    /// </summary>
+    private void OnGameUnPause()
+    {
+        ToggleMenu(MenuType.Game);
     }
     #endregion
 
@@ -21,6 +74,8 @@ public class UI_GameplayManager : UI_ManagerBase
     /// </summary>
     public override void StartSetup()
     {
+        LevelManager.OnGamePause += OnGamePause;
+        LevelManager.OnGameUnPause += OnGameUnPause;
         ToggleMenu(MenuType.Loading);
     }
 
@@ -37,6 +92,13 @@ public class UI_GameplayManager : UI_ManagerBase
                 break;
             case MenuType.Loading:
                 loadingPanel.Enable();
+                break;
+            case MenuType.Game:
+                gamePanel.Enable();
+                break;
+            case MenuType.Pause:
+                gamePanel.Enable();
+                pausePanel.Enable();
                 break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");

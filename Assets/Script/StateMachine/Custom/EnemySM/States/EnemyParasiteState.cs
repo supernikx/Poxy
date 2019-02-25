@@ -8,11 +8,15 @@ namespace StateMachine.EnemySM
     public class EnemyParasiteState : EnemySMStateBase
     {
         EnemyToleranceController tolleranceCtrl;
+        UI_GameplayManager uiManager;
 
         public override void Enter()
         {
+            uiManager = context.UIManager;
             tolleranceCtrl = context.enemy.GetToleranceCtrl();
             tolleranceCtrl.Setup();
+            uiManager.GetGamePanel().SetMaxToleranceValue(tolleranceCtrl.GetMaxTolerance());
+            uiManager.GetGamePanel().EnableToleranceBar(true);
             context.enemy.SetCanStun(false);
             context.player.OnPlayerMaxHealth += PlayerMaxHealth;
         }
@@ -38,6 +42,8 @@ namespace StateMachine.EnemySM
 
             tolleranceCtrl.SetActive(false);
             tolleranceCtrl = null;
+
+            uiManager.GetGamePanel().EnableToleranceBar(false);
 
             context.enemy.SetCanStun(true);
             context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();

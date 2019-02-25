@@ -32,6 +32,18 @@ public abstract class UI_ManagerBase : MonoBehaviour
         foreach (UIMenu_Base menu in menus)
             menu.Disable();
     }
+
+    public virtual UI_GameplayManager GetGameplayManager()
+    {
+        Debug.LogError("UI Gameplay Manager non presente");
+        return null;
+    }
+
+    public virtual UI_MenuManager GetMenuManager()
+    {
+        Debug.LogError("UI Menu Manager non presente");
+        return null;
+    }
 }
 
 public enum MenuType
@@ -39,5 +51,7 @@ public enum MenuType
     None,
     MainMenu,
     Loading,
+    Game,
+    Pause,
 }
 

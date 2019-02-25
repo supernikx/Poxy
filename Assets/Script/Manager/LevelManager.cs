@@ -1,27 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    #region Delegates
+    public delegate void GameDelegate();
+    public static GameDelegate OnGamePause;
+    public static GameDelegate OnGameUnPause;
+    #endregion
+
+    //Debug
     [SerializeField]
     private Transform spawn1Pos;
     [SerializeField]
     private Transform spawn2Pos;
 
-    public static LevelManager singleton;
+    public static LevelManager instance;
     /// <summary>
     /// Referenza al Pool manager
     /// </summary>
-    PoolManager poolMng;
+    private PoolManager poolMng;
     /// <summary>
     /// Referenza al player
     /// </summary>
-    Player player;
+    private Player player;
     /// <summary>
     /// Referenza all'Enemy Manager
     /// </summary>
-    EnemyManager enemyMng;
+    private EnemyManager enemyMng;
+    /// <summary>
+    /// Riferimento all'ui gameplay Manager
+    /// </summary>
+    private UI_GameplayManager uiManager;
     /// <summary>
     /// Reference to Platform Manager
     /// </summary>
@@ -39,10 +51,22 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private TokenManager tokenMng;
 
+    private bool pause;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (!pause)
+            {               
+                if (OnGamePause != null)
+                    OnGamePause();
+            }
+            else if (pause)
+            {
+                if (OnGameUnPause != null)
+                    OnGameUnPause();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -59,9 +83,11 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
     /// </summary>
-    public void Init()
+    public void Init(UI_ManagerBase _uiManager)
     {
-        singleton = this;
+        instance = this;
+        pause = false;
+        uiManager = _uiManager.GetGameplayManager();
 
         //Init
         poolMng = GetComponent<PoolManager>();
@@ -98,15 +124,65 @@ public class LevelManager : MonoBehaviour
         //Iscrizione Eventi
         player.OnPlayerDeath += HandlePlayerDeath;
         tokenMng.FinishToken += HandleFinishToken;
+        OnGamePause += GamePause;
+        OnGameUnPause += GameUnPause;
     }
+
+    /// <summary>
+    /// Funzione che chiude il gioco
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Funzione che sposta il player alla start position
+    /// </summary>
+    public void RestartGame()
+    {
+        player.transform.position = spawn1Pos.position;
+        if (OnGameUnPause != null)
+            OnGameUnPause();
+    }
+
+    #region Pause
+    /// <summary>
+    /// Funzioen che gestisce l'evento OnGamePause
+    /// </summary>
+    public void GamePause()
+    {
+        pause = true;
+        Time.timeScale = 0f;
+        player.GetMovementController().SetCanMove(false);
+        player.GetShotController().SetCanShoot(false);
+    }
+
+    /// <summary>
+    /// Funzioen che gestisce l'evento OnGameUnPause
+    /// </summary>
+    public void GameUnPause()
+    {
+        pause = false;
+        Time.timeScale = 1f;
+        player.GetMovementController().SetCanMove(true);
+        player.GetShotController().SetCanShoot(true);
+    }
+    #endregion
     #endregion
 
     #region Handlers
+    /// <summary>
+    /// Funzione che gestisce l'evento player.OnPlayerDeath
+    /// </summary>
     private void HandlePlayerDeath()
     {
         Debug.Log("The Player is dead");
     }
 
+    /// <summary>
+    /// Funzione che gestisce l'evento tokenMng.FinishToken
+    /// </summary>
     private void HandleFinishToken()
     {
         Debug.Log("All tokens have been taken");
@@ -114,9 +190,30 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Getter
+    /// <summary>
+    /// Funzione che ritorna l'enemy manager
+    /// </summary>
+    /// <returns></returns>
     public EnemyManager GetEnemyManager()
     {
         return enemyMng;
     }
+
+    /// <summary>
+    /// Funzione che ritorna l'ui gameplay manager
+    /// </summary>
+    /// <returns></returns>
+    public UI_GameplayManager GetUIGameplayManager()
+    {
+        return uiManager;
+    }
     #endregion
+
+    private void OnDisable()
+    {
+        player.OnPlayerDeath -= HandlePlayerDeath;
+        tokenMng.FinishToken -= HandleFinishToken;
+        OnGamePause -= GamePause;
+        OnGameUnPause -= GameUnPause;
+    }
 }
