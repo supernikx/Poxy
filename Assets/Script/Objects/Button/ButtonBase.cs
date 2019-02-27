@@ -35,11 +35,21 @@ public abstract class ButtonBase : MonoBehaviour, IButton
     }
     #endregion*/
 
-    [Header("Button Target")]
+    [Header("Button Options")]
+    [SerializeField]
+    protected ButtonTriggerType triggerType;
     [SerializeField]
     protected List<DoorBase> targets = new List<DoorBase>();
 
+    #region Abstract
     public abstract void Init();
     public abstract void Activate();
+    #endregion
 
+    #region Getters
+    public virtual ButtonTriggerType GetTriggerType()
+    {
+        return triggerType;
+    }
+    #endregion
 }
