@@ -7,6 +7,8 @@ public class Piston : Platform
 
     [Header("Piston Settings")]
     [SerializeField]
+    private float slashMovementSpd;
+    [SerializeField]
     private float movementSpd;
     [SerializeField]
     private LayerMask obstacleLayer;
@@ -73,14 +75,14 @@ public class Piston : Platform
         {
             if (currentState == PistonState.Forward)
             {
-                movementVelocity = new Vector3(0, -movementSpd, 0);
+                movementVelocity = new Vector3(0, -slashMovementSpd, 0);
             }
             else if (currentState == PistonState.Backward)
             {
                 movementVelocity = new Vector3(0, movementSpd, 0);
             }
 
-            movementVelocity = CheckMovementCollisions(movementVelocity);
+            movementVelocity = CheckMovementCollisions(movementVelocity * Time.deltaTime);
 
             transform.Translate(movementVelocity);
 
