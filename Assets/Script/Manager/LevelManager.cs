@@ -94,6 +94,10 @@ public class LevelManager : MonoBehaviour
         if (poolMng != null)
             poolMng.Init();
 
+        tokenMng = GetComponent<TokenManager>();
+        if (tokenMng != null)
+            tokenMng.Init();
+
         enemyMng = GetComponent<EnemyManager>();
         if (enemyMng != null)
             enemyMng.Init();
@@ -104,15 +108,11 @@ public class LevelManager : MonoBehaviour
 
         doorsButtonsMng = GetComponent<DoorsButtonsManager>();
         if (doorsButtonsMng != null)
-            doorsButtonsMng.Init();
+            doorsButtonsMng.Init(tokenMng);
 
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
             checkpointMng.Init();
-
-        tokenMng = GetComponent<TokenManager>();
-        if (tokenMng != null)
-            tokenMng.Init();
 
         player = FindObjectOfType<Player>();
         if (player != null)

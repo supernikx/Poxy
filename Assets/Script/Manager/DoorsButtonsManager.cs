@@ -15,7 +15,7 @@ public class DoorsButtonsManager : MonoBehaviour
     private List<IButton> buttons = new List<IButton>();
 
     #region API
-    public void Init()
+    public void Init(TokenManager _tokenMng)
     {
         for (int i = 0; i < doorsContainer.childCount; i++)
         {
@@ -36,7 +36,21 @@ public class DoorsButtonsManager : MonoBehaviour
                 buttons.Add(_current);
             }
         }
+
+        _tokenMng.FinishToken += HandleFinishToken;
     }
     #endregion
 
+    #region Handlers
+    private void HandleFinishToken()
+    {
+        foreach (IDoor _current in doors)
+        {
+            if (_current is TokenDoor)
+            {
+                _current.Activate();
+            }
+        }
+    }
+    #endregion
 }
