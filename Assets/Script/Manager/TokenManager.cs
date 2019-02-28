@@ -34,6 +34,8 @@ public class TokenManager : MonoBehaviour
         }
 
         tokenCounter = 0;
+
+        LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion
 
@@ -46,6 +48,16 @@ public class TokenManager : MonoBehaviour
             if (FinishToken != null)
                 FinishToken();
         }
+    }
+
+    private void HandlePlayerDeath()
+    {
+        foreach (BaseToken _current in tokens)
+        {
+            _current.Setup();
+        }
+
+        tokenCounter = 0;
     }
     #endregion
 

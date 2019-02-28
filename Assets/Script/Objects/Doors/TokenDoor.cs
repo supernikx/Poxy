@@ -8,7 +8,13 @@ public class TokenDoor : DoorBase
     #region API
     public override void Init()
     {
+        Setup();
+    }
+
+    public override void Setup()
+    {
         isActive = true;
+        gameObject.SetActive(isActive);
     }
 
     public override void Activate()

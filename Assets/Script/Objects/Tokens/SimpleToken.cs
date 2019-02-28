@@ -3,10 +3,18 @@ using System.Collections;
 
 public class SimpleToken : BaseToken
 {
+    private bool isActive;
+
     #region API
     public override void Init()
     {
+        Setup();
+    }
 
+    public override void Setup()
+    {
+        isActive = true;
+        gameObject.SetActive(isActive);
     }
     #endregion
 

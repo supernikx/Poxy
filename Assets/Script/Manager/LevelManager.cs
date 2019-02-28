@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public delegate void GameDelegate();
     public static GameDelegate OnGamePause;
     public static GameDelegate OnGameUnPause;
+    public static GameDelegate OnPlayerDeath;
     #endregion
 
     //Debug
@@ -178,6 +179,8 @@ public class LevelManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         Debug.Log("The Player is dead");
+        if (OnPlayerDeath != null)
+            OnPlayerDeath();
     }
 
     /// <summary>

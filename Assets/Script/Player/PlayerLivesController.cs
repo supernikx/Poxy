@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class PlayerLivesController : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerLivesController : MonoBehaviour
     #region Delegates
     public delegate Vector3 LivesEvent();
     public LivesEvent LoseLife;
+    public Action OnPlayerDeath;
     #endregion
 
     [Header("Lives Settings")]
@@ -38,13 +40,13 @@ public class PlayerLivesController : MonoBehaviour
         {
             _checkpoint = checkpointMng.GetInitialCheckpoint();
             currentLives = lives;
+            if (OnPlayerDeath != null)
+                OnPlayerDeath();
         }
         else
             _checkpoint = checkpointMng.GetActiveCheckpoint();
 
         enemyMng.ResetEnemies();
-
-        // TODO: Se si finiscono le vite resettare tutto
 
         return _checkpoint.transform.position;
     }

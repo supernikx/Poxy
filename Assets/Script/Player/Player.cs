@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public Action OnPlayerDeath;
     public Action OnPlayerImmunityEnd;
     #endregion
+
     [Header("General Settings")]
     [SerializeField]
     GameObject playerGraphic;
@@ -92,6 +93,8 @@ public class Player : MonoBehaviour
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
+
+        livesCtrl.OnPlayerDeath += HandlePlayerDeath;
 
         //Setup cose locali
         graphic = playerGraphic;
@@ -250,8 +253,9 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DeathCoroutine()
     {
+        /*
         if (OnPlayerDeath != null)
-            OnPlayerDeath();
+            OnPlayerDeath();*/
         if (playerSM.OnPlayerDeath != null)
             playerSM.OnPlayerDeath();
         yield return null;
@@ -332,5 +336,13 @@ public class Player : MonoBehaviour
         return graphic;
     }
     #endregion
+    #endregion
+
+    #region Handlers
+    private void HandlePlayerDeath()
+    {
+        if (OnPlayerDeath != null)
+            OnPlayerDeath();
+    }
     #endregion
 }

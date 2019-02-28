@@ -43,6 +43,7 @@ public abstract class ButtonBase : MonoBehaviour, IButton
 
     #region Abstract
     public abstract void Init();
+    public abstract void Setup();
     public abstract void Activate();
     #endregion
 

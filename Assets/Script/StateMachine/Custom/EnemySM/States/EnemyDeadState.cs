@@ -43,7 +43,7 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Tick()
         {
-            if (start)
+            if (start && deathDuration >= 0)
             {
                 timer += Time.deltaTime;
                 if (timer >= deathDuration)

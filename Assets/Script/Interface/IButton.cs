@@ -7,6 +7,7 @@ public interface IButton
     //event EventHandler ActivateEvent;
 
     void Init();
+    void Setup();
     void Activate();
     ButtonTriggerType GetTriggerType();
 }
@@ -14,5 +15,6 @@ public interface IButton
 public enum ButtonTriggerType
 {
     Shot,
-    Collision
+    Collision,
+    Enemy
 }

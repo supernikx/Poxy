@@ -29,7 +29,7 @@ public class DoorsButtonsManager : MonoBehaviour
 
         for (int i = 0; i < buttonsContainer.childCount; i++)
         {
-            IButton _current = doorsContainer.GetChild(i).GetComponent<IButton>();
+            IButton _current = buttonsContainer.GetChild(i).GetComponent<IButton>();
             if (_current != null)
             {
                 _current.Init();
@@ -38,6 +38,7 @@ public class DoorsButtonsManager : MonoBehaviour
         }
 
         _tokenMng.FinishToken += HandleFinishToken;
+        LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion
 
@@ -50,6 +51,19 @@ public class DoorsButtonsManager : MonoBehaviour
             {
                 _current.Activate();
             }
+        }
+    }
+
+    private void HandlePlayerDeath()
+    {
+        foreach (IButton _current in buttons)
+        {
+            _current.Setup();
+        }
+
+        foreach (IDoor _current in doors)
+        {
+            _current.Setup();
         }
     }
     #endregion
