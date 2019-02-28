@@ -14,5 +14,6 @@ public interface IButton
 public enum ButtonTriggerType
 {
     Shot,
-    Collision
+    Collision,
+    Enemy
 }

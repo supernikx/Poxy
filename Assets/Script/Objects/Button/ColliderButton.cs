@@ -8,6 +8,7 @@ public class ColliderButton : ButtonBase
     #region API
     public override void Init()
     {
+        Debug.Log("initcollider");
         active = true;
     }
 

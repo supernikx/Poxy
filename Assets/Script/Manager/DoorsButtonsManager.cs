@@ -29,7 +29,7 @@ public class DoorsButtonsManager : MonoBehaviour
 
         for (int i = 0; i < buttonsContainer.childCount; i++)
         {
-            IButton _current = doorsContainer.GetChild(i).GetComponent<IButton>();
+            IButton _current = buttonsContainer.GetChild(i).GetComponent<IButton>();
             if (_current != null)
             {
                 _current.Init();

@@ -9,6 +9,10 @@ using DG.Tweening;
 [RequireComponent(typeof(EnemyViewController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
+    #region Delegates
+    public delegate void OnEnemyDeathEvent(EnemyBase _enemy);
+    public OnEnemyDeathEvent OnEnemyDeath;
+    #endregion
 
     [Header("General Movement Settings")]
     [SerializeField]
@@ -115,7 +119,12 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public void EndParasite()
     {
         if (enemySM.GoToDeath != null)
+        {
             enemySM.GoToDeath();
+            if (OnEnemyDeath != null)
+                OnEnemyDeath(this);
+        }
+
     }
     #endregion
 
@@ -200,7 +209,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         stunHitGot = 0;
         if (enemySM.GoToDeath != null)
+        {
             enemySM.GoToDeath();
+            if (OnEnemyDeath != null)
+                OnEnemyDeath(this);
+        }
     }
     #endregion
 
