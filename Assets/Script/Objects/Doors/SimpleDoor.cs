@@ -4,7 +4,11 @@ using System;
 
 public class SimpleDoor : DoorBase
 {
+    [Header("Door options")]
+    [SerializeField]
     private bool isActive;
+
+    private bool currentState;
 
     #region API
     public override void Init()
@@ -15,14 +19,14 @@ public class SimpleDoor : DoorBase
 
     public override void Setup()
     {
-        isActive = true;
-        gameObject.SetActive(isActive);
+        currentState = isActive;
+        gameObject.SetActive(currentState);
     }
 
     public override void Activate()
     {
-        isActive = !isActive;
-        this.gameObject.SetActive(isActive);
+        currentState = !currentState;
+        this.gameObject.SetActive(currentState);
     }
     #endregion
 

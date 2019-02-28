@@ -55,6 +55,8 @@ public class StickyBullet : BulletBase
             IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
+            else
+                return false;
         }
 
         if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))

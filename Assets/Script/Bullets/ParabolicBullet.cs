@@ -41,6 +41,8 @@ public class ParabolicBullet : BulletBase
             IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
+            else
+                return false;
         }
 
         return base.OnBulletCollision(_collisionInfo);
