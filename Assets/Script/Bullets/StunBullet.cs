@@ -15,7 +15,9 @@ public class StunBullet : BulletBase
         }
         else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<IButton>().Activate();
+            IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
+            if (_target.GetTriggerType() == ButtonTriggerType.Shot)
+                _target.Activate();
         }
 
         return base.OnBulletCollision(_collisionInfo);

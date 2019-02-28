@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
 
         livesCtrl = GetComponent<PlayerLivesController>();
         if (livesCtrl != null)
-            livesCtrl.Init(_checkpointMng);
+            livesCtrl.Init(_checkpointMng, _enemyMng);
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)

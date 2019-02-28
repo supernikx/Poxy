@@ -15,11 +15,13 @@ public class PlayerLivesController : MonoBehaviour
     private int currentLives;
 
     private CheckpointManager checkpointMng;
+    private EnemyManager enemyMng;
 
     #region API
-    public void Init(CheckpointManager _checkpointMng)
+    public void Init(CheckpointManager _checkpointMng, EnemyManager _enemyMng)
     {
         checkpointMng = _checkpointMng;
+        enemyMng = _enemyMng;
         currentLives = lives;
 
         LoseLife += HandleLoseLife;
@@ -39,6 +41,10 @@ public class PlayerLivesController : MonoBehaviour
         }
         else
             _checkpoint = checkpointMng.GetActiveCheckpoint();
+
+        enemyMng.ResetEnemies();
+
+        // TODO: Se si finiscono le vite resettare tutto
 
         return _checkpoint.transform.position;
     }

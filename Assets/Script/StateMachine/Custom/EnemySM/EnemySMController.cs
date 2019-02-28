@@ -11,6 +11,7 @@ namespace StateMachine.EnemySM
         public ChangeStateEvents GoToStun;
         public ChangeStateEvents GoToDeath;
         public ChangeStateEvents GoToAlert;
+        public ChangeStateEvents GoToRoaming;
 
         public delegate void EnemyParasiteEvents(Player _player);
         public EnemyParasiteEvents GoToParasite;
@@ -41,6 +42,7 @@ namespace StateMachine.EnemySM
             GoToDeath += HandleEnemyDeath;
             GoToParasite += HandleEnemyParasite;
             GoToAlert += HandleEnemyAlert;
+            GoToRoaming += HandleEnemyRoaming;
 
             enemySM.SetTrigger("StartSM");
         }
@@ -70,6 +72,11 @@ namespace StateMachine.EnemySM
         private void HandleEnemyAlert()
         {
             enemySM.SetTrigger("GoToAlert");
+        }
+
+        private void HandleEnemyRoaming()
+        {
+            enemySM.SetTrigger("GoToRoaming");
         }
         #endregion
 

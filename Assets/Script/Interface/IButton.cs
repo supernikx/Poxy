@@ -8,4 +8,11 @@ public interface IButton
 
     void Init();
     void Activate();
+    ButtonTriggerType GetTriggerType();
+}
+
+public enum ButtonTriggerType
+{
+    Shot,
+    Collision
 }

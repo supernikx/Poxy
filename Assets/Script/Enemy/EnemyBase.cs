@@ -229,6 +229,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         stunHitGot = 0;
     }
+
+    public void ResetSM()
+    {
+        enemySM.GoToRoaming();
+    }
     #endregion
 
     #region Getters
