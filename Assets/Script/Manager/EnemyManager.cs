@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour
     public static EnemyEvents OnEnemyEndStun;
     public static EnemyEvents OnEnemyDeath;
     public static EnemyEvents OnEnemyEndDeath;
+
+    public Action ResetEnemies;
     #endregion
 
     [SerializeField]
@@ -38,6 +40,8 @@ public class EnemyManager : MonoBehaviour
         OnEnemyEndStun += HandleEnemyEndStun;
         OnEnemyDeath += HandleEnemyDeath;
         OnEnemyEndDeath += HandleEnemyEndDeath;
+
+        ResetEnemies += HandleResetEnemies;
     }
     private void OnDisable()
     {
@@ -90,6 +94,21 @@ public class EnemyManager : MonoBehaviour
         if (deadEnemies.Contains(e))
         {
             deadEnemies.Remove(e);
+        }
+    }
+
+    private void HandleResetEnemies()
+    {
+        foreach (IEnemy _current in enemyList)
+        {
+            _current.ResetPosition();
+            _current.ResetLife();
+            _current.ResetSM();
+            _current.ResetStunHit();
+
+            // nel caso il nemico sia in state di morte o stun
+            OnEnemyEndStun(_current);
+            OnEnemyEndDeath(_current);
         }
     }
     #endregion
