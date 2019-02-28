@@ -38,6 +38,7 @@ public abstract class DoorBase : MonoBehaviour, IDoor
 
     #region API
     public abstract void Init();
+    public abstract void Setup();
     public abstract void Activate();
     #endregion
 }

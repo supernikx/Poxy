@@ -7,6 +7,7 @@ public interface IButton
     //event EventHandler ActivateEvent;
 
     void Init();
+    void Setup();
     void Activate();
     ButtonTriggerType GetTriggerType();
 }

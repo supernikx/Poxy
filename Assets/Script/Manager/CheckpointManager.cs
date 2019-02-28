@@ -32,6 +32,8 @@ public class CheckpointManager : MonoBehaviour
             _current.Init();
             _current.ActivateCheckpoint += HandleActivateCheckpoint;
         }
+
+        LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion
 
@@ -40,6 +42,11 @@ public class CheckpointManager : MonoBehaviour
     {
         if (activeCheckpoint != _checkpoint)
             activeCheckpoint = _checkpoint;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        activeCheckpoint = initialCheckpoint;
     }
     #endregion
 

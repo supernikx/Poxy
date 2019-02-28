@@ -3,13 +3,17 @@ using System.Collections;
 
 public class ColliderButton : ButtonBase
 {
-    private bool active = true;
+    private bool isActive = true;
 
     #region API
     public override void Init()
     {
-        Debug.Log("initcollider");
-        active = true;
+        Setup();
+    }
+
+    public override void Setup()
+    {
+        isActive = true;
     }
 
     public override void Activate()
@@ -23,9 +27,9 @@ public class ColliderButton : ButtonBase
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (active && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (isActive && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            active = false;
+            isActive = false;
             Activate();
         }
     }

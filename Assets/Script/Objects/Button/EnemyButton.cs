@@ -8,12 +8,18 @@ public class EnemyButton : ButtonBase
     [SerializeField]
     private List<EnemyBase> enemiesToKill = new List<EnemyBase>();
 
-    private List<EnemyBase> killed = new List<EnemyBase>();
+    private List<EnemyBase> killed;
 
     #region API
     public override void Init()
     {
-        Debug.Log("init");
+        Setup();
+    }
+
+    public override void Setup()
+    {
+        killed = new List<EnemyBase>();
+
         foreach (EnemyBase _current in enemiesToKill)
         {
             _current.OnEnemyDeath += HandleOnEnemyDeath;
@@ -32,7 +38,6 @@ public class EnemyButton : ButtonBase
     #region Handlers
     private void HandleOnEnemyDeath(EnemyBase _enemy)
     {
-        Debug.Log("call");
         if (enemiesToKill.Contains(_enemy) && !killed.Contains(_enemy))
         {
             killed.Add(_enemy);

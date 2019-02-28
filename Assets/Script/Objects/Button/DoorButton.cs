@@ -8,6 +8,13 @@ public class DoorButton : ButtonBase
     public override void Init()
     {
         //ActivateEvent += HandleActivate;
+
+        Setup();
+    }
+
+    public override void Setup()
+    {
+        
     }
 
     public override void Activate()

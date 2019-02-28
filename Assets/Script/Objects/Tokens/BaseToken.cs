@@ -11,6 +11,7 @@ public abstract class BaseToken : MonoBehaviour
 
     #region API
     public abstract void Init();
+    public abstract void Setup();
     #endregion
 
 }

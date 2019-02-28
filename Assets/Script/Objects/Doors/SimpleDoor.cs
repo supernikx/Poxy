@@ -10,9 +10,15 @@ public class SimpleDoor : DoorBase
     public override void Init()
     {
         //ActivateEvent += HandleActivate;
-        isActive = true;
+        Setup();
     }
-    
+
+    public override void Setup()
+    {
+        isActive = true;
+        gameObject.SetActive(isActive);
+    }
+
     public override void Activate()
     {
         isActive = !isActive;
