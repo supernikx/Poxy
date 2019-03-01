@@ -24,7 +24,7 @@ namespace StateMachine.PlayerSM
             parasiteEnemy.gameObject.transform.parent = context.player.transform;
             parasiteEnemy.gameObject.transform.localPosition = Vector3.zero;
             parasiteEnemy.gameObject.transform.localRotation = Quaternion.identity;
-            parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
+            parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("Player");
 
             context.player.GetCollisionController().CalculateParasiteCollision(parasiteEnemy);
             context.player.GetMovementController().SetCanMove(true);
@@ -98,6 +98,7 @@ namespace StateMachine.PlayerSM
                 case DamageableType.Spike:
                     parasiteEnemy.GetToleranceCtrl().AddTolerance((_damageable as Spike).GetDamage());
                     context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                    parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
                     context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                     break;
                 case DamageableType.Acid:
@@ -113,6 +114,7 @@ namespace StateMachine.PlayerSM
             context.player.OnDemageableCollision += OnDamageableCollision;
             context.player.OnEnemyCollision += OnEnemyCollision;
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("Player");
         }
         #endregion
     }
