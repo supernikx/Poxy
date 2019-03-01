@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     public static GameDelegate OnGamePause;
     public static GameDelegate OnGameUnPause;
     public static GameDelegate OnPlayerDeath;
+    public static GameDelegate OnGameOver;
     #endregion
 
     //Debug

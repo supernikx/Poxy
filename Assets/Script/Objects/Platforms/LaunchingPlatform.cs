@@ -14,7 +14,7 @@ public class LaunchingPlatform : Platform, IControllable
     private GameObject graphics;
     [SerializeField]
     private int respawnTime;
-
+    private bool isActive;
     private ControllableType controllableType = ControllableType.Platform;
 
     private EnemyToleranceController toleranceCtrl;
@@ -22,6 +22,7 @@ public class LaunchingPlatform : Platform, IControllable
 
     private void SetObjectState (bool _state)
     {
+        isActive = _state;
         GetComponent<BoxCollider>().enabled = _state;
         graphics.SetActive(_state);
     }
@@ -33,6 +34,7 @@ public class LaunchingPlatform : Platform, IControllable
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
+        SetObjectState(true);
         GetComponentInChildren<MeshRenderer>().material.color = Color.red;
 
         Parasite += HandleParasite;
@@ -40,7 +42,17 @@ public class LaunchingPlatform : Platform, IControllable
 
     public void EndParasite()
     {
-        HandleParasiteEnd();
+        player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
+        player = null;
+
+        StopCoroutine(Tick());
+
+        toleranceCtrl.SetActive(false);
+
+        SetObjectState(false);
+        StartCoroutine(Respawn());
+
+        PlatformManager.OnParasiteEnd(this);
     }
     #endregion
 
@@ -61,21 +73,6 @@ public class LaunchingPlatform : Platform, IControllable
     private void HandlePlayerMaxHealth()
     {
         toleranceCtrl.SetActive(true);
-    }
-
-    private void  HandleParasiteEnd()
-    {
-        player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
-        player = null;
-
-        StopCoroutine(Tick());
-
-        toleranceCtrl.SetActive(false);
-
-        SetObjectState(false);
-        StartCoroutine(Respawn());
-        
-        PlatformManager.OnParasiteEnd(this);
     }
     #endregion
 
@@ -128,6 +125,11 @@ public class LaunchingPlatform : Platform, IControllable
     public EnemyToleranceController GetToleranceCtrl()
     {
         return toleranceCtrl;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
     }
     #endregion
 }

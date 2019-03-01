@@ -70,6 +70,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
         ResetLife();
         ResetStunHit();
+        ResetPosition();
         SetCanStun(true);
 
         // Initialize Enemy State Machine
@@ -230,6 +231,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         transform.position = startPosition;
         transform.rotation = startRotation;
         graphics.transform.localEulerAngles = new Vector3(0, 0, 0);
+        targetAngle = transform.localEulerAngles.y;
     }
 
     /// <summary>
@@ -346,7 +348,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         return movementCtrl;
     }
 
-
     /// <summary>
     /// Funzione che ritorna l'animation controller
     /// </summary>
@@ -427,8 +428,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     /// <returns></returns>
     protected virtual IEnumerator MoveRoamingCoroutine()
-    {
-        targetAngle = transform.localEulerAngles.y;
+    {        
         Vector3 movementVector = Vector3.zero;
         float pathLenght = GetPathLenght();
         float pathTraveled = 0f;

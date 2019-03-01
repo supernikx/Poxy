@@ -26,12 +26,12 @@ namespace StateMachine.EnemySM
             if (tolleranceCtrl.IsActive())
             {
                 tolleranceCtrl.AddTolleranceOvertime();
+            }
 
-                if (tolleranceCtrl.CheckTolerance())
-                {
-                    if (tolleranceCtrl.OnMaxTolleranceBar != null)
-                        tolleranceCtrl.OnMaxTolleranceBar();
-                }
+            if (tolleranceCtrl.CheckTolerance())
+            {
+                if (tolleranceCtrl.OnMaxTolleranceBar != null)
+                    tolleranceCtrl.OnMaxTolleranceBar();
             }
         }
 

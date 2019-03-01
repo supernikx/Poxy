@@ -25,7 +25,8 @@ public class PlayerLivesController : MonoBehaviour
         if (currentLives <= 0)
         {
             currentLives = lives;
-            Debug.Log("Hai finito le vite");
+            if (LevelManager.OnGameOver != null)
+                LevelManager.OnGameOver();
         }
     }
     #endregion

@@ -81,7 +81,7 @@ public class PlayerMovementController : MonoBehaviour
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             //Controllo se è stato premuto il tasto di salto e se sono a terra
-            if (Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
+            if (!eject && Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
             {
                 Jump();
             }
@@ -91,7 +91,7 @@ public class PlayerMovementController : MonoBehaviour
                 Eject();
             }
 
-            if (Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop && !eject)
+            if (!eject && Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop)
             {
                 StopJump();
             }
@@ -201,7 +201,8 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Eject()
     {
-        movementVelocity.y += jumpVelocity * ejectMultiplyer;
+        movementVelocity.y = 0f;
+        movementVelocity.y = jumpVelocity * ejectMultiplyer;
         eject = false;
     }
     #endregion

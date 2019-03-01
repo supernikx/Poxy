@@ -54,7 +54,7 @@ namespace StateMachine.PlayerSM
                     Debug.Log("Non ci sono nemici stunnati nelle vicinanze");
             }
 
-            if (loseHealth)
+            if (loseHealth && !parasitePressed)
                 context.player.GetHealthController().LoseHealthOverTime();
         }
 

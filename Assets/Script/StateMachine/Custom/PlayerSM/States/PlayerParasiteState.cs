@@ -47,7 +47,7 @@ namespace StateMachine.PlayerSM
                 context.player.GetShotController().ChangeShotType();
             }
 
-            if (context.player.GetHealthController().GainHealthOverTime() && !healthMax)
+            if (context.player.GetHealthController().GainHealthOverTime() && !healthMax && !parasitePressed)
             {
                 healthMax = true;
                 if (context.player.OnPlayerMaxHealth != null)

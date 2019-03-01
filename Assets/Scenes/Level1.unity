@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.07450981, g: 0.07450981, b: 0.07450981, a: 1}
   m_AmbientEquatorColor: {r: 0.9529412, g: 0.5803922, b: 0.03137255, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0, b: 0, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -165,6 +165,11 @@ PrefabInstance:
       propertyPath: deathDuration
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 114006567803924618, guid: b39ff44bc9735a242ab60854ea482227,
+        type: 3}
+      propertyPath: defaultRespawnTime
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 114256771093579946, guid: b39ff44bc9735a242ab60854ea482227,
         type: 3}
       propertyPath: ToleranceText
@@ -261,6 +266,11 @@ PrefabInstance:
     - target: {fileID: 114351204569046758, guid: 7b393d1657065c54cbbecb4f26fea105,
         type: 3}
       propertyPath: deathDuration
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114351204569046758, guid: 7b393d1657065c54cbbecb4f26fea105,
+        type: 3}
+      propertyPath: defaultRespawnTime
       value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1479,6 +1489,11 @@ PrefabInstance:
       propertyPath: deathDuration
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 114351204569046758, guid: 7b393d1657065c54cbbecb4f26fea105,
+        type: 3}
+      propertyPath: defaultRespawnTime
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
 --- !u!4 &1055379508 stripped
@@ -1537,6 +1552,11 @@ PrefabInstance:
     - target: {fileID: 114006567803924618, guid: b39ff44bc9735a242ab60854ea482227,
         type: 3}
       propertyPath: deathDuration
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114006567803924618, guid: b39ff44bc9735a242ab60854ea482227,
+        type: 3}
+      propertyPath: defaultRespawnTime
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 114256771093579946, guid: b39ff44bc9735a242ab60854ea482227,
@@ -1687,6 +1707,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1168467112866873569}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1631130267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631130268}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1631130268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631130267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4825177, y: -6.790963, z: -0.13476562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1661805705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2586,6 +2636,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690192884582092743, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.34999847
       objectReference: {fileID: 0}
     - target: {fileID: 6477900213842696608, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
         type: 3}

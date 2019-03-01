@@ -58,7 +58,8 @@ public class PlatformManager : MonoBehaviour
         foreach (IControllable _current in launchingPlatforms)
         {
             float distance = Vector3.Distance(_pointTransform.position, _current.gameObject.transform.position);
-            if (_range >= distance && !launchingPlatformsInUse.Contains(_current as LaunchingPlatform))
+            LaunchingPlatform platform = _current as LaunchingPlatform;
+            if (_range >= distance && !launchingPlatformsInUse.Contains(platform) && platform.IsActive())
             {
                 if (minDistance == -1 || distance < minDistance)
                 {
