@@ -22,6 +22,14 @@ public class EnemyAnimationController : MonoBehaviour
     {
         anim.SetBool("HeadJump", _enabled);
     }
+
+    private void HeadStun(bool _stun)
+    {
+        if (_stun)
+            anim.SetTrigger("HeadStun");
+        else
+            anim.SetTrigger("HeadEndStun");
+    }
     #endregion
 
     #region Body Animations
@@ -38,6 +46,14 @@ public class EnemyAnimationController : MonoBehaviour
     private void BodyJump(bool _enabled)
     {
         anim.SetBool("BodyJump", _enabled);
+    }
+
+    private void BodyStun(bool _stun)
+    {
+        if (_stun)
+            anim.SetTrigger("BodyStun");
+        else
+            anim.SetTrigger("BodyEndStun");
     }
     #endregion
 
@@ -70,6 +86,9 @@ public class EnemyAnimationController : MonoBehaviour
     bool jumping;
     public void MovementAnimation(Vector3 _movementVelocity)
     {
+        if (stun)
+            return;
+
         if (collisionCtrl.GetCollisionInfo().below)
         {
             if (jumping)
@@ -102,6 +121,10 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void ResetAnimator()
     {
+        stun = false;
+        HeadStun(stun);
+        BodyStun(stun);
+
         jumping = false;
         BodyJump(false);
         HeadJump(false);
@@ -109,6 +132,14 @@ public class EnemyAnimationController : MonoBehaviour
         moving = false;
         HeadMovement(false);
         BodyMovement(false);
+    }
+
+    bool stun;
+    public void Stun(bool _stun)
+    {
+        stun = _stun;
+        HeadStun(stun);
+        BodyStun(stun);
     }
     #endregion
 }

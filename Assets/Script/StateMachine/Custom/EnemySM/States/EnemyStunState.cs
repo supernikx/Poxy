@@ -25,6 +25,7 @@ namespace StateMachine.EnemySM
         {          
             context.enemy.SetCanStun(false);
             stunDuration = context.enemy.GetStunDuration();
+            context.enemy.GetAnimationController().Stun(true);
             timer = 0;
             start = true;
         }
@@ -40,7 +41,8 @@ namespace StateMachine.EnemySM
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
-                    context.EndStunCallback();
+                    context.EndStunCallback();                    
+                    start = false;
                 }
             }
         }
@@ -50,9 +52,9 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
-            start = false;
             context.enemy.ResetStunHit();
             context.enemy.SetCanStun(true);
+            context.enemy.GetAnimationController().Stun(false);
         }
     }
 }

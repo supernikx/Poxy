@@ -30,7 +30,6 @@ public class StickyBullet : BulletBase
         {
             IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
             enemyHit.DamageHit(GetBulletDamage());
-            Debug.Log(damage);
         }
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
