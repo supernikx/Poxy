@@ -30,7 +30,7 @@ public class PlayerPlatformState : PlayerSMStateBase
     private bool parasitePressed;
     public override void Tick()
     {
-        if (Input.GetButtonDown("Parasite") && !parasitePressed)
+        if (Input.GetButtonDown("Parasite") || Input.GetButtonDown("Jump") && !parasitePressed)
         {
             parasitePressed = true;
             context.player.StartNormalCoroutine();
