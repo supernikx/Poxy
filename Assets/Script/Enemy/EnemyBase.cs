@@ -229,7 +229,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         transform.position = startPosition;
         transform.rotation = startRotation;
-        graphics.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        graphics.transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <returns></returns>
     protected virtual IEnumerator MoveRoamingCoroutine()
     {
-        targetAngle = 0;
+        targetAngle = transform.localEulerAngles.y;
         Vector3 movementVector = Vector3.zero;
         float pathLenght = GetPathLenght();
         float pathTraveled = 0f;

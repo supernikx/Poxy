@@ -22,15 +22,14 @@ public class TokenManager : MonoBehaviour
     #region API
     public void Init()
     {
-        if (tokenContainer != null)
+        if (!tokenContainer)
+            return;
+        for (int i = 0; i < tokenContainer.childCount; i++)
         {
-            for (int i = 0; i < tokenContainer.childCount; i++)
-            {
-                BaseToken _current = tokenContainer.GetChild(i).GetComponent<BaseToken>();
-                _current.Init();
-                tokens.Add(_current);
-                _current.GetToken += HandleGetToken;
-            }
+            BaseToken _current = tokenContainer.GetChild(i).GetComponent<BaseToken>();
+            _current.Init();
+            tokens.Add(_current);
+            _current.GetToken += HandleGetToken;
         }
 
         tokenCounter = 0;

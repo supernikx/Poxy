@@ -17,6 +17,8 @@ public class DoorsButtonsManager : MonoBehaviour
     #region API
     public void Init(TokenManager _tokenMng)
     {
+        if (!doorsContainer || !buttonsContainer)
+            return;
         for (int i = 0; i < doorsContainer.childCount; i++)
         {
             IDoor _current = doorsContainer.GetChild(i).GetComponent<IDoor>();

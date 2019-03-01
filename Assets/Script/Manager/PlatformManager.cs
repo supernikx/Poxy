@@ -25,6 +25,8 @@ public class PlatformManager : MonoBehaviour
     #region API
     public void Init()
     {
+        if (!PlatformContainer)
+            return;
         platforms = new List<IPlatform>();
         launchingPlatforms = new List<LaunchingPlatform>();
         launchingPlatformsInUse = new List<LaunchingPlatform>();

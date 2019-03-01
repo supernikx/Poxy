@@ -22,6 +22,7 @@ public class CheckpointManager : MonoBehaviour
         if (initialCheckpoint == null)
         {
             Debug.LogError("An initial checkpoint should always be setted", initialCheckpoint);
+            return;
         }
         activeCheckpoint = initialCheckpoint;
 
