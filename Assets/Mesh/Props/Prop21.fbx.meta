@@ -4,12 +4,29 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Prop21_Mesh01
+    100004: Prop21_Mesh02
+    100006: Prop21_Mesh03
     400000: //RootNode
-    2100000: lambert1
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Prop21
-  externalObjects: {}
+    400002: Prop21_Mesh01
+    400004: Prop21_Mesh02
+    400006: Prop21_Mesh03
+    2100000: lambert2
+    2300000: Prop21_Mesh01
+    2300002: Prop21_Mesh02
+    2300004: Prop21_Mesh03
+    3300000: Prop21_Mesh01
+    3300002: Prop21_Mesh02
+    3300004: Prop21_Mesh03
+    4300000: Prop21_Mesh01
+    4300002: Prop21_Mesh02
+    4300004: Prop21_Mesh03
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: c8a9e679ff1fcf340a2139295d055408, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -43,10 +60,11 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -67,7 +85,10 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
