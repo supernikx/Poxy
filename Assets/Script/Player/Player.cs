@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
     public delegate void PlayeDamageableCollisionDelegate(IDamageable damageable);
     public PlayeDamageableCollisionDelegate OnDemageableCollision;
     public Action OnPlayerMaxHealth;
-    public Action OnPlayerDeath;
     public Action OnPlayerImmunityEnd;
+    public Action OnPlayerDeath;
     #endregion
 
     [Header("General Settings")]
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng, CheckpointManager _checkpointMng)
+    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 
         livesCtrl = GetComponent<PlayerLivesController>();
         if (livesCtrl != null)
-            livesCtrl.Init(_checkpointMng, _enemyMng);
+            livesCtrl.Init();
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)
@@ -93,8 +93,6 @@ public class Player : MonoBehaviour
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
-
-        livesCtrl.OnPlayerDeath += HandlePlayerDeath;
 
         //Setup cose locali
         graphic = playerGraphic;
@@ -172,6 +170,9 @@ public class Player : MonoBehaviour
             playerSM.OnPlayerPlatformParaiste(_e);
     }
 
+    /// <summary>
+    /// Funzione che manda il player in normalstate
+    /// </summary>
     public void GoToNormalState()
     {
         if (playerSM.OnPlayerNormal != null)
@@ -193,9 +194,17 @@ public class Player : MonoBehaviour
     {
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
+        switch (parasiteCtrl.GetParasite().GetControllableType())
+        {
+            case ControllableType.Enemy:
+                movementCtrl.SetEject(1.3f);
+                break;
+            case ControllableType.Platform:
+                movementCtrl.SetEject(1f);
+                break;
+        }
 
         parasiteCtrl.GetParasite().EndParasite();
-        movementCtrl.Eject();
 
         #region Animazione (per ora fatta a caso)
         graphic.transform.DOScale(1, 0.5f);
@@ -253,11 +262,8 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DeathCoroutine()
     {
-        /*
         if (OnPlayerDeath != null)
-            OnPlayerDeath();*/
-        if (playerSM.OnPlayerDeath != null)
-            playerSM.OnPlayerDeath();
+            OnPlayerDeath();
         yield return null;
     }
 
@@ -336,13 +342,5 @@ public class Player : MonoBehaviour
         return graphic;
     }
     #endregion
-    #endregion
-
-    #region Handlers
-    private void HandlePlayerDeath()
-    {
-        if (OnPlayerDeath != null)
-            OnPlayerDeath();
-    }
     #endregion
 }

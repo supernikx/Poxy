@@ -12,8 +12,6 @@ public class EnemyManager : MonoBehaviour
     public static EnemyEvents OnEnemyEndStun;
     public static EnemyEvents OnEnemyDeath;
     public static EnemyEvents OnEnemyEndDeath;
-
-    public Action ResetEnemies;
     #endregion
 
     [SerializeField]
@@ -41,12 +39,7 @@ public class EnemyManager : MonoBehaviour
         OnEnemyDeath += HandleEnemyDeath;
         OnEnemyEndDeath += HandleEnemyEndDeath;
 
-        ResetEnemies += HandleResetEnemies;
-    }
-    private void OnDisable()
-    {
-        OnEnemyStun -= HandleEnemyStun;
-        OnEnemyDeath -= HandleEnemyDeath;
+        LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
 
     public void EnemiesSetup()
@@ -95,20 +88,18 @@ public class EnemyManager : MonoBehaviour
         {
             deadEnemies.Remove(e);
         }
+
+        if (stunnedEnemies.Contains(e))
+        {
+            stunnedEnemies.Remove(e);
+        }
     }
 
-    private void HandleResetEnemies()
+    private void HandlePlayerDeath()
     {
         foreach (IEnemy _current in enemyList)
         {
-            _current.ResetPosition();
-            _current.ResetLife();
-            _current.ResetSM();
-            _current.ResetStunHit();
-
-            // nel caso il nemico sia in state di morte o stun
-            OnEnemyEndStun(_current);
-            OnEnemyEndDeath(_current);
+            _current.Die(0f);
         }
     }
     #endregion
@@ -173,4 +164,15 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
     #endregion
+
+    private void OnDisable()
+    {
+
+        OnEnemyStun -= HandleEnemyStun;
+        OnEnemyEndStun -= HandleEnemyEndStun;
+        OnEnemyDeath -= HandleEnemyDeath;
+        OnEnemyEndDeath -= HandleEnemyEndDeath;
+
+        LevelManager.OnPlayerDeath -= HandlePlayerDeath;
+    }
 }

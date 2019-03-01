@@ -9,11 +9,6 @@ using DG.Tweening;
 [RequireComponent(typeof(EnemyViewController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
-    #region Delegates
-    public delegate void OnEnemyDeathEvent(EnemyBase _enemy);
-    public OnEnemyDeathEvent OnEnemyDeath;
-    #endregion
-
     [Header("General Movement Settings")]
     [SerializeField]
     protected float roamingMovementSpeed;
@@ -40,16 +35,18 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected int stunDuration;
     [SerializeField]
     protected int stunHit;
-    public int stunHitGot;
+    protected int stunHitGot;
 
     [Header("Death Settings")]
     [SerializeField]
-    protected int deathDuration;
+    protected float defaultRespawnTime;
+    protected float respawnTime;
 
     [Header("Other Settings")]
     [SerializeField]
     protected GameObject graphics;
     protected Vector3 startPosition;
+    protected Quaternion startRotation;
 
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
@@ -69,6 +66,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         enemyMng = _enemyMng;
         startPosition = transform.position;
+        startRotation = transform.rotation;
 
         ResetLife();
         ResetStunHit();
@@ -118,13 +116,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     public void EndParasite()
     {
-        if (enemySM.GoToDeath != null)
-        {
-            enemySM.GoToDeath();
-            if (OnEnemyDeath != null)
-                OnEnemyDeath(this);
-        }
-
+        if (EnemyManager.OnEnemyDeath != null)
+            EnemyManager.OnEnemyDeath(this);
     }
     #endregion
 
@@ -205,14 +198,17 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <summary>
     /// Funzione che manda il nemico in stato Morte
     /// </summary>
-    public void Die()
+    public void Die(float _respawnTime = -1)
     {
+        if (_respawnTime == -1)
+            respawnTime = defaultRespawnTime;
+        else
+            respawnTime = _respawnTime;
+
         stunHitGot = 0;
         if (enemySM.GoToDeath != null)
         {
             enemySM.GoToDeath();
-            if (OnEnemyDeath != null)
-                OnEnemyDeath(this);
         }
     }
     #endregion
@@ -232,6 +228,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public void ResetPosition()
     {
         transform.position = startPosition;
+        transform.rotation = startRotation;
         graphics.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
     }
 
@@ -241,11 +238,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public void ResetStunHit()
     {
         stunHitGot = 0;
-    }
-
-    public void ResetSM()
-    {
-        enemySM.GoToRoaming();
     }
     #endregion
 
@@ -279,9 +271,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <summary>
     /// Get Death Duration
     /// </summary>
-    public int GetDeathDuration()
+    public float GetRespawnDuration()
     {
-        return deathDuration;
+        return respawnTime;
     }
 
     /// <summary>
@@ -436,6 +428,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <returns></returns>
     protected virtual IEnumerator MoveRoamingCoroutine()
     {
+        targetAngle = 0;
         Vector3 movementVector = Vector3.zero;
         float pathLenght = GetPathLenght();
         float pathTraveled = 0f;

@@ -9,7 +9,7 @@ namespace StateMachine.EnemySM
         /// <summary>
         /// Death State duration
         /// </summary>
-        private int deathDuration;
+        private float deathDuration;
         /// <summary>
         /// Bool that set when the timer starts
         /// </summary>
@@ -25,7 +25,7 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             // If exists a reference to the enemy object
-            deathDuration = context.enemy.GetDeathDuration();
+            deathDuration = context.enemy.GetRespawnDuration();
             timer = 0;
             context.enemy.GetGraphics().SetActive(false);
             context.enemy.GetCollider().enabled = false;
@@ -33,8 +33,8 @@ namespace StateMachine.EnemySM
             context.enemy.ResetPosition();
             context.enemy.ResetLife();
             context.enemy.ResetStunHit();
+            context.enemy.GetAnimationController().ResetAnimator();
             context.enemy.SetCanStun(false);
-
             start = true;
         }
 

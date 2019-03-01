@@ -29,7 +29,6 @@ public class PoolObjects
 /// </summary>
 public class PoolManager : MonoBehaviour
 {
-
     #region Events
     public delegate void PoolManagerEvent(IPoolObject pooledObject);
     public PoolManagerEvent OnObjectPooled;
@@ -91,6 +90,8 @@ public class PoolManager : MonoBehaviour
                 }
             }
             poolDictionary.Add(obj.objectType, objectsToAdd);
+
+            LevelManager.OnPlayerDeath += ResetPool;
         }
     }
 
@@ -114,6 +115,20 @@ public class PoolManager : MonoBehaviour
     private void OnObjectSpawn(IPoolObject objectToSpawn)
     {
         objectToSpawn.CurrentState = State.InUse;
+    }
+
+    /// <summary>
+    /// Funzione che reimposta la pool
+    /// </summary>
+    public void ResetPool()
+    {
+        foreach (ObjectTypes type in poolDictionary.Keys)
+        {
+            foreach (IPoolObject pooledObject in poolDictionary[type])
+            {
+                OnObjectDestroy(pooledObject);
+            }
+        }
     }
 
     /// <summary>
@@ -154,5 +169,6 @@ public class PoolManager : MonoBehaviour
                 pooledObject.OnObjectSpawn -= OnObjectSpawn;
             }
         }
+        LevelManager.OnPlayerDeath -= ResetPool;
     }
 }

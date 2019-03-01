@@ -9,15 +9,17 @@ public class PlayerDeathState : PlayerSMStateBase
     {
         context.player.GetActualGraphic().SetActive(false);
         context.player.GetMovementController().SetCanMove(false);
-        Vector3 _respawnPosition = context.player.GetLivesController().LoseLife();
-        context.player.transform.position = _respawnPosition;
-        context.player.GoToNormalState();
+        context.player.GetShotController().SetCanShoot(false);
+        context.player.GetLivesController().LoseLives();
     }
 
     public override void Exit()
     {
         context.player.GetHealthController().Setup();
         context.player.GetActualGraphic().SetActive(true);
+        context.player.GetMovementController().SetCanMove(true);
+        context.player.GetShotController().SetCanShoot(true);
+        context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
     }
 
 }

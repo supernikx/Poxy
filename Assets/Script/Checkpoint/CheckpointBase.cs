@@ -11,4 +11,8 @@ public abstract class CheckpointBase : MonoBehaviour
 
     public abstract void Init();
 
+    public virtual Vector3 GetPosition()
+    {
+        return transform.position;
+    }
 }

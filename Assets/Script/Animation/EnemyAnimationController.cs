@@ -41,7 +41,6 @@ public class EnemyAnimationController : MonoBehaviour
     }
     #endregion
 
-
     #region API
     public void Init(EnemyCollisionController _collisionCtrl)
     {
@@ -99,6 +98,17 @@ public class EnemyAnimationController : MonoBehaviour
             BodyJump(true);
             HeadJump(true);
         }
+    }
+
+    public void ResetAnimator()
+    {
+        jumping = false;
+        BodyJump(false);
+        HeadJump(false);
+
+        moving = false;
+        HeadMovement(false);
+        BodyMovement(false);
     }
     #endregion
 }

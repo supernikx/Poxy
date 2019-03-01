@@ -14,17 +14,18 @@ namespace StateMachine.PlayerSM
 
         public delegate void PlayerNormalevent();
         public PlayerNormalevent OnPlayerNormal;
-        public PlayerNormalevent OnPlayerDeath;
         #endregion
 
         protected Animator playerSM;
         protected PlayerSMContext context;
-
+        private Player player;
+        
         public void Init(Player _player)
         {
+            player = _player;
             playerSM = GetComponent<Animator>();
 
-            context = new PlayerSMContext(_player, LevelManager.instance.GetUIGameplayManager());
+            context = new PlayerSMContext(player, LevelManager.instance.GetUIGameplayManager(), LevelManager.instance.GetCheckpointManager());
 
             foreach (StateMachineBehaviour state in playerSM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -36,7 +37,7 @@ namespace StateMachine.PlayerSM
             OnPlayerEnemyParaiste += HandlePlayerEnemyParasite;
             OnPlayerPlatformParaiste += HandlePlayerPlatformParasite;
             OnPlayerNormal += HandlePlayerNormal;
-            OnPlayerDeath += HandlePlayerDeath;
+            player.OnPlayerDeath += HandlePlayerDeath;
 
             playerSM.SetTrigger("StartSM");
         }
@@ -74,17 +75,27 @@ namespace StateMachine.PlayerSM
             playerSM.SetTrigger("GoToDeath");
         }
         #endregion
+
+        private void OnDisable()
+        {
+            OnPlayerEnemyParaiste -= HandlePlayerEnemyParasite;
+            OnPlayerPlatformParaiste -= HandlePlayerPlatformParasite;
+            OnPlayerNormal -= HandlePlayerNormal;
+            player.OnPlayerDeath -= HandlePlayerDeath;
+        }
     }
 
     public class PlayerSMContext : IStateMachineContext
     {
         public Player player;
+        public CheckpointManager checkpointManager;
         public IControllable parasite;
         public UI_GameplayManager UIManager;
 
-        public PlayerSMContext(Player _player, UI_GameplayManager _uiManager)
+        public PlayerSMContext(Player _player, UI_GameplayManager _uiManager, CheckpointManager _checkpointManager)
         {
             player = _player;
+            checkpointManager = _checkpointManager;
             UIManager = _uiManager;
         }
     }

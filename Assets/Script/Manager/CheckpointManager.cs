@@ -61,5 +61,10 @@ public class CheckpointManager : MonoBehaviour
         return initialCheckpoint;
     }
     #endregion
+
+    private void OnDisable()
+    {
+        LevelManager.OnPlayerDeath -= HandlePlayerDeath;
+    }
 }
 

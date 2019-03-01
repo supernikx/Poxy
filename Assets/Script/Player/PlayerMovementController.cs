@@ -72,7 +72,7 @@ public class PlayerMovementController : MonoBehaviour
                 movementVelocity.y = 0;
 
                 if (collisionCtrl.GetCollisionInfo().below)
-                {                    
+                {
                     isJumping = false;
                 }
             }
@@ -181,24 +181,29 @@ public class PlayerMovementController : MonoBehaviour
     public void SetCanMove(bool _canMove)
     {
         canMove = _canMove;
+        if (!canMove)
+        {
+            movementVelocity = Vector3.zero;
+        }
     }
 
+    #region Eject
     /// <summary>
     /// Funzione che fa eseguire l'eject al player
     /// </summary>
     bool eject;
+    float ejectMultiplyer;
+    public void SetEject(float _ejectMultiplyer)
+    {
+        eject = true;
+        ejectMultiplyer = _ejectMultiplyer;
+    }
+
     public void Eject()
     {
-        if (collisionCtrl.GetCollisionInfo().aboveStickyCollision)
-            return;
-
-        if (!eject)
-            eject = true;
-        else
-        {
-            movementVelocity.y += jumpVelocity * 1.3f;
-            eject = false;
-        }
+        movementVelocity.y += jumpVelocity * ejectMultiplyer;
+        eject = false;
     }
+    #endregion
     #endregion
 }

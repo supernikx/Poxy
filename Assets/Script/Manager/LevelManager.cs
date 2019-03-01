@@ -117,7 +117,7 @@ public class LevelManager : MonoBehaviour
 
         player = FindObjectOfType<Player>();
         if (player != null)
-            player.Init(enemyMng, platformMng, checkpointMng);
+            player.Init(enemyMng, platformMng);
 
         //Setup
         enemyMng.EnemiesSetup();
@@ -181,6 +181,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("The Player is dead");
         if (OnPlayerDeath != null)
             OnPlayerDeath();
+        player.GoToNormalState();
     }
 
     /// <summary>
@@ -209,6 +210,15 @@ public class LevelManager : MonoBehaviour
     public UI_GameplayManager GetUIGameplayManager()
     {
         return uiManager;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il checkpoint manager
+    /// </summary>
+    /// <returns></returns>
+    public CheckpointManager GetCheckpointManager()
+    {
+        return checkpointMng;
     }
     #endregion
 

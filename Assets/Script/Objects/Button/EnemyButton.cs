@@ -6,9 +6,10 @@ public class EnemyButton : ButtonBase
 {
     [Header("Enemies to Kill")]
     [SerializeField]
-    private List<EnemyBase> enemiesToKill = new List<EnemyBase>();
+    private List<EnemyBase> enemiesToKillInspector = new List<EnemyBase>();
+    private List<IEnemy> enemiesToKill = new List<IEnemy>();
 
-    private List<EnemyBase> killed;
+    private List<IEnemy> killed;
 
     #region API
     public override void Init()
@@ -18,11 +19,11 @@ public class EnemyButton : ButtonBase
 
     public override void Setup()
     {
-        killed = new List<EnemyBase>();
-
-        foreach (EnemyBase _current in enemiesToKill)
+        killed = new List<IEnemy>();
+        EnemyManager.OnEnemyDeath += HandleOnEnemyDeath;
+        foreach (EnemyBase e in enemiesToKillInspector)
         {
-            _current.OnEnemyDeath += HandleOnEnemyDeath;
+            enemiesToKill.Add(e as IEnemy);
         }
     }
 
@@ -36,16 +37,21 @@ public class EnemyButton : ButtonBase
     #endregion
 
     #region Handlers
-    private void HandleOnEnemyDeath(EnemyBase _enemy)
+    private void HandleOnEnemyDeath(IEnemy _enemy)
     {
         if (enemiesToKill.Contains(_enemy) && !killed.Contains(_enemy))
         {
             killed.Add(_enemy);
-            _enemy.OnEnemyDeath -= HandleOnEnemyDeath;
+
         }
 
         if (enemiesToKill.Count == killed.Count)
             Activate();
     }
     #endregion
+
+    private void OnDisable()
+    {
+        EnemyManager.OnEnemyDeath -= HandleOnEnemyDeath;
+    }
 }
