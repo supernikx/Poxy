@@ -4,7 +4,7 @@ using System.Collections;
 namespace StateMachine.EnemySM
 {
 
-    public class EnemyDeadState : EnemySMStateBase
+    public class EnemyDeathState : EnemySMStateBase
     {
         /// <summary>
         /// Death State duration
@@ -30,6 +30,8 @@ namespace StateMachine.EnemySM
             context.enemy.GetGraphics().SetActive(false);
             context.enemy.GetCollider().enabled = false;
 
+            context.enemy.GetCollisionCtrl().OnStickyEnd();
+            context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();
             context.enemy.ResetPosition();
             context.enemy.ResetLife();
             context.enemy.ResetStunHit();

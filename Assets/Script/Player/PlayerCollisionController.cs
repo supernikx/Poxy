@@ -692,6 +692,22 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             slopeAngle = 0f;
         }
 
+        public void ResetAll()
+        {
+            above = false;
+            below = false;
+            left = false;
+            right = false;
+            aboveStickyCollision = false;
+            belowStickyCollision = false;
+            leftStickyCollision = false;
+            rightStickyCollision = false;
+            climbingSlope = false;
+            descendingSlope = false;
+            oldSlopeAngle = slopeAngle;
+            slopeAngle = 0f;
+        }
+
         public bool StickyCollision()
         {
             if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)

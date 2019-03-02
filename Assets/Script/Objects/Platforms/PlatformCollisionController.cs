@@ -192,7 +192,7 @@ public class PlatformCollisionController : MonoBehaviour
                                 }
                                 else
                                 {
-                                    oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
+                                    oppositeHit.transform.Translate(new Vector3(-pushX, pushY, 0));
                                 }
                             }
                         }

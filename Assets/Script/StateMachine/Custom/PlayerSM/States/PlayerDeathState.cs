@@ -8,6 +8,8 @@ public class PlayerDeathState : PlayerSMStateBase
     public override void Enter()
     {
         context.player.GetActualGraphic().SetActive(false);
+        context.player.GetCollisionController().OnStickyEnd();
+        context.player.GetCollisionController().GetCollisionInfo().ResetAll();
         context.player.GetMovementController().SetCanMove(false);
         context.player.GetShotController().SetCanShoot(false);
         context.player.GetLivesController().LoseLives();

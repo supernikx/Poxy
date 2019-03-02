@@ -17,6 +17,10 @@ public class PlayerShotController : MonoBehaviour
     [SerializeField]
     private GameObject aimObject;
     [SerializeField]
+    private GameObject crossAir;
+    [SerializeField]
+    private float crossAirDistance;
+    [SerializeField]
     ShotSettings stunShotSettings;
     [SerializeField]
     private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
@@ -124,6 +128,9 @@ public class PlayerShotController : MonoBehaviour
             player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
 
+        //Posiziono il mirino nel punto in cui si sta mirando
+        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
+
         //Calcolo la direzione di sparo
         direction = aimObject.transform.right;
     }
@@ -169,6 +176,9 @@ public class PlayerShotController : MonoBehaviour
                 aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
             }
         }
+
+        //Posiziono il mirino nel punto in cui si sta mirando
+        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
 
         //Prendo la direzione a cui devo mirare
         direction = aimObject.transform.right;
