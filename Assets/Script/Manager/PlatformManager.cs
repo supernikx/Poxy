@@ -22,15 +22,17 @@ public class PlatformManager : MonoBehaviour
     private List<LaunchingPlatform> launchingPlatforms;
     private List<LaunchingPlatform> launchingPlatformsInUse;
 
+    private UI_GameplayManager uiGameplay;
+
     #region API
-    public void Init()
+    public void Init(UI_GameplayManager _uiGameplay)
     {
         if (!PlatformContainer)
             return;
         platforms = new List<IPlatform>();
         launchingPlatforms = new List<LaunchingPlatform>();
         launchingPlatformsInUse = new List<LaunchingPlatform>();
-
+        uiGameplay = _uiGameplay;
         for (int i = 0; i < PlatformContainer.childCount; i++)
         {
             IPlatform _current = PlatformContainer.GetChild(i).GetComponent<IPlatform>();
@@ -76,13 +78,14 @@ public class PlatformManager : MonoBehaviour
     private void HandleOnParasite(LaunchingPlatform _platform)
     {
         launchingPlatformsInUse.Add(_platform);
+        uiGameplay.GetGamePanel().EnableToleranceBar(true);
     }
 
     private void HandleOnParasiteEnd(LaunchingPlatform _platform)
     {
         launchingPlatformsInUse.Remove(_platform);
-
         _platform.gameObject.transform.parent = PlatformContainer;
+        uiGameplay.GetGamePanel().EnableToleranceBar(false);
     }
     #endregion
 }

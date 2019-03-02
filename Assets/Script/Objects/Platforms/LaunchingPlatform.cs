@@ -20,7 +20,7 @@ public class LaunchingPlatform : Platform, IControllable
     private EnemyToleranceController toleranceCtrl;
     private Player player = null;
 
-    private void SetObjectState (bool _state)
+    private void SetObjectState(bool _state)
     {
         isActive = _state;
         GetComponent<BoxCollider>().enabled = _state;
@@ -68,7 +68,7 @@ public class LaunchingPlatform : Platform, IControllable
         player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
 
         StartCoroutine(Tick());
-    } 
+    }
 
     private void HandlePlayerMaxHealth()
     {

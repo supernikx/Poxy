@@ -106,7 +106,7 @@ public class LevelManager : MonoBehaviour
 
         platformMng = GetComponent<PlatformManager>();
         if (platformMng != null)
-            platformMng.Init();
+            platformMng.Init(uiManager.GetGameplayManager());
 
         doorsButtonsMng = GetComponent<DoorsButtonsManager>();
         if (doorsButtonsMng != null)

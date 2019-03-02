@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 using System.Collections;
 
 public class SimpleToken : BaseToken
@@ -15,6 +16,14 @@ public class SimpleToken : BaseToken
     {
         isActive = true;
         gameObject.SetActive(isActive);
+        tweening = false;
+    }
+
+    bool tweening;
+    private void Update()
+    {
+        if (!tweening)
+            transform.DOShakePosition(1.5f, 0.15f, 3, 90f, false, false).OnPlay(() => tweening = true).OnComplete(() => tweening = false);
     }
     #endregion
 
