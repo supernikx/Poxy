@@ -26,9 +26,15 @@ public class EnemyAnimationController : MonoBehaviour
     private void HeadStun(bool _stun)
     {
         if (_stun)
+        {
             anim.SetTrigger("HeadStun");
+            anim.ResetTrigger("HeadEndStun");
+        }
         else
+        {
             anim.SetTrigger("HeadEndStun");
+            anim.ResetTrigger("HeadStun");
+        }
     }
     #endregion
 
@@ -51,9 +57,16 @@ public class EnemyAnimationController : MonoBehaviour
     private void BodyStun(bool _stun)
     {
         if (_stun)
+        {
             anim.SetTrigger("BodyStun");
+            anim.ResetTrigger("BodyEndStun");
+
+        }
         else
+        {
             anim.SetTrigger("BodyEndStun");
+            anim.ResetTrigger("BodyStun");
+        }
     }
     #endregion
 
