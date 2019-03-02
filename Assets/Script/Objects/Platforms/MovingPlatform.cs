@@ -10,6 +10,8 @@ public class MovingPlatform : Platform
     private float movingSpd;
     [SerializeField]
     private Transform reachPoint;
+    [SerializeField]
+    private float waitTime = 0;
     Vector3 reachPosition;
     private Vector3 startPosition;
     private Vector3 direction;
@@ -45,8 +47,11 @@ public class MovingPlatform : Platform
             else
             {
                 if (!pointReached)
+                {
                     pointReached = true;
-
+                    yield return new WaitForSeconds(waitTime);
+                }
+                
                 moveVelocity = -direction * movingSpd * Time.deltaTime;
                 collisionCtrl.MovePassenger(moveVelocity);
                 transform.Translate(moveVelocity);
@@ -54,6 +59,7 @@ public class MovingPlatform : Platform
                 if (Vector3.Distance(transform.position, startPosition) < 0.1f)
                 {
                     pointReached = false;
+                    yield return new WaitForSeconds(waitTime);
                 }
             }
 

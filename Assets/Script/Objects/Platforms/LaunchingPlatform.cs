@@ -38,6 +38,7 @@ public class LaunchingPlatform : Platform, IControllable
         GetComponentInChildren<MeshRenderer>().material.color = Color.red;
 
         Parasite += HandleParasite;
+        LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
     }
 
     public void EndParasite()
@@ -73,6 +74,12 @@ public class LaunchingPlatform : Platform, IControllable
     private void HandlePlayerMaxHealth()
     {
         toleranceCtrl.SetActive(true);
+    }
+
+    private void HandleOnPlayerDeath()
+    {
+        StopCoroutine(Respawn());
+        SetObjectState(true);
     }
     #endregion
 
