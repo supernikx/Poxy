@@ -7,8 +7,7 @@ public class EnemyButton : ButtonBase
     [Header("Enemies to Kill")]
     [SerializeField]
     private List<EnemyBase> enemiesToKillInspector = new List<EnemyBase>();
-    private List<IEnemy> enemiesToKill = new List<IEnemy>();
-
+    private List<IEnemy> enemiesToKill;
     private List<IEnemy> killed;
 
     #region API
@@ -20,6 +19,8 @@ public class EnemyButton : ButtonBase
     public override void Setup()
     {
         killed = new List<IEnemy>();
+        enemiesToKill = new List<IEnemy>();
+        EnemyManager.OnEnemyDeath -= HandleOnEnemyDeath; //Workaround orribile
         EnemyManager.OnEnemyDeath += HandleOnEnemyDeath;
         foreach (EnemyBase e in enemiesToKillInspector)
         {
@@ -42,9 +43,9 @@ public class EnemyButton : ButtonBase
         if (enemiesToKill.Contains(_enemy) && !killed.Contains(_enemy))
         {
             killed.Add(_enemy);
-
+            Debug.Log("Ucciso " + killed.Count);
         }
-
+        Debug.Log("Ne mancano " + enemiesToKill.Count);
         if (enemiesToKill.Count == killed.Count)
             Activate();
     }

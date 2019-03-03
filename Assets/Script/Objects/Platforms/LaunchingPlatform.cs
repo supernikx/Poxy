@@ -16,26 +16,26 @@ public class LaunchingPlatform : Platform, IControllable
     private int respawnTime;
     private bool isActive;
     private ControllableType controllableType = ControllableType.Platform;
-
+    private Collider platfromColldier;
     private EnemyToleranceController toleranceCtrl;
     private Player player = null;
 
     private void SetObjectState(bool _state)
     {
         isActive = _state;
-        GetComponent<BoxCollider>().enabled = _state;
+        platfromColldier.enabled = _state;
         graphics.SetActive(_state);
     }
 
     #region API
     public override void Init()
     {
+        platfromColldier = GetComponent<BoxCollider>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
         SetObjectState(true);
-        GetComponentInChildren<MeshRenderer>().material.color = Color.red;
 
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
@@ -62,8 +62,6 @@ public class LaunchingPlatform : Platform, IControllable
     {
         player = _player;
         PlatformManager.OnParasite(this);
-
-        GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
 
         toleranceCtrl.Setup();
         player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
@@ -114,7 +112,6 @@ public class LaunchingPlatform : Platform, IControllable
         }
 
         SetObjectState(true);
-        GetComponentInChildren<MeshRenderer>().material.color = Color.red;
     }
     #endregion
 
