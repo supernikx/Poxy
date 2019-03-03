@@ -194,6 +194,7 @@ public class Player : MonoBehaviour
     {
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
+        shootCtrl.ResetEnemyShot();
         switch (parasiteCtrl.GetParasite().GetControllableType())
         {
             case ControllableType.Enemy:

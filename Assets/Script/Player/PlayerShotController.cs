@@ -8,6 +8,8 @@ public class PlayerShotController : MonoBehaviour
     #region Delegates
     public delegate void ShotDelegate();
     public static ShotDelegate OnShot;
+    public delegate void ShotBulletDelegate(ObjectTypes _bullet);
+    public static ShotBulletDelegate OnEnemyBulletChanged;
     #endregion
 
     [Header("Shoot Settings")]
@@ -327,7 +329,19 @@ public class PlayerShotController : MonoBehaviour
         if (newShotSettings != null)
         {
             enemyShotSetting = newShotSettings;
+            if (OnEnemyBulletChanged != null)
+                OnEnemyBulletChanged(enemyShotSetting.bulletType);
         }
+    }
+
+    /// <summary>
+    /// Funzione che reimposta le impostazioni dello sparo del nemico a null
+    /// </summary>
+    public void ResetEnemyShot()
+    {
+        enemyShotSetting = null;
+        if (OnEnemyBulletChanged != null)
+            OnEnemyBulletChanged(ObjectTypes.None);
     }
     #endregion
 

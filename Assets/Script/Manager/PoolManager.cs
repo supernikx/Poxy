@@ -11,6 +11,7 @@ public enum ObjectTypes
     ParabolicBullet,
     StickyBullet,
     StickyObject,
+    None,
 }
 
 /// <summary>
