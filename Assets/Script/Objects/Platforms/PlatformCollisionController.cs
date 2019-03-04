@@ -124,7 +124,7 @@ public class PlatformCollisionController : MonoBehaviour
                             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
                             {
                                 PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
-                                collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                                collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
                             }
                             else
                             {
@@ -155,45 +155,29 @@ public class PlatformCollisionController : MonoBehaviour
                                 float pushX = _velocity.y;
                                 float pushY = 0;
 
-                                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
-                                {
-                                    PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
-                                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
-                                }
-                                else
-                                {
-                                    hit.transform.Translate(new Vector3(pushX, pushY, 0));
-                                }
+                                hit.transform.Translate(new Vector3(pushX, pushY, 0));
                             }
                         }
 
-                        //Determina il punto da cui deve partire il ray
+                        //Determina il punto da cui deve partire il ray opposto
                         Vector3 oppositeRayOrigin = collidersSettings[k].raycastPoints.bottomRight.position;
                         oppositeRayOrigin += transform.up * (collidersSettings[k].horizontalRaySpacing * i);
 
-                        //Crea il ray
+                        //Crea il ray opposto
                         Ray oppositeRay = new Ray(oppositeRayOrigin, transform.right);
                         RaycastHit oppositeHit;
 
-                        //Eseguo il raycast
+                        //Eseguo il raycast opposto
                         if (Physics.Raycast(oppositeRay, out oppositeHit, rayLenght, alwaysFollowLayer))
                         {
                             if (!movedPassengers.Contains(oppositeHit.transform))
                             {
                                 movedPassengers.Add(oppositeHit.transform);
 
-                                float pushX = _velocity.y;
+                                float pushX = -_velocity.y;
                                 float pushY = 0f;
 
-                                if (oppositeHit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || oppositeHit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
-                                {
-                                    PlayerCollisionController collisionCtrl = oppositeHit.transform.GetComponentInParent<PlayerCollisionController>();
-                                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
-                                }
-                                else
-                                {
-                                    oppositeHit.transform.Translate(new Vector3(-pushX, pushY, 0));
-                                }
+                                oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
                             }
                         }
                     }
@@ -229,7 +213,8 @@ public class PlatformCollisionController : MonoBehaviour
                             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
                             {
                                 PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
-                                collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                                collisionCtrl.transform.Translate (collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
+                                Debug.Log("Test");
                             }
                             else
                             {
@@ -261,15 +246,29 @@ public class PlatformCollisionController : MonoBehaviour
                                 float pushX = -_velocity.x;
                                 float pushY = 0f;
 
-                                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
-                                {
-                                    PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
-                                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
-                                }
-                                else
-                                {
-                                    hit.transform.Translate(new Vector3(pushX, pushY, 0));
-                                }
+                                hit.transform.Translate(new Vector3(pushX, pushY, 0));
+                            }
+                        }
+
+                        //Determina il punto da cui deve partire il ray opposto
+                        Vector3 oppositeRayOrigin = collidersSettings[k].raycastPoints.topLeft.position;
+                        oppositeRayOrigin += transform.right * (collidersSettings[k].verticalRaySpacing * i);
+
+                        //Crea il ray opposto
+                        Ray oppositeRay = new Ray(oppositeRayOrigin, transform.up);
+                        RaycastHit oppositeHit;
+
+                        //Eseguo il raycast opposto
+                        if (Physics.Raycast(oppositeRay, out oppositeHit, rayLenght, alwaysFollowLayer))
+                        {
+                            if (!movedPassengers.Contains(oppositeHit.transform))
+                            {
+                                movedPassengers.Add(oppositeHit.transform);
+
+                                float pushX = _velocity.x;
+                                float pushY = 0f;
+
+                                oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
                             }
                         }
                     }
@@ -303,7 +302,7 @@ public class PlatformCollisionController : MonoBehaviour
                             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player") || hit.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
                             {
                                 PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
-                                collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                                collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
                             }
                             else
                             {
