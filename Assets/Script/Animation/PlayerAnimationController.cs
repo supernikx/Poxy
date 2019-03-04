@@ -11,7 +11,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void Init(PlayerCollisionController _collisionCtrl)
     {
-        animToUse = playerAnim = GetComponent<Animator>();
+        animToUse = playerAnim = GetComponentInChildren<Animator>();
         collisionCtrl = _collisionCtrl;
 
         PlayerShotController.OnShot += ShotAnimation;

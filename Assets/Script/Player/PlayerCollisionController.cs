@@ -180,6 +180,15 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     {
         return immunityDuration;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il colldier del player
+    /// </summary>
+    /// <returns></returns>
+    public Collider GetPlayerCollider()
+    {
+        return playerCollider;
+    }
     #endregion
 
     #region Setter

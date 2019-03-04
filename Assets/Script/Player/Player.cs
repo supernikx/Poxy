@@ -54,6 +54,10 @@ public class Player : MonoBehaviour
     /// Reference all'animation controller
     /// </summary>
     private PlayerAnimationController animCtrl;
+    /// <summary>
+    /// Referenza al VFX controller
+    /// </summary>
+    private PlayerVFXController vfxCtrl;
 
     #region API
     /// <summary>
@@ -93,6 +97,10 @@ public class Player : MonoBehaviour
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
+
+        vfxCtrl = GetComponentInChildren<PlayerVFXController>();
+        if (vfxCtrl != null)
+            vfxCtrl.Init(this);
 
         //Setup cose locali
         graphic = playerGraphic;
@@ -329,7 +337,10 @@ public class Player : MonoBehaviour
     {
         return parasiteCtrl;
     }
-
+    /// <summary>
+    /// Funzione che ritorna il lives controller
+    /// </summary>
+    /// <returns></returns>
     public PlayerLivesController GetLivesController()
     {
         return livesCtrl;

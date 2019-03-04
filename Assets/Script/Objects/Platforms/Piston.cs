@@ -32,7 +32,7 @@ public class Piston : Platform
     /// Referenza agli start point
     /// </summary>
     private RaycastStartPoints raycastStartPoints;
-    
+
     private PistonState currentState;
     private Collider colliderToCheck;
     private bool collisionBelow;
@@ -46,7 +46,6 @@ public class Piston : Platform
         //Reset delle collisioni attuali
         collisionBelow = false;
         playerHit = false;
-        
         if (currentState == PistonState.Forward)
             VerticalCollisions(ref _movementVelocity);
 
@@ -59,7 +58,7 @@ public class Piston : Platform
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
         initialPosition = transform.position;
-
+        playerHit = false;
         CalculateRaySpacing();
 
         StartCoroutine(VerticalBehaviour());
@@ -105,9 +104,9 @@ public class Piston : Platform
     {
         Bounds bounds = colliderToCheck.bounds;
         bounds.Expand(collisionOffset * -2);
-        
+
         verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
-        
+
         verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
     }
 
@@ -145,7 +144,7 @@ public class Piston : Platform
             //Crea il ray
             Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
             RaycastHit hit;
-            
+
             //Eseguo il raycast
             if (Physics.Raycast(ray, out hit, rayLenght, obstacleLayer))
             {
@@ -177,25 +176,6 @@ public class Piston : Platform
         }
     }
     #endregion
-
-    /*
-    private void OnDrawGizmos()
-    {
-        collisionOffset = 0.015f;
-
-        Bounds bounds = GetComponent<Collider>().bounds;
-        bounds.Expand(collisionOffset * -2);
-
-        verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
-        raycastStartPoints.bottomLeft = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
-
-        for (int i = 0; i < verticalRayCount; i++)
-        {
-            Vector3 rayOrigin = raycastStartPoints.bottomLeft;
-            rayOrigin += Vector3.right * (verticalRaySpacing * i);
-            Debug.DrawRay(rayOrigin, Vector3.up * -1 * -collisionOffset, Color.yellow);
-        }
-    }*/
 
     private struct RaycastStartPoints
     {

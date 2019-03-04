@@ -5,7 +5,7 @@ using DG.Tweening;
 public class RotatingPlatform : Platform
 {
 
-    [Header("Rotate Options")]
+    [Header("Rotate Settings")]
     [SerializeField]
     private float angleEachRotation;
     [SerializeField]

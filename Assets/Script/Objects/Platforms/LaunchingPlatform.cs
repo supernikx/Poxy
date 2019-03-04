@@ -20,6 +20,14 @@ public class LaunchingPlatform : Platform, IControllable
     private EnemyToleranceController toleranceCtrl;
     private Player player = null;
 
+    [Header("Graphics Settings")]
+    [SerializeField]
+    private Material defaultMaterial;
+    [SerializeField]
+    private Material infectedMaterial;
+
+    private MeshRenderer meshRenderer;
+
     private void SetObjectState(bool _state)
     {
         isActive = _state;
@@ -31,12 +39,13 @@ public class LaunchingPlatform : Platform, IControllable
     public override void Init()
     {
         platfromColldier = GetComponent<BoxCollider>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
         SetObjectState(true);
-
+        meshRenderer.material = defaultMaterial;
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
     }
@@ -53,6 +62,8 @@ public class LaunchingPlatform : Platform, IControllable
         SetObjectState(false);
         StartCoroutine(Respawn());
 
+        meshRenderer.material = defaultMaterial;
+
         PlatformManager.OnParasiteEnd(this);
     }
     #endregion
@@ -65,6 +76,8 @@ public class LaunchingPlatform : Platform, IControllable
 
         toleranceCtrl.Setup();
         player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
+
+        meshRenderer.material = infectedMaterial;
 
         StartCoroutine(Tick());
     }

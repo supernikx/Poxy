@@ -182,7 +182,6 @@ public class LevelManager : MonoBehaviour
         Debug.Log("The Player is dead");
         if (OnPlayerDeath != null)
             OnPlayerDeath();
-        player.GoToNormalState();
     }
 
     /// <summary>
