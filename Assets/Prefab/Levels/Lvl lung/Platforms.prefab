@@ -650,7 +650,7 @@ Transform:
   m_GameObject: {fileID: 1244814247}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.0000029504295}
   m_LocalPosition: {x: -0.16266632, y: 0, z: 1.14}
-  m_LocalScale: {x: 1, y: 0.7, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1055135061}
   - {fileID: 733433471}
@@ -8657,10 +8657,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 4836267643131458, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7337448839234341791, guid: 809bc0e2658ba0e409207cf024f1f6b8,
         type: 3}
       propertyPath: timeToFill
@@ -8680,6 +8676,10 @@ PrefabInstance:
         type: 3}
       propertyPath: respawnTime
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836267643131458, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
