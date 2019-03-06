@@ -7,6 +7,8 @@ public class StickyBullet : BulletBase
     [SerializeField]
     private ParticleSystem bulletParticle;
     [SerializeField]
+    private ParticleSystem muzzleFlashParticle;
+    [SerializeField]
     private ObjectTypes stickyObjectType;
     [SerializeField]
     private int percentageLife;
@@ -104,6 +106,9 @@ public class StickyBullet : BulletBase
 
     protected override void ObjectSpawnEvent()
     {
+        muzzleFlashParticle.transform.position = shotPosition;
+        muzzleFlashParticle.transform.eulerAngles = new Vector3(0, 0, shotAngle);
+        muzzleFlashParticle.Play();
         bulletParticle.Play();
         base.ObjectSpawnEvent();
     }
