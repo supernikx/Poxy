@@ -47,6 +47,9 @@ public class StickyBullet : BulletBase
                 int damage = Mathf.RoundToInt(enemyHit.GetToleranceCtrl().GetTolerance() * percentageLife / 100);
                 enemyHit.GetToleranceCtrl().AddTolerance(damage);
             }
+
+            if (player.OnPlayerHit != null)
+                player.OnPlayerHit();
         }
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))

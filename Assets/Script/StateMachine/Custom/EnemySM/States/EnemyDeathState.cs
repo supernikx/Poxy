@@ -25,14 +25,13 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             // If exists a reference to the enemy object
+            context.enemy.GetVFXController().EnemyDeathVFX();
             deathDuration = context.enemy.GetRespawnDuration();
             timer = 0;
             context.enemy.GetGraphics().SetActive(false);
             context.enemy.GetCollider().enabled = false;
-
             context.enemy.GetCollisionCtrl().OnStickyEnd();
-            context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();
-            context.enemy.ResetPosition();
+            context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();            
             context.enemy.ResetLife();
             context.enemy.ResetStunHit();
             context.enemy.GetAnimationController().ResetAnimator();
@@ -60,6 +59,7 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
+            context.enemy.ResetPosition();
             start = false;
             context.enemy.SetCanStun(true);
             context.enemy.GetGraphics().SetActive(true);

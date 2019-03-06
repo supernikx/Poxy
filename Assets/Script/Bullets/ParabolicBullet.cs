@@ -34,6 +34,8 @@ public class ParabolicBullet : BulletBase
                 player.GetHealthController().DamageHit(damage);
             else
                 _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
+            if (player.OnPlayerHit != null)
+                player.OnPlayerHit();
         }
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))

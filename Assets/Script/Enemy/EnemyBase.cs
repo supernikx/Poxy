@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using StateMachine.EnemySM;
 using DG.Tweening;
 
@@ -9,6 +10,10 @@ using DG.Tweening;
 [RequireComponent(typeof(EnemyViewController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
+    #region Delegates
+    public Action OnEnemyHit;
+    #endregion
+
     [Header("General Movement Settings")]
     [SerializeField]
     protected float roamingMovementSpeed;
@@ -145,6 +150,11 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
                 }
             }
         }
+
+        if (OnEnemyHit != null)
+        {
+            OnEnemyHit();
+        }
     }
 
     /// <summary>
@@ -174,6 +184,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
             {
                 EnemyManager.OnEnemyDeath(this);
+            }
+            else if (OnEnemyHit != null)
+            {
+                OnEnemyHit();
             }
         }
         else
@@ -442,7 +456,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     /// <returns></returns>
     protected virtual IEnumerator MoveRoamingCoroutine()
-    {        
+    {
         Vector3 movementVector = Vector3.zero;
         float pathLenght = GetPathLenght();
         float pathTraveled = 0f;

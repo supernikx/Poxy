@@ -9,6 +9,9 @@ public class PlayerVFXController : MonoBehaviour
     public static Action OnDeathVFXEnd;
     #endregion
 
+    [Header("Hit VFX")]
+    [SerializeField]
+    private ParticleSystem hitVfx;
     [Header("Death VFX")]
     [SerializeField]
     private ParticleSystem deathGhost;
@@ -21,6 +24,7 @@ public class PlayerVFXController : MonoBehaviour
     {        
         player = _player;
         player.OnPlayerDeath += PlayDeathVFX;
+        player.OnPlayerHit += PlayerHitVFX;
         StopAllVFX();
     }
 
@@ -33,6 +37,13 @@ public class PlayerVFXController : MonoBehaviour
         deathSmoke.Stop();
         deathGhost.Stop();
     }
+
+    #region HitVFX
+    private void PlayerHitVFX()
+    {
+        hitVfx.Play();
+    }
+    #endregion
 
     #region DeathVFX
     /// <summary>
@@ -54,10 +65,16 @@ public class PlayerVFXController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         deathGhost.Play();
         yield return new WaitForSeconds(deathGhost.main.duration);
-        deathSmoke.Stop();
         deathGhost.Stop();
+        deathSmoke.Stop();
+
         if (OnDeathVFXEnd != null)
             OnDeathVFXEnd();
     }
     #endregion
+
+    private void OnDisable()
+    {
+        player.OnPlayerDeath -= PlayDeathVFX;
+    }
 }
