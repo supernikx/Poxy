@@ -96,7 +96,7 @@ public class EnemyToleranceController : MonoBehaviour
         int tickCounter = 0;
         while (tickCounter < ticks)
         {
-            tolerance = Mathf.Clamp(tolerance - damgeEachTick, minTolerance, maxTolerance);
+            tolerance = Mathf.Clamp(tolerance + damgeEachTick, minTolerance, maxTolerance);
             tickCounter++;
             yield return new WaitForSeconds(tickDuration);
         }

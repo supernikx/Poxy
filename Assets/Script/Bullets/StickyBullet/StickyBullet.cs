@@ -53,7 +53,7 @@ public class StickyBullet : BulletBase
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
                     float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
-                    enemyHit.GetToleranceCtrl().AddTolerance(damage);
+                    enemyHit.GetToleranceCtrl().AddTolerance(damage, timeInSeconds);
                 }
             }
 

@@ -84,7 +84,7 @@ public class PlayerVFXController : MonoBehaviour
     {
         deathSmokeVFX.Play();
         deathGhostVFX.Play();
-        yield return new WaitForSeconds(deathGhostVFX.main.duration);
+        yield return new WaitForSeconds(deathGhostVFX.main.duration + 0.1f);
         deathGhostVFX.Stop();
         deathSmokeVFX.Stop();
 
