@@ -11,7 +11,14 @@ public class StunBullet : BulletBase
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().StunHit();
+            IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+            if (enemyHit != null)
+            {
+                enemyHit.StunHit();
+                EnemyBase enemyBase = (enemyHit as EnemyBase);
+                if (enemyBase != null && enemyBase.OnEnemyHit != null)
+                    enemyBase.OnEnemyHit();
+            }
         }
         else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {

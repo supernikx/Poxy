@@ -150,11 +150,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
                 }
             }
         }
-
-        if (OnEnemyHit != null)
-        {
-            OnEnemyHit();
-        }
     }
 
     /// <summary>
@@ -184,10 +179,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
             {
                 EnemyManager.OnEnemyDeath(this);
-            }
-            else if (OnEnemyHit != null)
-            {
-                OnEnemyHit();
             }
         }
         else

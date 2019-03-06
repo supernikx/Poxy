@@ -92,7 +92,7 @@ public class PlayerHealthController : MonoBehaviour
     /// Funzione che diminuisce la vita del valore passato come parametro
     /// </summary>
     /// <param name="_health"></param>
-    public void DamageHit(int _health, float _time = 0)
+    public void DamageHit(float _health, float _time = 0)
     {
         if (_time == 0)
         {
@@ -111,7 +111,7 @@ public class PlayerHealthController : MonoBehaviour
     /// <param name="_health"></param>
     /// <param name="_time"></param>
     /// <returns></returns>
-    private IEnumerator DamageHitOverTime(int _health, float _time)
+    private IEnumerator DamageHitOverTime(float _health, float _time)
     {
         float tickDuration = 0.5f;
         float damgeEachTick = tickDuration * _health / _time;

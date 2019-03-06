@@ -29,7 +29,13 @@ public class StickyBullet : BulletBase
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
-            enemyHit.DamageHit(GetBulletDamage());
+            if (enemyHit != null)
+            {
+                enemyHit.DamageHit(GetBulletDamage());
+                EnemyBase enemyBase = (enemyHit as EnemyBase);
+                if (enemyBase != null && enemyBase.OnEnemyHit != null)
+                    enemyBase.OnEnemyHit();
+            }
         }
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -37,15 +43,18 @@ public class StickyBullet : BulletBase
             Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                int damage = Mathf.RoundToInt(player.GetHealthController().GetHealth() * percentageLife / 100);
+                float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
                 player.GetHealthController().DamageHit(damage, timeInSeconds);
-
             }
             else
             {
                 IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
-                int damage = Mathf.RoundToInt(enemyHit.GetToleranceCtrl().GetTolerance() * percentageLife / 100);
-                enemyHit.GetToleranceCtrl().AddTolerance(damage);
+                if (enemyHit != null)
+                {
+                    player = enemyHit.gameObject.GetComponentInParent<Player>();
+                    float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
+                    enemyHit.GetToleranceCtrl().AddTolerance(damage);
+                }
             }
 
             if (player.OnPlayerHit != null)

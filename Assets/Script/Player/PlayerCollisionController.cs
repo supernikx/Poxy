@@ -8,6 +8,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 {
     #region Delegates
     public Action OnStickyCollision;
+    public Action OnPlayerLanding;
     #endregion
 
     [Header("Collision Settings")]
@@ -367,6 +368,12 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
             }
 
+            if (collisions.below && !collisions.previewBelow)
+            {
+                if (OnPlayerLanding != null)
+                    OnPlayerLanding();
+            }
+
             #region Fix Freez frame tra un cambio di pendenza e l'altro
             if (collisions.climbingSlope)
             {
@@ -676,6 +683,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     {
         public bool above;
         public bool below;
+        public bool previewBelow;
         public bool left;
         public bool right;
 
@@ -692,6 +700,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
         public void Reset()
         {
             above = false;
+            previewBelow = below;
             below = false;
             left = false;
             right = false;
@@ -704,6 +713,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
         public void ResetAll()
         {
             above = false;
+            previewBelow = below;
             below = false;
             left = false;
             right = false;
