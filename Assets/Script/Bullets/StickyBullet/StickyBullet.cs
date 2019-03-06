@@ -5,6 +5,8 @@ public class StickyBullet : BulletBase
 {
     [Header("Sticky Bullet Settings")]
     [SerializeField]
+    private ParticleSystem bulletParticle;
+    [SerializeField]
     private ObjectTypes stickyObjectType;
     [SerializeField]
     private int percentageLife;
@@ -92,4 +94,18 @@ public class StickyBullet : BulletBase
         Vector3 leftMaxPosition = stickyObject.CheckSpace(_normal, -1);
         stickyObject.Spawn(leftMaxPosition, rightMaxPosition);
     }
+
+    #region Spawn/Destroy
+    protected override void ObjectDestroyEvent()
+    {
+        bulletParticle.Stop();
+        base.ObjectDestroyEvent();
+    }
+
+    protected override void ObjectSpawnEvent()
+    {
+        bulletParticle.Play();
+        base.ObjectSpawnEvent();
+    }
+    #endregion
 }
