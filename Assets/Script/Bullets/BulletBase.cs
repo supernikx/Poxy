@@ -76,7 +76,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Funzione che richiama l'evento di spawn del proiettile
     /// </summary>
-    protected void ObjectSpawnEvent()
+    protected virtual void ObjectSpawnEvent()
     {
         if (OnObjectSpawn != null)
             OnObjectSpawn(this);
@@ -84,7 +84,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Funzione che richiama l'evento di Destroy del proiettile
     /// </summary>
-    protected void ObjectDestroyEvent()
+    protected virtual void ObjectDestroyEvent()
     {
         if (OnObjectDestroy != null)
             OnObjectDestroy(this);

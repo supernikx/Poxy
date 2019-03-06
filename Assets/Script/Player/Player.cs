@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public Action OnPlayerMaxHealth;
     public Action OnPlayerImmunityEnd;
     public Action OnPlayerDeath;
+    public Action OnPlayerHit;
     #endregion
 
     [Header("General Settings")]

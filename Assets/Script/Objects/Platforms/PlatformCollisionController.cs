@@ -214,7 +214,6 @@ public class PlatformCollisionController : MonoBehaviour
                             {
                                 PlayerCollisionController collisionCtrl = hit.transform.GetComponentInParent<PlayerCollisionController>();
                                 collisionCtrl.transform.Translate (collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
-                                Debug.Log("Test");
                             }
                             else
                             {

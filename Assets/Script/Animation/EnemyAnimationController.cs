@@ -73,7 +73,7 @@ public class EnemyAnimationController : MonoBehaviour
     #region API
     public void Init(EnemyCollisionController _collisionCtrl)
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         collisionCtrl = _collisionCtrl;
     }
 

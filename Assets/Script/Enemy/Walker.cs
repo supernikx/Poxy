@@ -36,8 +36,7 @@ public class Walker : EnemyBase
             yield break;
 
         float rotationY;
-        Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 direction = (target.position - transform.position).normalized;
         if (direction != transform.right)
         {
             rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -46,11 +45,20 @@ public class Walker : EnemyBase
 
         while (true)
         {
+            Vector3 movementVector = Vector3.zero;
+            Vector3 movementVelocity = movementVector;
             target = viewCtrl.FindPlayer();
             if (target == null)
                 yield break;
-            Vector3 movementVector = Vector3.zero;
-            Vector3 movementVelocity = movementVector;
+
+            //Rotazione Nemico
+            Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
+            direction = (targetRotation - transform.position).normalized;
+            if (direction.x != 0)
+            {
+                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
+            }
 
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition.position, enemyShotSettings.shotSpeed))
@@ -65,15 +73,6 @@ public class Walker : EnemyBase
             }
             else
             {
-                //Rotazione Nemico
-                Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
-                direction = (targetRotation - transform.position).normalized;
-                if (direction.x != 0)
-                {
-                    rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
-                }
-
                 //Movimento Nemico                
                 movementVector.x = movementSpeed;
                 movementVelocity = movementCtrl.MovementCheck(movementVector);

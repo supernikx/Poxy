@@ -8,19 +8,26 @@ public class PlayerVFXController : MonoBehaviour
     #region Delegates
     public static Action OnDeathVFXEnd;
     #endregion
-
+    [Header("Landing VFX")]
+    [SerializeField]
+    private ParticleSystem landingVFX;
+    [Header("Hit VFX")]
+    [SerializeField]
+    private ParticleSystem hitVFX;
     [Header("Death VFX")]
     [SerializeField]
-    private ParticleSystem deathGhost;
+    private ParticleSystem deathGhostVFX;
     [SerializeField]
-    private ParticleSystem deathSmoke;
+    private ParticleSystem deathSmokeVFX;
 
     private Player player;
 
     public void Init(Player _player)
-    {        
+    {
         player = _player;
+        player.GetCollisionController().OnPlayerLanding += PlayerLandingVFX;
         player.OnPlayerDeath += PlayDeathVFX;
+        player.OnPlayerHit += PlayerHitVFX;
         StopAllVFX();
     }
 
@@ -30,9 +37,35 @@ public class PlayerVFXController : MonoBehaviour
     public void StopAllVFX()
     {
         //Death VFX
-        deathSmoke.Stop();
-        deathGhost.Stop();
+        deathSmokeVFX.Stop();
+        deathGhostVFX.Stop();
+
+        //Landing VFX
+        landingVFX.Stop();
+
+        //Hit VFX
+        hitVFX.Stop();
     }
+
+    #region LandingVFX
+    /// <summary>
+    /// Funzione che fa paritre il VFX player landing
+    /// </summary>
+    private void PlayerLandingVFX()
+    {
+        landingVFX.Play();
+    }
+    #endregion
+
+    #region HitVFX
+    /// <summary>
+    /// Funzione che fa paritre il VFX hitVfx
+    /// </summary>
+    private void PlayerHitVFX()
+    {
+        hitVFX.Play();
+    }
+    #endregion
 
     #region DeathVFX
     /// <summary>
@@ -40,7 +73,6 @@ public class PlayerVFXController : MonoBehaviour
     /// </summary>
     public void PlayDeathVFX()
     {
-        Debug.Log("test");
         StartCoroutine(DeathVFXCoroutine());
     }
 
@@ -50,14 +82,19 @@ public class PlayerVFXController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DeathVFXCoroutine()
     {
-        deathSmoke.Play();
-        yield return new WaitForSeconds(0.1f);
-        deathGhost.Play();
-        yield return new WaitForSeconds(deathGhost.main.duration);
-        deathSmoke.Stop();
-        deathGhost.Stop();
+        deathSmokeVFX.Play();
+        deathGhostVFX.Play();
+        yield return new WaitForSeconds(deathGhostVFX.main.duration + 0.1f);
+        deathGhostVFX.Stop();
+        deathSmokeVFX.Stop();
+
         if (OnDeathVFXEnd != null)
             OnDeathVFXEnd();
     }
     #endregion
+
+    private void OnDisable()
+    {
+        player.OnPlayerDeath -= PlayDeathVFX;
+    }
 }

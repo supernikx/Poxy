@@ -159,6 +159,12 @@ public interface IEnemy
     EnemyAnimationController GetAnimationController();
 
     /// <summary>
+    /// Funzione che ritorna il vfx controller del nemico
+    /// </summary>
+    /// <returns></returns>
+    EnemyVFXController GetVFXController();
+
+    /// <summary>
     /// Funzione che ritorna il parent dei nemici
     /// </summary>
     /// <returns></returns>

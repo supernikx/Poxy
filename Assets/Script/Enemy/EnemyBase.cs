@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using StateMachine.EnemySM;
 using DG.Tweening;
 
@@ -9,6 +10,10 @@ using DG.Tweening;
 [RequireComponent(typeof(EnemyViewController))]
 public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
+    #region Delegates
+    public Action OnEnemyHit;
+    #endregion
+
     [Header("General Movement Settings")]
     [SerializeField]
     protected float roamingMovementSpeed;
@@ -51,6 +56,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
     protected EnemyAnimationController animCtrl;
+    protected EnemyVFXController vfxCtrl;
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
@@ -93,6 +99,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         animCtrl = GetComponentInChildren<EnemyAnimationController>();
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
+
+        vfxCtrl = GetComponentInChildren<EnemyVFXController>();
+        if (vfxCtrl != null)
+            vfxCtrl.Init(this);
 
         viewCtrl = GetComponent<EnemyViewController>();
         if (viewCtrl != null)
@@ -358,6 +368,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     }
 
     /// <summary>
+    /// Funzione che ritorna il vfx controller del nemico
+    /// </summary>
+    /// <returns></returns>
+    public EnemyVFXController GetVFXController()
+    {
+        return vfxCtrl;
+    }
+
+    /// <summary>
     /// Funzione che ritorna il Collision Controller
     /// </summary>
     /// <returns></returns>
@@ -428,7 +447,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     /// <returns></returns>
     protected virtual IEnumerator MoveRoamingCoroutine()
-    {        
+    {
         Vector3 movementVector = Vector3.zero;
         float pathLenght = GetPathLenght();
         float pathTraveled = 0f;

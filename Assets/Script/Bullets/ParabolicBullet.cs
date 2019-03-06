@@ -24,7 +24,14 @@ public class ParabolicBullet : BulletBase
     {
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            _collisionInfo.transform.gameObject.GetComponent<IEnemy>().DamageHit(GetBulletDamage());
+            IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+            if (enemyHit != null)
+            {
+                enemyHit.DamageHit(GetBulletDamage());
+                EnemyBase enemyBase = (enemyHit as EnemyBase);
+                if (enemyBase != null && enemyBase.OnEnemyHit != null)
+                    enemyBase.OnEnemyHit();
+            }
         }
 
         if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -33,7 +40,17 @@ public class ParabolicBullet : BulletBase
             if (player != null)
                 player.GetHealthController().DamageHit(damage);
             else
-                _collisionInfo.transform.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
+            {
+                IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+                if (enemyHit != null)
+                {
+                    player = enemyHit.gameObject.GetComponentInParent<Player>();
+                    enemyHit.GetToleranceCtrl().AddTolerance(damage);
+                }
+            }
+
+            if (player.OnPlayerHit != null)
+                player.OnPlayerHit();
         }
 
         if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))

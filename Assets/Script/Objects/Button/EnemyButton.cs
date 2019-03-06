@@ -43,9 +43,8 @@ public class EnemyButton : ButtonBase
         if (enemiesToKill.Contains(_enemy) && !killed.Contains(_enemy))
         {
             killed.Add(_enemy);
-            Debug.Log("Ucciso " + killed.Count);
         }
-        Debug.Log("Ne mancano " + enemiesToKill.Count);
+
         if (enemiesToKill.Count == killed.Count)
             Activate();
     }
