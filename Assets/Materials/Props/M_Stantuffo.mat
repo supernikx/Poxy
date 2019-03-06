@@ -10,7 +10,8 @@ Material:
   m_Name: M_Stantuffo
   m_Shader: {fileID: 4800000, guid: 7252379db4c18b641b517f2c91bb57e1, type: 3}
   m_ShaderKeywords: _EMISSIVE_COLOR_MAP _MATERIAL_FEATURE_SUBSURFACE_SCATTERING _MATERIAL_FEATURE_TRANSMISSION
-    _NORMALMAP_TANGENT_SPACE _SPECGLOSSMAP
+    _NORMALMAP_TANGENT_SPACE _SPECGLOSSMAP _USECOLORMAP_ON _USEEMISSIVEMAP_ON _USEMETALLICMAP_ON
+    _USENORMALMAP_ON _USEROUGHNESSMAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -263,11 +264,11 @@ Material:
     - _UVEmissive: 0
     - _UVSec: 0
     - _UseAoMap: 0
-    - _UseColorMap: 0
-    - _UseEmissiveMap: 0
-    - _UseMetallicMap: 0
-    - _UseNormalMap: 0
-    - _UseRoughnessMap: 0
+    - _UseColorMap: 1
+    - _UseEmissiveMap: 1
+    - _UseMetallicMap: 1
+    - _UseNormalMap: 1
+    - _UseRoughnessMap: 1
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4

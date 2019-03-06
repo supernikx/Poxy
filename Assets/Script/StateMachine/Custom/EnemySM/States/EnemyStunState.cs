@@ -25,6 +25,7 @@ namespace StateMachine.EnemySM
         {          
             context.enemy.SetCanStun(false);
             stunDuration = context.enemy.GetStunDuration();
+            context.enemy.GetVFXController().EnemyStunVFX(true);
             context.enemy.GetAnimationController().Stun(true);
             timer = 0;
             start = true;
@@ -54,6 +55,7 @@ namespace StateMachine.EnemySM
         {
             context.enemy.ResetStunHit();
             context.enemy.SetCanStun(true);
+            context.enemy.GetVFXController().EnemyStunVFX(false);
             context.enemy.GetAnimationController().Stun(false);
         }
     }

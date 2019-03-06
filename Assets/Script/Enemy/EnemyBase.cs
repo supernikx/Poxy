@@ -51,6 +51,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected EnemyManager enemyMng;
     protected EnemySMController enemySM;
     protected EnemyAnimationController animCtrl;
+    protected EnemyVFXController vfxCtrl;
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
@@ -93,6 +94,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         animCtrl = GetComponentInChildren<EnemyAnimationController>();
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
+
+        vfxCtrl = GetComponentInChildren<EnemyVFXController>();
+        if (vfxCtrl != null)
+            vfxCtrl.Init(this);
 
         viewCtrl = GetComponent<EnemyViewController>();
         if (viewCtrl != null)
@@ -355,6 +360,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public EnemyAnimationController GetAnimationController()
     {
         return animCtrl;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il vfx controller del nemico
+    /// </summary>
+    /// <returns></returns>
+    public EnemyVFXController GetVFXController()
+    {
+        return vfxCtrl;
     }
 
     /// <summary>
