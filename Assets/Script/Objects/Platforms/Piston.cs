@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Piston : Platform
 {
+    [Header("Graphic Settings")]
+    [SerializeField]
+    private ParticleSystem stompVFX;
 
     [Header("Piston Settings")]
     [SerializeField]
@@ -86,7 +89,10 @@ public class Piston : Platform
             transform.Translate(movementVelocity);
 
             if (currentState == PistonState.Forward && collisionBelow && !playerHit)
+            {
+                stompVFX.Play();
                 currentState = PistonState.Backward;
+            }
 
             if (currentState == PistonState.Backward && transform.position.y >= initialPosition.y)
                 currentState = PistonState.Forward;
