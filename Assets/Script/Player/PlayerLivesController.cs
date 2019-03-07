@@ -37,7 +37,7 @@ public class PlayerLivesController : MonoBehaviour
     #region Handlers
     public void LoseLives()
     {
-        currentLives = Mathf.Clamp(currentLives--, 0, lives);
+        currentLives = Mathf.Clamp(currentLives-1, 0, lives);
 
         if (currentLives == 0)
         {

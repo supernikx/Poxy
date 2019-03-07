@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             player.transform.position = spawn1Pos.position;
         }
@@ -78,7 +78,7 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             player.transform.position = spawn2Pos.position;
-        }
+        }*/
     }
 
     #region API
