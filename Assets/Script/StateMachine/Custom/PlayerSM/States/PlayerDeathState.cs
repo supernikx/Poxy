@@ -8,7 +8,10 @@ public class PlayerDeathState : PlayerSMStateBase
 
     public override void Enter()
     {
+        LevelManager.OnGameOver += HandleGameover;
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
+        gameover = false;
+        context.player.GetLivesController().LoseLives();
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
         context.player.GetShotController().ResetEnemyShot();
@@ -19,7 +22,12 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetCollisionController().GetCollisionInfo().ResetAll();
         context.player.GetMovementController().SetCanMove(false);
         context.player.GetShotController().SetCanShoot(false);
-        context.player.GetLivesController().LoseLives();
+    }
+
+    bool gameover;
+    private void HandleGameover()
+    {
+        gameover = true;
     }
 
     private void HandleDeathVFXEnd()
@@ -29,7 +37,12 @@ public class PlayerDeathState : PlayerSMStateBase
 
     public override void Exit()
     {
+        LevelManager.OnGameOver -= HandleGameover;
+        PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
+
         context.player.GetCollisionController().GetPlayerCollider().enabled = true;
+        if (gameover)
+            context.player.GetLivesController().Init();
         context.player.GetHealthController().Setup();
         context.player.GetActualGraphic().SetActive(true);
         context.player.GetMovementController().SetCanMove(true);

@@ -337,7 +337,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     public Collider GetCollider()
     {
-        return GetComponent<Collider>();
+        return collisionCtrl.GetCollider();
     }
 
     /// <summary>

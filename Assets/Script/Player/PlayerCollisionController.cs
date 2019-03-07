@@ -147,7 +147,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// </summary>
     public void CalculateParasiteCollision(IEnemy _enemy)
     {
-        Collider _enemyCollider = _enemy.gameObject.GetComponent<Collider>();
+        Collider _enemyCollider = _enemy.GetCollider();
         playerCollider.enabled = false;
         colliderToCheck = _enemyCollider;
         CalculateRaySpacing();

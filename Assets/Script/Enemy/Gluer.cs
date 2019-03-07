@@ -13,6 +13,8 @@ public class Gluer : EnemyBase
     private float roamingFiringRate;
     [SerializeField]
     private float shotRadius;
+    private IEnumerator roamingFiringRateCoroutine;
+
 
     private IEnumerator FiringRateCoroutine(float _firingRate)
     {
@@ -24,7 +26,7 @@ public class Gluer : EnemyBase
     #region API
     public override void Init(EnemyManager _enemyMng)
     {
-        base.Init(_enemyMng);
+        base.Init(_enemyMng);        
         CanShot = true;
     }
 
@@ -39,7 +41,8 @@ public class Gluer : EnemyBase
         {
             bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, transform.right);
             animCtrl.ShotAnimation();
-            StartCoroutine(FiringRateCoroutine(roamingFiringRate));
+            roamingFiringRateCoroutine = FiringRateCoroutine(roamingFiringRate);
+            StartCoroutine(roamingFiringRateCoroutine);
         }
 
         return movementTranslation;
@@ -51,6 +54,8 @@ public class Gluer : EnemyBase
         if (target == null)
             yield break;
 
+        StopCoroutine(roamingFiringRateCoroutine);
+        CanShot = true;
         float rotationY;
         Vector3 direction = (target.position - transform.position).normalized;
         if (direction != transform.right)

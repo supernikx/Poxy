@@ -143,10 +143,9 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
+        player.GetLivesController().SetLives(0);
         if (player.OnPlayerDeath != null)
             player.OnPlayerDeath();
-        if (OnGameOver != null)
-            OnGameOver();
         if (OnGameUnPause != null)
             OnGameUnPause();
     }

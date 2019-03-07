@@ -378,6 +378,15 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
     {
         return collisions;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il collider
+    /// </summary>
+    /// <returns></returns>
+    public Collider GetCollider()
+    {
+        return enemyCollider;
+    }
     #endregion
 
     /// <summary>

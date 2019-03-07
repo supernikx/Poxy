@@ -8,6 +8,13 @@ namespace UI
 {
     public class UIMenu_GamePanel : UIMenu_Base
     {
+        [Header("Life UI")]
+        [SerializeField]
+        private Image hearth1Image;
+        [SerializeField]
+        private Image hearth2Image;
+        [SerializeField]
+        private Image hearth3Image;
         [Header("Health Bar")]
         [SerializeField]
         private float playerMaxHealth;
@@ -43,6 +50,7 @@ namespace UI
         {
             uiManager = _uiManager;
 
+            PlayerLivesController.OnLivesChange += HandleLivesChange;
             PlayerHealthController.OnHealthChange += OnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += OnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += OnToleranceChange;
@@ -93,8 +101,37 @@ namespace UI
         }
         #endregion
 
-        #region PlayerHealth
+        #region PlayerLives
+        private void HandleLivesChange(int lives)
+        {
+            switch (lives)
+            {
+                case 0:
+                    hearth1Image.gameObject.SetActive(false);
+                    hearth2Image.gameObject.SetActive(false);
+                    hearth3Image.gameObject.SetActive(false);
+                    break;
+                case 1:
+                    hearth1Image.gameObject.SetActive(true);
+                    hearth2Image.gameObject.SetActive(false);
+                    hearth3Image.gameObject.SetActive(false);
+                    break;
+                case 2:
+                    hearth1Image.gameObject.SetActive(true);
+                    hearth2Image.gameObject.SetActive(true);
+                    hearth3Image.gameObject.SetActive(false);
+                    break;
+                case 3:
+                default:
+                    hearth1Image.gameObject.SetActive(true);
+                    hearth2Image.gameObject.SetActive(true);
+                    hearth3Image.gameObject.SetActive(true);
+                    break;
+            }
+        }
+        #endregion
 
+        #region PlayerHealth
         /// <summary>
         /// Funzione che si occupa dell'evento PlayerHealthController.OnHealthChange
         /// </summary>
