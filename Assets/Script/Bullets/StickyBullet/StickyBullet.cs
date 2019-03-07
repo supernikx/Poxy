@@ -42,7 +42,7 @@ public class StickyBullet : BulletBase
             }
         }
 
-        if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
             if (player != null)
@@ -65,7 +65,7 @@ public class StickyBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+       else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
@@ -74,7 +74,7 @@ public class StickyBullet : BulletBase
                 return false;
         }
 
-        if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        else if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);
         }

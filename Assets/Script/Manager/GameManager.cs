@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Singleton
     /// </summary>
-    public static GameManager singleton;
+    public static GameManager instance;
     /// <summary>
     /// Riferimento alla GameSM
     /// </summary>
@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
         gameSM = GetComponent<GameSMController>();
 
         // Singleton
-        if (singleton == null)
+        if (instance == null)
         {
-            singleton = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -66,10 +66,18 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Funzione che inizia la partita
     /// </summary>
-    public void StartGame()
+    public static void StartGame()
     {
-        if (gameSM.GoToLevelSetup != null)
-            gameSM.GoToLevelSetup();
+        if (instance.gameSM.GoToLevelSetup != null)
+            instance.gameSM.GoToLevelSetup();
+    }
+
+    /// <summary>
+    /// Funzione che chiude l'applicazione
+    /// </summary>
+    public static void QuitGame()
+    {
+        Application.Quit();
     }
     #endregion
 }

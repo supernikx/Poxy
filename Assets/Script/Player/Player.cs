@@ -347,12 +347,27 @@ public class Player : MonoBehaviour
         return livesCtrl;
     }
     /// <summary>
+    /// Funzione che ritorna l'animator controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerAnimationController GetAnimatorController()
+    {
+        return animCtrl;    }
+    /// <summary>
     /// Funzione che ritorna la grafica attiva del player
     /// </summary>
     /// <returns></returns>
     public GameObject GetActualGraphic()
     {
         return graphic;
+    }
+    /// <summary>
+    /// Funzione che ritorna la grafica del player
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetPlayerGraphic()
+    {
+        return playerGraphic;
     }
     #endregion
     #endregion

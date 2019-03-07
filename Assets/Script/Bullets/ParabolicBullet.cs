@@ -34,7 +34,7 @@ public class ParabolicBullet : BulletBase
             }
         }
 
-        if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
             if (player != null)
@@ -53,7 +53,7 @@ public class ParabolicBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)

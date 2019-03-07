@@ -135,7 +135,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        Application.Quit();
+        GameManager.QuitGame();
     }
 
     /// <summary>
@@ -143,7 +143,10 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        player.transform.position = spawn1Pos.position;
+        if (player.OnPlayerDeath != null)
+            player.OnPlayerDeath();
+        if (OnGameOver != null)
+            OnGameOver();
         if (OnGameUnPause != null)
             OnGameUnPause();
     }

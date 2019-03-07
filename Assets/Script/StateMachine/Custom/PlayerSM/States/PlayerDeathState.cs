@@ -9,6 +9,10 @@ public class PlayerDeathState : PlayerSMStateBase
     public override void Enter()
     {
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
+        context.player.ChangeGraphics(context.player.GetPlayerGraphic());
+        context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
+        context.player.GetShotController().ResetEnemyShot();
+        context.player.GetActualGraphic().transform.localScale = new Vector3(1, 1, 1);
         context.player.GetActualGraphic().SetActive(false);
         context.player.GetCollisionController().OnStickyEnd();
         context.player.GetCollisionController().GetPlayerCollider().enabled = false;

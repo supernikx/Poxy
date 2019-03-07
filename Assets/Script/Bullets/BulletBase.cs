@@ -241,11 +241,12 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     protected virtual bool OnBulletCollision(RaycastHit _collisionInfo)
     {
         if (
-            _collisionInfo.transform.gameObject == gameObject ||
+            ownerObject != null &&
+            (_collisionInfo.transform.gameObject == gameObject ||
             _collisionInfo.transform.gameObject == ownerObject ||
             _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
             ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player") ||
-            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
+            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
             )
             return false;
 

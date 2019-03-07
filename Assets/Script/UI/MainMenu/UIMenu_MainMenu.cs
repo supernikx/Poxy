@@ -22,7 +22,6 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             uiManager = _uiManager;
-            startButton.onClick.AddListener(HandleStartButton);
         }
 
 
@@ -40,11 +39,19 @@ namespace UI
 
         #region ButtonHandler
         /// <summary>
-        /// Handle per lo start button
+        /// Funzione che fa startare il game
         /// </summary>
-        private void HandleStartButton()
+        public void StartButton()
         {
-            GameManager.singleton.StartGame();
+            GameManager.StartGame();
+        }
+
+        /// <summary>
+        /// Funzione che chiude l'applicazione
+        /// </summary>
+        public void QuitGame()
+        {
+            GameManager.QuitGame();
         }
         #endregion
     }
