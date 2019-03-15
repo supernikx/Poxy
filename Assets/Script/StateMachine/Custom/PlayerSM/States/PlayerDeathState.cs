@@ -15,8 +15,8 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
         context.player.GetShotController().ResetEnemyShot();
-        context.player.GetActualGraphic().transform.localScale = new Vector3(1, 1, 1);
-        context.player.GetActualGraphic().SetActive(false);
+        context.player.GetActualGraphic().GetModel().transform.localScale = new Vector3(1, 1, 1);
+        context.player.GetActualGraphic().Disable();
         context.player.GetCollisionController().OnStickyEnd();
         context.player.GetCollisionController().GetPlayerCollider().enabled = false;
         context.player.GetCollisionController().GetCollisionInfo().ResetAll();
@@ -44,7 +44,7 @@ public class PlayerDeathState : PlayerSMStateBase
         if (gameover)
             context.player.GetLivesController().Init();
         context.player.GetHealthController().Setup();
-        context.player.GetActualGraphic().SetActive(true);
+        context.player.GetActualGraphic().Enable();
         context.player.GetMovementController().SetCanMove(true);
         context.player.GetShotController().SetCanShoot(true);
         context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();

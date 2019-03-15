@@ -18,11 +18,14 @@ public class Player : MonoBehaviour
     public Action OnPlayerHit;
     #endregion
 
-    [Header("General Settings")]
-    [SerializeField]
-    GameObject playerGraphic;
-    GameObject graphic;
-
+    /// <summary>
+    /// Riferimento alla grafica
+    /// </summary>
+    PlayerGraphicController playerGraphic;
+    /// <summary>
+    /// Riferimento alla grafica attiva
+    /// </summary>
+    IGraphic activeGraphic;
     /// <summary>
     /// Riferimento al player controller
     /// </summary>
@@ -104,7 +107,8 @@ public class Player : MonoBehaviour
             vfxCtrl.Init(this);
 
         //Setup cose locali
-        graphic = playerGraphic;
+        playerGraphic = GetComponentInChildren<PlayerGraphicController>();
+        activeGraphic = playerGraphic;
     }
 
     /// <summary>
@@ -132,7 +136,7 @@ public class Player : MonoBehaviour
         Vector3 enemyPosition = _e.gameObject.transform.position;
         enemyPosition.z = transform.position.z;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
+        sequence.Append(transform.DOJump(enemyPosition, 1, 1, 0.5f)).Insert(0, activeGraphic.GetModel().transform.DOScale(0.5f, 0.5f));
         yield return sequence.WaitForCompletion();
         #endregion
 
@@ -169,7 +173,7 @@ public class Player : MonoBehaviour
         Vector3 platformPosition = _e.gameObject.transform.position;
         platformPosition.z = transform.position.z;
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOJump(platformPosition, 1, 1, 0.5f)).Insert(0, graphic.transform.DOScale(0.5f, 0.5f));
+        sequence.Append(transform.DOJump(platformPosition, 1, 1, 0.5f)).Insert(0, activeGraphic.GetModel().transform.DOScale(0.5f, 0.5f));
         yield return sequence.WaitForCompletion();
         #endregion
 
@@ -217,7 +221,7 @@ public class Player : MonoBehaviour
         parasiteCtrl.GetParasite().EndParasite();
 
         #region Animazione (per ora fatta a caso)
-        graphic.transform.DOScale(1, 0.5f);
+        activeGraphic.GetModel().transform.DOScale(1, 0.5f);
         yield return null;
         #endregion
 
@@ -242,16 +246,8 @@ public class Player : MonoBehaviour
     {
         GetCollisionController().CheckDamageCollision(false);
         gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-        float timer = _immunityDuration;
-        while(timer > 0)
-        {
-            EnableGraphics(false);
-            yield return new WaitForSeconds(0.1f);
-            timer -= 0.1f;
-            EnableGraphics(true);
-            yield return new WaitForSeconds(0.2f);
-            timer -= 0.2f;
-        }
+        activeGraphic.Blink(_immunityDuration);
+        yield return new WaitForSeconds(_immunityDuration);
 
         GetCollisionController().CheckDamageCollision(true);
         gameObject.layer = LayerMask.NameToLayer("Player");
@@ -281,10 +277,10 @@ public class Player : MonoBehaviour
     /// Funzione che cambia la grafica con quella passata come parametro
     /// </summary>
     /// <param name="_newGraphic"></param>
-    public void ChangeGraphics(GameObject _newGraphic)
+    public void ChangeGraphics(IGraphic _newGraphic)
     {
         EnableGraphics(false);
-        graphic = _newGraphic;
+        activeGraphic = _newGraphic;
         EnableGraphics(true);
     }
 
@@ -294,7 +290,10 @@ public class Player : MonoBehaviour
     /// <param name="_switch"></param>
     public void EnableGraphics(bool _switch)
     {
-        graphic.SetActive(_switch);
+        if (_switch)
+            activeGraphic.Enable();
+        else
+            activeGraphic.Disable();
     }
 
     #region Getter
@@ -357,15 +356,15 @@ public class Player : MonoBehaviour
     /// Funzione che ritorna la grafica attiva del player
     /// </summary>
     /// <returns></returns>
-    public GameObject GetActualGraphic()
+    public IGraphic GetActualGraphic()
     {
-        return graphic;
+        return activeGraphic;
     }
     /// <summary>
     /// Funzione che ritorna la grafica del player
     /// </summary>
     /// <returns></returns>
-    public GameObject GetPlayerGraphic()
+    public IGraphic GetPlayerGraphic()
     {
         return playerGraphic;
     }

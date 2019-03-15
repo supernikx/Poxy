@@ -47,9 +47,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected float defaultRespawnTime;
     protected float respawnTime;
 
-    [Header("Other Settings")]
-    [SerializeField]
-    protected GameObject graphics;
+    protected EnemyGraphicController graphics;
     protected Vector3 startPosition;
     protected Quaternion startRotation;
 
@@ -70,6 +68,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     public virtual void Init(EnemyManager _enemyMng)
     {
+        graphics = GetComponentInChildren<EnemyGraphicController>();
         enemyMng = _enemyMng;
         startPosition = transform.position;
         startRotation = transform.rotation;
@@ -258,7 +257,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     {
         transform.position = startPosition;
         transform.rotation = startRotation;
-        graphics.transform.localEulerAngles = new Vector3(0, 0, 0);
+        graphics.gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -344,7 +343,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <summary>
     /// Get Graphics Reference
     /// </summary>
-    public GameObject GetGraphics()
+    public IGraphic GetGraphics()
     {
         return graphics;
     }

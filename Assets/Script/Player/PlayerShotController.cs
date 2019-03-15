@@ -114,7 +114,7 @@ public class PlayerShotController : MonoBehaviour
             {
                 aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
             }
-            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
         }
         else
         {
@@ -127,7 +127,7 @@ public class PlayerShotController : MonoBehaviour
                 aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
             }
 
-            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         }
 
         //Posiziono il mirino nel punto in cui si sta mirando
@@ -156,7 +156,7 @@ public class PlayerShotController : MonoBehaviour
         if (input.x < 0)
         {
             //Se si sta mirando nel senso opposto flippo l'arma
-            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
             if (rotationZ > -145f && rotationZ <= -90f)
             {
                 aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 145f);
@@ -168,7 +168,7 @@ public class PlayerShotController : MonoBehaviour
         }
         else
         {
-            player.GetActualGraphic().transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
             if (rotationZ >= -90f && rotationZ < -35f)
             {
                 aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -35f);

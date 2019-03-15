@@ -11,7 +11,7 @@ public class LaunchingPlatform : Platform, IControllable
 
     [Header("Platform Specific Settings")]
     [SerializeField]
-    private GameObject graphics;
+    private IGraphic graphics;
     [SerializeField]
     private int respawnTime;
     private bool isActive;
@@ -32,7 +32,11 @@ public class LaunchingPlatform : Platform, IControllable
     {
         isActive = _state;
         platfromColldier.enabled = _state;
-        graphics.SetActive(_state);
+
+        if (_state)
+            graphics.Enable();
+        else
+            graphics.Disable();
     }
 
     #region API
@@ -41,6 +45,7 @@ public class LaunchingPlatform : Platform, IControllable
         platfromColldier = GetComponent<BoxCollider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
+        graphics = GetComponentInChildren<IGraphic>();
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
@@ -134,7 +139,7 @@ public class LaunchingPlatform : Platform, IControllable
         return controllableType;
     }
 
-    public GameObject GetGraphics()
+    public IGraphic GetGraphics()
     {
         return graphics;
     }

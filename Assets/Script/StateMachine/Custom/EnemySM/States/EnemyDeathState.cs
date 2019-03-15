@@ -28,7 +28,7 @@ namespace StateMachine.EnemySM
             context.enemy.GetVFXController().EnemyDeathVFX();
             deathDuration = context.enemy.GetRespawnDuration();
             timer = 0;
-            context.enemy.GetGraphics().SetActive(false);
+            context.enemy.GetGraphics().Disable();
             context.enemy.GetCollider().enabled = false;
             context.enemy.GetCollisionCtrl().OnStickyEnd();
             context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();            
@@ -62,7 +62,7 @@ namespace StateMachine.EnemySM
             context.enemy.ResetPosition();
             start = false;
             context.enemy.SetCanStun(true);
-            context.enemy.GetGraphics().SetActive(true);
+            context.enemy.GetGraphics().Enable();
             context.enemy.GetCollider().enabled = true;
         }
     }

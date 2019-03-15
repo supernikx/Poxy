@@ -2314,7 +2314,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4210835360919982}
+  - component: {fileID: 6683040444223619279}
   - component: {fileID: 5288953852381794262}
+  - component: {fileID: 1520674793089846144}
   m_Layer: 11
   m_Name: Graphics
   m_TagString: Untagged
@@ -2337,6 +2339,19 @@ Transform:
   m_Father: {fileID: 4524415756016280}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6683040444223619279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635613260782438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 187b154a0f204f946bc75bbd5610931f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphicModel: {fileID: 1746256778571100}
 --- !u!114 &5288953852381794262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2349,6 +2364,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15cc77238ec885e409d94e7fa685bc2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1520674793089846144
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635613260782438}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 3df50834d6a877c4d8926fa93bb37629, type: 3}
+  m_Controller: {fileID: 9100000, guid: 45aabca53c9b5354da5c0b5d893ca106, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1639625799450148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,7 +2641,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4943697624735632}
-  - component: {fileID: 95989181176631592}
   m_Layer: 0
   m_Name: Enemy_Sparacolla
   m_TagString: Untagged
@@ -2632,25 +2665,6 @@ Transform:
   m_Father: {fileID: 4210835360919982}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!95 &95989181176631592
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746256778571100}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3df50834d6a877c4d8926fa93bb37629, type: 3}
-  m_Controller: {fileID: 9100000, guid: 45aabca53c9b5354da5c0b5d893ca106, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1779934189274558
 GameObject:
   m_ObjectHideFlags: 0
@@ -3518,7 +3532,6 @@ MonoBehaviour:
   stunDuration: 2
   stunHit: 2
   defaultRespawnTime: 5
-  graphics: {fileID: 1635613260782438}
   roamingFiringRate: 0.34
   shotRadius: 4
 --- !u!114 &114569112804020924

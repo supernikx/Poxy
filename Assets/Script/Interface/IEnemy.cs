@@ -144,7 +144,7 @@ public interface IEnemy
     /// <summary>
     /// Get Graphics Reference
     /// </summary>
-    GameObject GetGraphics();
+    IGraphic GetGraphics();
 
     /// <summary>
     /// Get Collider Reference
