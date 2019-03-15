@@ -246,8 +246,16 @@ public class Player : MonoBehaviour
     {
         GetCollisionController().CheckDamageCollision(false);
         gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-        activeGraphic.Blink(_immunityDuration);
-        yield return new WaitForSeconds(_immunityDuration);
+        float timer = _immunityDuration;
+        while (timer > 0)
+        {
+            activeGraphic.Disable();
+            yield return new WaitForSeconds(0.1f);
+            timer -= 0.1f;
+            activeGraphic.Enable();
+            yield return new WaitForSeconds(0.2f);
+            timer -= 0.2f;
+        }
 
         GetCollisionController().CheckDamageCollision(true);
         gameObject.layer = LayerMask.NameToLayer("Player");

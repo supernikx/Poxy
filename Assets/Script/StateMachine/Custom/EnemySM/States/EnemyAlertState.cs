@@ -15,7 +15,11 @@ public class EnemyAlertState : EnemySMStateBase
     {
         enemy = context.enemy;
         viewCtrl = enemy.GetViewCtrl();
-        AlertSetup();
+        target = viewCtrl.FindPlayer();
+        if (target == null)
+            context.EndAlertCallback();
+        else
+            AlertSetup();
     }
 
     private void AlertSetup()
