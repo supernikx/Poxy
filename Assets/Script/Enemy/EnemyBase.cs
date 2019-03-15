@@ -111,6 +111,24 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         CalculatePathLenght();
     }
 
+    #region StateHandler
+    /// <summary>
+    /// Funzione che avvisa l'ingresso in roaming state
+    /// </summary>
+    public void EnemyRoamingState()
+    {
+        movementSpeed = roamingMovementSpeed;
+    }
+
+    /// <summary>
+    /// Funzione che avvisa l'ingresso in alert state
+    /// </summary>
+    public void EnemyAlertState()
+    {
+        movementSpeed = alertMovementSpeed;
+    }
+    #endregion
+
     #region Parasite
     /// <summary>
     /// Funzione che manda il nemico in stato parassita
@@ -241,7 +259,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         transform.position = startPosition;
         transform.rotation = startRotation;
         graphics.transform.localEulerAngles = new Vector3(0, 0, 0);
-        targetAngle = transform.localEulerAngles.y;
     }
 
     /// <summary>
@@ -295,6 +312,24 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public int GetHealth()
     {
         return enemyLife;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna la movement speed del nemcio
+    /// </summary>
+    /// <returns></returns>
+    public float GetMovementSpeed()
+    {
+        return movementSpeed;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna la lunghezza del path
+    /// </summary>
+    /// <returns></returns>
+    public float GetPathLenght()
+    {
+        return pathLenght;
     }
 
     /// <summary>
@@ -414,94 +449,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     }
 
     /// <summary>
-    /// Funzione che ritorna la lunghezza del path
-    /// </summary>
-    /// <returns></returns>
-    protected float GetPathLenght()
-    {
-        return pathLenght;
-    }
-
-    IEnumerator moveRoaming;
-    /// <summary>
-    /// Funzione che si ovvupa si attivare/disattivare il movimento in stato di roaming
-    /// </summary>
-    public void MoveRoaming(bool _enabled)
-    {
-        if (_enabled)
-        {
-            movementSpeed = roamingMovementSpeed;
-            moveRoaming = MoveRoamingCoroutine();
-            StartCoroutine(moveRoaming);
-        }
-        else
-        {
-            StopCoroutine(moveRoaming);
-            transform.DOKill();
-        }
-    }
-
-    private float targetAngle = 0;
-    /// <summary>
-    /// Coroutine che gestisce il movimento del nemico
-    /// </summary>
-    /// <returns></returns>
-    protected virtual IEnumerator MoveRoamingCoroutine()
-    {
-        Vector3 movementVector = Vector3.zero;
-        float pathLenght = GetPathLenght();
-        float pathTraveled = 0f;
-        bool movementBlocked = false;
-
-        if (transform.localEulerAngles.y != targetAngle)
-        {
-            Vector3 rotationVector = Vector3.zero;
-            rotationVector.y = targetAngle;
-            yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
-                    .SetEase(Ease.Linear)
-                    .OnUpdate(() => movementCtrl.MovementCheck())
-                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
-                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
-                    .WaitForCompletion();
-        }
-
-        while (true)
-        {
-            if (pathTraveled >= pathLenght - 0.1f)
-            {
-                pathTraveled = 0f;
-                movementBlocked = false;
-                Vector3 rotationVector = Vector3.zero;
-                if (transform.rotation.y == 0)
-                    rotationVector.y = 180f;
-                targetAngle = rotationVector.y;
-                yield return transform.DORotateQuaternion(Quaternion.Euler(rotationVector), turnSpeed)
-                    .SetEase(Ease.Linear)
-                    .OnUpdate(() => movementCtrl.MovementCheck())
-                    .OnPause(() => StartCoroutine(MoveRoamingStickyChecker(true)))
-                    .OnPlay(() => StartCoroutine(MoveRoamingStickyChecker(false)))
-                    .WaitForCompletion();
-            }
-
-            //Movimento Nemico                
-            movementVector.x = movementSpeed;
-            Vector3 distanceTraveled = MoveRoamingUpdate(movementVector);
-
-            if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == false)
-                movementBlocked = true;
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == true)
-            {
-                pathTraveled = pathLenght;
-            }
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude > 0.001f && movementBlocked == true)
-                movementBlocked = false;
-
-            pathTraveled += distanceTraveled.x;
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    /// <summary>
     /// Funzione che controlla se si è attaccati ad un oggetto sticky
     /// </summary>
     /// <param name="_pause"></param>
@@ -526,40 +473,23 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         }
     }
 
-    protected abstract Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
+    public abstract Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
     #endregion
 
     #region Movement Alert
     /// <summary>
-    /// Funzione che invia il nemico in stato di allerta
+    /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
     /// </summary>
-    public void Alert()
-    {
-        if (enemySM.GoToAlert != null)
-            enemySM.GoToAlert();
-    }
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public abstract bool Shot(Transform _target);
 
-    IEnumerator alertCoroutine;
     /// <summary>
-    /// Funzione che si ovvupa del movimento in stato di alert
-    /// Se restituisce false, il player non è più in vista
+    /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>
-    public virtual void AlertActions(bool _enable)
-    {
-        if (_enable)
-        {
-            movementSpeed = alertMovementSpeed;
-            alertCoroutine = AlertActionCoroutine();
-            StartCoroutine(alertCoroutine);
-        }
-        else
-        {
-            StopCoroutine(alertCoroutine);
-            transform.DOKill();
-        }
-
-    }
-    protected abstract IEnumerator AlertActionCoroutine();
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public abstract bool CheckShot(Transform _target);
     #endregion
     #endregion
 }

@@ -26,18 +26,17 @@ public class Gluer : EnemyBase
     #region API
     public override void Init(EnemyManager _enemyMng)
     {
-        base.Init(_enemyMng);        
+        base.Init(_enemyMng);
         CanShot = true;
     }
 
-    private bool isRotating = false;
-    protected override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
+    public override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
     {
         // Vertical movement
         Vector3 movementTranslation = movementCtrl.MovementCheck(movementVector);
         animCtrl.MovementAnimation(movementTranslation);
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-        if (CanShot && !isRotating)
+        if (CanShot)
         {
             bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, transform.right);
             animCtrl.ShotAnimation();
@@ -48,63 +47,38 @@ public class Gluer : EnemyBase
         return movementTranslation;
     }
 
-    protected override IEnumerator AlertActionCoroutine()
+    /// <summary>
+    /// Funzione che controlla se puoi sparare e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool CheckShot(Transform _target)
     {
-        Transform target = viewCtrl.FindPlayer();
-        if (target == null)
-            yield break;
-
-        StopCoroutine(roamingFiringRateCoroutine);
-        CanShot = true;
-        float rotationY;
-        Vector3 direction = (target.position - transform.position).normalized;
-        if (direction != transform.right)
+        float _distance = Vector3.Distance(_target.position, shotPosition.position);
+        if (_distance <= shotRadius)
         {
-            rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), 0.1f).SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+            return true;
         }
+        return false;
+    }
 
-        while (true)
+    /// <summary>
+    /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool Shot(Transform _target)
+    {
+        if (CanShot)
         {
-            Vector3 movementVector = Vector3.zero;
-            Vector3 movementVelocity = movementVector;
-            target = viewCtrl.FindPlayer();
-            if (target == null)
-                yield break;
-
-            //Rotazione Nemico
-            Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
-            direction = (targetRotation - transform.position).normalized;
-            if (direction.x != 0)
-            {
-                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
-            }
-
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            float _distance = Vector3.Distance(target.position, shotPosition.position);
-            if (_distance <= shotRadius)
-            {
-                if (CanShot)
-                {
-                    Vector3 _direction = (target.position - shotPosition.position);
-                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition.position, _direction);
-                    animCtrl.ShotAnimation();
-                    StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
-                }
-                movementVelocity = movementCtrl.MovementCheck(movementVector);
-            }
-            else
-            {
-                //Movimento Nemico
-                movementVector.z = 0;
-                movementVector.y = 0;
-                movementVector.x = movementSpeed;
-                movementVelocity = movementCtrl.MovementCheck(movementVector);
-            }
-            animCtrl.MovementAnimation(movementVelocity);
-            yield return new WaitForFixedUpdate();
+            Vector3 _direction = (_target.position - shotPosition.position);
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition.position, _direction);
+            animCtrl.ShotAnimation();
+            StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
+            return true;
         }
+        return false;
     }
     #endregion
 }

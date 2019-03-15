@@ -17,18 +17,32 @@ public interface IEnemy
     /// <summary>
     /// Funzione di moviemento in stato di roaming
     /// </summary>
-    void MoveRoaming(bool _enabled);
+    Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
 
     /// <summary>
-    /// Funzione di movimento in stato di alert
-    /// Se restituisce false, il player non è più in vista
+    /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>
-    void AlertActions(bool _enabled);
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    bool CheckShot(Transform _target);
 
     /// <summary>
-    /// Funzione che manda il nemico in allerta
+    /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
     /// </summary>
-    void Alert();
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    bool Shot(Transform _target);
+
+    #region StateHandler
+    /// <summary>
+    /// Funzione che avvisa l'ingresso in roaming state
+    /// </summary>
+    void EnemyRoamingState();
+    /// <summary>
+    /// Funzione che avvisa l'ingresso in alert state
+    /// </summary>
+    void EnemyAlertState();
+    #endregion
 
     #region Parasite
     /// <summary>
@@ -101,6 +115,18 @@ public interface IEnemy
     /// </summary>
     /// <returns></returns>
     int GetHealth();
+
+    /// <summary>
+    /// Funzione che ritorna la movement speed del nemcio
+    /// </summary>
+    /// <returns></returns>
+    float GetMovementSpeed();
+
+    /// <summary>
+    /// Funzione che ritorna la lunghezza del path
+    /// </summary>
+    /// <returns></returns>
+    float GetPathLenght();
 
     /// <summary>
     /// Funzione che ritorna il danno del nemico
@@ -178,6 +204,10 @@ public interface IEnemy
     #endregion
 
     #region Setter
+    /// <summary>
+    /// Funzione che imposta se il nemico può essere stunnato
+    /// </summary>
+    /// <param name="_switc"></param>
     void SetCanStun(bool _switc);
     #endregion
 }

@@ -10,8 +10,6 @@ namespace StateMachine.EnemySM
         public delegate void ChangeStateEvents();
         public ChangeStateEvents GoToStun;
         public ChangeStateEvents GoToDeath;
-        public ChangeStateEvents GoToAlert;
-        public ChangeStateEvents GoToRoaming;
 
         public delegate void EnemyParasiteEvents(Player _player);
         public EnemyParasiteEvents GoToParasite;
@@ -29,7 +27,7 @@ namespace StateMachine.EnemySM
             enemy = _enemy;
             enemySM = GetComponent<Animator>();
 
-            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback, EnemyEndAlertCallback, LevelManager.instance.GetUIGameplayManager());
+            context = new EnemySMContext(enemy, EnemyEndStunCallback, EnemyEndDeathCallback, AlertCallback,EnemyEndAlertCallback, LevelManager.instance.GetUIGameplayManager());
 
             foreach (StateMachineBehaviour state in enemySM.GetBehaviours<StateMachineBehaviour>())
             {
@@ -41,8 +39,6 @@ namespace StateMachine.EnemySM
             GoToStun += HandleEnemyStun;
             GoToDeath += HandleEnemyDeath;
             GoToParasite += HandleEnemyParasite;
-            GoToAlert += HandleEnemyAlert;
-            GoToRoaming += HandleEnemyRoaming;
 
             enemySM.SetTrigger("StartSM");
         }
@@ -112,24 +108,41 @@ namespace StateMachine.EnemySM
         {
             enemySM.SetTrigger("GoToRoaming");
         }
+
+        /// <summary>
+        /// Callback per la fine dello stato di shoot
+        /// </summary>
+        private void AlertCallback()
+        {
+            enemySM.SetTrigger("GoToAlert");
+        }
         #endregion
+
+        private void OnDisable()
+        {
+            GoToStun -= HandleEnemyStun;
+            GoToDeath -= HandleEnemyDeath;
+            GoToParasite -= HandleEnemyParasite;
+        }
     }
 
     public class EnemySMContext : IStateMachineContext
     {
         public Action EndStunCallback;
         public Action EndDeathCallback;
+        public Action AlertCallback;
         public Action EndAlertCallback;
         public Player player;
         public IEnemy enemy;
         public UI_GameplayManager UIManager;
 
-        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback, Action _endAlertCallback, UI_GameplayManager _uiManager)
+        public EnemySMContext(IEnemy _enemy, Action _endStunCallback, Action _endDeathCallback, Action _alertCallback, Action _endAlertCallback, UI_GameplayManager _uiManager)
         {
             enemy = _enemy;
             UIManager = _uiManager;
             EndStunCallback = _endStunCallback;
             EndDeathCallback = _endDeathCallback;
+            AlertCallback = _alertCallback;
             EndAlertCallback = _endAlertCallback;
         }
     }

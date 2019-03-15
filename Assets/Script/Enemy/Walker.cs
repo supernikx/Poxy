@@ -22,65 +22,44 @@ public class Walker : EnemyBase
     }
 
     #region API
-    protected override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
+    public override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
     {
         Vector3 movementVelocity = movementCtrl.MovementCheck(movementVector);
         animCtrl.MovementAnimation(movementVelocity);
         return movementVelocity;
     }
 
-    protected override IEnumerator AlertActionCoroutine()
+    /// <summary>
+    /// Funzione che controlla se puoi sparare e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool CheckShot(Transform _target)
     {
-        Transform target = viewCtrl.FindPlayer();
-        if (target == null)
-            yield break;
-
-        float rotationY;
-        Vector3 direction = (target.position - transform.position).normalized;
-        if (direction != transform.right)
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        if ((bullet as ParabolicBullet).CheckShotRange(_target.position, shotPosition.position, enemyShotSettings.shotSpeed))
         {
-            rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            yield return transform.DORotateQuaternion(Quaternion.Euler(0.0f, rotationY, 0.0f), 0.1f).SetEase(Ease.Linear).OnUpdate(() => movementCtrl.MovementCheck()).WaitForCompletion();
+            return true;
         }
+        return false;
+    }
 
-        while (true)
+    /// <summary>
+    /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool Shot(Transform _target)
+    {
+        if (CanShot)
         {
-            Vector3 movementVector = Vector3.zero;
-            Vector3 movementVelocity = movementVector;
-            target = viewCtrl.FindPlayer();
-            if (target == null)
-                yield break;
-
-            //Rotazione Nemico
-            Vector3 targetRotation = new Vector3(target.position.x, transform.position.y, transform.position.z);
-            direction = (targetRotation - transform.position).normalized;
-            if (direction.x != 0)
-            {
-                rotationY = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0.0f, rotationY, 0.0f);
-            }
-
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            if ((bullet as ParabolicBullet).CheckShotRange(target.position, shotPosition.position, enemyShotSettings.shotSpeed))
-            {
-                if (CanShot)
-                {
-                    animCtrl.ShotAnimation();
-                    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, target);
-                    StartCoroutine(FiringRateCoroutine());
-                }
-                movementVelocity = movementCtrl.MovementCheck(movementVector);
-            }
-            else
-            {
-                //Movimento Nemico                
-                movementVector.x = movementSpeed;
-                movementVelocity = movementCtrl.MovementCheck(movementVector);
-            }
-
-            animCtrl.MovementAnimation(movementVelocity);
-            yield return new WaitForFixedUpdate();
+            animCtrl.ShotAnimation();
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, _target);
+            StartCoroutine(FiringRateCoroutine());
+            return true;
         }
+        return false;
     }
     #endregion
 }
