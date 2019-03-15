@@ -14,11 +14,7 @@ public interface IEnemy
     /// </summary>
     GameObject gameObject { get;}
 
-    /// <summary>
-    /// Funzione di moviemento in stato di roaming
-    /// </summary>
-    Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
-
+    #region Shot
     /// <summary>
     /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>
@@ -32,6 +28,7 @@ public interface IEnemy
     /// <param name="_target"></param>
     /// <returns></returns>
     bool Shot(Transform _target);
+    #endregion
 
     #region StateHandler
     /// <summary>

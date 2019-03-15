@@ -48,6 +48,11 @@ namespace StateMachine.EnemySM
         /// <returns></returns>
         private void MoveRoaming()
         {
+            if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
+            {
+                return;
+            }
+
             if (pathTraveled >= pathLenght - 0.1f)
             {
                 pathTraveled = 0f;
@@ -61,15 +66,14 @@ namespace StateMachine.EnemySM
 
             //Movimento Nemico                
             movementVector.x = enemy.GetMovementSpeed();
-            Vector3 distanceTraveled = enemy.MoveRoamingUpdate(movementVector);
+            Vector3 distanceTraveled = enemy.GetMovementCtrl().MovementCheck(movementVector);
+            enemy.GetAnimationController().MovementAnimation(distanceTraveled);
 
-            if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == false)
+            if (distanceTraveled.sqrMagnitude < 0.001f && movementBlocked == false)
                 movementBlocked = true;
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude < 0.001f && movementBlocked == true)
-            {
+            else if (distanceTraveled.sqrMagnitude < 0.001f && movementBlocked == true)
                 pathTraveled = pathLenght;
-            }
-            else if ((distanceTraveled - Vector3.zero).sqrMagnitude > 0.001f && movementBlocked == true)
+            else if (distanceTraveled.sqrMagnitude > 0.001f && movementBlocked == true)
                 movementBlocked = false;
 
             pathTraveled += distanceTraveled.x;

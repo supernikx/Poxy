@@ -30,23 +30,6 @@ public class Gluer : EnemyBase
         CanShot = true;
     }
 
-    public override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
-    {
-        // Vertical movement
-        Vector3 movementTranslation = movementCtrl.MovementCheck(movementVector);
-        animCtrl.MovementAnimation(movementTranslation);
-        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-        if (CanShot)
-        {
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, transform.right);
-            animCtrl.ShotAnimation();
-            roamingFiringRateCoroutine = FiringRateCoroutine(roamingFiringRate);
-            StartCoroutine(roamingFiringRateCoroutine);
-        }
-
-        return movementTranslation;
-    }
-
     /// <summary>
     /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>

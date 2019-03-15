@@ -472,11 +472,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             transform.DOPause();
         }
     }
-
-    public abstract Vector3 MoveRoamingUpdate(Vector3? movementVector = null);
     #endregion
 
-    #region Movement Alert
+    #region Shot
     /// <summary>
     /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
     /// </summary>

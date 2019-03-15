@@ -52,10 +52,20 @@ public class EnemyAlertState : EnemySMStateBase
         if (enemy.CheckShot(target))
         {
             enemy.Shot(target);
+
+            if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
+            {
+                return;
+            }
             movementVelocity = enemy.GetMovementCtrl().MovementCheck(movementVector);
         }
         else
         {
+            if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
+            {
+                return;
+            }
+
             //Movimento Nemico                
             movementVector.x = enemy.GetMovementSpeed();
             movementVelocity = enemy.GetMovementCtrl().MovementCheck(movementVector);

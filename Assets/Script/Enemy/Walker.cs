@@ -8,12 +8,6 @@ public class Walker : EnemyBase
 {
     bool CanShot;
 
-    public override void Init(EnemyManager _enemyMng)
-    {
-        base.Init(_enemyMng);
-        CanShot = true;
-    }
-
     private IEnumerator FiringRateCoroutine()
     {
         CanShot = false;
@@ -22,11 +16,10 @@ public class Walker : EnemyBase
     }
 
     #region API
-    public override Vector3 MoveRoamingUpdate(Vector3? movementVector = null)
+    public override void Init(EnemyManager _enemyMng)
     {
-        Vector3 movementVelocity = movementCtrl.MovementCheck(movementVector);
-        animCtrl.MovementAnimation(movementVelocity);
-        return movementVelocity;
+        base.Init(_enemyMng);
+        CanShot = true;
     }
 
     /// <summary>
