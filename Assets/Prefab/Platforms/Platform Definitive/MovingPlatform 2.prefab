@@ -719,7 +719,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198620541187846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 3.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4416593943356508}
@@ -1006,6 +1006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingSpd: 2
   reachPoint: {fileID: 4742798067057448}
+  waitTime: 0
 --- !u!114 &114373393094772366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,11 +1021,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passengerLayer:
     serializedVersion: 2
-    m_Bits: 29184
+    m_Bits: 6656
   alwaysFollowLayer:
     serializedVersion: 2
     m_Bits: 24576
-  horizontalRayCount: 20
+  horizontalRayCount: 5
   verticalRayCount: 20
 --- !u!65 &65064186167594436
 BoxCollider:

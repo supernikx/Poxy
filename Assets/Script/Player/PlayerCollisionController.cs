@@ -101,7 +101,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// Funzione che controlla se il player va in collisione con qualcosa durante il movimento
     /// </summary>
     /// <param name="_movementVelocity"></param>
-    public Vector3 CheckMovementCollisions(Vector3 _movementVelocity)
+    public Vector3 CheckMovementCollisions(Vector3 _movementVelocity, bool standingOnPlatform = false)
     {
         //Aggiorna le posizioni da cui partiranno i raycast
         UpdateRaycastOrigins();
@@ -138,6 +138,9 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             //Se mi sto muovendo sull'asse Y controllo se entro in collisione con qualcosa
             VerticalCollisions(ref _movementVelocity, false);
         }
+
+        if (standingOnPlatform)
+            collisions.below = true;
 
         return _movementVelocity;
     }
@@ -485,6 +488,9 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Eseguo il raycast
                 if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
                 {
+                    if (hit.distance == 0)
+                        continue;
+
                     //Calcolo e controllo l'angolo e se lo posso scalare
                     float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
                     if (i == 0 && slopeAngle <= maxClimbAngle)
