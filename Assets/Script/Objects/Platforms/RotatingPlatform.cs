@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class RotatingPlatform : Platform
+public class RotatingPlatform : PlatformBase
 {
 
     [Header("Rotate Settings")]

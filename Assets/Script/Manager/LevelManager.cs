@@ -52,6 +52,10 @@ public class LevelManager : MonoBehaviour
     /// Reference to Token Manager
     /// </summary>
     private TokenManager tokenMng;
+    /// <summary>
+    /// Reference allo sticky manager
+    /// </summary>
+    private StickyObjectManager stickyMng;
 
     private bool pause;
     private void Update()
@@ -95,6 +99,10 @@ public class LevelManager : MonoBehaviour
         poolMng = GetComponent<PoolManager>();
         if (poolMng != null)
             poolMng.Init();
+
+        stickyMng = GetComponent<StickyObjectManager>();
+        if (stickyMng != null)
+            stickyMng.Init();
 
         tokenMng = GetComponent<TokenManager>();
         if (tokenMng != null)

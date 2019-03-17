@@ -28,7 +28,7 @@ public class PlatformCollisionController : MonoBehaviour
     /// <summary>
     /// Offset del bound del collider
     /// </summary>
-    private float collisionOffset = 0.02f;
+    private float collisionOffset = 0.025f;
 
     private List<PassengerMovement> passengerMovement;
 
@@ -324,124 +324,12 @@ public class PlatformCollisionController : MonoBehaviour
                 PlayerCollisionController collisionCtrl = passenger.transform.GetComponentInParent<PlayerCollisionController>();
                 if (collisionCtrl != null)
                 {
-                    collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(passenger.velocity, passenger.standingOnPlatform));
+                    if (!collisionCtrl.GetCollisionInfo().StickyCollision())
+                        collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(passenger.velocity, passenger.standingOnPlatform));
                 }
                 else
                 {
                     passenger.transform.Translate(passenger.velocity);
-                }
-            }
-        }
-    }
-
-    public void ssssss(Vector3 _velocity)
-    {
-        HashSet<Transform> movedPassengers = new HashSet<Transform>();
-        float directionX = Mathf.Sign(_velocity.x);
-        float directionY = Mathf.Sign(_velocity.y);
-
-        for (int k = 0; k < collidersSettings.Count; k++)
-        {
-            if (_velocity.x == 0)
-            {
-                float rayLenght = Mathf.Abs(_velocity.y) + collisionOffset;
-
-                for (int i = 0; i < horizontalRayCount; i++)
-                {
-                    //Determina il punto da cui deve partire il ray
-                    Vector3 rayOrigin = collidersSettings[k].raycastPoints.bottomLeft.position;
-                    rayOrigin += transform.up * (collidersSettings[k].horizontalRaySpacing * i);
-                    //Crea il ray
-                    Ray ray = new Ray(rayOrigin, -transform.right);
-                    RaycastHit hit;
-
-                    //Eseguo il raycast
-                    if (Physics.Raycast(ray, out hit, rayLenght, alwaysFollowLayer))
-                    {
-                        if (!movedPassengers.Contains(hit.transform))
-                        {
-                            movedPassengers.Add(hit.transform);
-
-                            float pushX = _velocity.y;
-                            float pushY = 0;
-
-                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
-                        }
-                    }
-
-                    //Determina il punto da cui deve partire il ray opposto
-                    Vector3 oppositeRayOrigin = collidersSettings[k].raycastPoints.bottomRight.position;
-                    oppositeRayOrigin += transform.up * (collidersSettings[k].horizontalRaySpacing * i);
-
-                    //Crea il ray opposto
-                    Ray oppositeRay = new Ray(oppositeRayOrigin, transform.right);
-                    RaycastHit oppositeHit;
-
-                    //Eseguo il raycast opposto
-                    if (Physics.Raycast(oppositeRay, out oppositeHit, rayLenght, alwaysFollowLayer))
-                    {
-                        if (!movedPassengers.Contains(oppositeHit.transform))
-                        {
-                            movedPassengers.Add(oppositeHit.transform);
-
-                            float pushX = -_velocity.y;
-                            float pushY = 0f;
-
-                            oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
-                        }
-                    }
-                }
-            }
-
-            if (_velocity.y == 0)
-            {
-                float rayLenght = Mathf.Abs(_velocity.x) + collisionOffset;
-
-                for (int i = 0; i < verticalRayCount; i++)
-                {
-                    //Determina il punto da cui deve partire il ray
-                    Vector3 rayOrigin = collidersSettings[k].raycastPoints.bottomLeft.position;
-                    rayOrigin += transform.right * (collidersSettings[k].verticalRaySpacing * i);
-
-                    //Crea il ray
-                    Ray ray = new Ray(rayOrigin, -transform.up);
-                    RaycastHit hit;
-
-                    //Eseguo il raycast
-                    if (Physics.Raycast(ray, out hit, rayLenght, alwaysFollowLayer))
-                    {
-                        if (!movedPassengers.Contains(hit.transform))
-                        {
-                            movedPassengers.Add(hit.transform);
-
-                            float pushX = -_velocity.x;
-                            float pushY = 0f;
-
-                            hit.transform.Translate(new Vector3(pushX, pushY, 0));
-                        }
-                    }
-
-                    //Determina il punto da cui deve partire il ray opposto
-                    Vector3 oppositeRayOrigin = collidersSettings[k].raycastPoints.topLeft.position;
-                    oppositeRayOrigin += transform.right * (collidersSettings[k].verticalRaySpacing * i);
-
-                    //Crea il ray opposto
-                    Ray oppositeRay = new Ray(oppositeRayOrigin, transform.up);
-                    RaycastHit oppositeHit;
-
-                    //Eseguo il raycast opposto
-                    if (Physics.Raycast(oppositeRay, out oppositeHit, rayLenght, alwaysFollowLayer))
-                    {
-                        if (!movedPassengers.Contains(oppositeHit.transform))
-                        {
-                            movedPassengers.Add(oppositeHit.transform);
-
-                            float pushX = _velocity.x;
-                            float pushY = 0f;
-
-                            oppositeHit.transform.Translate(new Vector3(pushX, pushY, 0));
-                        }
-                    }
                 }
             }
         }

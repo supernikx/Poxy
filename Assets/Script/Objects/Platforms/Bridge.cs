@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class Bridge : Platform, ISticky
+public class Bridge : PlatformBase, ISticky
 {
     [Header("Movement Options")]
     [SerializeField]

@@ -67,7 +67,6 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private int verticalRayRequiredStuckObject;
     [SerializeField]
     private LayerMask layersWhichCanBeStucked;
-
     float maxDistance;
     float maxXScale;
     float yOffset;
@@ -97,6 +96,104 @@ public class StickyObject : MonoBehaviour, IPoolObject
         transform.position = _spawnPosition;
         transform.rotation = _rotation;
 
+    }
+
+    /// <summary>
+    /// Funzione che controlla e manda gli eventi di Sticky/StickyEnd
+    /// </summary>
+    public void StickyBehaviour()
+    {
+        //Calcolo lo spazio tra un ray e l'altro
+        if (CurrentState == State.InPool)
+            return;
+
+        checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
+        Direction hitDirection = GetHitDirection();
+        int rayRequiredStuckObject = (hitDirection == Direction.Above || hitDirection == Direction.Below) ? horizontalRayRequiredStuckObject : verticalRayRequiredStuckObject;
+
+        //Determina la lunghezza del raycast
+        float rayLenght = 0.1f;
+        //Ciclo tutti i ray
+        for (int i = 0; i < checkStuckedObjectsRayCount; i++)
+        {
+            //Determina il punto da cui deve partire il ray
+            Vector3 rayOrigin = leftPoint.position;
+            rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
+
+            //Crea il ray
+            Ray ray = new Ray(rayOrigin, transform.up);
+            RaycastHit hit;
+
+            //Eseguo il raycast
+            if (Physics.Raycast(ray, out hit, rayLenght, layersWhichCanBeStucked))
+            {
+                //Se colpisco qualcosa che rientra nei layer stuck
+                GameObject objectHit = hit.transform.gameObject;
+                if (objectHit.layer == LayerMask.NameToLayer("Player") && objectHit.transform.parent != null)
+                {
+                    objectHit = objectHit.transform.parent.gameObject;
+                }
+
+                StickyCollisionsInfos stickyInfo = stickyList.FirstOrDefault(g => g.Gobject == objectHit);
+
+                //Controllo se è presente nella lista
+                if (stickyInfo == null)
+                {
+                    //Se non è presente controllo che sia un oggetto ISticky
+                    ISticky stickyRef = objectHit.GetComponent<ISticky>();
+
+                    if (stickyRef != null)
+                    {
+                        //Se lo è creo un nuovo StickyCollisionsInfos con i dati del GameObject e lo aggiunto alla lista
+                        stickyInfo = new StickyCollisionsInfos(objectHit, stickyRef);
+                        stickyInfo.StickyRay++;
+                        stickyList.Add(stickyInfo);
+                    }
+                }
+                else if (!tempImmunityObjectList.Contains(objectHit))
+                {
+                    //Se è resente aumento i ray che lo colpiscono di uno
+                    stickyInfo.StickyRay++;
+                }
+            }
+        }
+
+        //Calcolo la velocity
+        CalculateVelocity();
+
+        //Ciclo tutti gli oggetti con cui sono in collisione
+        for (int i = stickyList.Count - 1; i >= 0; i--)
+        {
+            //Se i ray che colpiscono l'oggetto sono maggiori di quelli necessari e non è ancora incolllato
+            if (stickyList[i].StickyRay >= rayRequiredStuckObject && !stickyList[i].Sticky)
+            {
+                //Lo incollo chiamo la callback comunicando la direzione in cui si è bloccati
+                stickyList[i].Sticky = true;
+                stickyList[i].GIStickyRef.OnSticky(GetHitDirection());
+            }
+            //Se i ray che colpiscono l'oggetto sono minori di quelli necessari e sono incollato
+            else if (stickyList[i].StickyRay < rayRequiredStuckObject && stickyList[i].Sticky)
+            {
+                //Lo scollo chiamo la callback di fine sticky
+                stickyList[i].Sticky = false;
+                stickyList[i].GIStickyRef.OnStickyEnd();
+                StartCoroutine(DelayTempListCoroutine(i));
+            }
+            //Se i ray che colpiscono l'oggetto sono 0
+            else if (stickyList[i].StickyRay == 0)
+            {
+                //Rimuovo l'oggetto dalla lista
+                stickyList.RemoveAt(i);
+                continue;
+            }
+
+            //Muovo l'oggetto attaccato se velocity > 0
+            if (velocity != Vector3.zero)
+                MovePassenger(stickyList[i].Gobject.transform, velocity * Time.deltaTime);
+
+            //Azzero i ray che colpiscono l'oggetto
+            stickyList[i].StickyRay = 0;
+        }
     }
 
     /// <summary>
@@ -273,107 +370,12 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// <returns></returns>
     private List<StickyCollisionsInfos> stickyList = new List<StickyCollisionsInfos>();
 
-    private void Update()
-    {
-        //Calcolo lo spazio tra un ray e l'altro
-        if (CurrentState == State.InPool)
-            return;
-
-        checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
-        Direction hitDirection = GetHitDirection();
-        int rayRequiredStuckObject = (hitDirection == Direction.Above || hitDirection == Direction.Below) ? horizontalRayRequiredStuckObject : verticalRayRequiredStuckObject;
-
-        //Determina la lunghezza del raycast
-        float rayLenght = 0.1f;
-        //Ciclo tutti i ray
-        for (int i = 0; i < checkStuckedObjectsRayCount; i++)
-        {
-            //Determina il punto da cui deve partire il ray
-            Vector3 rayOrigin = leftPoint.position;
-            rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
-
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, transform.up);
-            RaycastHit hit;
-
-            //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, layersWhichCanBeStucked))
-            {
-                //Se colpisco qualcosa che rientra nei layer stuck
-                GameObject objectHit = hit.transform.gameObject;
-                if (objectHit.layer == LayerMask.NameToLayer("Player") && objectHit.transform.parent != null)
-                {
-                    objectHit = objectHit.transform.parent.gameObject;
-                }
-
-                StickyCollisionsInfos stickyInfo = stickyList.FirstOrDefault(g => g.Gobject == objectHit);
-
-                //Controllo se è presente nella lista
-                if (stickyInfo == null)
-                {
-                    //Se non è presente controllo che sia un oggetto ISticky
-                    ISticky stickyRef = objectHit.GetComponent<ISticky>();
-
-                    if (stickyRef != null)
-                    {
-                        //Se lo è creo un nuovo StickyCollisionsInfos con i dati del GameObject e lo aggiunto alla lista
-                        stickyInfo = new StickyCollisionsInfos(objectHit, stickyRef);
-                        stickyInfo.StickyRay++;
-                        stickyList.Add(stickyInfo);
-                    }
-                }
-                else if (!tempImmunityObjectList.Contains(objectHit))
-                {
-                    //Se è resente aumento i ray che lo colpiscono di uno
-                    stickyInfo.StickyRay++;
-                }
-            }
-        }
-
-        //Calcolo la velocity
-        CalculateVelocity();
-
-        //Ciclo tutti gli oggetti con cui sono in collisione
-        for (int i = stickyList.Count - 1; i >= 0; i--)
-        {
-            //Se i ray che colpiscono l'oggetto sono maggiori di quelli necessari e non è ancora incolllato
-            if (stickyList[i].StickyRay >= rayRequiredStuckObject && !stickyList[i].Sticky)
-            {
-                //Lo incollo chiamo la callback comunicando la direzione in cui si è bloccati
-                stickyList[i].Sticky = true;
-                stickyList[i].GIStickyRef.OnSticky(GetHitDirection());
-            }
-            //Se i ray che colpiscono l'oggetto sono minori di quelli necessari e sono incollato
-            else if (stickyList[i].StickyRay < rayRequiredStuckObject && stickyList[i].Sticky)
-            {
-                //Lo scollo chiamo la callback di fine sticky
-                stickyList[i].Sticky = false;
-                stickyList[i].GIStickyRef.OnStickyEnd();
-                StartCoroutine(DelayTempListCoroutine(i));
-            }
-            //Se i ray che colpiscono l'oggetto sono 0
-            else if (stickyList[i].StickyRay == 0)
-            {
-                //Rimuovo l'oggetto dalla lista
-                stickyList.RemoveAt(i);
-                continue;
-            }
-
-            //Muovo l'oggetto attaccato se velocity > 0
-            if (velocity != Vector3.zero)
-                MovePassenger(stickyList[i].Gobject.transform, velocity * Time.deltaTime);
-
-            //Azzero i ray che colpiscono l'oggetto
-            stickyList[i].StickyRay = 0;
-        }
-    }
-
     /// <summary>
     /// Funzione che sposta eventuali oggetti attaccati
     /// </summary>
     /// <param name="_hitTransform"></param>
     /// <param name="_velocity"></param>
-    public void MovePassenger(Transform _hitTransform, Vector3 _velocity)
+    private void MovePassenger(Transform _hitTransform, Vector3 _velocity)
     {
         HashSet<Transform> movedPassengers = new HashSet<Transform>();
         float directionX = Mathf.Sign(_velocity.x);
@@ -382,23 +384,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
         //Vertical Moving platform
         if (_velocity.y != 0)
         {
-
             if (!movedPassengers.Contains(_hitTransform))
             {
                 movedPassengers.Add(_hitTransform);
 
                 float pushX = (directionY == 1) ? _velocity.x : 0;
-                float pushY = _velocity.y;
+                float pushY = _velocity.y; //(directionY == 1) ? _velocity.y : _velocity.y - collisionOffset;
 
-                PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
-                if (collisionCtrl != null)
-                {
-                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
-                }
-                else
-                {
-                    _hitTransform.Translate(new Vector3(pushX, pushY, 0));
-                }
+                _hitTransform.Translate(new Vector3(pushX, pushY, 0));
             }
         }
 
@@ -410,37 +403,16 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 movedPassengers.Add(_hitTransform);
 
                 float pushX = _velocity.x;
-                float pushY = 0;
+                float pushY = 0f;
 
                 PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
                 if (collisionCtrl != null)
-                {                    
-                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                {
+                    collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
                 }
                 else
                 {
                     _hitTransform.Translate(new Vector3(pushX, pushY, 0));
-                }
-            }
-
-            if (_velocity.y == 0)
-            {
-                if (!movedPassengers.Contains(_hitTransform))
-                {
-                    movedPassengers.Add(_hitTransform);
-
-                    float pushX = _velocity.x * -directionX;
-                    float pushY = 0;
-
-                    PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
-                    if (collisionCtrl != null)
-                    {
-                        collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
-                    }
-                    else
-                    {
-                        _hitTransform.Translate(new Vector3(pushX, pushY, 0));
-                    }
                 }
             }
         }
@@ -457,8 +429,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
                 PlayerCollisionController collisionCtrl = _hitTransform.GetComponentInParent<PlayerCollisionController>();
                 if (collisionCtrl != null)
-                {          
-                    collisionCtrl.transform.Translate(new Vector3(pushX, pushY, 0));
+                {
+                    collisionCtrl.transform.Translate(collisionCtrl.CheckMovementCollisions(new Vector3(pushX, pushY, 0)));
                 }
                 else
                 {
@@ -468,6 +440,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
         }
     }
 
+    /// <summary>
+    /// Funzione che mette in una "black list" gli oggetti che si sono appena staccati per 0.1 secondi
+    /// </summary>
     List<GameObject> tempImmunityObjectList = new List<GameObject>();
     private IEnumerator DelayTempListCoroutine(int _index)
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 [RequireComponent(typeof (PlatformCollisionController))]
-public class MovingPlatform : Platform
+public class MovingPlatform : PlatformBase
 {
     [Header("Movement Options")]
     [SerializeField]
@@ -35,7 +35,7 @@ public class MovingPlatform : Platform
         canMove = true;
     }
 
-    private void Update()
+    public override void MoveBehaviour()
     {
         if (!setupped || !canMove)
             return;

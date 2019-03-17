@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piston : Platform
+public class Piston : PlatformBase
 {
     [Header("Graphic Settings")]
     [SerializeField]

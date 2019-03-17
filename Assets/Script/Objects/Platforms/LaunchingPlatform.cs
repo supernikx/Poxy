@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class LaunchingPlatform : Platform, IControllable
+public class LaunchingPlatform : PlatformBase, IControllable
 {
     #region Delegates
     public delegate void ParasiteEvent(Player _player);

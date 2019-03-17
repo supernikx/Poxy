@@ -24,7 +24,16 @@ public class PlatformManager : MonoBehaviour
 
     private UI_GameplayManager uiGameplay;
 
+    private void Update()
+    {
+        MovePlatforms();
+    }
+
     #region API
+    /// <summary>
+    /// Funzione che inizializza il platform Manager
+    /// </summary>
+    /// <param name="_uiGameplay"></param>
     public void Init(UI_GameplayManager _uiGameplay)
     {
         if (!PlatformContainer)
@@ -37,19 +46,29 @@ public class PlatformManager : MonoBehaviour
         {
             IPlatform _current = PlatformContainer.GetChild(i).GetComponent<IPlatform>();
             if (_current != null)
-            {
-                platforms.Add(_current);
+            {                
                 _current.Init();
 
                 if (_current is LaunchingPlatform)
                     launchingPlatforms.Add(_current as LaunchingPlatform);
+                else
+                    platforms.Add(_current);
             }
         }
 
         OnParasite += HandleOnParasite;
         OnParasiteEnd += HandleOnParasiteEnd;
+
+        SetCanMove(true);
     }
 
+    /// <summary>
+    /// Funzione che ritorna la prima launching platform in range (se ce ne sono)
+    /// altrimenti ritorna null
+    /// </summary>
+    /// <param name="_pointTransform"></param>
+    /// <param name="_range"></param>
+    /// <returns></returns>
     public IControllable GetNearestLaunchingPlatform(Transform _pointTransform, float _range)
     {
         if (launchingPlatforms.Count <= 0 || launchingPlatforms == null)
@@ -72,15 +91,32 @@ public class PlatformManager : MonoBehaviour
         }
         return target;
     }
+
+    /// <summary>
+    /// Funzione che imposta la variabile canMove con il parametro passato
+    /// </summary>
+    /// <param name="_canMove"></param>
+    public void SetCanMove(bool _canMove)
+    {
+        canMove = _canMove;
+    }
     #endregion
 
     #region Handlers
+    /// <summary>
+    /// Funzione che gestisce l'evento OnParasite
+    /// </summary>
+    /// <param name="_platform"></param>
     private void HandleOnParasite(LaunchingPlatform _platform)
     {
         launchingPlatformsInUse.Add(_platform);
         uiGameplay.GetGamePanel().EnableToleranceBar(true);
     }
 
+    /// <summary>
+    /// Funzione che gestisce l'evento OnParasiteEnd
+    /// </summary>
+    /// <param name="_platform"></param>
     private void HandleOnParasiteEnd(LaunchingPlatform _platform)
     {
         launchingPlatformsInUse.Remove(_platform);
@@ -88,15 +124,20 @@ public class PlatformManager : MonoBehaviour
         uiGameplay.GetGamePanel().EnableToleranceBar(false);
     }
     #endregion
-}
 
-public abstract class Platform : MonoBehaviour, IPlatform
-{
-    public abstract void Init();
-}
+    /// <summary>
+    /// Funzione che muove le piattaforme che hanno un behaviour
+    /// </summary>
+    private bool canMove;
+    private void MovePlatforms()
+    {
+        if (!canMove)
+            return;
 
-public interface IPlatform
-{
-    void Init();
+        foreach (IPlatform platform in platforms)
+        {
+            platform.MoveBehaviour();
+        }
+    }
 }
 
