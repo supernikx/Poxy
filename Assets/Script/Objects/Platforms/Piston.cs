@@ -10,13 +10,14 @@ public class Piston : PlatformBase
 
     [Header("Piston Settings")]
     [SerializeField]
-    private float slashMovementSpd;
+    private float downMovementSpd;
     [SerializeField]
-    private float movementSpd;
-    [SerializeField]
-    private LayerMask obstacleLayer;
+    private float upMovementSpd;
     [SerializeField]
     private LayerMask playerLayer;
+    [SerializeField]
+    private Transform waypoint;
+
     [Header("Collisions")]
     [SerializeField]
     /// <summary>
@@ -38,21 +39,19 @@ public class Piston : PlatformBase
 
     private PistonState currentState;
     private Collider colliderToCheck;
-    private bool collisionBelow;
-    private bool playerHit;
-    private Vector3 initialPosition;
+    private float colliderHeight;
 
-    private Vector3 CheckMovementCollisions(Vector3 _movementVelocity)
+    private float initialPosition;
+    private float targetPosition;
+
+
+    private void CheckMovementCollisions(Vector3 _movementVelocity)
     {
         //Aggiorna le posizioni da cui partiranno i raycast
         UpdateRaycastOrigins();
-        //Reset delle collisioni attuali
-        collisionBelow = false;
-        playerHit = false;
-        if (currentState == PistonState.Forward)
-            VerticalCollisions(ref _movementVelocity);
 
-        return _movementVelocity;
+        if (currentState == PistonState.Forward)
+            VerticalCollisions();
     }
 
     #region API
@@ -60,45 +59,37 @@ public class Piston : PlatformBase
     {
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
-        initialPosition = transform.position;
-        playerHit = false;
+        colliderHeight = colliderToCheck.bounds.size.y;
         CalculateRaySpacing();
 
-        StartCoroutine(VerticalBehaviour());
+        initialPosition = transform.position.y;
+        targetPosition = waypoint.position.y;
     }
-    #endregion
 
-    #region Coroutines
-    private IEnumerator VerticalBehaviour()
+    private Vector3 movementVelocity = Vector3.zero;
+    public override void MoveBehaviour()
     {
-        Vector3 movementVelocity = Vector3.zero;
-
-        while (true)
+        if (currentState == PistonState.Forward)
         {
-            if (currentState == PistonState.Forward)
-            {
-                movementVelocity = new Vector3(0, -slashMovementSpd, 0);
-            }
-            else if (currentState == PistonState.Backward)
-            {
-                movementVelocity = new Vector3(0, movementSpd, 0);
-            }
-
-            movementVelocity = CheckMovementCollisions(movementVelocity * Time.deltaTime);
-
-            transform.Translate(movementVelocity);
-
-            if (currentState == PistonState.Forward && collisionBelow && !playerHit)
-            {
-                stompVFX.Play();
-                currentState = PistonState.Backward;
-            }
-
-            if (currentState == PistonState.Backward && transform.position.y >= initialPosition.y)
-                currentState = PistonState.Forward;
-
-            yield return null;
+            movementVelocity = new Vector3(0, -downMovementSpd, 0);
         }
+        else if (currentState == PistonState.Backward)
+        {
+            movementVelocity = new Vector3(0, upMovementSpd, 0);
+        }
+
+        CheckMovementCollisions(movementVelocity * Time.deltaTime);
+
+        transform.Translate(movementVelocity * Time.deltaTime);
+
+        if (currentState == PistonState.Forward && transform.position.y <= targetPosition)
+        {
+            stompVFX.Play();
+            currentState = PistonState.Backward;
+        }
+
+        if (currentState == PistonState.Backward && transform.position.y >= initialPosition)
+            currentState = PistonState.Forward;
     }
     #endregion
 
@@ -132,8 +123,7 @@ public class Piston : PlatformBase
     /// <summary>
     /// Funzione che controlla se avviene una collisione sugli assi verticali
     /// </summary>
-    /// <param name="_movementVelocity"></param>
-    private void VerticalCollisions(ref Vector3 _movementVelocity)
+    private void VerticalCollisions()
     {
         //Rileva la direzione in cui si sta andando
         float directionY = -1;
@@ -151,20 +141,9 @@ public class Piston : PlatformBase
             Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
             RaycastHit hit;
 
-            //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, obstacleLayer))
-            {
-                //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                rayLenght = hit.distance;
-
-                collisionBelow = true;
-            }
-
             if (Physics.Raycast(ray, out hit, rayLenght, playerLayer))
             {
                 //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
                 rayLenght = hit.distance;
 
                 if (hit.transform.gameObject.tag == "Player")
@@ -173,8 +152,6 @@ public class Piston : PlatformBase
                     if (_player.GetCollisionController().GetCollisionInfo().below)
                     {
                         _player.StartDeathCoroutine();
-                        playerHit = true;
-                        collisionBelow = true;
                     }
                 }
             }
