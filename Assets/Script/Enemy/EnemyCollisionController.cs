@@ -449,6 +449,20 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
             slopeAngle = 0f;
         }
 
+        public bool HorizontalCollision()
+        {
+            if (left || right)
+                return true;
+            return false;
+        }
+
+        public bool VerticalCollision()
+        {
+            if (above || below)
+                return true;
+            return false;
+        }
+
         public bool StickyCollision()
         {
             if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)

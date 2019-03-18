@@ -51,7 +51,10 @@ namespace StateMachine.EnemySM
             if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
             {
                 return;
-            }            
+            }
+
+            if (enemy.GetCollisionCtrl().GetCollisionInfo().HorizontalCollision())
+                pathTraveled = pathLenght;
 
             if (pathTraveled >= pathLenght - 0.1f)
             {
@@ -66,6 +69,7 @@ namespace StateMachine.EnemySM
             //Movimento Nemico                
             movementVector.x = enemy.GetMovementSpeed();
             Vector3 distanceTraveled = enemy.GetMovementCtrl().MovementCheck(movementVector);
+
             enemy.GetAnimationController().MovementAnimation(distanceTraveled);
             pathTraveled += distanceTraveled.x;
         }
