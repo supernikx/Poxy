@@ -129,7 +129,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
             {
                 //Se colpisco qualcosa che rientra nei layer stuck
                 GameObject objectHit = hit.transform.gameObject;
-                if (objectHit.layer == LayerMask.NameToLayer("Player") && objectHit.transform.parent != null)
+                if ((objectHit.layer == LayerMask.NameToLayer("Player") || objectHit.layer == LayerMask.NameToLayer("PlayerImmunity")) && objectHit.transform.parent != null)
                 {
                     objectHit = objectHit.transform.parent.gameObject;
                 }
