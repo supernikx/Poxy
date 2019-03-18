@@ -240,13 +240,16 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     {
         if (
             ownerObject != null &&
-            (_collisionInfo.transform.gameObject == gameObject ||
+            (
+            _collisionInfo.transform.GetComponent<IBullet>() != null ||
+            _collisionInfo.transform.gameObject == gameObject ||
             _collisionInfo.transform.gameObject == ownerObject ||
             _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
              _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
             ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player") ||
-            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
             )
+          )
             return false;
 
         ObjectDestroyEvent();
