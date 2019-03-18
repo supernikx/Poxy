@@ -108,6 +108,8 @@ public class Player : MonoBehaviour
 
         //Setup cose locali
         playerGraphic = GetComponentInChildren<PlayerGraphicController>();
+        playerGraphic.Init();
+
         activeGraphic = playerGraphic;
     }
 
@@ -235,7 +237,9 @@ public class Player : MonoBehaviour
         parasiteCtrl.GetParasite().EndParasite();
 
         #region Animazione (per ora fatta a caso)
-        activeGraphic.GetModel().transform.DOScale(1, 0.5f);
+        //activeGraphic.GetModel().transform.DOScale(1, 0.5f);
+        PlayerGraphicController _playerGraph = activeGraphic as PlayerGraphicController;
+        _playerGraph.Scale(1f, 0.5f);
         yield return null;
         #endregion
         shootCtrl.SetCanAim(true);
