@@ -18,12 +18,9 @@ namespace StateMachine.EnemySM
         IEnemy enemy;
         private Animator enemySM;
         private EnemySMContext context;
-        private EnemyManager enemyMng;
-
         #region API
-        public void Init(IEnemy _enemy, EnemyManager _enemyMng)
+        public void Init(IEnemy _enemy)
         {
-            enemyMng = _enemyMng;
             enemy = _enemy;
             enemySM = GetComponent<Animator>();
 

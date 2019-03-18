@@ -18,12 +18,55 @@ namespace StateMachine.EnemySM
             uiManager.GetGamePanel().SetMaxToleranceValue(tolleranceCtrl.GetMaxTolerance());
             uiManager.GetGamePanel().EnableToleranceBar(true);
             context.enemy.SetCanStun(false);
-            context.player.OnPlayerMaxHealth += PlayerMaxHealth;
+            context.player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
+            if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                context.player.OnDamageableCollision += HandlePlayerDamageableCollision;
+                context.player.OnEnemyCollision += HandlePlayerEnemyCollision;
+                immunity = false;
+            }
+            else
+            {
+                context.player.OnPlayerImmunityEnd += HandlePlayerImmunityEnd;
+                immunity = true;
+            }
         }
+
+        private void HandlePlayerMaxHealth()
+        {
+            tolleranceCtrl.SetActive(true);
+        }
+
+        #region Collision
+        bool immunity;
+        private void HandlePlayerImmunityEnd()
+        {
+            context.player.OnDamageableCollision += HandlePlayerDamageableCollision;
+            context.player.OnEnemyCollision += HandlePlayerEnemyCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
+            immunity = false;
+        }
+
+        private void HandlePlayerDamageableCollision(IDamageable damageable)
+        {
+            context.player.OnDamageableCollision -= HandlePlayerDamageableCollision;
+            context.player.OnEnemyCollision -= HandlePlayerEnemyCollision;
+            context.player.OnPlayerImmunityEnd += HandlePlayerImmunityEnd;
+            immunity = true;
+        }
+
+        private void HandlePlayerEnemyCollision(IEnemy _enemy)
+        {
+            context.player.OnDamageableCollision -= HandlePlayerDamageableCollision;
+            context.player.OnEnemyCollision -= HandlePlayerEnemyCollision;
+            context.player.OnPlayerImmunityEnd += HandlePlayerImmunityEnd;
+            immunity = true;
+        }
+        #endregion
 
         public override void Tick()
         {
-            if (tolleranceCtrl.IsActive())
+            if (tolleranceCtrl.IsActive() && !immunity)
             {
                 tolleranceCtrl.AddTolleranceOvertime();
             }
@@ -37,7 +80,10 @@ namespace StateMachine.EnemySM
 
         public override void Exit()
         {
-            context.player.OnPlayerMaxHealth -= PlayerMaxHealth;
+            context.player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
+            context.player.OnDamageableCollision -= HandlePlayerDamageableCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
+
             context.player = null;
 
             tolleranceCtrl.SetActive(false);
@@ -48,11 +94,6 @@ namespace StateMachine.EnemySM
             context.enemy.SetCanStun(true);
             context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
             context.enemy.gameObject.layer = context.enemy.GetEnemyDefaultLayer();
-        }
-
-        private void PlayerMaxHealth()
-        {
-            tolleranceCtrl.SetActive(true);
         }
     }
 }

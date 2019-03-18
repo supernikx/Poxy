@@ -164,7 +164,6 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     [SerializeField]
     float rayLenght;
     float raySpacing;
-    float offSet;
     RaycastStartPoints raycastPoint;
 
     /// <summary>
@@ -175,7 +174,6 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         Bounds bulletBound = bulletCollider.bounds;
         bulletBound.Expand(colliderOffset * -2f);
         raySpacing = bulletBound.size.y / (rayCount - 1);
-        offSet = bulletBound.size.x / 2;
     }
 
     /// <summary>

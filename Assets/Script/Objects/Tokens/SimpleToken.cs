@@ -21,7 +21,7 @@ public class SimpleToken : BaseToken
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
             GetToken(this);
             gameObject.SetActive(false);

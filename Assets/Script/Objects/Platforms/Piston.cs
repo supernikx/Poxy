@@ -39,7 +39,6 @@ public class Piston : PlatformBase
 
     private PistonState currentState;
     private Collider colliderToCheck;
-    private float colliderHeight;
 
     private float initialPosition;
     private float targetPosition;
@@ -59,7 +58,6 @@ public class Piston : PlatformBase
     {
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
-        colliderHeight = colliderToCheck.bounds.size.y;
         CalculateRaySpacing();
 
         initialPosition = transform.position.y;

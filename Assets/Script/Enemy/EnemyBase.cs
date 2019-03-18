@@ -81,7 +81,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         // Initialize Enemy State Machine
         enemySM = GetComponent<EnemySMController>();
         if (enemySM != null)
-            enemySM.Init(this, enemyMng);
+            enemySM.Init(this);
 
         toleranceCtrl = GetComponent<EnemyToleranceController>();
         if (toleranceCtrl != null)

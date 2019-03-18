@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
     public PlayerEnemyCollisionDelegate OnEnemyCollision;
     public delegate void PlayeDamageableCollisionDelegate(IDamageable damageable);
-    public PlayeDamageableCollisionDelegate OnDemageableCollision;
+    public PlayeDamageableCollisionDelegate OnDamageableCollision;
     public Action OnPlayerMaxHealth;
     public Action OnPlayerImmunityEnd;
     public Action OnPlayerDeath;
@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
         activeGraphic = playerGraphic;
     }
 
+    #region Parasite State
     /// <summary>
     /// Funzione che attiva la coroutine ParasiteEnemyCoroutine
     /// </summary>
@@ -130,7 +131,8 @@ public class Player : MonoBehaviour
         shootCtrl.SetCanShoot(false);
         shootCtrl.SetEnemyShot(_e.GetShotType());
         _e.Parasite(this);
-        collisionCtrl.CheckDamageCollision(false);
+        collisionCtrl.CheckEnemyCollision(false);
+        collisionCtrl.CheckDamageableCollision(false);
 
         #region Animazione(per ora fatta a caso)
         Vector3 enemyPosition = _e.gameObject.transform.position;
@@ -143,7 +145,8 @@ public class Player : MonoBehaviour
         ChangeGraphics(_e.GetGraphics());
         animCtrl.SetAnimator(_e.GetAnimationController().GetAnimator());
 
-        collisionCtrl.CheckDamageCollision(true);
+        collisionCtrl.CheckEnemyCollision(true);
+        collisionCtrl.CheckDamageableCollision(true);
         shootCtrl.SetCanShoot(true);
         if (playerSM.OnPlayerEnemyParaiste != null)
             playerSM.OnPlayerEnemyParaiste(_e as IControllable);
@@ -167,7 +170,8 @@ public class Player : MonoBehaviour
         parasiteCtrl.SetParasite(_e as IControllable);
         _e.Parasite(this);
         shootCtrl.SetCanShoot(false);
-        collisionCtrl.CheckDamageCollision(false);
+        collisionCtrl.CheckEnemyCollision(false);
+        collisionCtrl.CheckDamageableCollision(false);
 
         #region Animazione(per ora fatta a caso)
         Vector3 platformPosition = _e.gameObject.transform.position;
@@ -177,12 +181,15 @@ public class Player : MonoBehaviour
         yield return sequence.WaitForCompletion();
         #endregion
 
-        ChangeGraphics(_e.GetGraphics());
-        collisionCtrl.CheckDamageCollision(true);
+        collisionCtrl.CheckEnemyCollision(true);
+        collisionCtrl.CheckDamageableCollision(true);
+        ChangeGraphics(_e.GetGraphics());        
         if (playerSM.OnPlayerPlatformParaiste != null)
             playerSM.OnPlayerPlatformParaiste(_e);
     }
+    #endregion
 
+    #region Normal State
     /// <summary>
     /// Funzione che manda il player in normalstate
     /// </summary>
@@ -205,6 +212,8 @@ public class Player : MonoBehaviour
     /// </summary>
     private IEnumerator NormalCoroutine()
     {
+        collisionCtrl.CheckEnemyCollision(false);
+        collisionCtrl.CheckDamageableCollision(false);
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
         shootCtrl.ResetEnemyShot();
@@ -225,29 +234,44 @@ public class Player : MonoBehaviour
         yield return null;
         #endregion
 
+        collisionCtrl.CheckEnemyCollision(true);
+        collisionCtrl.CheckDamageableCollision(true);
         if (playerSM.OnPlayerNormal != null)
             playerSM.OnPlayerNormal();
     }
+    #endregion
 
+    #region Immunity
+    bool immunity;
     /// <summary>
     /// Funzione che attiva la coroutine ImmunityCoroutine
     /// </summary>
     /// <param name="_immunityDuration"></param>
     public void StartImmunityCoroutine(float _immunityDuration)
     {
+        immunity = true;
         StartCoroutine(ImmunityCoroutine(_immunityDuration));
     }
+
+    /// <summary>
+    /// Funzione che stoppa la coroutine ImmunityCoroutine
+    /// </summary>
+    public void StopImmunityCoroutine()
+    {
+        immunity = false;
+    }
+
     /// <summary>
     /// Coroutine che rende il player immune e avvisa quando è finità l'immunità
     /// </summary>
     /// <param name="_immunityDuration"></param>
     /// <returns></returns>
     private IEnumerator ImmunityCoroutine(float _immunityDuration)
-    {
-        GetCollisionController().CheckDamageCollision(false);
+    {       
+        GetCollisionController().CheckEnemyCollision(false);
         gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
         float timer = _immunityDuration;
-        while (timer > 0)
+        while (immunity && timer > 0)
         {
             activeGraphic.Disable();
             yield return new WaitForSeconds(0.1f);
@@ -257,12 +281,14 @@ public class Player : MonoBehaviour
             timer -= 0.2f;
         }
 
-        GetCollisionController().CheckDamageCollision(true);
+        GetCollisionController().CheckEnemyCollision(true);
         gameObject.layer = LayerMask.NameToLayer("Player");
         if (OnPlayerImmunityEnd != null)
             OnPlayerImmunityEnd();
     }
+    #endregion
 
+    #region Death State
     /// <summary>
     /// Funzione che attiva la coroutine DeathCoroutine
     /// </summary>
@@ -280,7 +306,9 @@ public class Player : MonoBehaviour
             OnPlayerDeath();
         yield return null;
     }
+    #endregion
 
+    #region Graphic
     /// <summary>
     /// Funzione che cambia la grafica con quella passata come parametro
     /// </summary>
@@ -303,6 +331,7 @@ public class Player : MonoBehaviour
         else
             activeGraphic.Disable();
     }
+    #endregion
 
     #region Getter
     /// <summary>

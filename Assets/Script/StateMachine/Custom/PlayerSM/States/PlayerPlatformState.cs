@@ -20,6 +20,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform.gameObject.transform.parent = context.player.transform;
         parasitePlatform.gameObject.transform.localPosition = Vector3.zero;
 
+        context.player.StopImmunityCoroutine();
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
     }
 

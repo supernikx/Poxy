@@ -51,12 +51,11 @@ namespace StateMachine.EnemySM
             if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
             {
                 return;
-            }
+            }            
 
             if (pathTraveled >= pathLenght - 0.1f)
             {
                 pathTraveled = 0f;
-                movementBlocked = false;
                 Vector3 rotationVector = Vector3.zero;
                 if (enemy.gameObject.transform.rotation.y == 0)
                     rotationVector.y = 180f;
@@ -68,14 +67,6 @@ namespace StateMachine.EnemySM
             movementVector.x = enemy.GetMovementSpeed();
             Vector3 distanceTraveled = enemy.GetMovementCtrl().MovementCheck(movementVector);
             enemy.GetAnimationController().MovementAnimation(distanceTraveled);
-
-            if (distanceTraveled.sqrMagnitude < 0.001f && movementBlocked == false)
-                movementBlocked = true;
-            else if (distanceTraveled.sqrMagnitude < 0.001f && movementBlocked == true)
-                pathTraveled = pathLenght;
-            else if (distanceTraveled.sqrMagnitude > 0.001f && movementBlocked == true)
-                movementBlocked = false;
-
             pathTraveled += distanceTraveled.x;
         }
 

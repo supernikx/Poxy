@@ -7,22 +7,24 @@ namespace StateMachine.PlayerSM
     public class PlayerNormalState : PlayerSMStateBase
     {
         public override void Enter()
-        {
-            context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.OnDemageableCollision += OnDamageableCollision;
+        {            
+            context.player.OnDamageableCollision += OnDamageableCollision;
+            if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                context.player.OnEnemyCollision += OnEnemyCollision;
+                immunity = false;
+                loseHealth = true;
+            }
+            else
+            {
+                context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                immunity = true;
+                loseHealth = false;
+            }
+
             context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
-            parasitePressed = false;
-            loseHealth = true;
-        }
-
-        public override void Exit()
-        {
-            parasitePressed = false;
-            loseHealth = false;
-            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
-            context.player.OnDemageableCollision -= OnDamageableCollision;
-            context.player.OnEnemyCollision -= OnEnemyCollision;
+            parasitePressed = false;            
         }
 
         bool parasitePressed;
@@ -58,27 +60,28 @@ namespace StateMachine.PlayerSM
                 context.player.GetHealthController().LoseHealthOverTime();
         }
 
-        #region Enemy Collision
+        #region Enemy/Damageable Collision
         bool loseHealth;
+        bool immunity;
         private void OnEnemyCollision(IEnemy _enemy)
         {
-            loseHealth = false;
-            context.player.OnDemageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.player.GetHealthController().DamageHit(_enemy.GetDamage());
             context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
+            loseHealth = false;
+            immunity = true;
         }
 
         private void OnDamageableCollision(IDamageable _damageable)
         {
-            loseHealth = false;
-            context.player.OnDemageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;
 
             switch (_damageable.DamageableType)
             {
-                case DamageableType.Spike:                    
+                case DamageableType.Spike:
+                    if (immunity)
+                        return;
                     context.player.GetHealthController().DamageHit((_damageable as Spike).GetDamage());
                     context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
                     context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
@@ -89,15 +92,28 @@ namespace StateMachine.PlayerSM
                 default:
                     break;
             }
+
+            loseHealth = false;
+            immunity = true;
         }
 
         private void PlayerImmunityEnd()
         {
             loseHealth = true;
+            immunity = false;
             context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.OnDemageableCollision += OnDamageableCollision;
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
         }
         #endregion
+
+        public override void Exit()
+        {
+            parasitePressed = false;
+            loseHealth = false;
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnDamageableCollision -= OnDamageableCollision;
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+        }
+
     }
 }
