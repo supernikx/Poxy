@@ -91,6 +91,7 @@ namespace UI
                     damageBulletContorno.color = newImageColor;
                     break;
                 case ObjectTypes.None:
+                default:
                     damageBulletSlot.sprite = null;
                     newImageColor = new Color(damageBulletSlot.color.r, damageBulletSlot.color.g, damageBulletSlot.color.b, 0f);
                     damageBulletSlot.color = newImageColor;

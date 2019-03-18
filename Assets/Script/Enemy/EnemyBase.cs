@@ -274,7 +274,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// Funzione che ritorna il tipo di sparo del nemico
     /// </summary>
     /// <returns></returns>
-    public ObjectTypes GetShotType()
+    public ObjectTypes GetBulletType()
     {
         return enemyShotSettings.bulletType;
     }

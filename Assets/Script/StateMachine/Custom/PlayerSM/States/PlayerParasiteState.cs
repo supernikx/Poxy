@@ -38,7 +38,6 @@ namespace StateMachine.PlayerSM
             context.player.GetCollisionController().CalculateParasiteCollision(parasiteEnemy);
             context.player.GetMovementController().SetCanMove(true);
             context.player.GetShotController().SetShotPoint(parasiteEnemy.GetShotPoint());
-            context.player.GetShotController().SetCanShootDamage(true);
         }
 
         bool parasitePressed;
@@ -48,12 +47,6 @@ namespace StateMachine.PlayerSM
             {
                 parasitePressed = true;
                 context.player.StartNormalCoroutine();
-            }
-
-            if (Input.GetButtonDown("SwitchFire"))
-            {
-                //Cambio tipo di sparo
-                context.player.GetShotController().ChangeShotType();
             }
 
             if (context.player.GetHealthController().GainHealthOverTime() && gainHealth && !parasitePressed)
@@ -132,7 +125,6 @@ namespace StateMachine.PlayerSM
             context.player.GetCollisionController().CalculateNormalCollision();
 
             context.player.GetShotController().SetShotPoint(context.player.GetShotController().GetShotPoint());
-            context.player.GetShotController().SetCanShootDamage(false);
             parasitePressed = false;
             gainHealth = false;
         }

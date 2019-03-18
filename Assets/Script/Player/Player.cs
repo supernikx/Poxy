@@ -129,7 +129,8 @@ public class Player : MonoBehaviour
     {
         parasiteCtrl.SetParasite(_e as IControllable);
         shootCtrl.SetCanShoot(false);
-        shootCtrl.SetEnemyShot(_e.GetShotType());
+        shootCtrl.SetCanAim(false);
+        shootCtrl.ChangeShotType(shootCtrl.GetShotSettingByBullet(_e.GetBulletType()));
         _e.Parasite(this);
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
@@ -148,6 +149,7 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
         shootCtrl.SetCanShoot(true);
+        shootCtrl.SetCanAim(true);
         if (playerSM.OnPlayerEnemyParaiste != null)
             playerSM.OnPlayerEnemyParaiste(_e as IControllable);
     }
@@ -170,6 +172,7 @@ public class Player : MonoBehaviour
         parasiteCtrl.SetParasite(_e as IControllable);
         _e.Parasite(this);
         shootCtrl.SetCanShoot(false);
+        shootCtrl.SetCanAim(false);
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
 
@@ -183,7 +186,7 @@ public class Player : MonoBehaviour
 
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
-        ChangeGraphics(_e.GetGraphics());        
+        ChangeGraphics(_e.GetGraphics());
         if (playerSM.OnPlayerPlatformParaiste != null)
             playerSM.OnPlayerPlatformParaiste(_e);
     }
@@ -214,9 +217,11 @@ public class Player : MonoBehaviour
     {
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
+        shootCtrl.SetCanAim(false);
+        shootCtrl.SetCanShoot(false);
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
-        shootCtrl.ResetEnemyShot();
+        shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
         switch (parasiteCtrl.GetParasite().GetControllableType())
         {
             case ControllableType.Enemy:
@@ -233,7 +238,8 @@ public class Player : MonoBehaviour
         activeGraphic.GetModel().transform.DOScale(1, 0.5f);
         yield return null;
         #endregion
-
+        shootCtrl.SetCanAim(true);
+        shootCtrl.SetCanShoot(true);
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
         if (playerSM.OnPlayerNormal != null)
@@ -267,7 +273,7 @@ public class Player : MonoBehaviour
     /// <param name="_immunityDuration"></param>
     /// <returns></returns>
     private IEnumerator ImmunityCoroutine(float _immunityDuration)
-    {       
+    {
         GetCollisionController().CheckEnemyCollision(false);
         gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
         float timer = _immunityDuration;
@@ -388,7 +394,8 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     public PlayerAnimationController GetAnimatorController()
     {
-        return animCtrl;    }
+        return animCtrl;
+    }
     /// <summary>
     /// Funzione che ritorna la grafica attiva del player
     /// </summary>

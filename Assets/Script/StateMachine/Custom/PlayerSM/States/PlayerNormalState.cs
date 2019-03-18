@@ -22,7 +22,6 @@ namespace StateMachine.PlayerSM
                 loseHealth = false;
             }
 
-            context.player.GetShotController().ChangeShotType();
             context.player.GetMovementController().SetCanMove(true);
             parasitePressed = false;            
         }

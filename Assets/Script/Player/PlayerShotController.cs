@@ -39,25 +39,24 @@ public class PlayerShotController : MonoBehaviour
     /// </summary>
     PoolManager pool;
     /// <summary>
-    /// Boolean che definisce se posso sparare o no
-    /// </summary>
-    bool canShotDamage;
-    /// <summary>
-    /// Boolean che definisce se posso stunnare o no
+    /// Boolean che definisce se il player può sparare
     /// </summary>
     bool canShot;
+    /// <summary>
+    /// Boolean che definisce se il player può mirare
+    /// </summary>
+    bool canAim;
 
     void Update()
     {
-        // non so se mettere il bool solo per controllare che possa sparare stun possa rompere qualcosa,
-        // eventualmente si cambia venerdì
-        if (canShot)
+        //Controllo se posso mirare
+        if (canAim)
         {
             if (UseMouseInput())
             {
                 MouseAim();
 
-                if (Input.GetButton("LeftMouse"))
+                if (canShot && Input.GetButton("LeftMouse"))
                 {
                     //Controllo se posso sparare
                     if (CheckFiringRate())
@@ -71,7 +70,7 @@ public class PlayerShotController : MonoBehaviour
             {
                 JoystickAim();
 
-                if (InputManager.GetRT())
+                if (canShot && InputManager.GetRT())
                 {
                     //Controllo se posso sparare
                     if (CheckFiringRate())
@@ -203,23 +202,11 @@ public class PlayerShotController : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che prende un proiettile dal pool manager e lo imposta per sparare
+    /// Funzione che prende il proiettile attivo dal pool manager e lo imposta per sparare
     /// </summary>
-    private void ShotStunBullet()
+    private void ShotActiveBullet()
     {
-        IBullet bullet = pool.GetPooledObject(ObjectTypes.StunBullet, gameObject).GetComponent<IBullet>();
-        if (bullet != null)
-        {
-            bullet.Shot(0, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
-        }
-    }
-
-    /// <summary>
-    /// Funzione che prende un proiettile danneggiante dal pool manager e lo imposta per sparare
-    /// </summary>
-    private void ShotEnemyBullet()
-    {
-        IBullet bullet = pool.GetPooledObject(enemyShotSetting.bulletType, gameObject).GetComponent<IBullet>();
+        IBullet bullet = pool.GetPooledObject(shotSettingsInUse.bulletType, gameObject).GetComponent<IBullet>();
         if (bullet != null)
         {
             bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
@@ -247,12 +234,6 @@ public class PlayerShotController : MonoBehaviour
         return true;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(shotPoint.position, shotSettingsInUse.range);
-    }
-
     #region API
     /// <summary>
     /// Funzione che inizializza lo script
@@ -261,22 +242,14 @@ public class PlayerShotController : MonoBehaviour
     {
         player = _player;
         pool = _poolManager;
-        canShotDamage = false;
-        canShot = true;
+        ChangeShotType(stunShotSettings);
         SetShotPoint(GetShotPoint());
+        OnShot += ShotActiveBullet;
+        canAim = true;
+        canShot = true;
     }
 
     #region Setter
-    /// <summary>
-    /// Funzione che imposta la variabile can shoot
-    /// con quella passata come parametro
-    /// </summary>
-    /// <param name="_canShoot"></param>
-    public void SetCanShootDamage(bool _canShoot)
-    {
-        canShotDamage = _canShoot;
-    }
-
     /// <summary>
     /// Funzione che imposta se il player può sparare o no
     /// </summary>
@@ -284,6 +257,15 @@ public class PlayerShotController : MonoBehaviour
     public void SetCanShoot(bool _newValue)
     {
         canShot = _newValue;
+    }
+
+    /// <summary>
+    /// Funzione che imposta se il player può mirare
+    /// </summary>
+    /// <param name="_newValue"></param>
+    public void SetCanAim(bool _newValue)
+    {
+        canAim = _newValue;
     }
 
     /// <summary>
@@ -298,50 +280,11 @@ public class PlayerShotController : MonoBehaviour
     /// <summary>
     /// Funzone che cambia il tipo di sparo
     /// </summary>
-    bool useStunBullets;
-    public void ChangeShotType()
+    public void ChangeShotType(ShotSettings _shotSettings)
     {
-        //Controllo se posso cambiare tipo di sparo
-        if (useStunBullets && canShotDamage)
-        {
-            OnShot -= ShotStunBullet;
-            OnShot += ShotEnemyBullet;
-            shotSettingsInUse = enemyShotSetting;
-            useStunBullets = false;
-        }
-        else if (!useStunBullets)
-        {
-            OnShot -= ShotEnemyBullet;
-            OnShot += ShotStunBullet;
-            shotSettingsInUse = stunShotSettings;
-            useStunBullets = true;
-        }
-    }
-
-    /// <summary>
-    /// Funzione che imposta l'enemyShotSetting con i valori presenti nella lista di shot settings
-    /// corrispondenti al tipo di proiettile passato come parametro
-    /// </summary>
-    ShotSettings enemyShotSetting;
-    public void SetEnemyShot(ObjectTypes _enemyBullet)
-    {
-        ShotSettings newShotSettings = GetShotSettingByBullet(_enemyBullet);
-        if (newShotSettings != null)
-        {
-            enemyShotSetting = newShotSettings;
-            if (OnEnemyBulletChanged != null)
-                OnEnemyBulletChanged(enemyShotSetting.bulletType);
-        }
-    }
-
-    /// <summary>
-    /// Funzione che reimposta le impostazioni dello sparo del nemico a null
-    /// </summary>
-    public void ResetEnemyShot()
-    {
-        enemyShotSetting = null;
+        shotSettingsInUse = _shotSettings;
         if (OnEnemyBulletChanged != null)
-            OnEnemyBulletChanged(ObjectTypes.None);
+            OnEnemyBulletChanged(_shotSettings.bulletType);
     }
     #endregion
 
@@ -362,6 +305,15 @@ public class PlayerShotController : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che ritorna i shot settings di default del player
+    /// </summary>
+    /// <returns></returns>
+    public ShotSettings GetPlayerDefaultShotSetting()
+    {
+        return stunShotSettings;
+    }
+
+    /// <summary>
     /// Funzione che ritorna lo shot point del player
     /// </summary>
     /// <returns></returns>
@@ -371,6 +323,11 @@ public class PlayerShotController : MonoBehaviour
     }
     #endregion
     #endregion
+
+    private void OnDisable()
+    {
+        OnShot -= ShotActiveBullet;
+    }
 }
 
 [System.Serializable]

@@ -96,10 +96,10 @@ public interface IEnemy
 
     #region Getter
     /// <summary>
-    /// Funzione che ritorna il tipo di sparo del nemico
+    /// Funzione che ritorna il tipo di proiettile del nemico
     /// </summary>
     /// <returns></returns>
-    ObjectTypes GetShotType();
+    ObjectTypes GetBulletType();
 
     /// <summary>
     /// Funzione che ritorna lo shot point del nemico

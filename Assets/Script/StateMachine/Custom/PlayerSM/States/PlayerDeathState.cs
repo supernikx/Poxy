@@ -15,7 +15,10 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetLivesController().LoseLives();
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
-        context.player.GetShotController().ResetEnemyShot();
+
+        PlayerShotController shotCtrl = context.player.GetShotController();
+        shotCtrl.ChangeShotType(shotCtrl.GetPlayerDefaultShotSetting());
+
         context.player.GetActualGraphic().GetModel().transform.localScale = new Vector3(1, 1, 1);
         context.player.GetActualGraphic().Disable();
         context.player.GetCollisionController().OnStickyEnd();
@@ -23,6 +26,7 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetCollisionController().GetCollisionInfo().ResetAll();
         context.player.GetMovementController().SetCanMove(false);
         context.player.GetShotController().SetCanShoot(false);
+        context.player.GetShotController().SetCanAim(false);
     }
 
     bool gameover;
@@ -48,6 +52,7 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetActualGraphic().Enable();
         context.player.GetMovementController().SetCanMove(true);
         context.player.GetShotController().SetCanShoot(true);
+        context.player.GetShotController().SetCanAim(true);
         context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
     }
 
