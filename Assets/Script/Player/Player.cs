@@ -25,7 +25,19 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Riferimento alla grafica attiva
     /// </summary>
-    IGraphic activeGraphic;
+    IGraphic _activeGraphic;
+    IGraphic activeGraphic
+    {
+        set
+        {
+            _activeGraphic = value;
+            shootCtrl.SetAimObject(_activeGraphic.GetAimObject());
+        }
+        get
+        {
+            return _activeGraphic;
+        }
+    }
     /// <summary>
     /// Riferimento al player controller
     /// </summary>
@@ -108,9 +120,12 @@ public class Player : MonoBehaviour
 
         //Setup cose locali
         playerGraphic = GetComponentInChildren<PlayerGraphicController>();
-        playerGraphic.Init();
-
-        activeGraphic = playerGraphic;
+        if (playerGraphic != null)
+        {
+            activeGraphic = playerGraphic;
+            playerGraphic.OnModelChanged += HandleOnPlayerModeloChanged;
+            playerGraphic.Init();
+        }        
     }
 
     #region Parasite State
@@ -237,9 +252,7 @@ public class Player : MonoBehaviour
         parasiteCtrl.GetParasite().EndParasite();
 
         #region Animazione (per ora fatta a caso)
-        //activeGraphic.GetModel().transform.DOScale(1, 0.5f);
-        PlayerGraphicController _playerGraph = activeGraphic as PlayerGraphicController;
-        _playerGraph.Scale(1f, 0.5f);
+        activeGraphic.GetModel().transform.DOScale(1, 0.5f);
         yield return null;
         #endregion
         shootCtrl.SetCanAim(true);
@@ -341,6 +354,15 @@ public class Player : MonoBehaviour
         else
             activeGraphic.Disable();
     }
+
+    /// <summary>
+    /// Funzione che gestisce l'evento playerGraphic.OnModelChanged
+    /// </summary>
+    public void HandleOnPlayerModeloChanged()
+    {
+        if (activeGraphic == (playerGraphic as IGraphic))
+            shootCtrl.SetAimObject(activeGraphic.GetAimObject());
+    }
     #endregion
 
     #region Getter
@@ -418,4 +440,9 @@ public class Player : MonoBehaviour
     }
     #endregion
     #endregion
+
+    private void OnDisable()
+    {
+        playerGraphic.OnModelChanged -= HandleOnPlayerModeloChanged;
+    }
 }

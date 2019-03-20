@@ -6,6 +6,8 @@ public class EnemyGraphicController : MonoBehaviour, IGraphic
 {
     [SerializeField]
     private GameObject graphicModel;
+    [SerializeField]
+    private GameObject aimObject;
 
     /// <summary>
     /// Funzione che abilita/disabilita il modello per il tempo passato come parametro
@@ -58,5 +60,14 @@ public class EnemyGraphicController : MonoBehaviour, IGraphic
     public GameObject GetModel()
     {
         return graphicModel;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna l'aim object
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetAimObject()
+    {
+        return aimObject;
     }
 }

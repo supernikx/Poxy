@@ -278,6 +278,16 @@ public class PlayerShotController : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che imposta l'aim object con il parametro passato
+    /// </summary>
+    /// <param name="_aimObject"></param>
+    public void SetAimObject(GameObject _aimObject)
+    {
+        if (_aimObject != null)
+            aimObject = _aimObject;
+    }
+
+    /// <summary>
     /// Funzone che cambia il tipo di sparo
     /// </summary>
     public void ChangeShotType(ShotSettings _shotSettings)

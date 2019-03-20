@@ -82,6 +82,7 @@ namespace StateMachine.EnemySM
         {
             context.player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
             context.player.OnDamageableCollision -= HandlePlayerDamageableCollision;
+            context.player.OnEnemyCollision -= HandlePlayerEnemyCollision;
             context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
 
             context.player = null;

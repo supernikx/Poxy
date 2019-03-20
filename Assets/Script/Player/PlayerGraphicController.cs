@@ -1,10 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
 public class PlayerGraphicController : MonoBehaviour, IGraphic
 {
+    #region Delegates
+    public Action OnModelChanged;
+    #endregion
+
     [Header("Graphics options")]
     [SerializeField]
     private float changeGraphicPercentage;
@@ -14,21 +18,37 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
     private GameObject calmGraphic;
     [SerializeField]
     private Avatar calmAvatar;
+    [SerializeField]
+    private GameObject calmAimObject;
 
     [Header("Angry Graphics")]
     [SerializeField]
     private GameObject angryGraphic;
     [SerializeField]
     private Avatar angryAvatar;
+    [SerializeField]
+    private GameObject angryAimObject;
 
-    private GameObject activeGraphicModel;
+    private GameObject _activeGraphicModel;
+    private GameObject activeGraphicModel
+    {
+        set
+        {
+            _activeGraphicModel = value;
+            if (OnModelChanged != null)
+                OnModelChanged();
+        }
+        get
+        {
+            return _activeGraphicModel;
+        }
+    }
     private Animator anim;
 
     #region API
     public void Init()
     {
         PlayerHealthController.OnHealthChange += HandleOnHealthChange;
-
         anim = GetComponent<Animator>();
         activeGraphicModel = calmGraphic;
         anim.avatar = calmAvatar;
@@ -58,16 +78,6 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
     {
         activeGraphicModel.SetActive(true);
     }
-
-    /// <summary>
-    /// TEMPORANEA
-    /// Funaione che scala la dimensione di entrambi i modelli
-    /// </summary>
-    public void Scale(float _scaleTo, float _time)
-    {
-        angryGraphic.transform.DOScale(_scaleTo, _time);
-        calmGraphic.transform.DOScale(_scaleTo, _time);
-    }
     #endregion
 
     #region Coroutines
@@ -93,27 +103,37 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
     #endregion
 
     #region Handlers
+    /// <summary>
+    /// Funzione che gestisce l'evento PlayerHealthController.OnHealthChange
+    /// </summary>
+    /// <param name="_health"></param>
     private void HandleOnHealthChange(float _health)
     {
-        if (_health > changeGraphicPercentage && !calmGraphic.activeInHierarchy)
+        if (_health > changeGraphicPercentage && activeGraphicModel != calmGraphic)
         {
             activeGraphicModel = calmGraphic;
-            anim.avatar = calmAvatar;
-            if (angryGraphic.activeInHierarchy)
+            if (angryGraphic.activeSelf)
             {
                 angryGraphic.SetActive(false);
                 calmGraphic.SetActive(true);
             }
+
+            calmGraphic.transform.localScale = angryGraphic.transform.localScale;
+            calmGraphic.transform.SetAsFirstSibling();
+            anim.avatar = calmAvatar;
         }
-        else if (_health <= changeGraphicPercentage && !angryGraphic.activeInHierarchy)
+        else if (_health <= changeGraphicPercentage && activeGraphicModel != angryGraphic)
         {
             activeGraphicModel = angryGraphic;
-            anim.avatar = angryAvatar;
-            if (calmGraphic.activeInHierarchy)
+            if (calmGraphic.activeSelf)
             {
                 calmGraphic.SetActive(false);
                 angryGraphic.SetActive(true);
             }
+
+            angryGraphic.transform.localScale = calmGraphic.transform.localScale;
+            angryGraphic.transform.SetAsFirstSibling();
+            anim.avatar = angryAvatar;
         }
     }
     #endregion
@@ -126,6 +146,21 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
     public GameObject GetModel()
     {
         return activeGraphicModel;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna l'oggetto con cui si mira
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetAimObject()
+    {
+        if (activeGraphicModel == calmGraphic)
+            return calmAimObject;
+
+        if (activeGraphicModel == angryGraphic)
+            return angryAimObject;
+
+        return null;
     }
     #endregion
 }

@@ -26,6 +26,12 @@ public interface IGraphic
     void Blink(float _duration);
 
     /// <summary>
+    /// Funzione che ritorna l'oggetto con cui si mira
+    /// </summary>
+    /// <returns></returns>
+    GameObject GetAimObject();
+
+    /// <summary>
     /// Funzione che ritorna il modello
     /// </summary>
     /// <returns></returns>
