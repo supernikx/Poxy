@@ -362,10 +362,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Controllo se colpisco un nemico
                 if (checkEnemyCollisions && Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                    rayLenght = hit.distance;
-
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
@@ -374,10 +370,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Controllo se colpisco un oggetto damageable
                 if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                    rayLenght = hit.distance;
-
                     //Mando l'evento
                     if (player.OnDamageableCollision != null)
                         player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
@@ -546,10 +538,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Controllo se colpisco un nemico
                 if (checkEnemyCollisions && Physics.Raycast(ray, out hit, rayLenght, enemyLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                    rayLenght = hit.distance;
-
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
@@ -558,10 +546,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Controllo se colpisco un oggetto damageable
                 if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
                 {
-                    //Se colpisco un nemico azzero la velocity
-                    _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                    rayLenght = hit.distance;
-
                     //Mando l'evento
                     if (player.OnDamageableCollision != null)
                         player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());

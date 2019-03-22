@@ -239,15 +239,7 @@ public class Player : MonoBehaviour
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
-        switch (parasiteCtrl.GetParasite().GetControllableType())
-        {
-            case ControllableType.Enemy:
-                movementCtrl.SetEject(1.3f);
-                break;
-            case ControllableType.Platform:
-                movementCtrl.SetEject(1f);
-                break;
-        }
+        movementCtrl.SetEject(parasiteCtrl.GetParasite().GetControllableType());
 
         parasiteCtrl.GetParasite().EndParasite();
 

@@ -43,6 +43,18 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private float gravity;
 
+    [Header("Eject Settings")]
+    /// <summary>
+    /// Variabile che definisce la forze di eject dal nemico
+    /// </summary>
+    [SerializeField]
+    private float enemyEjectForce;
+    /// <summary>
+    /// Variabile che definisce la forze di eject dalle piattaforme
+    /// </summary>
+    [SerializeField]
+    private float platformEjectForce;
+
     /// <summary>
     /// Riferimento al collision controller
     /// </summary>
@@ -193,12 +205,25 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     bool eject;
     float ejectMultiplyer;
-    public void SetEject(float _ejectMultiplyer)
+    public void SetEject(ControllableType _controllable)
     {
-        eject = true;
-        ejectMultiplyer = _ejectMultiplyer;
+        switch (_controllable)
+        {
+            case ControllableType.Enemy:
+                ejectMultiplyer = enemyEjectForce;
+                break;
+            case ControllableType.Platform:
+                ejectMultiplyer = platformEjectForce;
+                break;
+            default:
+                break;
+        }
+        eject = true;        
     }
 
+    /// <summary>
+    /// Funzione che esegue l'eject con l'eject multiplyer settato
+    /// </summary>
     public void Eject()
     {
         movementVelocity.y = 0f;

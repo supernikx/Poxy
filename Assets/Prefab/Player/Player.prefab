@@ -1694,6 +1694,8 @@ MonoBehaviour:
   JumpUnitHeight: 4
   JumpTimeToReachTop: 0.4
   AccelerationTimeOnAir: 0
+  enemyEjectForce: 1.3
+  platformEjectForce: 1
 --- !u!114 &114937132506703418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2424,8 +2426,7 @@ PrefabInstance:
       propertyPath: m_RootBone
       value: 
       objectReference: {fileID: 1628653348}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
 --- !u!4 &1628653382 stripped
 Transform:

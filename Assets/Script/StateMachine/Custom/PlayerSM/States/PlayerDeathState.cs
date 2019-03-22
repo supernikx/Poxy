@@ -12,8 +12,8 @@ public class PlayerDeathState : PlayerSMStateBase
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
         gameover = false;
         context.player.StopImmunityCoroutine();
-        context.player.GetLivesController().LoseLives();
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
+        context.player.GetLivesController().LoseLives();
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
 
         PlayerShotController shotCtrl = context.player.GetShotController();
