@@ -74,10 +74,6 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private Vector2 input;
     /// <summary>
-    /// Bool che è true se il player sta saltando, altrimenti false
-    /// </summary>
-    private bool isJumping;
-    /// <summary>
     /// Boolean che definisce se mi posso muovere o meno
     /// </summary>
     bool canMove;
@@ -96,11 +92,6 @@ public class PlayerMovementController : MonoBehaviour
             {
                 //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
                 movementVelocity.y = 0;
-
-                if (collisionCtrl.GetCollisionInfo().below)
-                {
-                    isJumping = false;
-                }
             }
 
             if (eject)
@@ -117,7 +108,6 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-
         //Mi muovo
         Vector3 movementVelocityCollision = collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime);
         transform.Translate(movementVelocityCollision);
@@ -156,10 +146,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         //Controllo se è stato premuto il tasto di salto e se sono a terra
         if (!eject && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
-        {
             movementVelocity.y = maxJumpVelocity;
-            isJumping = true;
-        }
     }
 
     /// <summary>
@@ -167,9 +154,8 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void HanldeOnJumpReleased()
     {
-        if (isJumping && movementVelocity.y > minJumpVelocity)
+        if (movementVelocity.y > minJumpVelocity)
             movementVelocity.y = minJumpVelocity;
-        isJumping = false;
     }
     #endregion
 
@@ -201,7 +187,6 @@ public class PlayerMovementController : MonoBehaviour
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
         canMove = false;
-        isJumping = false;
     }
 
     /// <summary>
@@ -246,7 +231,7 @@ public class PlayerMovementController : MonoBehaviour
     public void Eject()
     {
         movementVelocity.y = 0f;
-        movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
+        movementVelocity.y += maxJumpVelocity * ejectMultiplyer;
         eject = false;
     }
     #endregion

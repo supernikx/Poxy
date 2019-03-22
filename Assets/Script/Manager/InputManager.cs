@@ -93,7 +93,7 @@ public class InputManager : MonoBehaviour
         {
             case InputType.Joystick:
                 joystickPrevState = joystickState;
-                joystickState = GamePad.GetState(joystickPlayerIndex);
+                joystickState = GamePad.GetState(joystickPlayerIndex);                
                 CheckJoystickInput();
                 break;
             case InputType.Keyboard:
