@@ -2513,11 +2513,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114920857805809600, guid: 508f37d86c8079542a3c4fa7b8418cb3,
-        type: 3}
-      propertyPath: collisionLayer.m_Bits
-      value: 66560
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508f37d86c8079542a3c4fa7b8418cb3, type: 3}
 --- !u!1001 &1691647725
@@ -3133,6 +3128,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1805117827200926, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
+      propertyPath: m_Name
+      value: TestManager
+      objectReference: {fileID: 0}
     - target: {fileID: 4461783828975634, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.51
@@ -3164,6 +3163,22 @@ PrefabInstance:
     - target: {fileID: 4461783828975634, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461783828975634, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461783828975634, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4461783828975634, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 956864387, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}
+      propertyPath: LeftStickDeadZone
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8a49e572cac6884ebda5670db5e03e2, type: 3}

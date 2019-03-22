@@ -1665,7 +1665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionLayer:
     serializedVersion: 2
-    m_Bits: 197632
+    m_Bits: 66560
   enemyLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -1691,7 +1691,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 8
   AccelerationTimeOnGround: 0
-  JumpUnitHeight: 4
+  maxJumpHeight: 4
+  minJumpHeight: 2
   JumpTimeToReachTop: 0.4
   AccelerationTimeOnAir: 0
   enemyEjectForce: 1.3
