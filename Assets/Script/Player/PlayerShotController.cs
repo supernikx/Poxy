@@ -96,6 +96,8 @@ public class PlayerShotController : MonoBehaviour
             rotationVector.z = 135f;
         else if (_movementDirection.x != 0 && _movementDirection.y == 0)
             rotationVector.z = 90f;
+        else if (PlayerInputManager.IsJumping() && _movementDirection.x == 0 && _movementDirection.y == -1)
+            rotationVector.z = 0;
         else if (_movementDirection.y == -1)
             rotationVector.z = 45f;
 

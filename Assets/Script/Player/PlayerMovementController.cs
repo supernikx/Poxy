@@ -121,8 +121,15 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void CalculateVelocity()
     {
+        //Calcolo di quanto dovrò traslare
+        float targetTranslation = input.x * MovementSpeed;
+
+        //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
+        if (targetTranslation != 0 && input.y != 0)
+            targetTranslation = targetTranslation * 0.75f;
+
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
-        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
 
         //Aggiungo gravità al player se non sono incollato
         if (!collisionCtrl.GetCollisionInfo().StickyCollision())
