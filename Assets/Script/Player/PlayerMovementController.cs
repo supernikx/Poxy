@@ -93,11 +93,6 @@ public class PlayerMovementController : MonoBehaviour
                 //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
                 movementVelocity.y = 0;
             }
-
-            if (eject)
-            {
-                Eject();
-            }
         }
     }
 
@@ -152,7 +147,7 @@ public class PlayerMovementController : MonoBehaviour
     private void HanldeOnJumpPressed()
     {
         //Controllo se è stato premuto il tasto di salto e se sono a terra
-        if (!eject && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
+        if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
             movementVelocity.y = maxJumpVelocity;
     }
 
@@ -210,14 +205,12 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    #region Eject
     /// <summary>
-    /// Funzione che fa eseguire l'eject al player
+    /// Funzione che esegue l'eject con l'eject multiplyer settato
     /// </summary>
-    bool eject;
-    float ejectMultiplyer;
-    public void SetEject(ControllableType _controllable)
+    public void Eject(ControllableType _controllable)
     {
+        float ejectMultiplyer = 0f;
         switch (_controllable)
         {
             case ControllableType.Enemy:
@@ -226,22 +219,9 @@ public class PlayerMovementController : MonoBehaviour
             case ControllableType.Platform:
                 ejectMultiplyer = platformEjectForce;
                 break;
-            default:
-                break;
         }
-        eject = true;
+        movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
     }
-
-    /// <summary>
-    /// Funzione che esegue l'eject con l'eject multiplyer settato
-    /// </summary>
-    public void Eject()
-    {
-        movementVelocity.y = 0f;
-        movementVelocity.y += maxJumpVelocity * ejectMultiplyer;
-        eject = false;
-    }
-    #endregion
     #endregion
 
     private void OnDisable()

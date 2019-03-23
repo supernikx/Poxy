@@ -104,11 +104,11 @@ public class PlayerShotController : MonoBehaviour
         //Applico la rotazione all'aim object
         aimObject.transform.localEulerAngles = rotationVector;
 
-        //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
-
         //Prendo la direzione a cui devo mirare
         direction = aimObject.transform.right;
+
+        //Posiziono il mirino nel punto in cui si sta mirando
+        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
     }
     #endregion
 
