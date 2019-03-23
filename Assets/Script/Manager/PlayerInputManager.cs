@@ -2,14 +2,16 @@
 using UnityEngine;
 using XInputDotNetPure;
 
-public class InputManager : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 {
     #region Delegates
     public static Action OnJumpPressed;
     public static Action OnJumpRelease;
+    public static Action OnParasitePressed;
+    public static Action OnPausePressed;
     #endregion
 
-    public static InputManager instance;
+    public static PlayerInputManager instance;
 
     [Header("Joystick Settings")]
     [SerializeField]
@@ -23,61 +25,7 @@ public class InputManager : MonoBehaviour
     //Input
     private Vector2 movementVector;
     private bool isJumping;
-
-    private static bool ltWasDown;
-    public static bool GetLTDown()
-    {
-        if (Input.GetAxis("LT") > 0)
-        {
-            if (!ltWasDown)
-            {
-                ltWasDown = true;
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            ltWasDown = false;
-            return false;
-        }
-    }
-
-    private static bool rtWasDown;
-    public static bool GetRTDown()
-    {
-        if (Input.GetAxis("RT") > 0)
-        {
-            if (!rtWasDown)
-            {
-                rtWasDown = true;
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            rtWasDown = false;
-            return false;
-        }
-    }
-
-    public static bool GetRT()
-    {
-        if (Input.GetAxis("RT") > 0)
-        {
-            if (!rtWasDown)
-            {
-                rtWasDown = true;
-            }
-            return true;
-        }
-        else
-        {
-            rtWasDown = false;
-            return false;
-        }
-    }
+    private bool isShooting;
 
     private void Awake()
     {
@@ -93,7 +41,7 @@ public class InputManager : MonoBehaviour
         {
             case InputType.Joystick:
                 joystickPrevState = joystickState;
-                joystickState = GamePad.GetState(joystickPlayerIndex);                
+                joystickState = GamePad.GetState(joystickPlayerIndex);
                 CheckJoystickInput();
                 break;
             case InputType.Keyboard:
@@ -141,17 +89,20 @@ public class InputManager : MonoBehaviour
         float LX = joystickState.ThumbSticks.Left.X;
         float LY = joystickState.ThumbSticks.Left.Y;
 
-        float magnitude = Mathf.Sqrt(LX * LX + LY * LY);
-
-        if (magnitude > LeftStickDeadZone)
-        {
-            movementVector = new Vector2(LX, LY);
-        }
+        if (LX >= 0.5)
+            movementVector.x = 1;
+        else if (LX <= -0.5)
+            movementVector.x = -1;
         else
-        {
-            magnitude = 0.0f;
-            movementVector = Vector2.zero;
-        }
+            movementVector.x = 0;
+
+        if (LY >= 0.5)
+            movementVector.y = 1;
+        else if (LY <= -0.5)
+            movementVector.y = -1;
+        else
+            movementVector.y = 0;
+
 
         //Jump
         if (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed)
@@ -166,6 +117,24 @@ public class InputManager : MonoBehaviour
             if (OnJumpRelease != null)
                 OnJumpRelease();
         }
+
+        //Shoot
+        isShooting = joystickState.Triggers.Right > 0;
+
+        //Parasite
+        if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed ||
+            joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed)
+        {
+            if (OnParasitePressed != null)
+                OnParasitePressed();
+        }
+
+        //Pause
+        if (joystickPrevState.Buttons.Start == ButtonState.Released && joystickState.Buttons.Start == ButtonState.Pressed)
+        {
+            if (OnPausePressed != null)
+                OnPausePressed();
+        }
     }
 
     /// <summary>
@@ -173,7 +142,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     private void CheckKeyboardInput()
     {
-        //Movement
+        //Movement       
         movementVector = new Vector2(Input.GetAxisRaw("AD"), Input.GetAxisRaw("WS"));
 
         //Jump
@@ -188,6 +157,23 @@ public class InputManager : MonoBehaviour
             isJumping = false;
             if (OnJumpRelease != null)
                 OnJumpRelease();
+        }
+
+        //Shoot
+        isShooting = Input.GetMouseButton(0);
+
+        //Parasite
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (OnParasitePressed != null)
+                OnParasitePressed();
+        }
+
+        //Pause
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (OnPausePressed != null)
+                OnPausePressed();
         }
     }
 
@@ -205,9 +191,18 @@ public class InputManager : MonoBehaviour
     /// Funzione che ritorna se il tasto di salto è premuto o no
     /// </summary>
     /// <returns></returns>
-    public static bool JumpPressed()
+    public static bool IsJumping()
     {
         return instance.isJumping;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se il tasto di sparo è premuto o no
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsShooting()
+    {
+        return instance.isShooting;
     }
     #endregion
 }

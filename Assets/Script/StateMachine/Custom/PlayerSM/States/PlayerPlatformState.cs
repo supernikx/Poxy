@@ -11,8 +11,9 @@ public class PlayerPlatformState : PlayerSMStateBase
     {
         parasitePlatform = context.parasite as LaunchingPlatform;
 
-        // ?? context.player.OnEnemyCollision += OnEnemyCollision;
-        parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
+        parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
+        PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnJumpPressed += HandleOnPlayerParasitePressed;
 
         parasitePressed = false;
         healthMax = false;
@@ -26,15 +27,8 @@ public class PlayerPlatformState : PlayerSMStateBase
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
     }
 
-    private bool parasitePressed;
     public override void Tick()
     {
-        if (Input.GetButtonDown("Parasite") || Input.GetButtonDown("Jump") && !parasitePressed)
-        {
-            parasitePressed = true;
-            context.player.StartNormalCoroutine();
-        }
-
         if (context.player.GetHealthController().GainHealthOverTime() && !healthMax)
         {
             healthMax = true;
@@ -43,11 +37,26 @@ public class PlayerPlatformState : PlayerSMStateBase
         }
     }
 
+    private bool parasitePressed;
+    private void HandleOnPlayerParasitePressed()
+    {
+        if (parasitePressed)
+            return;
+
+        parasitePressed = true;
+        context.player.StartNormalCoroutine();
+    }
+
+    private void HandleOnMaxTolleranceBar()
+    {
+        context.player.StartNormalCoroutine();
+    }
+
     public override void Exit()
     {
-        //context.player.OnEnemyCollision -= OnEnemyCollision;
-        if (parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar != null)
-            parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
+        parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
+        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnJumpPressed -= HandleOnPlayerParasitePressed;
 
         context.player.GetParasiteController().SetParasite(null);
 
@@ -61,10 +70,4 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         context.player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
-
-    private void OnMaxTolleranceBar()
-    {
-        context.player.StartNormalCoroutine();
-    }
-
 }

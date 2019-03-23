@@ -52,32 +52,18 @@ public class PlayerShotController : MonoBehaviour
         //Controllo se posso mirare
         if (canAim)
         {
-            if (UseMouseInput())
-            {
-                MouseAim();
+            //Miro nella direzione in cui mi sto muovendo
+            Aim(PlayerInputManager.GetMovementVector());
 
-                if (canShot && Input.GetButton("LeftMouse"))
-                {
-                    //Controllo se posso sparare
-                    if (CheckFiringRate())
-                    {
-                        if (OnShot != null)
-                            OnShot();
-                    }
-                }
-            }
-            else
+            //Controllo se posso sparare e se sto premendo il tasto
+            if (canShot && PlayerInputManager.IsShooting())
             {
-                JoystickAim();
-
-                if (canShot && InputManager.GetRT())
+                //Controllo se il firing rate è finito
+                if (CheckFiringRate())
                 {
-                    //Controllo se posso sparare
-                    if (CheckFiringRate())
-                    {
-                        if (OnShot != null)
-                            OnShot();
-                    }
+                    //Sparo
+                    if (OnShot != null)
+                        OnShot();
                 }
             }
         }
@@ -88,95 +74,33 @@ public class PlayerShotController : MonoBehaviour
 
     #region Aim
     /// <summary>
-    /// Funzione che ruota l'arma in base alla posizione del mouse
+    /// Variabile che indica la direzione in cui si deve sparare
     /// </summary>
     Vector2 direction;
-    private void MouseAim()
-    {
-        float rotationZ;
-        //Converto la posizione da cui devo sparare da world a screen
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(shotPointInUse.position);
-        //Calcolo la poszione del mouse
-        Vector2 mousePosition = (Input.mousePosition - screenPoint).normalized;
-        //Calcolo la rotazione che deve fare il fucile
-        rotationZ = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
-
-        //Ruoto l'arma nella direzione in cui si sta mirando
-        if (mousePosition.x < 0)
-        {
-            //Se si sta mirando nel senso opposto flippo l'arma
-            if (rotationZ > -145f && rotationZ <= -90f)
-            {
-                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 145f);
-            }
-            else
-            {
-                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
-            }
-            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-        }
-        else
-        {
-            if (rotationZ >= -90f && rotationZ < -35f)
-            {
-                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -35f);
-            }
-            else
-            {
-                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
-            }
-
-            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        }
-
-        //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
-
-        //Calcolo la direzione di sparo
-        direction = aimObject.transform.right;
-    }
 
     /// <summary>
-    /// Funzione che muove l'arma in base alla direzione del right stick
+    /// Funzione che muove l'aimobject e il personaggio che si sta controllando nella direzione in cui ci si sta muovendo
     /// </summary>
-    private void JoystickAim()
+    /// <param name="_movementDirection"></param>
+    private void Aim(Vector2 _movementDirection)
     {
-        float rotationZ;
-        //Prendo gli input
-        Vector2 input = new Vector3(Input.GetAxisRaw("HorizontalJoystickRightStick"), Input.GetAxisRaw("VerticalJoystickRightStick"));
-        //Se non muovo lo stick lascio l'arma nella posizione precedente
-        if (input.x == 0 && input.y == 0)
-            return;
+        //Calcolo la rotazione del modello in base alla direzione in cui sta andando
+        if (_movementDirection.x != 0)
+            player.GetActualGraphic().gameObject.transform.rotation = (_movementDirection.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(0.0f, 180.0f, 0.0f);
 
-        //Calcolo la rotazione che deve fare il fucile
-        rotationZ = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+        //Calcolo la rotazione dell'aim object
+        Vector3 rotationVector = new Vector3(90f, 0f, 90f);
+        if (_movementDirection.x == 0 && _movementDirection.y == 1)
+            rotationVector.z = 180f;
+        else if (_movementDirection.x != 0 && _movementDirection.y == 1)
+            rotationVector.z = 135f;
+        else if (_movementDirection.x != 0 && _movementDirection.y == 0)
+            rotationVector.z = 90f;
+        else if (_movementDirection.y == -1)
+            rotationVector.z = 45f;
 
-        //Ruoto l'arma nella direzione in cui si sta mirando
-        if (input.x < 0)
-        {
-            //Se si sta mirando nel senso opposto flippo l'arma
-            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            if (rotationZ > -145f && rotationZ <= -90f)
-            {
-                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 145f);
-            }
-            else
-            {
-                aimObject.transform.rotation = Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
-            }
-        }
-        else
-        {
-            player.GetActualGraphic().gameObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            if (rotationZ >= -90f && rotationZ < -35f)
-            {
-                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -35f);
-            }
-            else
-            {
-                aimObject.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
-            }
-        }
+        //Applico la rotazione all'aim object
+        aimObject.transform.localEulerAngles = rotationVector;
 
         //Posiziono il mirino nel punto in cui si sta mirando
         crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
@@ -213,26 +137,6 @@ public class PlayerShotController : MonoBehaviour
         }
     }
     #endregion
-
-    /// <summary>
-    /// Funzione che controlla se usare gli input del mouse o del controller
-    /// </summary>
-    /// <returns></returns>
-    Vector3 mousePreviewsPos;
-    private bool UseMouseInput()
-    {
-        if (Vector3.Distance(Input.mousePosition, mousePreviewsPos) < 0.1f)
-        {
-            if (Input.GetButton("LeftMouse"))
-                return true;
-            if (Input.GetJoystickNames().Where(j => j != "").FirstOrDefault() != null)
-                return false;
-            return true;
-        }
-
-        mousePreviewsPos = Input.mousePosition;
-        return true;
-    }
 
     #region API
     /// <summary>

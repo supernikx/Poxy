@@ -83,7 +83,7 @@ public class PlayerMovementController : MonoBehaviour
         if (canMove)
         {
             //Leggo input orrizontali e verticali
-            input = InputManager.GetMovementVector();
+            input = PlayerInputManager.GetMovementVector();
             CalculateVelocity();
 
             Move();
@@ -176,8 +176,8 @@ public class PlayerMovementController : MonoBehaviour
         collisionCtrl = _collisionCtrl;
         collisionCtrl.OnStickyCollision += HandleOnStickyCollision;
 
-        InputManager.OnJumpPressed += HanldeOnJumpPressed;
-        InputManager.OnJumpRelease += HanldeOnJumpReleased;
+        PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
+        PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
 
         //Calcolo la gravità
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
@@ -240,7 +240,7 @@ public class PlayerMovementController : MonoBehaviour
     private void OnDisable()
     {
         collisionCtrl.OnStickyCollision -= HandleOnStickyCollision;
-        InputManager.OnJumpPressed -= HanldeOnJumpPressed;
-        InputManager.OnJumpRelease -= HanldeOnJumpReleased;
+        PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;
+        PlayerInputManager.OnJumpRelease -= HanldeOnJumpReleased;
     }
 }

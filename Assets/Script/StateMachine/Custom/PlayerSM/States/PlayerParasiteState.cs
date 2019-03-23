@@ -13,7 +13,8 @@ namespace StateMachine.PlayerSM
         {
             parasiteEnemy = context.parasite as IEnemy;
 
-            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += OnMaxTolleranceBar;
+            PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
             context.player.OnDamageableCollision += OnDamageableCollision;
             parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
             if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -39,16 +40,9 @@ namespace StateMachine.PlayerSM
             context.player.GetMovementController().SetCanMove(true);
             context.player.GetShotController().SetShotPoint(parasiteEnemy.GetShotPoint());
         }
-
-        bool parasitePressed;
+        
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") && !parasitePressed)
-            {
-                parasitePressed = true;
-                context.player.StartNormalCoroutine();
-            }
-
             if (context.player.GetHealthController().GainHealthOverTime() && gainHealth && !parasitePressed)
             {
                 gainHealth = false;
@@ -57,8 +51,18 @@ namespace StateMachine.PlayerSM
             }
         }
 
-        private void OnMaxTolleranceBar()
+        private void HandleOnMaxTolleranceBar()
         {
+            context.player.StartNormalCoroutine();
+        }
+
+        bool parasitePressed;
+        private void HandleOnPlayerParasitePressed()
+        {
+            if (parasitePressed)
+                return;
+
+            parasitePressed = true;
             context.player.StartNormalCoroutine();
         }
 
@@ -118,8 +122,9 @@ namespace StateMachine.PlayerSM
             context.player.OnEnemyCollision -= OnEnemyCollision;
             context.player.OnDamageableCollision -= OnDamageableCollision;
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
 
-            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= OnMaxTolleranceBar;
+            parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
             context.player.GetParasiteController().SetParasite(null);
 
             context.player.GetCollisionController().CalculateNormalCollision();

@@ -13,12 +13,6 @@ public class LevelManager : MonoBehaviour
     public static GameDelegate OnGameOver;
     #endregion
 
-    //Debug
-    [SerializeField]
-    private Transform spawn1Pos;
-    [SerializeField]
-    private Transform spawn2Pos;
-
     public static LevelManager instance;
     /// <summary>
     /// Referenza al Pool manager
@@ -56,34 +50,6 @@ public class LevelManager : MonoBehaviour
     /// Reference allo sticky manager
     /// </summary>
     private StickyObjectManager stickyMng;
-
-    private bool pause;
-    private void Update()
-    {
-        if (Input.GetButtonDown("Pause"))
-        {
-            if (!pause)
-            {               
-                if (OnGamePause != null)
-                    OnGamePause();
-            }
-            else if (pause)
-            {
-                if (OnGameUnPause != null)
-                    OnGameUnPause();
-            }
-        }
-
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            player.transform.position = spawn1Pos.position;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            player.transform.position = spawn2Pos.position;
-        }*/
-    }
 
     #region API
     /// <summary>
@@ -132,6 +98,7 @@ public class LevelManager : MonoBehaviour
         enemyMng.EnemiesSetup();
 
         //Iscrizione Eventi
+        PlayerInputManager.OnPausePressed += HandlePlayerPauseButtonPressed;
         player.OnPlayerDeath += HandlePlayerDeath;
         tokenMng.FinishToken += HandleFinishToken;
         OnGamePause += GamePause;
@@ -159,6 +126,24 @@ public class LevelManager : MonoBehaviour
     }
 
     #region Pause
+    private bool pause;
+    /// <summary>
+    /// Funzione che gestisce l'evento PlayerInputManager.OnPausePressed 
+    /// </summary>
+    private void HandlePlayerPauseButtonPressed()
+    {
+        if (!pause)
+        {
+            if (OnGamePause != null)
+                OnGamePause();
+        }
+        else if (pause)
+        {
+            if (OnGameUnPause != null)
+                OnGameUnPause();
+        }
+    }
+
     /// <summary>
     /// Funzioen che gestisce l'evento OnGamePause
     /// </summary>
@@ -234,6 +219,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnDisable()
     {
+        PlayerInputManager.OnPausePressed -= HandlePlayerPauseButtonPressed;
         player.OnPlayerDeath -= HandlePlayerDeath;
         tokenMng.FinishToken -= HandleFinishToken;
         OnGamePause -= GamePause;
