@@ -125,7 +125,7 @@ public class Player : MonoBehaviour
             activeGraphic = playerGraphic;
             playerGraphic.OnModelChanged += HandleOnPlayerModeloChanged;
             playerGraphic.Init();
-        }        
+        }
     }
 
     #region Parasite State
@@ -264,6 +264,7 @@ public class Player : MonoBehaviour
     /// <param name="_immunityDuration"></param>
     public void StartImmunityCoroutine(float _immunityDuration)
     {
+        PlayerInputManager.Rumble(0.7f, 0.7f, 0.4f);
         immunity = true;
         StartCoroutine(ImmunityCoroutine(_immunityDuration));
     }

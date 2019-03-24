@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using XInputDotNetPure;
 
@@ -16,9 +17,7 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Joystick Settings")]
     [SerializeField]
     private float LeftStickDeadZone;
-
-    bool playerIndexSet = false;
-    PlayerIndex joystickPlayerIndex;
+    InputType currentInputType;
     GamePadState joystickState;
     GamePadState joystickPrevState;
 
@@ -31,53 +30,22 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-        else
-            DestroyImmediate(gameObject);
     }
 
     private void Update()
     {
-        switch (CheckInputType())
+        currentInputType = InputChecker.GetCurrentInputType();
+        switch (currentInputType)
         {
             case InputType.Joystick:
                 joystickPrevState = joystickState;
-                joystickState = GamePad.GetState(joystickPlayerIndex);
+                joystickState = InputChecker.GetCurrentGamePadState();
                 CheckJoystickInput();
                 break;
             case InputType.Keyboard:
                 CheckKeyboardInput();
                 break;
         }
-    }
-
-    /// <summary>
-    /// Funzione che controlla e ritorna se si deve utilizzare i comandi da tastiera o da joystick
-    /// </summary>
-    /// <returns></returns>
-    private InputType CheckInputType()
-    {
-        if (!playerIndexSet || !joystickPrevState.IsConnected)
-        {
-            playerIndexSet = false;
-            for (int i = 0; i < 4; ++i)
-            {
-                PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
-                if (testState.IsConnected)
-                {
-                    Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-                    joystickPlayerIndex = testPlayerIndex;
-                    playerIndexSet = true;
-                    break;
-                }
-
-            }
-        }
-
-        if (playerIndexSet)
-            return InputType.Joystick;
-        else
-            return InputType.Keyboard;
     }
 
     /// <summary>
@@ -204,11 +172,28 @@ public class PlayerInputManager : MonoBehaviour
     {
         return instance.isShooting;
     }
-    #endregion
-}
 
-public enum InputType
-{
-    Joystick,
-    Keyboard,
+    /// <summary>
+    /// Funzione che fa vibrare il controller
+    /// </summary>
+    public static void Rumble(float _leftMotorIntensity, float _rightMotorIntensity, float _duration)
+    {
+        if (instance.currentInputType == InputType.Joystick)
+            instance.StartCoroutine(instance.RumbleCoroutine(_leftMotorIntensity, _rightMotorIntensity, _duration));
+    }
+    #endregion
+
+    /// <summary>
+    /// Coroutine che fa virbrare il joystick per la potenza e il tempo indicato
+    /// </summary>
+    /// <param name="_leftMotorIntensity"></param>
+    /// <param name="_rightMotorIntensity"></param>
+    /// <param name="_duration"></param>
+    /// <returns></returns>
+    private IEnumerator RumbleCoroutine(float _leftMotorIntensity, float _rightMotorIntensity, float _duration)
+    {
+        GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), _leftMotorIntensity, _rightMotorIntensity);
+        yield return new WaitForSecondsRealtime(_duration);
+        GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), 0f, 0f);
+    }
 }
