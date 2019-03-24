@@ -53,7 +53,7 @@ public class PlayerInputManager : MonoBehaviour
     /// </summary>
     private void CheckJoystickInput()
     {
-        //Movement
+        //Movement Stick
         float LX = joystickState.ThumbSticks.Left.X;
         float LY = joystickState.ThumbSticks.Left.Y;
 
@@ -70,6 +70,24 @@ public class PlayerInputManager : MonoBehaviour
             movementVector.y = -1;
         else
             movementVector.y = 0;
+
+        //Movement DPad
+        if (movementVector == Vector2.zero)
+        {
+            if (joystickState.DPad.Right == ButtonState.Pressed)
+                movementVector.x = 1;
+            else if (joystickState.DPad.Left == ButtonState.Pressed)
+                movementVector.x = -1;
+            else
+                movementVector.x = 0;
+
+            if (joystickState.DPad.Up == ButtonState.Pressed)
+                movementVector.y = 1;
+            else if (joystickState.DPad.Down == ButtonState.Pressed)
+                movementVector.y = -1;
+            else
+                movementVector.y = 0;
+        }
 
 
         //Jump

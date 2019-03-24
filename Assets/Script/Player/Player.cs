@@ -257,7 +257,7 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Immunity
-    bool immunity;
+    IEnumerator immunityCoroutine;
     /// <summary>
     /// Funzione che attiva la coroutine ImmunityCoroutine
     /// </summary>
@@ -265,8 +265,8 @@ public class Player : MonoBehaviour
     public void StartImmunityCoroutine(float _immunityDuration)
     {
         PlayerInputManager.Rumble(0.7f, 0.7f, 0.4f);
-        immunity = true;
-        StartCoroutine(ImmunityCoroutine(_immunityDuration));
+        immunityCoroutine = ImmunityCoroutine(_immunityDuration);
+        StartCoroutine(immunityCoroutine);
     }
 
     /// <summary>
@@ -274,7 +274,11 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StopImmunityCoroutine()
     {
-        immunity = false;
+        StopCoroutine(immunityCoroutine);
+        GetCollisionController().CheckEnemyCollision(true);
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        if (OnPlayerImmunityEnd != null)
+            OnPlayerImmunityEnd();
     }
 
     /// <summary>
@@ -287,7 +291,7 @@ public class Player : MonoBehaviour
         GetCollisionController().CheckEnemyCollision(false);
         gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
         float timer = _immunityDuration;
-        while (immunity && timer > 0)
+        while (timer > 0)
         {
             activeGraphic.Disable();
             yield return new WaitForSeconds(0.1f);
