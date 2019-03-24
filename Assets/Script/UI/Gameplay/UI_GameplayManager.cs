@@ -12,6 +12,10 @@ public class UI_GameplayManager : UI_ManagerBase
     private UIMenu_GamePanel gamePanel;
     [SerializeField]
     private UIMenu_PausePanel pausePanel;
+    /// <summary>
+    /// Riferimento al menù attualmente attivo
+    /// </summary>
+    private MenuType currentMenu;
 
     #region Getter
     /// <summary>
@@ -86,6 +90,7 @@ public class UI_GameplayManager : UI_ManagerBase
     public override void ToggleMenu(MenuType _menu)
     {
         DisableAllMenus();
+        currentMenu = _menu;
         switch (_menu)
         {
             case MenuType.None:
@@ -97,11 +102,38 @@ public class UI_GameplayManager : UI_ManagerBase
                 gamePanel.Enable();
                 break;
             case MenuType.Pause:
-                gamePanel.Enable();
-                pausePanel.Enable();
+                pausePanel.Enable();                
                 break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");
+                break;
+        }
+
+        CheckEventSystemInput();
+    }
+
+    /// <summary>
+    /// Funzione che gestisce l'evento InputChecker.OnInputChanged
+    /// </summary>
+    /// <param name="_currentInput"></param>
+    protected override void HandleOnInputChanged(InputType _currentInput)
+    {
+        switch (currentMenu)
+        {
+            case MenuType.None:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
+                break;
+            case MenuType.Loading:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
+                break;
+            case MenuType.Game:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
+                break;
+            case MenuType.Pause:
+                base.HandleOnInputChanged(_currentInput);
                 break;
         }
     }

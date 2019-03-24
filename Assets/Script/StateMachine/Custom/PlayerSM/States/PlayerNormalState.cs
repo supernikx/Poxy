@@ -7,7 +7,8 @@ namespace StateMachine.PlayerSM
     public class PlayerNormalState : PlayerSMStateBase
     {
         public override void Enter()
-        {            
+        {
+            PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
             context.player.OnDamageableCollision += OnDamageableCollision;
             if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
@@ -25,38 +26,36 @@ namespace StateMachine.PlayerSM
             context.player.GetMovementController().SetCanMove(true);
             parasitePressed = false;            
         }
-
-        bool parasitePressed;
+       
         public override void Tick()
         {
-            if (Input.GetButtonDown("Parasite") && !parasitePressed)
-            {
-                IControllable e = context.player.GetParasiteController().CheckParasite();
-                if (e != null)
-                {
-                    switch (e.GetControllableType())
-                    {
-                        case ControllableType.Enemy:
-                            parasitePressed = true;
-                            context.player.GetMovementController().SetCanMove(false);
-                            context.player.StartParasiteEnemyCoroutine(e as IEnemy);
-                            break;
-                        case ControllableType.Platform:
-                            parasitePressed = true;
-                            context.player.GetMovementController().SetCanMove(false);
-                            context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);  
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                }
-                else
-                    Debug.Log("Non ci sono nemici stunnati nelle vicinanze");
-            }
-
             if (loseHealth && !parasitePressed)
                 context.player.GetHealthController().LoseHealthOverTime();
+        }
+
+        bool parasitePressed;
+        private void HandleOnPlayerParasitePressed()
+        {
+            if (parasitePressed)
+                return;
+
+            IControllable e = context.player.GetParasiteController().CheckParasite();
+            if (e != null)
+            {
+                parasitePressed = true;
+                context.player.GetMovementController().SetCanMove(false);
+                switch (e.GetControllableType())
+                {
+                    case ControllableType.Enemy:                        
+                        context.player.StartParasiteEnemyCoroutine(e as IEnemy);
+                        break;
+                    case ControllableType.Platform:
+                        context.player.StartParasitePlatformCoroutine(e as LaunchingPlatform);
+                        break;
+                }
+            }
+            else
+                Debug.Log("Non ci sono nemici stunnati nelle vicinanze");
         }
 
         #region Enemy/Damageable Collision
@@ -112,7 +111,7 @@ namespace StateMachine.PlayerSM
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
             context.player.OnDamageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;
+            PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
         }
-
     }
 }

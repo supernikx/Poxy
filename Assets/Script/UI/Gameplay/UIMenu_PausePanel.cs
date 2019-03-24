@@ -7,9 +7,11 @@ namespace UI
 {
     public class UIMenu_PausePanel : UIMenu_Base
     {
-        public override void Setup(UI_ManagerBase uiManager)
-        {
+        UI_ManagerBase uiManager;
 
+        public override void Setup(UI_ManagerBase _uiManager)
+        {
+            uiManager = _uiManager;
         }
 
         public void ResumeButton()

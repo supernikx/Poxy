@@ -13,30 +13,40 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Movement Settings")]
     [Header("Ground Settings")]
+    [SerializeField]
     /// <summary>
     /// Velocità di movimento
     /// </summary>
-    public float MovementSpeed;
+    private float MovementSpeed;
+    [SerializeField]
     /// <summary>
     /// Velocità di accelerazione e decelerazione se si è a terra
     /// più è bassa più veloce è l'accelerazione
     /// </summary>
-    public float AccelerationTimeOnGround;
+    private float AccelerationTimeOnGround;
 
     [Header("Jump Settings")]
+    [SerializeField]
     /// <summary>
     /// Altezza massima raggiungibile in unity unit
     /// </summary>
-    public float JumpUnitHeight;
+    private float maxJumpHeight;
+    [SerializeField]
+    /// <summary>
+    /// Altezza minima raggiungibile in unity unit
+    /// </summary>
+    private float minJumpHeight;
+    [SerializeField]
     /// <summary>
     /// Tempo in secondi che ci vuole per raggiungere l'altezza massima del salto
     /// </summary>
-    public float JumpTimeToReachTop;
+    private float JumpTimeToReachTop;
+    [SerializeField]
     /// <summary>
     /// Velocità di accelerazione e decelerazione se si è in aria
     /// più è bassa più veloce è l'accelerazione
     /// </summary>
-    public float AccelerationTimeOnAir;
+    private float AccelerationTimeOnAir;
     /// <summary>
     /// Variabile che definisce la gravità applicata overtime
     /// se non si è in collisione sopra/sotto
@@ -68,60 +78,22 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     bool canMove;
 
-    private bool isJumping;
-
-    private float jumpTimer = 0;
-
     private void Update()
     {
-        jumpTimer += Time.deltaTime;
-
         if (canMove)
         {
+            //Leggo input orrizontali e verticali
+            input = PlayerInputManager.GetMovementVector();
+            CalculateVelocity();
+
+            Move();
+
             if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().above)
             {
                 //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
                 movementVelocity.y = 0;
-
-                if (collisionCtrl.GetCollisionInfo().below)
-                {
-                    isJumping = false;
-                }
             }
-
-            //Leggo input orrizontali e verticali
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-            //Controllo se è stato premuto il tasto di salto e se sono a terra
-            if (!eject && Input.GetButtonDown("Jump") && (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision()))
-            {
-                Jump();
-            }
-
-            if (eject)
-            {
-                Eject();
-            }
-
-            if (!eject && Input.GetButtonUp("Jump") && isJumping && jumpTimer <= JumpTimeToReachTop)
-            {
-                StopJump();
-            }
-
-            if (!collisionCtrl.GetCollisionInfo().StickyCollision())
-                AddGravity();
-
-            Move();
         }
-    }
-
-    /// <summary>
-    /// Funzione che aggiunge gravità al player
-    /// </summary>
-    private void AddGravity()
-    {
-        //Aggiungo gravità al player
-        movementVelocity.y += gravity * Time.deltaTime;
     }
 
     private float velocityXSmoothing;
@@ -131,9 +103,6 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
-        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, (input.x * MovementSpeed), ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
-
         //Mi muovo
         Vector3 movementVelocityCollision = collisionCtrl.CheckMovementCollisions(movementVelocity * Time.deltaTime);
         transform.Translate(movementVelocityCollision);
@@ -143,26 +112,59 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che imposta la velocity dell'asse verticale per saltare
+    /// Funzione che calcola la velocity iniziale del player
     /// </summary>
-    private float jumpVelocity;
-    private void Jump()
+    private void CalculateVelocity()
     {
-        movementVelocity.y = jumpVelocity;
-        isJumping = true;
-        jumpTimer = 0;
+        //Calcolo di quanto dovrò traslare
+        float targetTranslation = input.x * MovementSpeed;
+
+        //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
+        if (targetTranslation != 0 && input.y != 0)
+            targetTranslation = targetTranslation * 0.75f;
+
+        //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
+        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+
+        //Aggiungo gravità al player se non sono incollato
+        if (!collisionCtrl.GetCollisionInfo().StickyCollision())
+            movementVelocity.y += gravity * Time.deltaTime;
     }
 
-    private void StopJump()
+    #region Jump    
+    /// <summary>
+    /// Massima Jump velocity
+    /// </summary>
+    private float maxJumpVelocity;
+    /// <summary>
+    /// Minima Jump velocity
+    /// </summary>
+    private float minJumpVelocity;
+
+    /// <summary>
+    /// Funzione chiamata alla pressione del tasto di salto
+    /// </summary>
+    private void HanldeOnJumpPressed()
     {
-        movementVelocity.y = 0;
-        isJumping = false;
+        //Controllo se è stato premuto il tasto di salto e se sono a terra
+        if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
+            movementVelocity.y = maxJumpVelocity;
     }
+
+    /// <summary>
+    /// Funzione chiamata al rilascio del tasto di salto
+    /// </summary>
+    private void HanldeOnJumpReleased()
+    {
+        if (movementVelocity.y > minJumpVelocity)
+            movementVelocity.y = minJumpVelocity;
+    }
+    #endregion
 
     /// <summary>
     /// Funzione che tratta l'evento OnStickyCollision
     /// </summary>
-    private void OnStickyCollision()
+    private void HandleOnStickyCollision()
     {
         movementVelocity.y = 0;
     }
@@ -174,15 +176,19 @@ public class PlayerMovementController : MonoBehaviour
     public void Init(PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
-        collisionCtrl.OnStickyCollision += OnStickyCollision;
+        collisionCtrl.OnStickyCollision += HandleOnStickyCollision;
+
+        PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
+        PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
 
         //Calcolo la gravità
-        gravity = -(2 * JumpUnitHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
+
         //Calcolo la velocità del salto
-        jumpVelocity = Mathf.Abs(gravity * JumpTimeToReachTop);
+        maxJumpVelocity = Mathf.Abs(gravity) * JumpTimeToReachTop;
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
         canMove = false;
-        isJumping = false;
     }
 
     /// <summary>
@@ -199,14 +205,12 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    #region Eject
     /// <summary>
-    /// Funzione che fa eseguire l'eject al player
+    /// Funzione che esegue l'eject con l'eject multiplyer settato
     /// </summary>
-    bool eject;
-    float ejectMultiplyer;
-    public void SetEject(ControllableType _controllable)
+    public void Eject(ControllableType _controllable)
     {
+        float ejectMultiplyer = 0f;
         switch (_controllable)
         {
             case ControllableType.Enemy:
@@ -215,21 +219,15 @@ public class PlayerMovementController : MonoBehaviour
             case ControllableType.Platform:
                 ejectMultiplyer = platformEjectForce;
                 break;
-            default:
-                break;
         }
-        eject = true;        
+        movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
     }
+    #endregion
 
-    /// <summary>
-    /// Funzione che esegue l'eject con l'eject multiplyer settato
-    /// </summary>
-    public void Eject()
+    private void OnDisable()
     {
-        movementVelocity.y = 0f;
-        movementVelocity.y = jumpVelocity * ejectMultiplyer;
-        eject = false;
+        collisionCtrl.OnStickyCollision -= HandleOnStickyCollision;
+        PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;
+        PlayerInputManager.OnJumpRelease -= HanldeOnJumpReleased;
     }
-    #endregion
-    #endregion
 }

@@ -409,7 +409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.1159668, y: 0.0051879883}
+  m_AnchoredPosition: {x: 0.115722656, y: 0.005126953}
   m_SizeDelta: {x: -0.4000244, y: 0.42001343}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &276230286
@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 318861648}
   - component: {fileID: 318861647}
   - component: {fileID: 318861646}
+  - component: {fileID: 6339061249276145770}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -520,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -549,15 +550,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1043590903}
+    m_SelectOnDown: {fileID: 757819924}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.05882353, a: 0.5882353}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
@@ -589,6 +590,37 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6339061249276145770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318861644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4853346166065648460}
+          m_MethodName: QuitButton
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &757819922
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +633,7 @@ GameObject:
   - component: {fileID: 757819926}
   - component: {fileID: 757819925}
   - component: {fileID: 757819924}
+  - component: {fileID: 3301653875193625360}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -624,7 +657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41086268, y: 0.5762486}
   m_AnchorMax: {x: 0.573, y: 0.64675146}
-  m_AnchoredPosition: {x: 4, y: -0.6000061}
+  m_AnchoredPosition: {x: 4, y: -0.5999756}
   m_SizeDelta: {x: -9.3, y: -1.2001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &757819926
@@ -648,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -677,15 +710,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 318861646}
+    m_SelectOnDown: {fileID: 1043590903}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.05882353, a: 0.5882353}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
@@ -717,6 +750,37 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &3301653875193625360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757819922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4853346166065648460}
+          m_MethodName: ResumeButton
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1043590901
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +793,7 @@ GameObject:
   - component: {fileID: 1043590905}
   - component: {fileID: 1043590904}
   - component: {fileID: 1043590903}
+  - component: {fileID: 3301653875193625359}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -752,7 +817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41086268, y: 0.41822544}
   m_AnchorMax: {x: 0.56622267, y: 0.5}
-  m_AnchoredPosition: {x: 2.699997, y: 2.199997}
+  m_AnchoredPosition: {x: 2.7000122, y: 2.2000122}
   m_SizeDelta: {x: -11.299988, y: -3.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1043590905
@@ -776,7 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -805,15 +870,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 757819924}
+    m_SelectOnDown: {fileID: 318861646}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.05882353, a: 0.5882353}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
@@ -845,6 +910,37 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &3301653875193625359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043590901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4853346166065648460}
+          m_MethodName: RestartButton
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1052290283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.6143165}
   m_AnchorMax: {x: 1, y: 0.789633}
-  m_AnchoredPosition: {x: -0.01260376, y: 0.069992065}
+  m_AnchoredPosition: {x: -0.012573242, y: 0.069992065}
   m_SizeDelta: {x: 0.03, y: 1.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8925460109457046277
@@ -1606,7 +1702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.80247474}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0023498535, y: -0.06442261}
+  m_AnchoredPosition: {x: 0.002319336, y: -0.06442261}
   m_SizeDelta: {x: 0.000091553, y: 0.12870002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1437879192605395332
@@ -1665,7 +1761,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.45
+  m_fontSize: 7.4
   m_fontSizeBase: 14.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1869,7 +1965,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19900002, y: 0.840397}
   m_AnchorMax: {x: 0.2324886, y: 0.893397}
-  m_AnchoredPosition: {x: 2.5999756, y: 1}
+  m_AnchoredPosition: {x: 2.6000977, y: 1}
   m_SizeDelta: {x: 2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6182929839785888154
@@ -2103,6 +2199,7 @@ RectTransform:
   - {fileID: 3301653875424455815}
   - {fileID: 202670889784062726}
   - {fileID: 276230284}
+  - {fileID: 7962699542141505553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2308,7 +2405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.165, y: 0.840397}
   m_AnchorMax: {x: 0.19900002, y: 0.893397}
-  m_AnchoredPosition: {x: 0.099975586, y: 1.5}
+  m_AnchoredPosition: {x: 0.099609375, y: 1.5}
   m_SizeDelta: {x: 3, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6244857607040364421
@@ -2383,7 +2480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.44348145, y: 0.03668213}
+  m_AnchoredPosition: {x: 0.44384766, y: 0.036865234}
   m_SizeDelta: {x: -0.30004883, y: 0.6999512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5660246015469690220
@@ -2420,7 +2517,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.21331649}
   m_AnchorMax: {x: 1, y: 0.423}
-  m_AnchoredPosition: {x: -0.01260376, y: -0.3500061}
+  m_AnchoredPosition: {x: -0.012573242, y: -0.3500061}
   m_SizeDelta: {x: 0.025300026, y: -0.34000015}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &783901853812918744
@@ -2587,7 +2684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.62965864, y: 0}
   m_AnchorMax: {x: 1, y: 0.20682645}
-  m_AnchoredPosition: {x: -10.200012, y: 3.4000244}
+  m_AnchoredPosition: {x: -10.200195, y: 3.4003906}
   m_SizeDelta: {x: -581, y: -182.09998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3166120855389384200
@@ -2661,7 +2758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.21331649}
-  m_AnchoredPosition: {x: -0.0025024414, y: -0.0949707}
+  m_AnchoredPosition: {x: -0.0024414062, y: -0.0949707}
   m_SizeDelta: {x: -0.0049896, y: -0.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &985748866490578496
@@ -2720,7 +2817,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.75
+  m_fontSize: 7.7
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2821,7 +2918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.12643608, y: 0.840397}
   m_AnchorMax: {x: 0.165, y: 0.893397}
-  m_AnchoredPosition: {x: 2.0999756, y: 0.5}
+  m_AnchoredPosition: {x: 2.0996094, y: 0.5}
   m_SizeDelta: {x: -7, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1563147045445989085
@@ -2895,7 +2992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.41015825}
   m_AnchorMax: {x: 1, y: 0.60147476}
-  m_AnchoredPosition: {x: -0.01260376, y: 0.3600006}
+  m_AnchoredPosition: {x: -0.012573242, y: 0.3600006}
   m_SizeDelta: {x: 0.025399923, y: 0.22999954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7926486931335878131
@@ -2956,7 +3053,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.3
+  m_fontSize: 7.25
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3023,3 +3120,98 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &3301653875017492445
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3301653874559335071}
+    m_Modifications:
+    - target: {fileID: 4850629408407893967, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_Name
+      value: EventSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -959.76935
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -540.12994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.1548457
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.1548457
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.1548457
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850629408407893965, guid: e10267fdc66bf914eb406e479111958e,
+        type: 3}
+      propertyPath: m_FirstSelected
+      value: 
+      objectReference: {fileID: 757819922}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e10267fdc66bf914eb406e479111958e, type: 3}
+--- !u!4 &7962699542141505553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4850629408407893964, guid: e10267fdc66bf914eb406e479111958e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3301653875017492445}
+  m_PrefabAsset: {fileID: 0}

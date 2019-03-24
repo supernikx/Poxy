@@ -31,7 +31,7 @@ public class XInputTestCS : MonoBehaviour
             for (int i = 0; i < 4; ++i)
             {
                 PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
+                GamePadState testState = GamePad.GetState(testPlayerIndex);                
                 if (testState.IsConnected)
                 {
                     Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
