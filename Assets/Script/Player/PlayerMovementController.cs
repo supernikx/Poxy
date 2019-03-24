@@ -215,12 +215,32 @@ public class PlayerMovementController : MonoBehaviour
         {
             case ControllableType.Enemy:
                 ejectMultiplyer = enemyEjectForce;
+                movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
                 break;
             case ControllableType.Platform:
                 ejectMultiplyer = platformEjectForce;
+                movementVelocity = CalculateEjectVelocity(ejectMultiplyer);
                 break;
         }
-        movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
+    }
+
+    private Vector3 CalculateEjectVelocity(float _ejectMult)
+    {
+        Vector3 _velocity = new Vector3(0, 0, 0);
+
+        if (input.x == 0)
+        {
+            // verticale in basso o alto
+            _velocity.y = maxJumpVelocity * _ejectMult * Math.Sign(input.y);
+            Debug.Log(_velocity.x);
+        }
+        else if (input.y == 0)
+        {
+            // orizzontale destra o sinistra
+            _velocity.x = maxJumpVelocity * _ejectMult * Math.Sign(input.x);
+        }
+
+        return _velocity;
     }
     #endregion
 

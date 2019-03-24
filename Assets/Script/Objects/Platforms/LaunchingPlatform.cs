@@ -28,6 +28,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     private MeshRenderer meshRenderer;
 
+    private Vector3 direction;
+    private int prevRotation;
+
     private void SetObjectState(bool _state)
     {
         isActive = _state;
@@ -53,6 +56,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
         meshRenderer.material = defaultMaterial;
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
+
+        prevRotation = 90;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
     }
 
     public void EndParasite()
@@ -65,6 +71,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
         toleranceCtrl.SetActive(false);
 
         SetObjectState(false);
+        prevRotation = 90;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
         StartCoroutine(Respawn());
 
         meshRenderer.material = defaultMaterial;
@@ -100,6 +108,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #endregion
 
     #region Coroutines
+    // PER QUALCHE MOTIVO QUESTA RIMANE SEMPRE ATTIVA
     private IEnumerator Tick()
     {
         while (true)
@@ -113,6 +122,43 @@ public class LaunchingPlatform : PlatformBase, IControllable
                     if (toleranceCtrl.OnMaxTolleranceBar != null)
                         toleranceCtrl.OnMaxTolleranceBar();
                 }
+            }
+
+            Vector3 _input = PlayerInputManager.GetMovementVector();
+            
+            int _targetRotation = -1;
+
+            if (_input.x == 0)
+            {
+                if (_input.y > 0)
+                    _targetRotation = 90;
+                else if (_input.y < 0)
+                    _targetRotation = 270;
+            }
+            else if (_input.y == 0)
+            {
+                if (_input.x > 0)
+                    _targetRotation = 0;
+                else if (_input.x < 0)
+                    _targetRotation = 180;
+            }
+            else
+            {
+                if (_input.x > 0 && _input.y > 0)
+                    _targetRotation = 45;
+                else if (_input.x < 0 && _input.y > 0)
+                    _targetRotation = 135;
+                else if (_input.x < 0 && _input.y < 0)
+                    _targetRotation = 225;
+                else if (_input.x > 0 && _input.y < 0)
+                    _targetRotation = 315;
+            }
+
+            if (_targetRotation >= 0 && prevRotation != _targetRotation)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, _targetRotation));
+                prevRotation = _targetRotation;
+                direction = _input.normalized;
             }
 
             yield return null;
