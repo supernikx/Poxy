@@ -77,6 +77,10 @@ public class PlayerMovementController : MonoBehaviour
     /// Boolean che definisce se mi posso muovere o meno
     /// </summary>
     bool canMove;
+    /// <summary>
+    /// float che segnala la quantità di moto rimasta imposta da un eject sulla x
+    /// </summary>
+    private float impulseX = 0;
 
     private void Update()
     {
@@ -125,6 +129,19 @@ public class PlayerMovementController : MonoBehaviour
 
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
+
+        //Se presente un impulso sulla x lo aggiungo alla movementVelocity
+        if (impulseX != 0)
+        {
+            float prevSign = Mathf.Sign(impulseX);
+
+            impulseX += prevSign * (gravity * Time.deltaTime);
+
+            if (prevSign == Mathf.Sign(impulseX))
+                movementVelocity.x += impulseX;
+            else
+                impulseX = 0;
+        }
 
         //Aggiungo gravità al player se non sono incollato
         if (!collisionCtrl.GetCollisionInfo().StickyCollision())
@@ -208,19 +225,43 @@ public class PlayerMovementController : MonoBehaviour
     /// <summary>
     /// Funzione che esegue l'eject con l'eject multiplyer settato
     /// </summary>
-    public void Eject(ControllableType _controllable)
+    public void Eject(IControllable _controllable)
     {
         float ejectMultiplyer = 0f;
-        switch (_controllable)
+        switch (_controllable.GetControllableType())
         {
             case ControllableType.Enemy:
                 ejectMultiplyer = enemyEjectForce;
+                movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
                 break;
             case ControllableType.Platform:
+                LaunchingPlatform _plat = _controllable as LaunchingPlatform;
                 ejectMultiplyer = platformEjectForce;
+                CalculateEjectVelocity(ejectMultiplyer, _plat.GetLaunchDirection());
                 break;
         }
-        movementVelocity.y = maxJumpVelocity * ejectMultiplyer;
+    }
+
+    private void CalculateEjectVelocity(float _ejectMult, Vector3 _launchDirection)
+    {
+        impulseX = 0;
+
+        if (_launchDirection.x == 0)
+        {
+            movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.y);
+        }
+        else if (_launchDirection.y == 0)
+        {
+            impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
+        }
+        else
+        {
+            float _launchForce = Mathf.Sqrt(Mathf.Pow((maxJumpVelocity * _ejectMult), 2) / 2);
+            movementVelocity.y = _launchForce * Mathf.Sign(_launchDirection.y);
+
+            //Sulla x pongo comunque il massimo della forza per un movimento più naturale
+            impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
+        }
     }
     #endregion
 
