@@ -13,7 +13,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     [SerializeField]
     private IGraphic graphics;
     [SerializeField]
-    private int respawnTime;
+    private float respawnTime;
     private bool isActive;
     private ControllableType controllableType = ControllableType.Platform;
     private Collider platfromColldier;
@@ -28,8 +28,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     private MeshRenderer meshRenderer;
 
-    private Vector3 direction;
+    private Vector3 launchDirection;
     private int prevRotation;
+
+    private Coroutine tickCoroutine;
 
     private void SetObjectState(bool _state)
     {
@@ -66,14 +68,19 @@ public class LaunchingPlatform : PlatformBase, IControllable
         player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
         player = null;
 
-        StopCoroutine(Tick());
+        if (tickCoroutine != null)
+        {
+            StopCoroutine(tickCoroutine);
+            tickCoroutine = null;
+        }
 
         toleranceCtrl.SetActive(false);
 
         SetObjectState(false);
+        StartCoroutine(Respawn());
+
         prevRotation = 90;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
-        StartCoroutine(Respawn());
 
         meshRenderer.material = defaultMaterial;
 
@@ -92,7 +99,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = infectedMaterial;
 
-        StartCoroutine(Tick());
+        tickCoroutine = StartCoroutine(Tick());
     }
 
     private void HandlePlayerMaxHealth()
@@ -108,11 +115,13 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #endregion
 
     #region Coroutines
-    // PER QUALCHE MOTIVO QUESTA RIMANE SEMPRE ATTIVA
     private IEnumerator Tick()
     {
+        launchDirection = new Vector3(0, 1, 0);
+
         while (true)
         {
+            // da ricontrollare
             if (toleranceCtrl.IsActive())
             {
                 toleranceCtrl.AddTolleranceOvertime();
@@ -158,7 +167,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, _targetRotation));
                 prevRotation = _targetRotation;
-                direction = _input.normalized;
+                launchDirection = _input.normalized;
             }
 
             yield return null;
@@ -198,6 +207,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
     public bool IsActive()
     {
         return isActive;
+    }
+
+    public Vector3 GetLaunchDirection()
+    {
+        return launchDirection;
     }
     #endregion
 }
