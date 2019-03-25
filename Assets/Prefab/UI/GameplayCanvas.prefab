@@ -1518,7 +1518,7 @@ GameObject:
   - component: {fileID: 8925460109457046277}
   - component: {fileID: 2518660244980957581}
   m_Layer: 5
-  m_Name: TextMeshPro Text (1)
+  m_Name: Jump Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1538,10 +1538,10 @@ RectTransform:
   m_Father: {fileID: 3289414361008690884}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6143165}
-  m_AnchorMax: {x: 1, y: 0.789633}
-  m_AnchoredPosition: {x: -0.012573242, y: 0.069992065}
-  m_SizeDelta: {x: 0.03, y: 1.19}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.7414313}
+  m_AnchoredPosition: {x: 0.9824219, y: -0.103300095}
+  m_SizeDelta: {x: 0.025223, y: -0.01999998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8925460109457046277
 CanvasRenderer:
@@ -1601,14 +1601,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.55
+  m_fontSize: 8.95
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 1.8000714, y: 0, z: 0, w: 0}
+  m_margin: {x: 1.8000714, y: -0.0000036835174, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
     characterCount: 14
@@ -1650,11 +1650,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 1437879192605395332}
   - component: {fileID: 1848125029627471278}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: Movement/Aim Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1700,10 +1700,10 @@ RectTransform:
   m_Father: {fileID: 3289414361008690884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.80247474}
+  m_AnchorMin: {x: 0, y: 0.7414313}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.002319336, y: -0.06442261}
-  m_SizeDelta: {x: 0.000091553, y: 0.12870002}
+  m_AnchoredPosition: {x: 0.0012207031, y: -1.4215012}
+  m_SizeDelta: {x: 0.0023193, y: -0.1572001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1437879192605395332
 CanvasRenderer:
@@ -1733,7 +1733,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Movement: WASD/LStick'
+  m_text: 'Movement/Aim: WASD/LStick'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.4
+  m_fontSize: 9.45
   m_fontSizeBase: 14.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1802,19 +1802,19 @@ MonoBehaviour:
   m_margin: {x: 1.8000716, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
-    characterCount: 21
+    characterCount: 25
     spriteCount: 0
     spaceCount: 1
-    wordCount: 3
+    wordCount: 4
     linkCount: 0
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2495,7 +2495,7 @@ GameObject:
   - component: {fileID: 783901853812918744}
   - component: {fileID: 6477900213842696608}
   m_Layer: 5
-  m_Name: TextMeshPro Text (3)
+  m_Name: Shoot Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2513,12 +2513,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3289414361008690884}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.21331649}
-  m_AnchorMax: {x: 1, y: 0.423}
-  m_AnchoredPosition: {x: -0.012573242, y: -0.3500061}
-  m_SizeDelta: {x: 0.025300026, y: -0.34000015}
+  m_AnchorMin: {x: 0.007722918, y: 0.23741733}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0.49749756, y: -0.049999237}
+  m_SizeDelta: {x: 0.9950256, y: -0.5999999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &783901853812918744
 CanvasRenderer:
@@ -2548,7 +2548,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Shot: LMouse/RT
+  m_text: 'Shoot: LMouse/RT
 
 '
   m_isRightToLeft: 0
@@ -2578,7 +2578,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.45
+  m_fontSize: 9.2
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2616,10 +2616,10 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 2.5201192, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.9475465, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
-    characterCount: 16
+    characterCount: 17
     spriteCount: 0
     spaceCount: 2
     wordCount: 3
@@ -2627,11 +2627,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2676,7 +2676,6 @@ RectTransform:
   m_Children:
   - {fileID: 8822923291238635232}
   - {fileID: 59221715210303799}
-  - {fileID: 440887380522356891}
   - {fileID: 4690192884582092743}
   - {fileID: 5419960220388792709}
   m_Father: {fileID: 276230284}
@@ -2736,7 +2735,7 @@ GameObject:
   - component: {fileID: 985748866490578496}
   - component: {fileID: 7431724466435440342}
   m_Layer: 5
-  m_Name: TextMeshPro Text (4)
+  m_Name: Parasite Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2754,12 +2753,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3289414361008690884}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.21331649}
-  m_AnchoredPosition: {x: -0.0024414062, y: -0.0949707}
-  m_SizeDelta: {x: -0.0049896, y: -0.19}
+  m_AnchoredPosition: {x: -0.015045166, y: 0.6250229}
+  m_SizeDelta: {x: -0.0049744, y: 1.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &985748866490578496
 CanvasRenderer:
@@ -2789,7 +2788,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Parasite: Q/X'
+  m_text: 'Parasite: Q/LB/RB'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2817,7 +2816,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 7.7
+  m_fontSize: 9
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2855,22 +2854,22 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 2.5200953, y: 0, z: 0, w: 0}
+  m_margin: {x: 1.6241987, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 0}
-    characterCount: 13
+    characterCount: 17
     spriteCount: 0
     spaceCount: 1
-    wordCount: 3
+    wordCount: 4
     linkCount: 0
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2958,168 +2957,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!1 &7846111359527366972
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 440887380522356891}
-  - component: {fileID: 7926486931335878131}
-  - component: {fileID: 6314735616712575217}
-  m_Layer: 5
-  m_Name: TextMeshPro Text (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &440887380522356891
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7846111359527366972}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3289414361008690884}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.41015825}
-  m_AnchorMax: {x: 1, y: 0.60147476}
-  m_AnchoredPosition: {x: -0.012573242, y: 0.3600006}
-  m_SizeDelta: {x: 0.025399923, y: 0.22999954}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7926486931335878131
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7846111359527366972}
-  m_CullTransparentMesh: 0
---- !u!114 &6314735616712575217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7846111359527366972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Change Bullet: Rmouse/Y
-
-'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_outlineColor:
-    serializedVersion: 2
-    rgba: 4278190080
-  m_fontSize: 7.25
-  m_fontSizeBase: 20
-  m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 0
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_textAlignment: 257
-  m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
-  m_linkedTextComponent: {fileID: 0}
-  m_isLinkedTextComponent: 0
-  m_isTextTruncated: 0
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_ignoreRectMaskCulling: 0
-  m_ignoreCulling: 1
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_firstVisibleCharacter: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 2.1600955, y: 0, z: 0, w: 0}
-  m_textInfo:
-    textComponent: {fileID: 0}
-    characterCount: 24
-    spriteCount: 0
-    spaceCount: 3
-    wordCount: 4
-    linkCount: 0
-    lineCount: 1
-    pageCount: 1
-    materialCount: 1
-  m_havePropertiesChanged: 1
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
-  m_inputSource: 0
-  m_hasFontAssetChanged: 0
-  m_subTextObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &3301653875017492445
 PrefabInstance:
   m_ObjectHideFlags: 0

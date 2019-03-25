@@ -89,7 +89,6 @@ public class PlayerInputManager : MonoBehaviour
                 movementVector.y = 0;
         }
 
-
         //Jump
         if (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed)
         {

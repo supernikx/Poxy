@@ -274,7 +274,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StopImmunityCoroutine()
     {
-        StopCoroutine(immunityCoroutine);
+        if (immunityCoroutine != null)
+            StopCoroutine(immunityCoroutine);
         GetCollisionController().CheckEnemyCollision(true);
         gameObject.layer = LayerMask.NameToLayer("Player");
         if (OnPlayerImmunityEnd != null)
