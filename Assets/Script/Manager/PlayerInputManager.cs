@@ -25,6 +25,7 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 movementVector;
     private bool isJumping;
     private bool isShooting;
+    private bool isLocking;
 
     private void Awake()
     {
@@ -106,6 +107,9 @@ public class PlayerInputManager : MonoBehaviour
         //Shoot
         isShooting = joystickState.Triggers.Right > 0;
 
+        //Lock
+        isLocking = joystickState.Triggers.Left > 0;
+
         //Parasite
         if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed ||
             joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed)
@@ -146,6 +150,9 @@ public class PlayerInputManager : MonoBehaviour
 
         //Shoot
         isShooting = Input.GetMouseButton(0);
+
+        //Lock
+        isLocking = Input.GetMouseButton(1);
 
         //Parasite
         if (Input.GetKeyDown(KeyCode.Q))
@@ -188,6 +195,15 @@ public class PlayerInputManager : MonoBehaviour
     public static bool IsShooting()
     {
         return instance.isShooting;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se il tasto di lock del movimento è premuto o no
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsLocking()
+    {
+        return instance.isLocking;
     }
 
     /// <summary>

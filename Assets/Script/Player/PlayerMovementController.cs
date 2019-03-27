@@ -120,12 +120,20 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void CalculateVelocity()
     {
-        //Calcolo di quanto dovrò traslare
-        float targetTranslation = input.x * MovementSpeed;
+        float targetTranslation;
 
-        //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
-        if (targetTranslation != 0 && input.y != 0)
-            targetTranslation = targetTranslation * 0.75f;
+        //Se sto premendo il tasto che blocca il movimento non mi muovo
+        if (PlayerInputManager.IsLocking())
+            targetTranslation = 0;
+        else
+        {
+            //Calcolo di quanto dovrò traslare
+            targetTranslation = input.x * MovementSpeed;
+
+            //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
+            if (targetTranslation != 0 && input.y != 0)
+                targetTranslation *= 0.75f;
+        }
 
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
@@ -242,6 +250,11 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Funzione che calcola in base ai parametri passati la velocity dell'eject da applicare sula X e sulla Y
+    /// </summary>
+    /// <param name="_ejectMult"></param>
+    /// <param name="_launchDirection"></param>
     private void CalculateEjectVelocity(float _ejectMult, Vector3 _launchDirection)
     {
         impulseX = 0;
