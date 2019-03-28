@@ -13,7 +13,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     [SerializeField]
     private IGraphic graphics;
     [SerializeField]
-    private int respawnTime;
+    private float respawnTime;
     private bool isActive;
     private ControllableType controllableType = ControllableType.Platform;
     private Collider platfromColldier;
@@ -27,6 +27,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private Material infectedMaterial;
 
     private MeshRenderer meshRenderer;
+
+    private Vector3 launchDirection;
+    private int prevRotation;
+
+    private Coroutine tickCoroutine;
 
     private void SetObjectState(bool _state)
     {
@@ -53,6 +58,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
         meshRenderer.material = defaultMaterial;
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
+
+        prevRotation = 90;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
     }
 
     public void EndParasite()
@@ -60,12 +68,19 @@ public class LaunchingPlatform : PlatformBase, IControllable
         player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
         player = null;
 
-        StopCoroutine(Tick());
+        if (tickCoroutine != null)
+        {
+            StopCoroutine(tickCoroutine);
+            tickCoroutine = null;
+        }
 
         toleranceCtrl.SetActive(false);
 
         SetObjectState(false);
         StartCoroutine(Respawn());
+
+        prevRotation = 90;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
 
         meshRenderer.material = defaultMaterial;
 
@@ -84,7 +99,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = infectedMaterial;
 
-        StartCoroutine(Tick());
+        tickCoroutine = StartCoroutine(Tick());
     }
 
     private void HandlePlayerMaxHealth()
@@ -102,8 +117,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #region Coroutines
     private IEnumerator Tick()
     {
+        launchDirection = new Vector3(0, 1, 0);
+
         while (true)
         {
+            // da ricontrollare
             if (toleranceCtrl.IsActive())
             {
                 toleranceCtrl.AddTolleranceOvertime();
@@ -113,6 +131,43 @@ public class LaunchingPlatform : PlatformBase, IControllable
                     if (toleranceCtrl.OnMaxTolleranceBar != null)
                         toleranceCtrl.OnMaxTolleranceBar();
                 }
+            }
+
+            Vector3 _input = PlayerInputManager.GetMovementVector();
+            
+            int _targetRotation = -1;
+
+            if (_input.x == 0)
+            {
+                if (_input.y > 0)
+                    _targetRotation = 90;
+                else if (_input.y < 0)
+                    _targetRotation = 270;
+            }
+            else if (_input.y == 0)
+            {
+                if (_input.x > 0)
+                    _targetRotation = 0;
+                else if (_input.x < 0)
+                    _targetRotation = 180;
+            }
+            else
+            {
+                if (_input.x > 0 && _input.y > 0)
+                    _targetRotation = 45;
+                else if (_input.x < 0 && _input.y > 0)
+                    _targetRotation = 135;
+                else if (_input.x < 0 && _input.y < 0)
+                    _targetRotation = 225;
+                else if (_input.x > 0 && _input.y < 0)
+                    _targetRotation = 315;
+            }
+
+            if (_targetRotation >= 0 && prevRotation != _targetRotation)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, _targetRotation));
+                prevRotation = _targetRotation;
+                launchDirection = _input.normalized;
             }
 
             yield return null;
@@ -152,6 +207,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
     public bool IsActive()
     {
         return isActive;
+    }
+
+    public Vector3 GetLaunchDirection()
+    {
+        return launchDirection;
     }
     #endregion
 }

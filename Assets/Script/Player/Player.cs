@@ -239,7 +239,7 @@ public class Player : MonoBehaviour
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
-        movementCtrl.Eject(parasiteCtrl.GetParasite().GetControllableType());
+        movementCtrl.Eject(parasiteCtrl.GetParasite());
 
         parasiteCtrl.GetParasite().EndParasite();
 
@@ -274,7 +274,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StopImmunityCoroutine()
     {
-        StopCoroutine(immunityCoroutine);
+        if (immunityCoroutine != null)
+            StopCoroutine(immunityCoroutine);
         GetCollisionController().CheckEnemyCollision(true);
         gameObject.layer = LayerMask.NameToLayer("Player");
         if (OnPlayerImmunityEnd != null)

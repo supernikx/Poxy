@@ -15,5 +15,7 @@ public class TestManager : MonoBehaviour
             ui.ToggleMenu(MenuType.Game);
             lvl.Init(ui);
         }
+        else
+            DestroyImmediate(gameObject);
     }
 }

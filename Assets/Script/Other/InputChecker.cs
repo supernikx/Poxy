@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using XInputDotNetPure;
 
@@ -19,12 +20,23 @@ public class InputChecker : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            StartCoroutine(CheckInputTypeCoroutine());
+        }
     }
 
-    void Update()
+    /// <summary>
+    /// Coroutine che in loop controlla il tipo di input in uso
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CheckInputTypeCoroutine()
     {
-        CheckInputType();
+        while (true)
+        {
+            CheckInputType();
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
     }
 
     /// <summary>
@@ -84,7 +96,7 @@ public class InputChecker : MonoBehaviour
     /// <returns></returns>
     public static GamePadState GetCurrentGamePadState()
     {
-        return instance.joystickState;
+        return GamePad.GetState(instance.joystickPlayerIndex);
     }
 
     /// <summary>
