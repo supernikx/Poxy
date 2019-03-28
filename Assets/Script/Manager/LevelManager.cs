@@ -50,6 +50,10 @@ public class LevelManager : MonoBehaviour
     /// Reference allo sticky manager
     /// </summary>
     private StickyObjectManager stickyMng;
+    /// <summary>
+    /// Reference al camera manager
+    /// </summary>
+    private CameraManager cameraMng;
 
     #region API
     /// <summary>
@@ -93,6 +97,10 @@ public class LevelManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         if (player != null)
             player.Init(enemyMng, platformMng);
+
+        cameraMng = GetComponent<CameraManager>();
+        if (cameraMng != null)
+            cameraMng.Init();
 
         //Setup
         enemyMng.EnemiesSetup();

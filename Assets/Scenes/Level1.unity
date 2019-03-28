@@ -1187,6 +1187,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.44924545, y: 1.52, z: 1}
   m_Center: {x: 0.27537727, y: 2.459219, z: 0}
+--- !u!114 &357244642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114823937448487892, guid: 5862dd5737c424f4c8cebb0112668aa0,
+    type: 3}
+  m_PrefabInstance: {fileID: 410096286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &372452976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227,
@@ -1205,6 +1217,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &405050086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1526682150006846, guid: 5862dd5737c424f4c8cebb0112668aa0,
+    type: 3}
+  m_PrefabInstance: {fileID: 410096286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &405050088
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405050086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 0
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1001 &410096286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1317,6 +1351,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &582705598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1618661823558618, guid: 84526066e1e9c8a4093714f8e4e0d78a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691647725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &582705599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582705598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87802a6d31b55b4fb8ff663554f8670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 357244642}
+  amplitudeGain: 1
+  frequencyGain: 1
+  shakeActivationPercentage: 30
 --- !u!1001 &610487993
 PrefabInstance:
   m_ObjectHideFlags: 0
