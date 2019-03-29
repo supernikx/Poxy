@@ -43,6 +43,11 @@ public class PlayerMovementController : MonoBehaviour
     private float JumpTimeToReachTop;
     [SerializeField]
     /// <summary>
+    /// Moltiplicatore per la gravità di caduta
+    /// </summary>
+    private float fallingSpeedMultiplier;
+    [SerializeField]
+    /// <summary>
     /// Velocità di accelerazione e decelerazione se si è in aria
     /// più è bassa più veloce è l'accelerazione
     /// </summary>
@@ -52,6 +57,10 @@ public class PlayerMovementController : MonoBehaviour
     /// se non si è in collisione sopra/sotto
     /// </summary>
     private float gravity;
+    /// <summary>
+    /// Gravità applicata quando si cade
+    /// </summary>
+    private float fallingGravity;
 
     [Header("Eject Settings")]
     /// <summary>
@@ -153,7 +162,12 @@ public class PlayerMovementController : MonoBehaviour
 
         //Aggiungo gravità al player se non sono incollato
         if (!collisionCtrl.GetCollisionInfo().StickyCollision())
-            movementVelocity.y += gravity * Time.deltaTime;
+        {
+            if (movementVelocity.y < 0)
+                movementVelocity.y += fallingGravity * Time.deltaTime;
+            else
+                movementVelocity.y += gravity * Time.deltaTime;
+        }
     }
 
     #region Jump    
@@ -208,6 +222,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Calcolo la gravità
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
+        fallingGravity = gravity * fallingSpeedMultiplier;
 
         //Calcolo la velocità del salto
         maxJumpVelocity = Mathf.Abs(gravity) * JumpTimeToReachTop;
