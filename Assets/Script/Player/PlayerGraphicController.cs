@@ -163,4 +163,9 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
         return null;
     }
     #endregion
+
+    private void OnDisable()
+    {
+        PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
+    }
 }

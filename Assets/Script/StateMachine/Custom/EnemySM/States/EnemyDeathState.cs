@@ -66,6 +66,5 @@ namespace StateMachine.EnemySM
             context.enemy.GetCollider().enabled = true;
         }
     }
-
 }
 

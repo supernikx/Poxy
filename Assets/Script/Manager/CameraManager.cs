@@ -57,6 +57,12 @@ public class CameraManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDisable()
+    {
+        PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
+        LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
+    }
 }
 
 public enum CameraState

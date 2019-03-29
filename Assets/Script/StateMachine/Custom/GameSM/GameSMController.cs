@@ -55,6 +55,11 @@ namespace StateMachine.GameSM
             gameSM.SetTrigger("GoToGameplay");
         }
         #endregion
+
+        private void OnDisable()
+        {
+            GoToLevelSetup -= HandleLevelSetupState;
+        }
     }
 
     public class GameSMContext : IStateMachineContext

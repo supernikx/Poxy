@@ -73,6 +73,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// FUnzione che ricarica il livello attuale
+    /// </summary>
+    public static void RestartCurrentLevel()
+    {
+        if (instance.gameSM.GoToLevelSetup != null)
+            instance.gameSM.GoToLevelSetup();
+    }
+
+    /// <summary>
     /// Funzione che chiude l'applicazione
     /// </summary>
     public static void QuitGame()

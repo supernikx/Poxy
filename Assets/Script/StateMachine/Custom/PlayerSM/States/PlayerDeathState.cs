@@ -57,4 +57,9 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
     }
 
+    private void OnDestroy()
+    {
+        LevelManager.OnGameOver -= HandleGameover;
+        PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
+    }
 }

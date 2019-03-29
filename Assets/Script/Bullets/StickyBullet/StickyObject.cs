@@ -489,4 +489,10 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
         return Direction.None;
     }
+
+    private void OnDisable()
+    {
+        OnObjectSpawn = null;
+        OnObjectDestroy = null;
+    }
 }

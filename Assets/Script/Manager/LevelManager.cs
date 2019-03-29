@@ -126,11 +126,9 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        player.GetLivesController().SetLives(0);
-        if (player.OnPlayerDeath != null)
-            player.OnPlayerDeath();
-        if (OnGameUnPause != null)
-            OnGameUnPause();
+        Time.timeScale = 1f;
+        if (GameManager.instance != null)
+            GameManager.RestartCurrentLevel();
     }
 
     #region Pause

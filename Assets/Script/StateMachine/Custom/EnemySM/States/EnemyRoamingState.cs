@@ -91,15 +91,6 @@ namespace StateMachine.EnemySM
             else
                 MoveRoaming();
         }
-
-        /// <summary>
-        /// Function that activate on state exit
-        /// </summary>
-        public override void Exit()
-        {
-
-        }
     }
-
 }
 

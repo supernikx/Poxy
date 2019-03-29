@@ -214,4 +214,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
         return launchDirection;
     }
     #endregion
+
+    private void OnDisable()
+    {
+        LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
+    }
 }

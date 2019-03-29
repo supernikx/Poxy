@@ -10,7 +10,7 @@ public class DoorsButtonsManager : MonoBehaviour
     private Transform doorsContainer;
     [SerializeField]
     private Transform buttonsContainer;
-
+    private TokenManager tokenMng;
     private List<IDoor> doors = new List<IDoor>();
     private List<IButton> buttons = new List<IButton>();
 
@@ -19,6 +19,9 @@ public class DoorsButtonsManager : MonoBehaviour
     {
         if (!doorsContainer || !buttonsContainer)
             return;
+
+        tokenMng = _tokenMng;
+
         for (int i = 0; i < doorsContainer.childCount; i++)
         {
             IDoor _current = doorsContainer.GetChild(i).GetComponent<IDoor>();
@@ -39,7 +42,7 @@ public class DoorsButtonsManager : MonoBehaviour
             }
         }
 
-        _tokenMng.FinishToken += HandleFinishToken;
+        tokenMng.FinishToken += HandleFinishToken;
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion
@@ -69,4 +72,10 @@ public class DoorsButtonsManager : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        tokenMng.FinishToken -= HandleFinishToken;
+        LevelManager.OnPlayerDeath -= HandlePlayerDeath;
+    }
 }

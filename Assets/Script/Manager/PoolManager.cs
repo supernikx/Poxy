@@ -91,9 +91,8 @@ public class PoolManager : MonoBehaviour
                 }
             }
             poolDictionary.Add(obj.objectType, objectsToAdd);
-
-            LevelManager.OnPlayerDeath += ResetPool;
         }
+        LevelManager.OnPlayerDeath += ResetPool;
     }
 
     /// <summary>
@@ -162,14 +161,15 @@ public class PoolManager : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        foreach (ObjectTypes type in poolDictionary.Keys)
-        {
-            foreach (IPoolObject pooledObject in poolDictionary[type])
-            {
-                pooledObject.OnObjectDestroy -= OnObjectDestroy;
-                pooledObject.OnObjectSpawn -= OnObjectSpawn;
-            }
-        }
         LevelManager.OnPlayerDeath -= ResetPool;
+        poolDictionary = null;
+        //foreach (ObjectTypes type in poolDictionary.Keys)
+        //{
+        //    foreach (IPoolObject pooledObject in poolDictionary[type])
+        //    {
+        //        pooledObject.OnObjectDestroy -= OnObjectDestroy;
+        //        pooledObject.OnObjectSpawn -= OnObjectSpawn;
+        //    }
+        //}
     }
 }

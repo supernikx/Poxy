@@ -96,5 +96,15 @@ namespace StateMachine.EnemySM
             context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
             context.enemy.gameObject.layer = context.enemy.GetEnemyDefaultLayer();
         }
+
+        private void OnDestroy()
+        {
+            if (context.player == null)
+                return;
+            context.player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
+            context.player.OnDamageableCollision -= HandlePlayerDamageableCollision;
+            context.player.OnEnemyCollision -= HandlePlayerEnemyCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
+        }
     }
 }

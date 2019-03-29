@@ -23,5 +23,10 @@ namespace StateMachine.GameSM
             uiManager.ToggleMenu(MenuType.None);
             context.OnLevelSetupCallback();
         }
+
+        public override void Exit()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
     }
 }

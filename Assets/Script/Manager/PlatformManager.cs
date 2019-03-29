@@ -139,5 +139,11 @@ public class PlatformManager : MonoBehaviour
             platform.MoveBehaviour();
         }
     }
+
+    private void OnDisable()
+    {
+        OnParasite -= HandleOnParasite;
+        OnParasiteEnd -= HandleOnParasiteEnd;
+    }
 }
 
