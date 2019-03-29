@@ -250,6 +250,9 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     public void Eject(IControllable _controllable)
     {
+        if (collisionCtrl.GetCollisionInfo().above)
+            return;
+
         float ejectMultiplyer = 0f;
         switch (_controllable.GetControllableType())
         {
