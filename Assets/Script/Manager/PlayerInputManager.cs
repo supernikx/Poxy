@@ -17,12 +17,14 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Joystick Settings")]
     [SerializeField]
     private float LeftStickDeadZone;
+    Player player;
     InputType currentInputType;
     GamePadState joystickState;
     GamePadState joystickPrevState;
 
     //Input
     private Vector2 movementVector;
+    private Vector2 aimVector;
     private bool isJumping;
     private bool isShooting;
     private bool isLocking;
@@ -30,7 +32,10 @@ public class PlayerInputManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            player = GetComponent<Player>();
+        }
     }
 
     private void Update()
@@ -90,14 +95,32 @@ public class PlayerInputManager : MonoBehaviour
                 movementVector.y = 0;
         }
 
+        //Aim
+        float RX = joystickState.ThumbSticks.Right.X;
+        float RY = joystickState.ThumbSticks.Right.Y;
+
+        if (RX >= 0.5)
+            aimVector.x = 1;
+        else if (RX <= -0.5)
+            aimVector.x = -1;
+        else
+            aimVector.x = 0;
+
+        if (RY >= 0.5)
+            aimVector.y = 1;
+        else if (RY <= -0.5)
+            aimVector.y = -1;
+        else
+            aimVector.y = 0;        
+
         //Jump
-        if (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed)
+        if (joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed)
         {
             isJumping = true;
             if (OnJumpPressed != null)
                 OnJumpPressed();
         }
-        else if (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released)
+        else if (joystickPrevState.Buttons.RightShoulder == ButtonState.Pressed && joystickState.Buttons.RightShoulder == ButtonState.Released)
         {
             isJumping = false;
             if (OnJumpRelease != null)
@@ -108,11 +131,10 @@ public class PlayerInputManager : MonoBehaviour
         isShooting = joystickState.Triggers.Right > 0;
 
         //Lock
-        isLocking = joystickState.Triggers.Left > 0;
+        isLocking = joystickState.Buttons.LeftShoulder == ButtonState.Pressed;
 
         //Parasite
-        if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed ||
-            joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed)
+        if (joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
         {
             if (OnParasitePressed != null)
                 OnParasitePressed();
@@ -133,6 +155,23 @@ public class PlayerInputManager : MonoBehaviour
     {
         //Movement       
         movementVector = new Vector2(Input.GetAxisRaw("AD"), Input.GetAxisRaw("WS"));
+
+        //Aim
+        Vector3 playerScreen = Camera.main.WorldToScreenPoint(player.transform.position);
+        Vector3 aimVectorNotNormilezed = (Input.mousePosition - playerScreen).normalized;
+        if (aimVectorNotNormilezed.x >= 0.5)
+            aimVector.x = 1;
+        else if (aimVectorNotNormilezed.x <= -0.5)
+            aimVector.x = -1;
+        else
+            aimVector.x = 0;
+
+        if (aimVectorNotNormilezed.y >= 0.5)
+            aimVector.y = 1;
+        else if (aimVectorNotNormilezed.y <= -0.5)
+            aimVector.y = -1;
+        else
+            aimVector.y = 0;
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Space))
@@ -177,6 +216,15 @@ public class PlayerInputManager : MonoBehaviour
     public static Vector2 GetMovementVector()
     {
         return instance.movementVector;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il vettore di mira
+    /// </summary>
+    /// <returns></returns>
+    public static Vector2 GetAimVector()
+    {
+        return instance.aimVector;
     }
 
     /// <summary>

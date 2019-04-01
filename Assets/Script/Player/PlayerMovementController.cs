@@ -140,8 +140,8 @@ public class PlayerMovementController : MonoBehaviour
             targetTranslation = input.x * MovementSpeed;
 
             //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
-            if (targetTranslation != 0 && input.y != 0)
-                targetTranslation *= 0.75f;
+            /*if (targetTranslation != 0 && input.y != 0)
+                targetTranslation *= 0.75f;*/
         }
 
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva

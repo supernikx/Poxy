@@ -133,7 +133,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
                 }
             }
 
-            Vector3 _input = PlayerInputManager.GetMovementVector();
+            Vector3 _input = PlayerInputManager.GetAimVector();
             
             int _targetRotation = -1;
 
