@@ -14,9 +14,15 @@ public class Piston : PlatformBase
     [SerializeField]
     private float upMovementSpd;
     [SerializeField]
+    private PistonDirection direction;
+    [SerializeField]
     private LayerMask playerLayer;
     [SerializeField]
     private Transform waypoint;
+    [SerializeField]
+    private Transform bottomLeft;
+    [SerializeField]
+    private Transform bottomRight;
 
     [Header("Collisions")]
     [SerializeField]
@@ -59,9 +65,9 @@ public class Piston : PlatformBase
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
-
-        initialPosition = transform.position.y;
-        targetPosition = waypoint.position.y;
+        
+        initialPosition = (direction == PistonDirection.Vertical) ? transform.position.y : transform.position.x;
+        targetPosition = (direction == PistonDirection.Vertical) ? waypoint.position.y : waypoint.position.x;
     }
 
     private Vector3 movementVelocity = Vector3.zero;
@@ -79,15 +85,50 @@ public class Piston : PlatformBase
         CheckMovementCollisions(movementVelocity * Time.deltaTime);
 
         transform.Translate(movementVelocity * Time.deltaTime);
-
-        if (currentState == PistonState.Forward && transform.position.y <= targetPosition)
+        
+        if (currentState == PistonState.Forward)
         {
-            stompVFX.Play();
-            currentState = PistonState.Backward;
+            if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y <= targetPosition)
+            {
+                stompVFX.Play();
+                currentState = PistonState.Backward;
+            }
+            else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y >= targetPosition)
+            {
+                stompVFX.Play();
+                currentState = PistonState.Backward;
+            }
+            else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x >= targetPosition)
+            {
+                stompVFX.Play();
+                currentState = PistonState.Backward;
+            }
+            else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x <= targetPosition)
+            {
+                stompVFX.Play();
+                currentState = PistonState.Backward;
+            }
         }
 
-        if (currentState == PistonState.Backward && transform.position.y >= initialPosition)
-            currentState = PistonState.Forward;
+        if (currentState == PistonState.Backward)
+        {
+            if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y >= initialPosition)
+            {
+                currentState = PistonState.Forward;
+            }
+            else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y <= initialPosition)
+            {
+                currentState = PistonState.Forward;
+            }
+            else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x <= initialPosition)
+            {
+                currentState = PistonState.Forward;
+            }
+            else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x >= initialPosition)
+            {
+                currentState = PistonState.Forward;
+            }
+        }
     }
     #endregion
 
@@ -102,7 +143,11 @@ public class Piston : PlatformBase
 
         verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
 
-        verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
+        float _distance = Vector3.Distance(bottomRight.position, bottomLeft.position);
+        if (_distance < 0)
+            _distance = _distance * -1;
+        verticalRaySpacing = _distance / (verticalRayCount - 1);
+
     }
 
     /// <summary>
@@ -114,8 +159,9 @@ public class Piston : PlatformBase
         Bounds bounds = colliderToCheck.bounds;
         bounds.Expand(collisionOffset * -2);
 
-        raycastStartPoints.bottomLeft = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
-        raycastStartPoints.bottomRight = new Vector3(bounds.max.x, bounds.min.y, transform.position.z);
+        raycastStartPoints.bottomLeft = bottomLeft.position;
+        raycastStartPoints.bottomRight = bottomRight.position;
+
     }
 
     /// <summary>
@@ -133,10 +179,10 @@ public class Piston : PlatformBase
         {
             //Determina il punto da cui deve partire il ray
             Vector3 rayOrigin = raycastStartPoints.bottomLeft;
-            rayOrigin += Vector3.right * (verticalRaySpacing * i);
+            rayOrigin += transform.right * (verticalRaySpacing * i);
 
             //Crea il ray
-            Ray ray = new Ray(rayOrigin, Vector3.up * directionY);
+            Ray ray = new Ray(rayOrigin, transform.up * directionY);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, rayLenght, playerLayer))
@@ -153,7 +199,7 @@ public class Piston : PlatformBase
                     }
                 }
             }
-            Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
+            Debug.DrawRay(rayOrigin, transform.up * directionY * rayLenght, Color.red);
         }
     }
     #endregion
@@ -168,5 +214,11 @@ public class Piston : PlatformBase
     {
         Forward,
         Backward,
+    }
+
+    public enum PistonDirection
+    {
+        Vertical,
+        Horizontal
     }
 }

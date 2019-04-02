@@ -70,4 +70,12 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         context.player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
+
+    private void OnDestroy()
+    {
+        if (parasitePlatform != null)
+            parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
+        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnJumpPressed -= HandleOnPlayerParasitePressed;
+    }
 }

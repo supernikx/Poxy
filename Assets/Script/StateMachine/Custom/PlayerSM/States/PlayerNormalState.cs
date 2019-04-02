@@ -85,6 +85,7 @@ namespace StateMachine.PlayerSM
                     context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                     break;
                 case DamageableType.Acid:
+                    context.player.OnDamageableCollision -= OnDamageableCollision;
                     context.player.StartDeathCoroutine();
                     break;
                 default:
@@ -108,6 +109,14 @@ namespace StateMachine.PlayerSM
         {
             parasitePressed = false;
             loseHealth = false;
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnDamageableCollision -= OnDamageableCollision;
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+            PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+        }
+
+        private void OnDestroy()
+        {
             context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
             context.player.OnDamageableCollision -= OnDamageableCollision;
             context.player.OnEnemyCollision -= OnEnemyCollision;

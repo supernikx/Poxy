@@ -86,10 +86,4 @@ public class EnemyAlertState : EnemySMStateBase
         else
             MoveAlert(target);
     }
-
-    public override void Exit()
-    {
-
-    }
-
 }

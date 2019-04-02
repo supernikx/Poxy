@@ -43,6 +43,11 @@ public class PlayerMovementController : MonoBehaviour
     private float JumpTimeToReachTop;
     [SerializeField]
     /// <summary>
+    /// Moltiplicatore per la gravità di caduta
+    /// </summary>
+    private float fallingSpeedMultiplier;
+    [SerializeField]
+    /// <summary>
     /// Velocità di accelerazione e decelerazione se si è in aria
     /// più è bassa più veloce è l'accelerazione
     /// </summary>
@@ -52,6 +57,10 @@ public class PlayerMovementController : MonoBehaviour
     /// se non si è in collisione sopra/sotto
     /// </summary>
     private float gravity;
+    /// <summary>
+    /// Gravità applicata quando si cade
+    /// </summary>
+    private float fallingGravity;
 
     [Header("Eject Settings")]
     /// <summary>
@@ -131,8 +140,8 @@ public class PlayerMovementController : MonoBehaviour
             targetTranslation = input.x * MovementSpeed;
 
             //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
-            if (targetTranslation != 0 && input.y != 0)
-                targetTranslation *= 0.75f;
+            /*if (targetTranslation != 0 && input.y != 0)
+                targetTranslation *= 0.75f;*/
         }
 
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
@@ -153,7 +162,12 @@ public class PlayerMovementController : MonoBehaviour
 
         //Aggiungo gravità al player se non sono incollato
         if (!collisionCtrl.GetCollisionInfo().StickyCollision())
-            movementVelocity.y += gravity * Time.deltaTime;
+        {
+            if (movementVelocity.y < 0)
+                movementVelocity.y += fallingGravity * Time.deltaTime;
+            else
+                movementVelocity.y += gravity * Time.deltaTime;
+        }
     }
 
     #region Jump    
@@ -208,6 +222,7 @@ public class PlayerMovementController : MonoBehaviour
 
         //Calcolo la gravità
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
+        fallingGravity = gravity * fallingSpeedMultiplier;
 
         //Calcolo la velocità del salto
         maxJumpVelocity = Mathf.Abs(gravity) * JumpTimeToReachTop;
@@ -235,6 +250,9 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     public void Eject(IControllable _controllable)
     {
+        if (collisionCtrl.GetCollisionInfo().above)
+            return;
+
         float ejectMultiplyer = 0f;
         switch (_controllable.GetControllableType())
         {

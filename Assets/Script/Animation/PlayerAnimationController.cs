@@ -120,4 +120,10 @@ public class PlayerAnimationController : MonoBehaviour
     }
     #endregion
     #endregion
+
+    private void OnDisable()
+    {
+        PlayerShotController.OnShot -= ShotAnimation;
+        PlayerMovementController.OnMovement -= MovementAnimation;
+    }
 }

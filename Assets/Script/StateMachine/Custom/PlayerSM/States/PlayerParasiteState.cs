@@ -40,7 +40,7 @@ namespace StateMachine.PlayerSM
             context.player.GetMovementController().SetCanMove(true);
             context.player.GetShotController().SetShotPoint(parasiteEnemy.GetShotPoint());
         }
-        
+
         public override void Tick()
         {
             if (context.player.GetHealthController().GainHealthOverTime() && gainHealth && !parasitePressed)
@@ -132,6 +132,16 @@ namespace StateMachine.PlayerSM
             context.player.GetShotController().SetShotPoint(context.player.GetShotController().GetShotPoint());
             parasitePressed = false;
             gainHealth = false;
+        }
+
+        private void OnDestroy()
+        {
+            if (parasiteEnemy != null)
+                parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
+            context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnDamageableCollision -= OnDamageableCollision;
+            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
         }
     }
 }

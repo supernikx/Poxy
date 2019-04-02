@@ -1708,6 +1708,7 @@ MonoBehaviour:
   maxJumpHeight: 4
   minJumpHeight: 1
   JumpTimeToReachTop: 0.4
+  fallingSpeedMultiplier: 1
   AccelerationTimeOnAir: 0
   enemyEjectForce: 1.3
   platformEjectForce: 1
@@ -2177,6 +2178,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4449267859801146}
     m_Modifications:
+    - target: {fileID: 100022, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
+      propertyPath: m_Name
+      value: Character_Calm_DEF
+      objectReference: {fileID: 0}
+    - target: {fileID: 400046, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 400046, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2220,10 +2233,6 @@ PrefabInstance:
     - target: {fileID: 400022, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100022, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
-      propertyPath: m_Name
-      value: Character_Calm_DEF
       objectReference: {fileID: 0}
     - target: {fileID: 13700004, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2441,14 +2450,6 @@ PrefabInstance:
       propertyPath: m_RootBone
       value: 
       objectReference: {fileID: 1628653348}
-    - target: {fileID: 400046, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 400046, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44854f6bd6818a24f89152f8ae097134, type: 3}
 --- !u!4 &1628653410 stripped
@@ -2773,21 +2774,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4343784894665598077}
     m_Modifications:
-    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 29221747018571912, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
         type: 3}
       propertyPath: m_Name
@@ -2867,6 +2853,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080498288545850267, guid: b5f0a6a7d65b50f449739c01b7ec3bce,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5f0a6a7d65b50f449739c01b7ec3bce, type: 3}

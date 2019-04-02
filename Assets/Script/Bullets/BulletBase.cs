@@ -268,4 +268,10 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         public Transform bottomRight;
     }
     #endregion
+
+    private void OnDisable()
+    {
+        OnObjectSpawn = null;
+        OnObjectDestroy = null;
+    }
 }

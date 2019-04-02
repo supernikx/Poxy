@@ -137,4 +137,10 @@ public class UI_GameplayManager : UI_ManagerBase
                 break;
         }
     }
+
+    private void OnDisable()
+    {
+        LevelManager.OnGamePause -= OnGamePause;
+        LevelManager.OnGameUnPause -= OnGameUnPause;
+    }
 }

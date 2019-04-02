@@ -22,7 +22,8 @@ public enum State
 /// Interfaccia da usare sugli oggetti che si vogliono mettere
 /// in pool
 /// </summary>
-public interface IPoolObject {
+public interface IPoolObject
+{
     GameObject ownerObject { get; set; }
     GameObject gameObject { get; }
     State CurrentState

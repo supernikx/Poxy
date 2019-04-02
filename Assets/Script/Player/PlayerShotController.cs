@@ -53,7 +53,7 @@ public class PlayerShotController : MonoBehaviour
         if (canAim)
         {
             //Miro nella direzione in cui mi sto muovendo
-            Aim(PlayerInputManager.GetMovementVector());
+            Aim(PlayerInputManager.GetAimVector());
 
             //Controllo se posso sparare e se sto premendo il tasto
             if (canShot && PlayerInputManager.IsShooting())
@@ -96,7 +96,7 @@ public class PlayerShotController : MonoBehaviour
             rotationVector.z = 135f;
         else if (_movementDirection.x != 0 && _movementDirection.y == 0)
             rotationVector.z = 90f;
-        else if (PlayerInputManager.IsJumping() && _movementDirection.x == 0 && _movementDirection.y == -1)
+        else if (!player.GetCollisionController().GetCollisionInfo().below && _movementDirection.x == 0 && _movementDirection.y == -1)
             rotationVector.z = 0;
         else if (_movementDirection.y == -1)
             rotationVector.z = 45f;

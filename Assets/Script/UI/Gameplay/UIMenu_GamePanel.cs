@@ -51,12 +51,12 @@ namespace UI
             uiManager = _uiManager;
 
             PlayerLivesController.OnLivesChange += HandleLivesChange;
-            PlayerHealthController.OnHealthChange += OnHealthChange;
-            PlayerShotController.OnEnemyBulletChanged += OnEnemyBulletChanged;
-            EnemyToleranceController.OnToleranceChange += OnToleranceChange;
+            PlayerHealthController.OnHealthChange += HandleOnHealthChange;
+            PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
+            EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
 
             toleranceOffset = maxToleranceBarValue - minToleranceBarValue;
-            OnEnemyBulletChanged(ObjectTypes.None);
+            HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);
         }
@@ -65,13 +65,14 @@ namespace UI
         {
             base.Enable();
 
-            PlayerHealthController.OnHealthChange += OnHealthChange;
-            PlayerShotController.OnEnemyBulletChanged += OnEnemyBulletChanged;
-            EnemyToleranceController.OnToleranceChange += OnToleranceChange;
+            PlayerLivesController.OnLivesChange += HandleLivesChange;
+            PlayerHealthController.OnHealthChange += HandleOnHealthChange;
+            PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
+            EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
         }
 
         #region Bullet
-        private void OnEnemyBulletChanged(ObjectTypes _bullet)
+        private void HandleOnEnemyBulletChanged(ObjectTypes _bullet)
         {
             Color newImageColor;
             switch (_bullet)
@@ -137,7 +138,7 @@ namespace UI
         /// Funzione che si occupa dell'evento PlayerHealthController.OnHealthChange
         /// </summary>
         /// <param name="health"></param>
-        private void OnHealthChange(float health)
+        private void HandleOnHealthChange(float health)
         {
             float healthPercentage = health / playerMaxHealth;
 
@@ -172,7 +173,7 @@ namespace UI
         /// Funzione che si occupa dell'evento EnemyToleranceController.OnToleranceChange
         /// </summary>
         /// <param name="health"></param>
-        private void OnToleranceChange(float tolerance)
+        private void HandleOnToleranceChange(float tolerance)
         {
             float tolerancePercentage = tolerance / maxTolerance;
             toleranceBarFill.fillAmount = minToleranceBarValue + (toleranceOffset * tolerancePercentage);
@@ -211,9 +212,10 @@ namespace UI
 
         private void OnDisable()
         {
-            PlayerHealthController.OnHealthChange -= OnHealthChange;
-            PlayerShotController.OnEnemyBulletChanged -= OnEnemyBulletChanged;
-            EnemyToleranceController.OnToleranceChange -= OnToleranceChange;
+            PlayerLivesController.OnLivesChange -= HandleLivesChange;
+            PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
+            PlayerShotController.OnEnemyBulletChanged -= HandleOnEnemyBulletChanged;
+            EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
         }
     }
 }
