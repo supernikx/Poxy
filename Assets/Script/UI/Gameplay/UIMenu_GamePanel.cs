@@ -8,6 +8,7 @@ namespace UI
 {
     public class UIMenu_GamePanel : UIMenu_Base
     {
+        /*
         [Header("Life UI")]
         [SerializeField]
         private Image hearth1Image;
@@ -15,6 +16,7 @@ namespace UI
         private Image hearth2Image;
         [SerializeField]
         private Image hearth3Image;
+        */
         [Header("Health Bar")]
         [SerializeField]
         private float playerMaxHealth;
@@ -50,7 +52,7 @@ namespace UI
         {
             uiManager = _uiManager;
 
-            PlayerLivesController.OnLivesChange += HandleLivesChange;
+            //PlayerLivesController.OnLivesChange += HandleLivesChange;
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
@@ -65,7 +67,7 @@ namespace UI
         {
             base.Enable();
 
-            PlayerLivesController.OnLivesChange += HandleLivesChange;
+            //PlayerLivesController.OnLivesChange += HandleLivesChange;
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
@@ -106,6 +108,7 @@ namespace UI
         #region PlayerLives
         private void HandleLivesChange(int lives)
         {
+            /*
             switch (lives)
             {
                 case 0:
@@ -130,6 +133,8 @@ namespace UI
                     hearth3Image.gameObject.SetActive(true);
                     break;
             }
+            */
+            return;
         }
         #endregion
 
@@ -212,7 +217,7 @@ namespace UI
 
         private void OnDisable()
         {
-            PlayerLivesController.OnLivesChange -= HandleLivesChange;
+            //PlayerLivesController.OnLivesChange -= HandleLivesChange;
             PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged -= HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
