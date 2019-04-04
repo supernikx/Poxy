@@ -14,7 +14,7 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.StopImmunityCoroutine();
         PlayerInputManager.Rumble(1f, 1f, 0.5f);
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
-        context.player.GetLivesController().LoseLives();
+        //context.player.GetLivesController().LoseLives();
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
 
         PlayerShotController shotCtrl = context.player.GetShotController();
