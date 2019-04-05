@@ -8,7 +8,7 @@ namespace StateMachine.EnemySM
         /// <summary>
         /// Duration of the Stun State
         /// </summary>
-        private int stunDuration;
+        private float stunDuration;
         /// <summary>
         /// true if the stun state is ready
         /// </summary>

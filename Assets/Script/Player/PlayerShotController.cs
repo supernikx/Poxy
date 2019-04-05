@@ -250,7 +250,7 @@ public class PlayerShotController : MonoBehaviour
 public class ShotSettings
 {
     public ObjectTypes bulletType;
-    public int damage;
+    public float damage;
     public float range;
     public float shotSpeed;
     public float firingRate;

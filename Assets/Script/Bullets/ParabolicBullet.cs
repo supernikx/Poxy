@@ -69,22 +69,23 @@ public class ParabolicBullet : BulletBase
     protected override void Move()
     {
         Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
-        Checkcollisions(_movementDirection * Time.deltaTime);
-
-        //Calcolo la rotazione in base al movimento del proiettile e la applico
-        float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
-
-        transform.position += _movementDirection * Time.deltaTime;
-        travelTime += Time.deltaTime;
-
-        if (Vector3.Distance(shotPosition, transform.position) >= range)
+        if (!Checkcollisions(_movementDirection * Time.deltaTime))
         {
-            ObjectDestroyEvent();
+            //Calcolo la rotazione in base al movimento del proiettile e la applico
+            float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
+
+            transform.position += _movementDirection * Time.deltaTime;
+            travelTime += Time.deltaTime;
+
+            if (Vector3.Distance(shotPosition, transform.position) >= range)
+            {
+                ObjectDestroyEvent();
+            }
         }
     }
 
-    public override void Shot(int _damage, float _speed, float _range, Vector3 _shootPosition, Vector3 _direction)
+    public override void Shot(float _damage, float _speed, float _range, Vector3 _shootPosition, Vector3 _direction)
     {
         base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shootPosition, _direction);
 
@@ -95,7 +96,7 @@ public class ParabolicBullet : BulletBase
         travelTime = 0;
     }
 
-    public override void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
+    public override void Shot(float _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
     {
         base.Shot(_damage, Mathf.Sqrt(_speed * speedMultiplayer), _range, _shotPosition, _target);
 
