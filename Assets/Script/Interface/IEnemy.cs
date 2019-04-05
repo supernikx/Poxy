@@ -188,6 +188,12 @@ public interface IEnemy
     EnemyVFXController GetVFXController();
 
     /// <summary>
+    /// Funzione che ritorna il command sprite controller
+    /// </summary>
+    /// <returns></returns>
+    EnemyCommandsSpriteController GetEnemyCommandsSpriteController();
+
+    /// <summary>
     /// Funzione che ritorna il parent dei nemici
     /// </summary>
     /// <returns></returns>

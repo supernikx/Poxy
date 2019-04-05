@@ -27,6 +27,7 @@ namespace StateMachine.EnemySM
             stunDuration = context.enemy.GetStunDuration();
             context.enemy.GetVFXController().EnemyStunVFX(true);
             context.enemy.GetAnimationController().Stun(true);
+            context.enemy.GetEnemyCommandsSpriteController().ToggleParasiteButton(true);
             timer = 0;
             start = true;
         }
@@ -57,6 +58,7 @@ namespace StateMachine.EnemySM
             context.enemy.SetCanStun(true);
             context.enemy.GetVFXController().EnemyStunVFX(false);
             context.enemy.GetAnimationController().Stun(false);
+            context.enemy.GetEnemyCommandsSpriteController().ToggleParasiteButton(false);
         }
     }
 }
