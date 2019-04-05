@@ -76,7 +76,7 @@ public interface IEnemy
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    void DamageHit(int _damage, float _time = 0);
+    void DamageHit(float _damage, float _time = 0);
 
     /// <summary>
     /// Funzione che uccide il nemico
@@ -118,7 +118,7 @@ public interface IEnemy
     /// Funzione che ritorna la vita del nemico
     /// </summary>
     /// <returns></returns>
-    int GetHealth();
+    float GetHealth();
 
     /// <summary>
     /// Funzione che ritorna la movement speed del nemcio
@@ -136,12 +136,12 @@ public interface IEnemy
     /// Funzione che ritorna il danno del nemico
     /// </summary>
     /// <returns></returns>
-    int GetDamage();
+    float GetDamage();
 
     /// <summary>
     /// Get Stun Duration
     /// </summary
-    int GetStunDuration();
+    float GetStunDuration();
 
     /// <summary>
     /// Get Death Duration

@@ -37,7 +37,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <summary>
     /// Danno del proiettile
     /// </summary>
-    protected int damage;
+    protected float damage;
     /// <summary>
     /// Distanza massima che può percorrere il proiettile
     /// </summary>
@@ -62,6 +62,10 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// Posizione da cui parte lo sparo
     /// </summary>
     protected Vector3 shotPosition;
+    /// <summary>
+    /// Bullet explosion behaviour (può essere null)
+    /// </summary>
+    protected BulletExplosionBehaviour bulletExplosion;
     [SerializeField]
     /// <summary>
     /// Variabile che controlla la forza del knockback del nemico
@@ -73,6 +77,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     public virtual void Setup()
     {
+        bulletExplosion = GetComponent<BulletExplosionBehaviour>();
         bulletCollider = GetComponent<Collider>();
         CalculateRaySpacing();
         UpdateRaycastOrigins();
@@ -91,6 +96,9 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     protected virtual void ObjectDestroyEvent()
     {
+        if (bulletExplosion != null)
+            bulletExplosion.Explode(ownerObject, damage);
+
         if (OnObjectDestroy != null)
             OnObjectDestroy(this);
     }
@@ -116,7 +124,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_range"></param>
     /// <param name="_shootPosition"></param>
     /// <param name="_direction"></param>
-    public virtual void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Vector3 _direction)
+    public virtual void Shot(float _damage, float _speed, float _range, Vector3 _shotPosition, Vector3 _direction)
     {
         damage = _damage;
         speed = _speed;
@@ -137,7 +145,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// <param name="_speed"></param>
     /// <param name="_shotPosition"></param>
     /// <param name="_target"></param>
-    public virtual void Shot(int _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
+    public virtual void Shot(float _damage, float _speed, float _range, Vector3 _shotPosition, Transform _target)
     {
         damage = _damage;
         speed = _speed;
@@ -154,7 +162,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// Funzione che ritrona il danno che fa il proiettile
     /// </summary>
     /// <returns></returns>
-    public int GetBulletDamage()
+    public float GetBulletDamage()
     {
         return damage;
     }
@@ -207,7 +215,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     /// <summary>
-    /// Funzione che controlla se avviene una collisione sugli assi verticali
+    /// Funzione che controlla se avviene una collisione
     /// </summary>
     /// <param name="_movementVelocity"></param>
     protected bool Checkcollisions(Vector3 _direction)
