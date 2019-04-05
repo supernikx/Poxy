@@ -289,9 +289,10 @@ public class PlayerMovementController : MonoBehaviour
         {
             float _launchForce = Mathf.Sqrt(Mathf.Pow((maxJumpVelocity * _ejectMult), 2) / 2);
             movementVelocity.y = _launchForce * Mathf.Sign(_launchDirection.y);
+            impulseX = _launchForce * Mathf.Sign(_launchDirection.x);
 
             //Sulla x pongo comunque il massimo della forza per un movimento più naturale
-            impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
+            //impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
         }
     }
     #endregion
