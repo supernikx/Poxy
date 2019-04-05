@@ -14,6 +14,13 @@ public interface IEnemy
     /// </summary>
     GameObject gameObject { get;}
 
+    /// <summary>
+    /// Funzione che segue il knockback
+    /// </summary>
+    /// <param name="_dir"></param>
+    /// <param name="_force"></param>
+    void ApplyKnockback(Vector3 _dir, float _force);
+
     #region Shot
     /// <summary>
     /// Funzione che controlla se puoi sparare e ritorna true o false
