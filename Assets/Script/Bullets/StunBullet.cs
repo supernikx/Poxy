@@ -15,6 +15,7 @@ public class StunBullet : BulletBase
             if (enemyHit != null)
             {
                 enemyHit.StunHit();
+                enemyHit.ApplyKnockback(shotDirection.Value, enemyKnockbackForce);
                 EnemyBase enemyBase = (enemyHit as EnemyBase);
                 if (enemyBase != null && enemyBase.OnEnemyHit != null)
                     enemyBase.OnEnemyHit();

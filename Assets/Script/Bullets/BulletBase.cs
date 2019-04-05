@@ -62,6 +62,11 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// Posizione da cui parte lo sparo
     /// </summary>
     protected Vector3 shotPosition;
+    [SerializeField]
+    /// <summary>
+    /// Variabile che controlla la forza del knockback del nemico
+    /// </summary>
+    protected float enemyKnockbackForce;
 
     /// <summary>
     /// Funzione di Setup
