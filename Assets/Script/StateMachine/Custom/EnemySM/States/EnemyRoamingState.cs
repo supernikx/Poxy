@@ -49,9 +49,7 @@ namespace StateMachine.EnemySM
         private void MoveRoaming()
         {
             if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
-            {
                 return;
-            }
 
             if (enemy.GetCollisionCtrl().GetCollisionInfo().HorizontalCollision())
                 pathTraveled = pathLenght;

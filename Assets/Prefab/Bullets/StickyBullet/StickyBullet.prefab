@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5238e65a7cc5a4a839a860a9ea2b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyKnockbackForce: 3
   rayCount: 3
   rayLenght: 0.2
   bulletParticle: {fileID: 3184670869974216635}
@@ -4807,6 +4808,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_GlueShooter_MuzzleFlash
       objectReference: {fileID: 0}
+    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4618426952161036980, guid: 473ecd4fbf96e7542a20936f558a921f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4876,21 +4892,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4618426951607340848, guid: 473ecd4fbf96e7542a20936f558a921f,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4618426951607340851, guid: 473ecd4fbf96e7542a20936f558a921f,
         type: 3}

@@ -115,6 +115,25 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         CalculatePathLenght();
     }
 
+    /// <summary>
+    /// Funzione che segue il knockback
+    /// </summary>
+    /// <param name="_dir"></param>
+    /// <param name="_force"></param>
+    public void ApplyKnockback(Vector3 _dir, float _force)
+    {
+        if (collisionCtrl.GetCollisionInfo().StickyCollision())
+            return;
+
+        Vector3 knockbackVector = Vector3.zero;
+        if (Mathf.Sign(_dir.x) == Mathf.Sign(transform.right.normalized.x))
+            knockbackVector.x = _force;
+        else
+            knockbackVector.x = -_force;
+
+        movementCtrl.MovementCheck(knockbackVector);
+    }
+
     #region StateHandler
     /// <summary>
     /// Funzione che avvisa l'ingresso in roaming state
