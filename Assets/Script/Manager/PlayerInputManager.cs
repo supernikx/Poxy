@@ -27,7 +27,6 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 aimVector;
     private bool isJumping;
     private bool isShooting;
-    private bool isLocking;
 
     private void Awake()
     {
@@ -114,13 +113,13 @@ public class PlayerInputManager : MonoBehaviour
             aimVector.y = 0;        
 
         //Jump
-        if (joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed)
+        if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed)
         {
             isJumping = true;
             if (OnJumpPressed != null)
                 OnJumpPressed();
         }
-        else if (joystickPrevState.Buttons.RightShoulder == ButtonState.Pressed && joystickState.Buttons.RightShoulder == ButtonState.Released)
+        else if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released)
         {
             isJumping = false;
             if (OnJumpRelease != null)
@@ -129,9 +128,6 @@ public class PlayerInputManager : MonoBehaviour
 
         //Shoot
         isShooting = joystickState.Triggers.Right > 0;
-
-        //Lock
-        isLocking = joystickState.Buttons.LeftShoulder == ButtonState.Pressed;
 
         //Parasite
         if (joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
@@ -190,9 +186,6 @@ public class PlayerInputManager : MonoBehaviour
         //Shoot
         isShooting = Input.GetMouseButton(0);
 
-        //Lock
-        isLocking = Input.GetMouseButton(1);
-
         //Parasite
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -243,15 +236,6 @@ public class PlayerInputManager : MonoBehaviour
     public static bool IsShooting()
     {
         return instance.isShooting;
-    }
-
-    /// <summary>
-    /// Funzione che ritorna se il tasto di lock del movimento è premuto o no
-    /// </summary>
-    /// <returns></returns>
-    public static bool IsLocking()
-    {
-        return instance.isLocking;
     }
 
     /// <summary>
