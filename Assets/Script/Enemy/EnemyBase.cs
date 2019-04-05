@@ -55,6 +55,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected EnemySMController enemySM;
     protected EnemyAnimationController animCtrl;
     protected EnemyVFXController vfxCtrl;
+    protected EnemyCommandsSpriteController commandsSpriteCtrl;
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
@@ -99,6 +100,10 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         if (animCtrl != null)
             animCtrl.Init(collisionCtrl);
 
+        commandsSpriteCtrl = GetComponentInChildren<EnemyCommandsSpriteController>();
+        if (commandsSpriteCtrl != null)
+            commandsSpriteCtrl.Init();
+
         vfxCtrl = GetComponentInChildren<EnemyVFXController>();
         if (vfxCtrl != null)
             vfxCtrl.Init(this);
@@ -108,6 +113,25 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             viewCtrl.Init();
 
         CalculatePathLenght();
+    }
+
+    /// <summary>
+    /// Funzione che segue il knockback
+    /// </summary>
+    /// <param name="_dir"></param>
+    /// <param name="_force"></param>
+    public void ApplyKnockback(Vector3 _dir, float _force)
+    {
+        if (collisionCtrl.GetCollisionInfo().StickyCollision())
+            return;
+
+        Vector3 knockbackVector = Vector3.zero;
+        if (Mathf.Sign(_dir.x) == Mathf.Sign(transform.right.normalized.x))
+            knockbackVector.x = _force;
+        else
+            knockbackVector.x = -_force;
+
+        movementCtrl.MovementCheck(knockbackVector);
     }
 
     #region StateHandler
@@ -399,6 +423,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public EnemyAnimationController GetAnimationController()
     {
         return animCtrl;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il command sprite controller
+    /// </summary>
+    /// <returns></returns>
+    public EnemyCommandsSpriteController GetEnemyCommandsSpriteController()
+    {
+        return commandsSpriteCtrl;
     }
 
     /// <summary>
