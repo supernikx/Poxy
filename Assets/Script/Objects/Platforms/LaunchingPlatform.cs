@@ -29,7 +29,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private MeshRenderer meshRenderer;
 
     private Vector3 launchDirection;
-    private int prevRotation;
+    private float prevRotation;
 
     private Coroutine tickCoroutine;
 
@@ -133,41 +133,18 @@ public class LaunchingPlatform : PlatformBase, IControllable
                 }
             }
 
-            Vector3 _input = PlayerInputManager.GetMovementVector();
-            
-            int _targetRotation = -1;
+            Vector2 aimVector = PlayerInputManager.GetAimVector();
 
-            if (_input.x == 0)
+            if (aimVector != Vector2.zero)
             {
-                if (_input.y > 0)
-                    _targetRotation = 90;
-                else if (_input.y < 0)
-                    _targetRotation = 270;
-            }
-            else if (_input.y == 0)
-            {
-                if (_input.x > 0)
-                    _targetRotation = 0;
-                else if (_input.x < 0)
-                    _targetRotation = 180;
-            }
-            else
-            {
-                if (_input.x > 0 && _input.y > 0)
-                    _targetRotation = 45;
-                else if (_input.x < 0 && _input.y > 0)
-                    _targetRotation = 135;
-                else if (_input.x < 0 && _input.y < 0)
-                    _targetRotation = 225;
-                else if (_input.x > 0 && _input.y < 0)
-                    _targetRotation = 315;
-            }
+                float rotationZ = Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg;
+                if (prevRotation != rotationZ)
+                {
 
-            if (_targetRotation >= 0 && prevRotation != _targetRotation)
-            {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, _targetRotation));
-                prevRotation = _targetRotation;
-                launchDirection = _input.normalized;
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
+                    prevRotation = rotationZ;
+                    launchDirection = aimVector.normalized;
+                }
             }
 
             yield return null;

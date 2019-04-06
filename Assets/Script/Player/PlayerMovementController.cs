@@ -134,11 +134,6 @@ public class PlayerMovementController : MonoBehaviour
         //Calcolo di quanto dovrò traslare
         targetTranslation = input.x * MovementSpeed;
 
-        Vector3 aimVector =  PlayerInputManager.GetAimVector();
-        //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
-        if (targetTranslation != 0 && aimVector.y != 0)
-            targetTranslation *= 0.75f;
-
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
 
