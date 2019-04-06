@@ -14,9 +14,6 @@ public class PlayerInputManager : MonoBehaviour
 
     public static PlayerInputManager instance;
 
-    [Header("Joystick Settings")]
-    [SerializeField]
-    private float LeftStickDeadZone;
     Player player;
     InputType currentInputType;
     GamePadState joystickState;
@@ -95,22 +92,8 @@ public class PlayerInputManager : MonoBehaviour
         }
 
         //Aim
-        float RX = joystickState.ThumbSticks.Right.X;
-        float RY = joystickState.ThumbSticks.Right.Y;
-
-        if (RX >= 0.5)
-            aimVector.x = 1;
-        else if (RX <= -0.5)
-            aimVector.x = -1;
-        else
-            aimVector.x = 0;
-
-        if (RY >= 0.5)
-            aimVector.y = 1;
-        else if (RY <= -0.5)
-            aimVector.y = -1;
-        else
-            aimVector.y = 0;        
+        aimVector.x = joystickState.ThumbSticks.Right.X;
+        aimVector.y = joystickState.ThumbSticks.Right.Y;     
 
         //Jump
         if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed)
@@ -154,20 +137,7 @@ public class PlayerInputManager : MonoBehaviour
 
         //Aim
         Vector3 playerScreen = Camera.main.WorldToScreenPoint(player.transform.position);
-        Vector3 aimVectorNotNormilezed = (Input.mousePosition - playerScreen).normalized;
-        if (aimVectorNotNormilezed.x >= 0.5)
-            aimVector.x = 1;
-        else if (aimVectorNotNormilezed.x <= -0.5)
-            aimVector.x = -1;
-        else
-            aimVector.x = 0;
-
-        if (aimVectorNotNormilezed.y >= 0.5)
-            aimVector.y = 1;
-        else if (aimVectorNotNormilezed.y <= -0.5)
-            aimVector.y = -1;
-        else
-            aimVector.y = 0;
+        aimVector = (Input.mousePosition - playerScreen).normalized;
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Space))
