@@ -13,7 +13,6 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
         PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
-        PlayerInputManager.OnJumpPressed += HandleOnPlayerParasitePressed;
 
         parasitePressed = false;
         healthMax = false;
@@ -56,7 +55,6 @@ public class PlayerPlatformState : PlayerSMStateBase
     {
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
         PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
-        PlayerInputManager.OnJumpPressed -= HandleOnPlayerParasitePressed;
 
         context.player.GetParasiteController().SetParasite(null);
 
@@ -76,6 +74,5 @@ public class PlayerPlatformState : PlayerSMStateBase
         if (parasitePlatform != null)
             parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
         PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
-        PlayerInputManager.OnJumpPressed -= HandleOnPlayerParasitePressed;
     }
 }

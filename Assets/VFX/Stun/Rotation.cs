@@ -6,10 +6,26 @@ public class Rotation : MonoBehaviour
 {
     public AnimationCurve xVelocity, yVelocity, zVelocity;
     float time;
+    IEnumerator rotatingCoroutineRef;
 
-    void Update()
+    private void OnEnable()
     {
-        time += Time.deltaTime;
-        transform.Rotate(xVelocity.Evaluate(time),  yVelocity.Evaluate(time), zVelocity.Evaluate(time));
+        rotatingCoroutineRef = RotatingCoroutine();
+        StartCoroutine(rotatingCoroutineRef);
+    }
+
+    IEnumerator RotatingCoroutine()
+    {
+        while (true)
+        {
+            time += Time.deltaTime;
+            transform.Rotate(xVelocity.Evaluate(time), yVelocity.Evaluate(time), zVelocity.Evaluate(time));
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(rotatingCoroutineRef);
     }
 }
