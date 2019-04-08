@@ -110,6 +110,7 @@ public class PlatformManager : MonoBehaviour
     private void HandleOnParasite(LaunchingPlatform _platform)
     {
         launchingPlatformsInUse.Add(_platform);
+        uiGameplay.GetGamePanel().SetMaxToleranceValue(_platform.GetToleranceCtrl().GetMaxTolerance());
         uiGameplay.GetGamePanel().EnableToleranceBar(true);
     }
 

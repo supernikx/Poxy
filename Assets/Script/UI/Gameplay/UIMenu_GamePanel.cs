@@ -8,39 +8,29 @@ namespace UI
 {
     public class UIMenu_GamePanel : UIMenu_Base
     {
-        /*
-        [Header("Life UI")]
+        [Header("LowLife Panel")]
         [SerializeField]
-        private Image hearth1Image;
+        private Image lowLifePanel;
         [SerializeField]
-        private Image hearth2Image;
-        [SerializeField]
-        private Image hearth3Image;
-        */
+        private float lowLifePanelLife;
         [Header("Health Bar")]
         [SerializeField]
+        private GameObject healthBar;
+        [SerializeField]
+        private Image healthBarFill;
+        [SerializeField]
         private float playerMaxHealth;
-        [SerializeField]
-        private float circleHealthAmmount;
-        private float circleFillBaseAmmount = 0.481f;
-        [SerializeField]
-        private Image healthBarCircleFill;
-        [SerializeField]
-        private Image healthBarHorizontalFill;
         [Header("Tolerance Bar")]
         [SerializeField]
-        private Image toleranceBarFill;
+        private GameObject toleranceBar;
         [SerializeField]
-        private Image toleranceBarContorno;
+        private Image toleranceBarFill;
         private float maxTolerance;
-        private float maxToleranceBarValue = 0.987f;
-        private float minToleranceBarValue = 0.1f;
-        private float toleranceOffset;
         [Header("Bullet Image")]
         [SerializeField]
-        private Image damageBulletSlot;
+        private Image bulletUI;
         [SerializeField]
-        private Image damageBulletContorno;
+        private Sprite stunBulletSprite;
         [SerializeField]
         private Sprite parabolicBulletSprite;
         [SerializeField]
@@ -51,13 +41,9 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             uiManager = _uiManager;
-
-            //PlayerLivesController.OnLivesChange += HandleLivesChange;
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
-
-            toleranceOffset = maxToleranceBarValue - minToleranceBarValue;
             HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);
@@ -66,8 +52,6 @@ namespace UI
         public override void Enable()
         {
             base.Enable();
-
-            //PlayerLivesController.OnLivesChange += HandleLivesChange;
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
@@ -76,65 +60,18 @@ namespace UI
         #region Bullet
         private void HandleOnEnemyBulletChanged(ObjectTypes _bullet)
         {
-            Color newImageColor;
             switch (_bullet)
             {
                 case ObjectTypes.ParabolicBullet:
-                    damageBulletSlot.sprite = parabolicBulletSprite;
-                    newImageColor = new Color(damageBulletSlot.color.r, damageBulletSlot.color.g, damageBulletSlot.color.b, 1f);
-                    damageBulletSlot.color = newImageColor;
-                    newImageColor = new Color(damageBulletContorno.color.r, damageBulletContorno.color.g, damageBulletContorno.color.b, 1f);
-                    damageBulletContorno.color = newImageColor;
+                    bulletUI.sprite = parabolicBulletSprite;
                     break;
                 case ObjectTypes.StickyBullet:
-                    damageBulletSlot.sprite = stickyBulletSprite;
-                    newImageColor = new Color(damageBulletSlot.color.r, damageBulletSlot.color.g, damageBulletSlot.color.b, 1f);
-                    damageBulletSlot.color = newImageColor;
-                    newImageColor = new Color(damageBulletContorno.color.r, damageBulletContorno.color.g, damageBulletContorno.color.b, 1f);
-                    damageBulletContorno.color = newImageColor;
+                    bulletUI.sprite = stickyBulletSprite;
                     break;
-                case ObjectTypes.None:
-                default:
-                    damageBulletSlot.sprite = null;
-                    newImageColor = new Color(damageBulletSlot.color.r, damageBulletSlot.color.g, damageBulletSlot.color.b, 0f);
-                    damageBulletSlot.color = newImageColor;
-                    newImageColor = new Color(damageBulletContorno.color.r, damageBulletContorno.color.g, damageBulletContorno.color.b, 0.15f);
-                    damageBulletContorno.color = newImageColor;
+                case ObjectTypes.StunBullet:
+                    bulletUI.sprite = stunBulletSprite;
                     break;
             }
-        }
-        #endregion
-
-        #region PlayerLives
-        private void HandleLivesChange(int lives)
-        {
-            /*
-            switch (lives)
-            {
-                case 0:
-                    hearth1Image.gameObject.SetActive(false);
-                    hearth2Image.gameObject.SetActive(false);
-                    hearth3Image.gameObject.SetActive(false);
-                    break;
-                case 1:
-                    hearth1Image.gameObject.SetActive(true);
-                    hearth2Image.gameObject.SetActive(false);
-                    hearth3Image.gameObject.SetActive(false);
-                    break;
-                case 2:
-                    hearth1Image.gameObject.SetActive(true);
-                    hearth2Image.gameObject.SetActive(true);
-                    hearth3Image.gameObject.SetActive(false);
-                    break;
-                case 3:
-                default:
-                    hearth1Image.gameObject.SetActive(true);
-                    hearth2Image.gameObject.SetActive(true);
-                    hearth3Image.gameObject.SetActive(true);
-                    break;
-            }
-            */
-            return;
         }
         #endregion
 
@@ -146,20 +83,16 @@ namespace UI
         private void HandleOnHealthChange(float health)
         {
             float healthPercentage = health / playerMaxHealth;
-
-            if (health > circleHealthAmmount)
+            healthBarFill.fillAmount = healthPercentage;
+            if (health <= lowLifePanelLife)
             {
-                float barPercentageFill = (health - circleHealthAmmount) / (playerMaxHealth - circleHealthAmmount);
-                healthBarCircleFill.fillAmount = circleFillBaseAmmount;
-                healthBarHorizontalFill.fillAmount = barPercentageFill;
+                if (!lowLifePanel.gameObject.activeSelf)
+                    EnableLowLifePanel(true);
+                Color newAlpha = new Color(1f, 1f, 1f, 1f - health / lowLifePanelLife);
+                lowLifePanel.color = newAlpha;
             }
-            else
-            {
-                float circlePercentageFill = healthPercentage / (circleHealthAmmount / 100f);
-                circlePercentageFill *= circleFillBaseAmmount;
-                healthBarHorizontalFill.fillAmount = 0f;
-                healthBarCircleFill.fillAmount = circlePercentageFill;
-            }
+            else if (lowLifePanel.gameObject.activeSelf)
+                EnableLowLifePanel(false);
         }
 
         /// <summary>
@@ -168,8 +101,16 @@ namespace UI
         /// <param name="_enable"></param>
         public void EnableHealthBar(bool _enable)
         {
-            healthBarCircleFill.gameObject.SetActive(_enable);
-            healthBarHorizontalFill.gameObject.SetActive(_enable);
+            healthBar.SetActive(_enable);
+        }
+
+        /// <summary>
+        /// Funzione che attiva/disattiva il pannello lowlife
+        /// </summary>
+        /// <param name="_enable"></param>
+        public void EnableLowLifePanel(bool _enable)
+        {
+            lowLifePanel.gameObject.SetActive(_enable);
         }
         #endregion
 
@@ -181,7 +122,7 @@ namespace UI
         private void HandleOnToleranceChange(float tolerance)
         {
             float tolerancePercentage = tolerance / maxTolerance;
-            toleranceBarFill.fillAmount = minToleranceBarValue + (toleranceOffset * tolerancePercentage);
+            toleranceBarFill.fillAmount = tolerancePercentage;
         }
 
         /// <summary>
@@ -200,24 +141,12 @@ namespace UI
         /// <param name="_enable"></param>
         public void EnableToleranceBar(bool _enable)
         {
-            toleranceBarFill.gameObject.SetActive(_enable);
-
-            if (_enable)
-            {
-                Color newImageColor = new Color(toleranceBarContorno.color.r, toleranceBarContorno.color.g, toleranceBarContorno.color.b, 1f);
-                toleranceBarContorno.color = newImageColor;
-            }
-            else
-            {
-                Color newImageColor = new Color(toleranceBarContorno.color.r, toleranceBarContorno.color.g, toleranceBarContorno.color.b, 0.15f);
-                toleranceBarContorno.color = newImageColor;
-            }
+            toleranceBar.SetActive(_enable);
         }
         #endregion
 
         private void OnDisable()
         {
-            //PlayerLivesController.OnLivesChange -= HandleLivesChange;
             PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged -= HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
