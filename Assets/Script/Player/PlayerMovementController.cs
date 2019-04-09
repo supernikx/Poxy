@@ -267,6 +267,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         impulseX = 0;
 
+        /*
+         * PER LE 8 DIREZIONI
         if (_launchDirection.x == 0)
         {
             movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.y);
@@ -277,13 +279,17 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            float _launchForce = Mathf.Sqrt(Mathf.Pow((maxJumpVelocity * _ejectMult), 2) / 2);
-            movementVelocity.y = _launchForce * Mathf.Sign(_launchDirection.y);
-            impulseX = _launchForce * Mathf.Sign(_launchDirection.x);
+            float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x) * Mathf.Rad2Deg;
+            movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
+            impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
 
             //Sulla x pongo comunque il massimo della forza per un movimento più naturale
             //impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
-        }
+        }*/
+
+        float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x);
+        movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
+        impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
     }
     #endregion
 

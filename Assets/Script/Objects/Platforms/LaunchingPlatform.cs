@@ -91,11 +91,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         if (_aimVector != Vector2.zero)
         {
-            Debug.Log(_aimVector.x);
             float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
             if (prevRotation != rotationZ && (Mathf.Abs(_aimVector.x) >= 0.5 || Mathf.Abs(_aimVector.y) >= 0.5))
             {
-
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
                 prevRotation = rotationZ;
                 launchDirection = _aimVector.normalized;
