@@ -86,6 +86,22 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         PlatformManager.OnParasiteEnd(this);
     }
+
+    public void RotationUpdate(Vector2 _aimVector)
+    {
+        if (_aimVector != Vector2.zero)
+        {
+            Debug.Log(_aimVector.x);
+            float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
+            if (prevRotation != rotationZ && (Mathf.Abs(_aimVector.x) >= 0.5 || Mathf.Abs(_aimVector.y) >= 0.5))
+            {
+
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
+                prevRotation = rotationZ;
+                launchDirection = _aimVector.normalized;
+            }
+        }
+    }
     #endregion
 
     #region Handlers
@@ -99,6 +115,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = infectedMaterial;
 
+        launchDirection = new Vector3(0, 1, 0);
         tickCoroutine = StartCoroutine(Tick());
     }
 
@@ -117,11 +134,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #region Coroutines
     private IEnumerator Tick()
     {
-        launchDirection = new Vector3(0, 1, 0);
 
         while (true)
         {
-            // da ricontrollare
             if (toleranceCtrl.IsActive())
             {
                 toleranceCtrl.AddTolleranceOvertime();
@@ -132,21 +147,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
                         toleranceCtrl.OnMaxTolleranceBar();
                 }
             }
-
-            Vector2 aimVector = PlayerInputManager.GetAimVector();
-
-            if (aimVector != Vector2.zero)
-            {
-                float rotationZ = Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg;
-                if (prevRotation != rotationZ)
-                {
-
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
-                    prevRotation = rotationZ;
-                    launchDirection = aimVector.normalized;
-                }
-            }
-
+            
             yield return null;
         }
     }
