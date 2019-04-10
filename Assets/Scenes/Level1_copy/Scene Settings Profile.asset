@@ -17,6 +17,8 @@ MonoBehaviour:
   - {fileID: 114647200289851264}
   - {fileID: 114482830858205684}
   - {fileID: 114844451899931208}
+  - {fileID: 114694683316942960}
+  - {fileID: 114934948331209688}
 --- !u!114 &114482830858205684
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -91,7 +93,7 @@ MonoBehaviour:
     showEyeDropper: 1
   enableSunDisk:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
 --- !u!114 &114647200289851264
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -107,10 +109,32 @@ MonoBehaviour:
   active: 1
   skyType:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   fogType:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 2
+--- !u!114 &114694683316942960
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4910d90e50201484ba448b791a192696, type: 3}
+  m_Name: VolumetricLightingController
+  m_EditorClassIdentifier: 
+  active: 1
+  depthExtent:
+    m_OverrideState: 0
+    m_Value: 64
+    min: 0.1
+  sliceDistributionUniformity:
+    m_OverrideState: 0
+    m_Value: 0.75
+    min: 0
+    max: 1
 --- !u!114 &114844451899931208
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -123,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29b00527f85bb3346a4d2cb710971587, type: 3}
   m_Name: VolumetricFog
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   colorMode:
     m_OverrideState: 0
     m_Value: 1
@@ -157,17 +181,17 @@ MonoBehaviour:
     min: 0
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0.990566, g: 0.4642627, b: 0.22895159, a: 1}
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 86.37
+    m_Value: 760.9
     min: 1
   baseHeight:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 7.8
   meanHeight:
     m_OverrideState: 1
     m_Value: 25.05
@@ -183,8 +207,64 @@ MonoBehaviour:
     min: 0
     max: 1
   enableDistantFog:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
+--- !u!114 &114934948331209688
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2150ee00179b2f4418ea8b21a7e98eea, type: 3}
+  m_Name: ExponentialFog
+  m_EditorClassIdentifier: 
+  active: 1
+  colorMode:
+    m_OverrideState: 1
+    m_Value: 0
+  color:
+    m_OverrideState: 0
+    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  density:
+    m_OverrideState: 1
+    m_Value: 0.2
+    min: 0
+    max: 1
+  maxFogDistance:
+    m_OverrideState: 1
+    m_Value: 5000
+    min: 0
+  mipFogMaxMip:
+    m_OverrideState: 0
+    m_Value: 0.5
+    min: 0
+    max: 1
+  mipFogNear:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  mipFogFar:
+    m_OverrideState: 0
+    m_Value: 1000
+    min: 0
+  fogDistance:
+    m_OverrideState: 1
+    m_Value: 920.78
+    min: 0
+  fogBaseHeight:
+    m_OverrideState: 1
+    m_Value: 90.8
+  fogHeightAttenuation:
+    m_OverrideState: 1
+    m_Value: 0.2
+    min: 0
+    max: 1
 --- !u!114 &114949826277000386
 MonoBehaviour:
   m_ObjectHideFlags: 3
