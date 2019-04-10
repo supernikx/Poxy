@@ -21,7 +21,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform.gameObject.transform.localPosition = Vector3.zero;
 
         context.player.GetShotController().SetCanShoot(false);
-        context.player.GetShotController().SetCanAim(false);
+        //context.player.GetShotController().SetCanAim(false);
         context.player.StopImmunityCoroutine();
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
     }
@@ -34,6 +34,8 @@ public class PlayerPlatformState : PlayerSMStateBase
             if (context.player.OnPlayerMaxHealth != null)
                 context.player.OnPlayerMaxHealth();
         }
+
+        parasitePlatform.RotationUpdate(PlayerInputManager.GetAimVector());
     }
 
     private bool parasitePressed;
@@ -60,7 +62,7 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         context.player.GetCollisionController().CalculateNormalCollision();
 
-        context.player.GetShotController().SetCanAim(true);
+        //context.player.GetShotController().SetCanAim(true);
         context.player.GetShotController().SetCanShoot(true);
         context.player.GetMovementController().SetCanMove(true);
         parasitePressed = false;

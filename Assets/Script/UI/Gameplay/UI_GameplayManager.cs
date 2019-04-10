@@ -12,6 +12,8 @@ public class UI_GameplayManager : UI_ManagerBase
     private UIMenu_GamePanel gamePanel;
     [SerializeField]
     private UIMenu_PausePanel pausePanel;
+    [SerializeField]
+    private UIMenu_TutorialPanel tutorialPanel;
     /// <summary>
     /// Riferimento al menù attualmente attivo
     /// </summary>
@@ -104,6 +106,9 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.Pause:
                 pausePanel.Enable();                
                 break;
+            case MenuType.Tutorial:
+                tutorialPanel.Enable();
+                break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");
                 break;
@@ -134,6 +139,10 @@ public class UI_GameplayManager : UI_ManagerBase
                 break;
             case MenuType.Pause:
                 base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Tutorial:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
                 break;
         }
     }

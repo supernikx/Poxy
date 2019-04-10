@@ -10,6 +10,7 @@ public class PlayerInputManager : MonoBehaviour
     public static Action OnJumpRelease;
     public static Action OnParasitePressed;
     public static Action OnPausePressed;
+    public static Action OnConfirmPressed;
     #endregion
 
     public static PlayerInputManager instance;
@@ -125,6 +126,13 @@ public class PlayerInputManager : MonoBehaviour
             if (OnPausePressed != null)
                 OnPausePressed();
         }
+
+        //Confirm Button
+        if (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed)
+        {
+            if (OnConfirmPressed != null)
+                OnConfirmPressed();
+        }
     }
 
     /// <summary>
@@ -168,6 +176,13 @@ public class PlayerInputManager : MonoBehaviour
         {
             if (OnPausePressed != null)
                 OnPausePressed();
+        }
+
+        //Confirm Button
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (OnConfirmPressed != null)
+                OnConfirmPressed();
         }
     }
 
