@@ -75,9 +75,7 @@ GameObject:
   - component: {fileID: 114103655760773738}
   - component: {fileID: 114105362086096742}
   - component: {fileID: 228114427}
-  - component: {fileID: 228114432}
-  - component: {fileID: 228114434}
-  - component: {fileID: 1691647727}
+  - component: {fileID: 582705599}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -113,8 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f48be10228cb9145b9c12e2baef3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawn1Pos: {fileID: 320545139}
-  spawn2Pos: {fileID: 1256077229}
 --- !u!114 &114950736676009152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +192,7 @@ MonoBehaviour:
   checkpointContainer: {fileID: 0}
   initialCheckpoint: {fileID: 0}
   activeCheckpoint: {fileID: 0}
---- !u!114 &228114432
+--- !u!114 &582705599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,34 +201,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1618661823558618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be33d609d265a1468dfffde18ac1a40, type: 3}
+  m_Script: {fileID: 11500000, guid: b87802a6d31b55b4fb8ff663554f8670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorsContainer: {fileID: 0}
-  buttonsContainer: {fileID: 0}
---- !u!114 &228114434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618661823558618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e984bfaebcbea6e44b5115860ea9a52b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tokenContainer: {fileID: 0}
-  tokenCounter: 0
---- !u!114 &1691647727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618661823558618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d51c4d8ee773d44bb4eda2bb189aed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
+  amplitudeGain: 1
+  frequencyGain: 1
+  shakeActivationPercentage: 30
