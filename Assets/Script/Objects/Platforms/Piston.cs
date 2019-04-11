@@ -196,7 +196,9 @@ public class Piston : PlatformBase
                 else
                     _player = hit.transform.gameObject.GetComponentInParent<Player>();
 
-                if (_player != null && (direction == PistonDirection.Horizontal || (direction == PistonDirection.Vertical && _player.GetCollisionController().GetCollisionInfo().below)))
+                if (_player != null && ((direction == PistonDirection.Horizontal &&
+                    (_player.GetCollisionController().GetCollisionInfo().left || _player.GetCollisionController().GetCollisionInfo().right)) ||
+                    (direction == PistonDirection.Vertical && _player.GetCollisionController().GetCollisionInfo().below)))
                 {
                     _player.StartDeathCoroutine();
                 }
