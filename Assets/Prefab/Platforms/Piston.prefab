@@ -59,7 +59,7 @@ Transform:
   m_Children:
   - {fileID: 8341304953845924114}
   m_Father: {fileID: 6036209644734516795}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6036209643856341822
 GameObject:
@@ -90,7 +90,7 @@ Transform:
   m_Children:
   - {fileID: 6036209644113745130}
   m_Father: {fileID: 6036209644734516795}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6036209644734516792
 GameObject:
@@ -121,9 +121,9 @@ Transform:
   m_LocalPosition: {x: 41.48, y: 7.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6418380648571190238}
   - {fileID: 6036209643856341817}
   - {fileID: 4000335625797935496}
+  - {fileID: 6418380648571190238}
   - {fileID: 401328639755394774}
   - {fileID: 1268736150859113044}
   m_Father: {fileID: 0}
@@ -141,10 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0205cdac74b7314eba8eac131cddf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stompVFX: {fileID: 8341304954360116715}
+  stompVFX: {fileID: 3859601757133774939, guid: f7aa4bdfa26564846820683e99efd0fa,
+    type: 3}
   downMovementSpd: 5
   upMovementSpd: 3
-  direction: 0
+  direction: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -219,11 +220,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8903592909467283931}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -4.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6036209644734516795}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3447587846342706754
 PrefabInstance:
@@ -294,12 +295,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
         type: 3}
-      propertyPath: playOnAwake
+      propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
         type: 3}
-      propertyPath: looping
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
@@ -312,12 +313,6 @@ PrefabInstance:
 --- !u!4 &8341304953845924114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6636632703284758352, guid: 2b2fb57c546392c44a94376faa74c4d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3447587846342706754}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8341304954360116715 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
     type: 3}
   m_PrefabInstance: {fileID: 3447587846342706754}
   m_PrefabAsset: {fileID: 0}
