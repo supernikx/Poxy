@@ -3602,7 +3602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856903077613586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.207, y: -0.05499977, z: 0}
+  m_LocalPosition: {x: 2.86, y: -0.05499977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4084001388929980}
@@ -4040,20 +4040,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamingMovementSpeed: 4
-  alertMovementSpeed: 5
+  roamingMovementSpeed: 3
+  alertMovementSpeed: 3
   wayPoint: {fileID: 1856903077613586}
-  enemyStartLife: 2
+  enemyStartLife: 16
   shotPosition: {fileID: 4912578008841264}
   enemyShotSettings:
     bulletType: 1
-    damage: 2
+    damage: 8
     range: 20
-    shotSpeed: 15
-    firingRate: 2
+    shotSpeed: 8
+    firingRate: 1
   stunDuration: 2
-  stunHit: 2
-  defaultRespawnTime: 5
+  stunHit: 3
+  defaultRespawnTime: 10
 --- !u!114 &114229394083401848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4643,6 +4643,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
+    - target: {fileID: 8827952970017221095, guid: 71769b6fb1ac6434a8de7f37bb5960d0,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_GeneralDeath
+      objectReference: {fileID: 0}
     - target: {fileID: 8902334442170900970, guid: 71769b6fb1ac6434a8de7f37bb5960d0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4698,11 +4703,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8827952970017221095, guid: 71769b6fb1ac6434a8de7f37bb5960d0,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_GeneralDeath
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71769b6fb1ac6434a8de7f37bb5960d0, type: 3}
 --- !u!4 &6757655946596744534 stripped
@@ -4724,6 +4724,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
+    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_EnemyHit
+      objectReference: {fileID: 0}
     - target: {fileID: 5503750700905914653, guid: cba4293ae8c105f4b813cf8893aa8afb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4778,11 +4783,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_EnemyHit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cba4293ae8c105f4b813cf8893aa8afb, type: 3}

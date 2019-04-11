@@ -65,7 +65,7 @@ public class Piston : PlatformBase
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
-        
+
         initialPosition = (direction == PistonDirection.Vertical) ? transform.position.y : transform.position.x;
         targetPosition = (direction == PistonDirection.Vertical) ? waypoint.position.y : waypoint.position.x;
     }
@@ -85,7 +85,7 @@ public class Piston : PlatformBase
         CheckMovementCollisions(movementVelocity * Time.deltaTime);
 
         transform.Translate(movementVelocity * Time.deltaTime);
-        
+
         if (currentState == PistonState.Forward)
         {
             if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y <= targetPosition)
@@ -190,13 +190,15 @@ public class Piston : PlatformBase
                 //Se colpisco qualcosa sul layer di collisione azzero la velocity
                 rayLenght = hit.distance;
 
+                Player _player;
                 if (hit.transform.gameObject.tag == "Player")
+                    _player = hit.transform.gameObject.GetComponent<Player>();
+                else
+                    _player = hit.transform.gameObject.GetComponentInParent<Player>();
+
+                if (_player != null && (direction == PistonDirection.Horizontal || (direction == PistonDirection.Vertical && _player.GetCollisionController().GetCollisionInfo().below)))
                 {
-                    Player _player = hit.transform.gameObject.GetComponent<Player>();
-                    if (_player.GetCollisionController().GetCollisionInfo().below)
-                    {
-                        _player.StartDeathCoroutine();
-                    }
+                    _player.StartDeathCoroutine();
                 }
             }
             Debug.DrawRay(rayOrigin, transform.up * directionY * rayLenght, Color.red);
