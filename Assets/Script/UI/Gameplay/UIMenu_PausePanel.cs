@@ -25,6 +25,11 @@ namespace UI
             LevelManager.instance.RestartGame();
         }
 
+        public void MenuButton()
+        {
+            LevelManager.instance.BackToMenu();
+        }
+
         public void QuitButton()
         {
             LevelManager.instance.QuitGame();

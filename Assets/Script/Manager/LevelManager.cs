@@ -114,6 +114,16 @@ public class LevelManager : MonoBehaviour
             GameManager.RestartCurrentLevel();
     }
 
+    /// <summary>
+    /// Funzione che fa tornare al menu principale
+    /// </summary>
+    public void BackToMenu()
+    {
+        Time.timeScale = 1f;
+        if (GameManager.instance != null)
+            GameManager.BackToMenu();
+    }
+
     #region Pause
     private bool pause;
     /// <summary>

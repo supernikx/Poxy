@@ -82,6 +82,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che ricarica il livello attuale
+    /// </summary>
+    public static void BackToMenu()
+    {
+        if (instance.gameSM.GoToMainMenu != null)
+            instance.gameSM.GoToMainMenu();
+    }
+
+    /// <summary>
     /// Funzione che chiude l'applicazione
     /// </summary>
     public static void QuitGame()
