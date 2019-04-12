@@ -79,11 +79,6 @@ public class LaunchingPlatform : PlatformBase, IControllable
         SetObjectState(false);
         StartCoroutine(Respawn());
 
-        prevRotation = 90;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
-
-        meshRenderer.material = defaultMaterial;
-
         PlatformManager.OnParasiteEnd(this);
     }
 
@@ -159,7 +154,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
             timer += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
+        prevRotation = 90f;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
 
+        meshRenderer.material = defaultMaterial;
         SetObjectState(true);
     }
     #endregion

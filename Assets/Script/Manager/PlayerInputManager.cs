@@ -94,16 +94,18 @@ public class PlayerInputManager : MonoBehaviour
 
         //Aim
         aimVector.x = joystickState.ThumbSticks.Right.X;
-        aimVector.y = joystickState.ThumbSticks.Right.Y;     
+        aimVector.y = joystickState.ThumbSticks.Right.Y;
 
         //Jump
-        if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed)
+        if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed) ||
+            (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed))
         {
             isJumping = true;
             if (OnJumpPressed != null)
                 OnJumpPressed();
         }
-        else if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released)
+        else if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released) ||
+            (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released))
         {
             isJumping = false;
             if (OnJumpRelease != null)

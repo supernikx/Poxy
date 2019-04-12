@@ -16,6 +16,8 @@ public class Piston : PlatformBase
     [SerializeField]
     private PistonDirection direction;
     [SerializeField]
+    private PistonOrientation horizontalOrientation;
+    [SerializeField]
     private LayerMask playerLayer;
     [SerializeField]
     private Transform waypoint;
@@ -196,7 +198,11 @@ public class Piston : PlatformBase
                 else
                     _player = hit.transform.gameObject.GetComponentInParent<Player>();
 
-                if (_player != null && (direction == PistonDirection.Horizontal ||
+                PlayerCollisionController.CollisionInfo collisions = _player.GetCollisionController().GetCollisionInfo();
+                if (_player != null &&
+                    ((direction == PistonDirection.Horizontal &&
+                    ((horizontalOrientation == PistonOrientation.LeftToRight && (collisions.right || collisions.rightStickyCollision)) ||
+                    (horizontalOrientation == PistonOrientation.RightToLeft && (collisions.left || collisions.leftStickyCollision)))) ||
                     (direction == PistonDirection.Vertical && _player.GetCollisionController().GetCollisionInfo().below)))
                 {
                     _player.StartDeathCoroutine();
@@ -223,5 +229,11 @@ public class Piston : PlatformBase
     {
         Vertical,
         Horizontal
+    }
+
+    public enum PistonOrientation
+    {
+        LeftToRight,
+        RightToLeft
     }
 }
