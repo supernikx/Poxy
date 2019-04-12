@@ -289,7 +289,7 @@ public class PlayerMovementController : MonoBehaviour
 
         float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x);
         movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
-        impulseX = (maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ) * 0.3f);
+        impulseX = (maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ) * 0.5f);
     }
     #endregion
 
