@@ -11,7 +11,7 @@ namespace StateMachine.GameSM
         public override void Enter()
         {
             ui = context.gameManager.GetUIManager();
-            ui.ToggleMenu(MenuType.Tutorial);
+            ui.ToggleMenu(MenuType.Game);
         }
 
         public override void Exit()

@@ -17,7 +17,7 @@ public class GIFBehaviour : MonoBehaviour
     private void OnEnable()
     {
         GifCoroutineRef = GifCoroutine();
-        StartCoroutine(GifCoroutineRef);
+        //StartCoroutine(GifCoroutineRef);
     }
 
     IEnumerator GifCoroutine()
@@ -32,6 +32,13 @@ public class GIFBehaviour : MonoBehaviour
             gifImage.sprite = frames[(int)index];
             yield return null;
         }
+    }
+
+    private void Update()
+    {
+        index = Time.time * framesPerSecond;
+        index = index % frames.Length;
+        gifImage.sprite = frames[(int)index];
     }
 
     private void OnDisable()

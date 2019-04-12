@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UI;
+using System;
 
 namespace StateMachine.GameSM
 {
@@ -9,6 +11,12 @@ namespace StateMachine.GameSM
     {
         UI_ManagerBase uiManager;
         public override void Enter()
+        {
+            UIMenu_TutorialPanel.OnTutorialEnded += HandleOnTutorialEnded;
+            context.gameManager.GetUIManager().ToggleMenu(MenuType.Tutorial);
+        }
+
+        private void HandleOnTutorialEnded()
         {
             context.gameManager.GetUIManager().ToggleMenu(MenuType.Loading);
             SceneManager.LoadScene("Level1"); //TODO: mettere il livello scelto
@@ -26,6 +34,7 @@ namespace StateMachine.GameSM
 
         public override void Exit()
         {
+            UIMenu_TutorialPanel.OnTutorialEnded -= HandleOnTutorialEnded;
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

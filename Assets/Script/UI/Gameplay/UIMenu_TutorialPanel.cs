@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 namespace UI
 {
     public class UIMenu_TutorialPanel : UIMenu_Base
     {
+        #region Delegates
+        public static Action OnTutorialEnded;
+        #endregion
+
         [Header("Tutorial Sections")]
         [SerializeField]
         private GameObject SectionA;
@@ -21,24 +25,29 @@ namespace UI
 
         public override void Enable()
         {
+            base.Enable();
+
             SectionA.SetActive(true);
             SectionB.SetActive(false);
-
-            //events
-            PlayerInputManager.OnConfirmPressed += HandleConfirmPressed;
-
-            base.Enable();
-            Time.timeScale = 0f;
         }
 
-        public override void Disable()
+        //Super mega provvisorio per farlo funzionare tanto non esisterà più
+        XInputDotNetPure.GamePadState joystickPrevState;
+        private void Update()
         {
-            Time.timeScale = 1f;
-
-            //events
-            PlayerInputManager.OnConfirmPressed -= HandleConfirmPressed;
-
-            base.Disable();
+            switch (InputChecker.GetCurrentInputType())
+            {
+                case InputType.Joystick:
+                    XInputDotNetPure.GamePadState joystickState = InputChecker.GetCurrentGamePadState();
+                    if (joystickPrevState.Buttons.A == XInputDotNetPure.ButtonState.Released && joystickState.Buttons.A == XInputDotNetPure.ButtonState.Pressed)
+                        HandleConfirmPressed();
+                    joystickPrevState = joystickState;
+                    break;
+                case InputType.Keyboard:
+                    if (Input.GetKeyDown(KeyCode.Space))
+                        HandleConfirmPressed();
+                    break;
+            }
         }
         #endregion
 
@@ -51,7 +60,9 @@ namespace UI
             }
             else if (SectionA.activeInHierarchy && SectionB.activeInHierarchy)
             {
-                uiManager.ToggleMenu(MenuType.Game);
+                uiManager.ToggleMenu(MenuType.None);
+                if (OnTutorialEnded != null)
+                    OnTutorialEnded();
             }
         }
         #endregion
