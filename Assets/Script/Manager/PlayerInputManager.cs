@@ -26,6 +26,9 @@ public class PlayerInputManager : MonoBehaviour
     private bool isJumping;
     private bool isShooting;
 
+    private float parasiteDelay = 1f;
+    private bool canPressParasite = true;
+
     private void Awake()
     {
         if (instance == null)
@@ -116,8 +119,9 @@ public class PlayerInputManager : MonoBehaviour
         isShooting = joystickState.Triggers.Right > 0;
 
         //Parasite
-        if (joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
+        if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
         {
+            StartCoroutine(ParasiteDelay());
             if (OnParasitePressed != null)
                 OnParasitePressed();
         }
@@ -167,8 +171,9 @@ public class PlayerInputManager : MonoBehaviour
         isShooting = Input.GetMouseButton(0);
 
         //Parasite
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (canPressParasite && Input.GetKeyDown(KeyCode.Q))
         {
+            StartCoroutine(ParasiteDelay());
             if (OnParasitePressed != null)
                 OnParasitePressed();
         }
@@ -247,5 +252,16 @@ public class PlayerInputManager : MonoBehaviour
         GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), _leftMotorIntensity, _rightMotorIntensity);
         yield return new WaitForSecondsRealtime(_duration);
         GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), 0f, 0f);
+    }
+
+    /// <summary>
+    /// Coroutine che disattiva/riattiva la possibilità di premere il tasto parasite
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ParasiteDelay()
+    {
+        canPressParasite = false;
+        yield return new WaitForSeconds(parasiteDelay);
+        canPressParasite = true;
     }
 }

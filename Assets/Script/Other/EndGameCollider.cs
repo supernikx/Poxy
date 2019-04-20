@@ -6,9 +6,6 @@ public class EndGameCollider : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
-        {
-            LevelManager.instance.GetUIGameplayManager().ToggleMenu(MenuType.EndGame);
-        }
+        LevelManager.instance.GetUIGameplayManager().ToggleMenu(MenuType.EndGame);
     }
 }
