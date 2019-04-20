@@ -85,6 +85,7 @@ namespace StateMachine.PlayerSM
                     context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                     break;
                 case DamageableType.Acid:
+                    PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
                     context.player.OnDamageableCollision -= OnDamageableCollision;
                     context.player.StartDeathCoroutine();
                     break;
