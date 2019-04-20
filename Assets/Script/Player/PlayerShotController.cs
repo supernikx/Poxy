@@ -106,7 +106,7 @@ public class PlayerShotController : MonoBehaviour
         direction = aimObject.transform.right;
 
         //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
+        crossAir.transform.position = aimObject.transform.position + aimObject.transform.right.normalized * crossAirDistance;
     }
     #endregion
 
