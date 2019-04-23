@@ -26,7 +26,6 @@ public class PlayerVFXController : MonoBehaviour
     {
         player = _player;
         player.GetCollisionController().OnPlayerLanding += PlayerLandingVFX;
-        player.OnPlayerDeath += PlayDeathVFX;
         player.OnPlayerHit += PlayerHitVFX;
         StopAllVFX();
     }
@@ -95,6 +94,7 @@ public class PlayerVFXController : MonoBehaviour
 
     private void OnDisable()
     {
-        player.OnPlayerDeath -= PlayDeathVFX;
+        player.GetCollisionController().OnPlayerLanding -= PlayerLandingVFX;
+        player.OnPlayerHit -= PlayerHitVFX;
     }
 }

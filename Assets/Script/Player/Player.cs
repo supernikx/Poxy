@@ -323,8 +323,8 @@ public class Player : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DeathCoroutine()
     {
-        if (OnPlayerDeath != null)
-            OnPlayerDeath();
+        if (playerSM.GoToDeath != null)
+            playerSM.GoToDeath();
         yield return null;
     }
     #endregion
@@ -419,6 +419,14 @@ public class Player : MonoBehaviour
     public PlayerAnimationController GetAnimatorController()
     {
         return animCtrl;
+    }
+    /// <summary>
+    /// Funzione che ritorna il VFX controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerVFXController GetVFXController()
+    {
+        return vfxCtrl;
     }
     /// <summary>
     /// Funzione che ritorna la grafica attiva del player
