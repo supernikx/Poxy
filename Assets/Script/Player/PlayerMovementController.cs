@@ -134,11 +134,6 @@ public class PlayerMovementController : MonoBehaviour
         //Calcolo di quanto dovrò traslare
         targetTranslation = input.x * MovementSpeed;
 
-        Vector3 aimVector =  PlayerInputManager.GetAimVector();
-        //Se sto mirando nelle direzioni diagonali mi muovo al 75% della mia velocità
-        if (targetTranslation != 0 && aimVector.y != 0)
-            targetTranslation *= 0.75f;
-
         //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
         movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
 
@@ -272,6 +267,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         impulseX = 0;
 
+        /*
+         * PER LE 8 DIREZIONI
         if (_launchDirection.x == 0)
         {
             movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.y);
@@ -282,13 +279,17 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            float _launchForce = Mathf.Sqrt(Mathf.Pow((maxJumpVelocity * _ejectMult), 2) / 2);
-            movementVelocity.y = _launchForce * Mathf.Sign(_launchDirection.y);
-            impulseX = _launchForce * Mathf.Sign(_launchDirection.x);
+            float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x) * Mathf.Rad2Deg;
+            movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
+            impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
 
             //Sulla x pongo comunque il massimo della forza per un movimento più naturale
             //impulseX = maxJumpVelocity * _ejectMult * Mathf.Sign(_launchDirection.x);
-        }
+        }*/
+
+        float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x);
+        movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
+        impulseX = (maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ) * 0.5f);
     }
     #endregion
 

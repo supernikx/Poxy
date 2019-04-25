@@ -122,7 +122,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114746045794896908
 MonoBehaviour:
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c851ab9bc82864ab879e8c7438e77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnTime: 0
+  respawnTime: 3
   defaultMaterial: {fileID: 2100000, guid: 03b19ab31b2ffe147bd14d18555b5e8b, type: 2}
   infectedMaterial: {fileID: 2100000, guid: 479a626eb3134fe478f1e5b54208f01f, type: 2}
 --- !u!114 &7337448839234341791
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f6252e9ba07fd4d9834042dc3a1e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToFill: 10
+  timeToFill: 5
   maxTolerance: 25
   minTolerance: 0
 --- !u!1 &842418301843052888
@@ -199,3 +199,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphicModel: {fileID: 1198279032145018}
+  aimObject: {fileID: 0}

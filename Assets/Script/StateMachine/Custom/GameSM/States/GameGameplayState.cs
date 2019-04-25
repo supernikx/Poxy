@@ -13,5 +13,10 @@ namespace StateMachine.GameSM
             ui = context.gameManager.GetUIManager();
             ui.ToggleMenu(MenuType.Game);
         }
+
+        public override void Exit()
+        {
+            context.gameManager.GetUIManager().ToggleMenu(MenuType.None);
+        }
     }
 }

@@ -33,8 +33,6 @@ public class CheckpointManager : MonoBehaviour
             _current.Init();
             _current.ActivateCheckpoint += HandleActivateCheckpoint;
         }
-
-        LevelManager.OnGameOver += HandlePlayerDeath;
     }
     #endregion
 
@@ -62,10 +60,5 @@ public class CheckpointManager : MonoBehaviour
         return initialCheckpoint;
     }
     #endregion
-
-    private void OnDisable()
-    {
-        LevelManager.OnGameOver -= HandlePlayerDeath;
-    }
 }
 

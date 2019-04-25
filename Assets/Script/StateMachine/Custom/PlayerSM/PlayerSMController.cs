@@ -14,6 +14,8 @@ namespace StateMachine.PlayerSM
 
         public delegate void PlayerNormalevent();
         public PlayerNormalevent OnPlayerNormal;
+
+        public Action GoToDeath;
         #endregion
 
         protected Animator playerSM;
@@ -37,7 +39,7 @@ namespace StateMachine.PlayerSM
             OnPlayerEnemyParaiste += HandlePlayerEnemyParasite;
             OnPlayerPlatformParaiste += HandlePlayerPlatformParasite;
             OnPlayerNormal += HandlePlayerNormal;
-            player.OnPlayerDeath += HandlePlayerDeath;
+            GoToDeath += HandlePlayerDeath;
 
             playerSM.SetTrigger("StartSM");
         }

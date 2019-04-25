@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     public static GameDelegate OnGamePause;
     public static GameDelegate OnGameUnPause;
     public static GameDelegate OnPlayerDeath;
-    public static GameDelegate OnGameOver;
     #endregion
 
     public static LevelManager instance;
@@ -35,17 +34,9 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private PlatformManager platformMng;
     /// <summary>
-    /// Reference to Doors and Buttons Manager
-    /// </summary>
-    private DoorsButtonsManager doorsButtonsMng;
-    /// <summary>
     /// Reference to Checkpoint Manager
     /// </summary>
     private CheckpointManager checkpointMng;
-    /// <summary>
-    /// Reference to Token Manager
-    /// </summary>
-    private TokenManager tokenMng;
     /// <summary>
     /// Reference allo sticky manager
     /// </summary>
@@ -74,10 +65,6 @@ public class LevelManager : MonoBehaviour
         if (stickyMng != null)
             stickyMng.Init();
 
-        tokenMng = GetComponent<TokenManager>();
-        if (tokenMng != null)
-            tokenMng.Init();
-
         enemyMng = GetComponent<EnemyManager>();
         if (enemyMng != null)
             enemyMng.Init();
@@ -85,10 +72,6 @@ public class LevelManager : MonoBehaviour
         platformMng = GetComponent<PlatformManager>();
         if (platformMng != null)
             platformMng.Init(uiManager.GetGameplayManager());
-
-        doorsButtonsMng = GetComponent<DoorsButtonsManager>();
-        if (doorsButtonsMng != null)
-            doorsButtonsMng.Init(tokenMng);
 
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
@@ -108,7 +91,6 @@ public class LevelManager : MonoBehaviour
         //Iscrizione Eventi
         PlayerInputManager.OnPausePressed += HandlePlayerPauseButtonPressed;
         player.OnPlayerDeath += HandlePlayerDeath;
-        tokenMng.FinishToken += HandleFinishToken;
         OnGamePause += GamePause;
         OnGameUnPause += GameUnPause;
     }
@@ -129,6 +111,16 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
         if (GameManager.instance != null)
             GameManager.RestartCurrentLevel();
+    }
+
+    /// <summary>
+    /// Funzione che fa tornare al menu principale
+    /// </summary>
+    public void BackToMenu()
+    {
+        Time.timeScale = 1f;
+        if (GameManager.instance != null)
+            GameManager.BackToMenu();
     }
 
     #region Pause
@@ -227,7 +219,6 @@ public class LevelManager : MonoBehaviour
     {
         PlayerInputManager.OnPausePressed -= HandlePlayerPauseButtonPressed;
         player.OnPlayerDeath -= HandlePlayerDeath;
-        tokenMng.FinishToken -= HandleFinishToken;
         OnGamePause -= GamePause;
         OnGameUnPause -= GameUnPause;
     }

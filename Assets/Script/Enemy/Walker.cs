@@ -48,7 +48,7 @@ public class Walker : EnemyBase
         {
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             animCtrl.ShotAnimation();
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, 5f, shotPosition.position, _target);
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _target);
             StartCoroutine(FiringRateCoroutine());
             return true;
         }

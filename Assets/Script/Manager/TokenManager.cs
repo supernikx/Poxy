@@ -33,8 +33,6 @@ public class TokenManager : MonoBehaviour
         }
 
         tokenCounter = 0;
-
-        LevelManager.OnGameOver += HandlePlayerDeath;
     }
     #endregion
 
@@ -59,9 +57,4 @@ public class TokenManager : MonoBehaviour
         tokenCounter = 0;
     }
     #endregion
-
-    private void OnDisable()
-    {
-        LevelManager.OnGameOver -= HandlePlayerDeath;
-    }
 }

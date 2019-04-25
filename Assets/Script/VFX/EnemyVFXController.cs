@@ -31,7 +31,13 @@ public class EnemyVFXController : MonoBehaviour
     {
         //Stun VFX
         stunEnable = false;
-        stunVfx.Stop();
+        stunVfx.gameObject.SetActive(false);
+
+        //Hit VFX
+        hitVFX.Stop();
+
+        //Death VFX
+        deathVFX.Stop();
     }
 
     #region HitVFX
@@ -62,12 +68,13 @@ public class EnemyVFXController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator EnemyStunVFXCoroutine()
     {
+        stunVfx.gameObject.SetActive(true);
         stunVfx.Play();
         while (stunEnable)
         {
             yield return null;
         }
-        stunVfx.Stop();
+        stunVfx.gameObject.SetActive(false);
     }
     #endregion
 
@@ -95,5 +102,6 @@ public class EnemyVFXController : MonoBehaviour
     private void OnDisable()
     {
         enemy.OnEnemyHit -= EnemyHitVFX;
+        StopAllVFX();
     }
 }

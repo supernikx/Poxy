@@ -165,5 +165,7 @@ public enum MenuType
     Loading,
     Game,
     Pause,
+    Tutorial,
+    EndGame,
 }
 

@@ -21,15 +21,13 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected float alertMovementSpeed;
     protected float movementSpeed;
     [SerializeField]
-    protected float turnSpeed;
-    [SerializeField]
     protected GameObject wayPoint;
     private float pathLenght;
 
     [Header("Damage Settings")]
     [SerializeField]
-    protected int enemyStartLife;
-    protected int enemyLife;
+    protected float enemyStartLife;
+    protected float enemyLife;
     [SerializeField]
     protected Transform shotPosition;
     [SerializeField]
@@ -37,7 +35,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
     [Header("Stun Settings")]
     [SerializeField]
-    protected int stunDuration;
+    protected float stunDuration;
     [SerializeField]
     protected int stunHit;
     protected int stunHitGot;
@@ -212,7 +210,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    public void DamageHit(int _damage, float _time = 0)
+    public void DamageHit(float _damage, float _time = 0)
     {
         if (_time == 0)
         {
@@ -233,7 +231,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <param name="_damage"></param>
     /// <param name="_time"></param>
     /// <returns></returns>
-    private IEnumerator LoseHealthOverTime(int _damage, float _time)
+    private IEnumerator LoseHealthOverTime(float _damage, float _time)
     {
         float tickDuration = 0.5f;
         float damgeEachTick = tickDuration * _damage / _time;
@@ -315,7 +313,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <summary>
     /// Get stun duration
     /// </summary>
-    public int GetStunDuration()
+    public float GetStunDuration()
     {
         return stunDuration;
     }
@@ -332,7 +330,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// Funzione che ritorna la vita del nemico
     /// </summary>
     /// <returns></returns>
-    public int GetHealth()
+    public float GetHealth()
     {
         return enemyLife;
     }
@@ -359,7 +357,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// Funzione che ritorna il danno del nemico
     /// </summary>
     /// <returns></returns>
-    public int GetDamage()
+    public float GetDamage()
     {
         return enemyShotSettings.damage;
     }

@@ -5,16 +5,20 @@ using System;
 
 public class PlayerDeathState : PlayerSMStateBase
 {
+    [SerializeField]
+    float respawnTime;
 
     public override void Enter()
     {
-        LevelManager.OnGameOver += HandleGameover;
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
-        gameover = false;
+        context.player.GetVFXController().PlayDeathVFX();
+
+        timerForRespawn = false;
+        respawnTimer = 0f;
         context.player.StopImmunityCoroutine();
         PlayerInputManager.Rumble(1f, 1f, 0.5f);
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
-        //context.player.GetLivesController().LoseLives();
+
         context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
 
         PlayerShotController shotCtrl = context.player.GetShotController();
@@ -28,38 +32,51 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetMovementController().SetCanMove(false);
         context.player.GetShotController().SetCanShoot(false);
         context.player.GetShotController().SetCanAim(false);
-    }
 
-    bool gameover;
-    private void HandleGameover()
-    {
-        gameover = true;
+        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.None);
     }
 
     private void HandleDeathVFXEnd()
     {
-        context.player.GoToNormalState();
+        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Loading);
+        PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
+
+        if (context.player.OnPlayerDeath != null)
+            context.player.OnPlayerDeath();
+
+        context.player.GetCollisionController().GetPlayerCollider().enabled = true;
+        context.player.GetHealthController().Setup();
+        context.player.GetActualGraphic().Enable();
+        context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
+        timerForRespawn = true;
+    }
+
+    bool timerForRespawn;
+    float respawnTimer;
+    public override void Tick()
+    {
+        if (timerForRespawn)
+        {
+            respawnTimer += Time.deltaTime;
+            if (respawnTimer >= respawnTime)
+            {
+                context.player.GoToNormalState();
+                respawnTimer = 0f;
+                timerForRespawn = false;
+            }
+        }
     }
 
     public override void Exit()
     {
-        LevelManager.OnGameOver -= HandleGameover;
-        PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
-
-        context.player.GetCollisionController().GetPlayerCollider().enabled = true;
-        if (gameover)
-            context.player.GetLivesController().Init();
-        context.player.GetHealthController().Setup();
-        context.player.GetActualGraphic().Enable();
+        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Game);
         context.player.GetMovementController().SetCanMove(true);
         context.player.GetShotController().SetCanShoot(true);
         context.player.GetShotController().SetCanAim(true);
-        context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
     }
 
     private void OnDestroy()
     {
-        LevelManager.OnGameOver -= HandleGameover;
         PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
     }
 }

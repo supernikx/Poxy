@@ -10,6 +10,8 @@ public class UI_MenuManager : UI_ManagerBase
     private UIMenu_MainMenu mainMenuPanel;
     [SerializeField]
     private UIMenu_LoadingPanel loadingPanel;
+    [SerializeField]
+    private UIMenu_TutorialPanel tutorialPanel;
     /// <summary>
     /// Riferimento al menù attualmente attivo
     /// </summary>
@@ -59,6 +61,9 @@ public class UI_MenuManager : UI_ManagerBase
             case MenuType.Loading:
                 loadingPanel.Enable();
                 break;
+            case MenuType.Tutorial:
+                tutorialPanel.Enable();
+                break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");
                 break;
@@ -83,6 +88,10 @@ public class UI_MenuManager : UI_ManagerBase
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.Loading:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
+                break;
+            case MenuType.Tutorial:
                 eventSystem.SetSelectedGameObject(null);
                 StopFixEventSystemCoroutine();
                 break;

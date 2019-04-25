@@ -6,15 +6,8 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Gluer : EnemyBase
 {
-    bool CanShot;
-
-    [Header("Enemy Specifics Settings")]
-    [SerializeField]
-    private float roamingFiringRate;
-    [SerializeField]
-    private float shotRadius;
+    private bool CanShot;
     private IEnumerator roamingFiringRateCoroutine;
-
 
     private IEnumerator FiringRateCoroutine(float _firingRate)
     {
@@ -38,7 +31,7 @@ public class Gluer : EnemyBase
     public override bool CheckShot(Transform _target)
     {
         float _distance = Vector3.Distance(_target.position, shotPosition.position);
-        if (_distance <= shotRadius)
+        if (_distance <= enemyShotSettings.range)
         {
             return true;
         }
@@ -56,7 +49,7 @@ public class Gluer : EnemyBase
         {
             IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
             Vector3 _direction = (_target.position - shotPosition.position);
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, shotRadius, shotPosition.position, _direction);
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
             animCtrl.ShotAnimation();
             StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
             return true;

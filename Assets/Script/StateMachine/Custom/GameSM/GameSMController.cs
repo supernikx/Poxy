@@ -10,6 +10,7 @@ namespace StateMachine.GameSM
         #region Delegates
         public delegate void GameSMEvents();
         public GameSMEvents GoToLevelSetup;
+        public GameSMEvents GoToMainMenu;
         #endregion
 
         protected Animator gameSM;
@@ -34,6 +35,7 @@ namespace StateMachine.GameSM
             }
 
             GoToLevelSetup += HandleLevelSetupState;
+            GoToMainMenu += HandleGoToMainMenu;
 
             gameSM.SetTrigger("StartSM");
         }
@@ -54,11 +56,20 @@ namespace StateMachine.GameSM
         {
             gameSM.SetTrigger("GoToGameplay");
         }
+
+        /// <summary>
+        /// Handle all'evento GoToMainMenu
+        /// </summary>
+        public void HandleGoToMainMenu()
+        {
+            gameSM.SetTrigger("GoToMainMenu");
+        }
         #endregion
 
         private void OnDisable()
         {
             GoToLevelSetup -= HandleLevelSetupState;
+            GoToMainMenu -= HandleGoToMainMenu;
         }
     }
 

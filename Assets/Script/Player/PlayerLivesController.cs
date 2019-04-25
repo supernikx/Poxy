@@ -34,19 +34,6 @@ public class PlayerLivesController : MonoBehaviour
     }
     #endregion
 
-    #region Handlers
-    public void LoseLives()
-    {
-        currentLives = Mathf.Clamp(currentLives-1, 0, lives);
-
-        if (currentLives == 0)
-        {
-            if (LevelManager.OnGameOver != null)
-                LevelManager.OnGameOver();
-        }
-    }
-    #endregion
-
     public void SetLives(int _lives)
     {
         currentLives = _lives;

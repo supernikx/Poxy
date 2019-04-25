@@ -29,7 +29,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private MeshRenderer meshRenderer;
 
     private Vector3 launchDirection;
-    private int prevRotation;
+    private float prevRotation;
 
     private Coroutine tickCoroutine;
 
@@ -79,12 +79,21 @@ public class LaunchingPlatform : PlatformBase, IControllable
         SetObjectState(false);
         StartCoroutine(Respawn());
 
-        prevRotation = 90;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
-
-        meshRenderer.material = defaultMaterial;
-
         PlatformManager.OnParasiteEnd(this);
+    }
+
+    public void RotationUpdate(Vector2 _aimVector)
+    {
+        if (_aimVector != Vector2.zero)
+        {
+            float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
+            if (prevRotation != rotationZ && (Mathf.Abs(_aimVector.x) >= 0.5 || Mathf.Abs(_aimVector.y) >= 0.5))
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
+                prevRotation = rotationZ;
+                launchDirection = _aimVector.normalized;
+            }
+        }
     }
     #endregion
 
@@ -99,6 +108,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = infectedMaterial;
 
+        launchDirection = new Vector3(0, 1, 0);
         tickCoroutine = StartCoroutine(Tick());
     }
 
@@ -117,11 +127,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #region Coroutines
     private IEnumerator Tick()
     {
-        launchDirection = new Vector3(0, 1, 0);
 
         while (true)
         {
-            // da ricontrollare
             if (toleranceCtrl.IsActive())
             {
                 toleranceCtrl.AddTolleranceOvertime();
@@ -132,44 +140,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
                         toleranceCtrl.OnMaxTolleranceBar();
                 }
             }
-
-            Vector3 _input = PlayerInputManager.GetMovementVector();
             
-            int _targetRotation = -1;
-
-            if (_input.x == 0)
-            {
-                if (_input.y > 0)
-                    _targetRotation = 90;
-                else if (_input.y < 0)
-                    _targetRotation = 270;
-            }
-            else if (_input.y == 0)
-            {
-                if (_input.x > 0)
-                    _targetRotation = 0;
-                else if (_input.x < 0)
-                    _targetRotation = 180;
-            }
-            else
-            {
-                if (_input.x > 0 && _input.y > 0)
-                    _targetRotation = 45;
-                else if (_input.x < 0 && _input.y > 0)
-                    _targetRotation = 135;
-                else if (_input.x < 0 && _input.y < 0)
-                    _targetRotation = 225;
-                else if (_input.x > 0 && _input.y < 0)
-                    _targetRotation = 315;
-            }
-
-            if (_targetRotation >= 0 && prevRotation != _targetRotation)
-            {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, _targetRotation));
-                prevRotation = _targetRotation;
-                launchDirection = _input.normalized;
-            }
-
             yield return null;
         }
     }
@@ -183,7 +154,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
             timer += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
+        prevRotation = 90f;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
 
+        meshRenderer.material = defaultMaterial;
         SetObjectState(true);
     }
     #endregion

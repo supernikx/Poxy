@@ -10,13 +10,11 @@ public class PlayerInputManager : MonoBehaviour
     public static Action OnJumpRelease;
     public static Action OnParasitePressed;
     public static Action OnPausePressed;
+    public static Action OnConfirmPressed;
     #endregion
 
     public static PlayerInputManager instance;
 
-    [Header("Joystick Settings")]
-    [SerializeField]
-    private float LeftStickDeadZone;
     Player player;
     InputType currentInputType;
     GamePadState joystickState;
@@ -27,6 +25,9 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 aimVector;
     private bool isJumping;
     private bool isShooting;
+
+    private float parasiteDelay = 1f;
+    private bool canPressParasite = true;
 
     private void Awake()
     {
@@ -95,31 +96,19 @@ public class PlayerInputManager : MonoBehaviour
         }
 
         //Aim
-        float RX = joystickState.ThumbSticks.Right.X;
-        float RY = joystickState.ThumbSticks.Right.Y;
-
-        if (RX >= 0.5)
-            aimVector.x = 1;
-        else if (RX <= -0.5)
-            aimVector.x = -1;
-        else
-            aimVector.x = 0;
-
-        if (RY >= 0.5)
-            aimVector.y = 1;
-        else if (RY <= -0.5)
-            aimVector.y = -1;
-        else
-            aimVector.y = 0;        
+        aimVector.x = joystickState.ThumbSticks.Right.X;
+        aimVector.y = joystickState.ThumbSticks.Right.Y;
 
         //Jump
-        if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed)
+        if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed) ||
+            (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed))
         {
             isJumping = true;
             if (OnJumpPressed != null)
                 OnJumpPressed();
         }
-        else if (joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released)
+        else if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released) ||
+            (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released))
         {
             isJumping = false;
             if (OnJumpRelease != null)
@@ -130,8 +119,9 @@ public class PlayerInputManager : MonoBehaviour
         isShooting = joystickState.Triggers.Right > 0;
 
         //Parasite
-        if (joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
+        if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
         {
+            StartCoroutine(ParasiteDelay());
             if (OnParasitePressed != null)
                 OnParasitePressed();
         }
@@ -141,6 +131,13 @@ public class PlayerInputManager : MonoBehaviour
         {
             if (OnPausePressed != null)
                 OnPausePressed();
+        }
+
+        //Confirm Button
+        if (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed)
+        {
+            if (OnConfirmPressed != null)
+                OnConfirmPressed();
         }
     }
 
@@ -154,20 +151,7 @@ public class PlayerInputManager : MonoBehaviour
 
         //Aim
         Vector3 playerScreen = Camera.main.WorldToScreenPoint(player.transform.position);
-        Vector3 aimVectorNotNormilezed = (Input.mousePosition - playerScreen).normalized;
-        if (aimVectorNotNormilezed.x >= 0.5)
-            aimVector.x = 1;
-        else if (aimVectorNotNormilezed.x <= -0.5)
-            aimVector.x = -1;
-        else
-            aimVector.x = 0;
-
-        if (aimVectorNotNormilezed.y >= 0.5)
-            aimVector.y = 1;
-        else if (aimVectorNotNormilezed.y <= -0.5)
-            aimVector.y = -1;
-        else
-            aimVector.y = 0;
+        aimVector = (Input.mousePosition - playerScreen).normalized;
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Space))
@@ -187,8 +171,9 @@ public class PlayerInputManager : MonoBehaviour
         isShooting = Input.GetMouseButton(0);
 
         //Parasite
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (canPressParasite && Input.GetKeyDown(KeyCode.Q))
         {
+            StartCoroutine(ParasiteDelay());
             if (OnParasitePressed != null)
                 OnParasitePressed();
         }
@@ -198,6 +183,13 @@ public class PlayerInputManager : MonoBehaviour
         {
             if (OnPausePressed != null)
                 OnPausePressed();
+        }
+
+        //Confirm Button
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (OnConfirmPressed != null)
+                OnConfirmPressed();
         }
     }
 
@@ -260,5 +252,16 @@ public class PlayerInputManager : MonoBehaviour
         GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), _leftMotorIntensity, _rightMotorIntensity);
         yield return new WaitForSecondsRealtime(_duration);
         GamePad.SetVibration(InputChecker.GetJoystickPlayerIndex(), 0f, 0f);
+    }
+
+    /// <summary>
+    /// Coroutine che disattiva/riattiva la possibilità di premere il tasto parasite
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ParasiteDelay()
+    {
+        canPressParasite = false;
+        yield return new WaitForSeconds(parasiteDelay);
+        canPressParasite = true;
     }
 }

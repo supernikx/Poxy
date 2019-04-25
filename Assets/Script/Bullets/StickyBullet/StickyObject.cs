@@ -479,13 +479,13 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private Direction GetHitDirection()
     {
         if (transform.right.y > 0.5f)
-            return Direction.Left;
+            return Direction.Right;
         if (transform.right.y < -0.5f)
-            return Direction.Right; ;
+            return Direction.Left; ;
         if (transform.right.x > 0.5f)
-            return Direction.Above;
-        if (transform.right.x < -0.5f)
             return Direction.Below;
+        if (transform.right.x < -0.5f)
+            return Direction.Above;
 
         return Direction.None;
     }

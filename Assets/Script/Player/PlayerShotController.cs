@@ -27,8 +27,7 @@ public class PlayerShotController : MonoBehaviour
     [SerializeField]
     private List<ShotSettings> damageShotSettings = new List<ShotSettings>();
     ShotSettings shotSettingsInUse;
-
-    //private bool canShot;
+    private Vector3 defaultAngle;
 
     /// <summary>
     /// Referenza al player
@@ -53,7 +52,7 @@ public class PlayerShotController : MonoBehaviour
         if (canAim)
         {
             //Miro nella direzione in cui mi sto muovendo
-            Aim(PlayerInputManager.GetAimVector());
+            Aim(PlayerInputManager.GetAimVector(), PlayerInputManager.GetMovementVector());
 
             //Controllo se posso sparare e se sto premendo il tasto
             if (canShot && PlayerInputManager.IsShooting())
@@ -81,34 +80,33 @@ public class PlayerShotController : MonoBehaviour
     /// <summary>
     /// Funzione che muove l'aimobject e il personaggio che si sta controllando nella direzione in cui ci si sta muovendo
     /// </summary>
-    /// <param name="_movementDirection"></param>
-    private void Aim(Vector2 _movementDirection)
+    /// <param name="_aimVector"></param>
+    private void Aim(Vector2 _aimVector, Vector2 _movemenetVector)
     {
-        //Calcolo la rotazione del modello in base alla direzione in cui sta andando
-        if (_movementDirection.x != 0)
-            player.GetActualGraphic().gameObject.transform.rotation = (_movementDirection.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(0.0f, 180.0f, 0.0f);
-
-        //Calcolo la rotazione dell'aim object
-        Vector3 rotationVector = new Vector3(90f, 0f, 90f);
-        if (_movementDirection.x == 0 && _movementDirection.y == 1)
-            rotationVector.z = 180f;
-        else if (_movementDirection.x != 0 && _movementDirection.y == 1)
-            rotationVector.z = 135f;
-        else if (_movementDirection.x != 0 && _movementDirection.y == 0)
-            rotationVector.z = 90f;
-        else if (!player.GetCollisionController().GetCollisionInfo().below && _movementDirection.x == 0 && _movementDirection.y == -1)
-            rotationVector.z = 0;
-        else if (_movementDirection.y == -1)
-            rotationVector.z = 45f;
-
-        //Applico la rotazione all'aim object
-        aimObject.transform.localEulerAngles = rotationVector;
+        //Se sto mirando mi orienterò nella direzione in cui miro
+        if (_aimVector.x != 0 || _aimVector.y != 0)
+        {
+            //Applico la rotazione del character nella direzione in cui si sta mirando
+            player.GetActualGraphic().gameObject.transform.rotation = (_aimVector.x >= 0) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            //Calcolo la rotazione dell'aim object
+            float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
+            //Applico la rotazione all'aim object
+            aimObject.transform.rotation = (_aimVector.x >= 0) ? Quaternion.Euler(0.0f, 0.0f, rotationZ) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+        }
+        //Se non sto mirando mi orienterò nella direzione in cui cammino
+        else if (_movemenetVector != Vector2.zero)
+        {
+            //Applico la rotazione del character nella direzione in cui si sta andando
+            player.GetActualGraphic().gameObject.transform.rotation = (_movemenetVector.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            //Applico la rotazione di default all'aim object
+            aimObject.transform.rotation = (_movemenetVector.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 180.0f);
+        }
 
         //Prendo la direzione a cui devo mirare
         direction = aimObject.transform.right;
 
         //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = transform.position + aimObject.transform.right * crossAirDistance;
+        crossAir.transform.position = aimObject.transform.position + aimObject.transform.right.normalized * crossAirDistance;
     }
     #endregion
 
@@ -140,6 +138,26 @@ public class PlayerShotController : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Funzione che controlla se usare gli input del mouse o del controller
+    /// </summary>
+    /// <returns></returns>
+    Vector3 mousePreviewsPos;
+    private bool UseMouseInput()
+    {
+        if (Vector3.Distance(Input.mousePosition, mousePreviewsPos) < 0.1f)
+        {
+            if (Input.GetButton("LeftMouse"))
+                return true;
+            if (Input.GetJoystickNames().Where(j => j != "").FirstOrDefault() != null)
+                return false;
+            return true;
+        }
+
+        mousePreviewsPos = Input.mousePosition;
+        return true;
+    }
+
     #region API
     /// <summary>
     /// Funzione che inizializza lo script
@@ -150,6 +168,7 @@ public class PlayerShotController : MonoBehaviour
         pool = _poolManager;
         ChangeShotType(stunShotSettings);
         SetShotPoint(GetShotPoint());
+        defaultAngle = aimObject.transform.eulerAngles;
         OnShot += ShotActiveBullet;
         canAim = true;
         canShot = true;
@@ -190,7 +209,10 @@ public class PlayerShotController : MonoBehaviour
     public void SetAimObject(GameObject _aimObject)
     {
         if (_aimObject != null)
+        {
             aimObject = _aimObject;
+            defaultAngle = aimObject.transform.eulerAngles;
+        }
     }
 
     /// <summary>
@@ -250,7 +272,7 @@ public class PlayerShotController : MonoBehaviour
 public class ShotSettings
 {
     public ObjectTypes bulletType;
-    public int damage;
+    public float damage;
     public float range;
     public float shotSpeed;
     public float firingRate;
