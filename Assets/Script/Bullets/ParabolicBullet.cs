@@ -14,7 +14,8 @@ public class ParabolicBullet : BulletBase
     [SerializeField]
     float speedMultiplayer;
     [SerializeField]
-    float gravity;
+    float gravity;[SerializeField]
+    private ParticleSystem bulletParticle;
 
     private float travelTime;
     private float yVelocity;
@@ -155,4 +156,18 @@ public class ParabolicBullet : BulletBase
 
         return true;
     }
+
+    #region Spawn/Destroy
+    protected override void ObjectDestroyEvent()
+    {
+        bulletParticle.Stop();
+        base.ObjectDestroyEvent();
+    }
+
+    protected override void ObjectSpawnEvent()
+    {
+        bulletParticle.Play();
+        base.ObjectSpawnEvent();
+    }
+    #endregion
 }
