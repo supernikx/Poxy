@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Rotation : MonoBehaviour
 {
-    public AnimationCurve xVelocity, yVelocity, zVelocity;
+    [SerializeField]
+    float speedMultiplier;
+    [SerializeField]
+    AnimationCurve xVelocity, yVelocity, zVelocity;
     float time;
     IEnumerator rotatingCoroutineRef;
 
@@ -19,7 +22,7 @@ public class Rotation : MonoBehaviour
         while (true)
         {
             time += Time.deltaTime;
-            transform.Rotate(xVelocity.Evaluate(time), yVelocity.Evaluate(time), zVelocity.Evaluate(time));
+            transform.Rotate(xVelocity.Evaluate(time) * speedMultiplier, yVelocity.Evaluate(time) * speedMultiplier, zVelocity.Evaluate(time) * speedMultiplier);
             yield return new WaitForFixedUpdate();
         }
     }

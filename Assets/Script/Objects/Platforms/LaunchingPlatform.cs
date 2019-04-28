@@ -19,6 +19,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private Collider platfromColldier;
     private EnemyToleranceController toleranceCtrl;
     private Player player = null;
+    private Rotation rotationBehaviour;
 
     [Header("Graphics Settings")]
     [SerializeField]
@@ -50,6 +51,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
         platfromColldier = GetComponent<BoxCollider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
+        rotationBehaviour = GetComponent<Rotation>();
+
         graphics = GetComponentInChildren<IGraphic>();
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
@@ -108,7 +111,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = infectedMaterial;
 
-        launchDirection = new Vector3(0, 1, 0);
+        rotationBehaviour.enabled = false;
+        launchDirection = transform.right;
         tickCoroutine = StartCoroutine(Tick());
     }
 
@@ -127,7 +131,6 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #region Coroutines
     private IEnumerator Tick()
     {
-
         while (true)
         {
             if (toleranceCtrl.IsActive())
@@ -140,7 +143,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
                         toleranceCtrl.OnMaxTolleranceBar();
                 }
             }
-            
+
             yield return null;
         }
     }
@@ -159,6 +162,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = defaultMaterial;
         SetObjectState(true);
+        rotationBehaviour.enabled = true;
     }
     #endregion
 
@@ -191,6 +195,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     private void OnDisable()
     {
+        if (player != null)
+            player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
+        Parasite -= HandleParasite;
         LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
     }
 }

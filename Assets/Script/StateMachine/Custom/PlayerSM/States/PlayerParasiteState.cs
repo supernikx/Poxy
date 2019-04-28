@@ -7,6 +7,9 @@ namespace StateMachine.PlayerSM
 {
     public class PlayerParasiteState : PlayerSMStateBase
     {
+        [SerializeField]
+        private float parasiteTimeDelay;
+
         private IEnemy parasiteEnemy;
 
         public override void Enter()
@@ -14,6 +17,7 @@ namespace StateMachine.PlayerSM
             parasiteEnemy = context.parasite as IEnemy;
 
             PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+            PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
             context.player.OnDamageableCollision += OnDamageableCollision;
             parasiteEnemy.gameObject.layer = context.player.gameObject.layer;

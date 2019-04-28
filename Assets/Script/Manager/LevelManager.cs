@@ -149,8 +149,7 @@ public class LevelManager : MonoBehaviour
     {
         pause = true;
         Time.timeScale = 0f;
-        player.GetMovementController().SetCanMove(false);
-        player.GetShotController().SetCanShoot(false);
+        PlayerInputManager.SetCanReadGameplayInput(false);
     }
 
     /// <summary>
@@ -160,8 +159,7 @@ public class LevelManager : MonoBehaviour
     {
         pause = false;
         Time.timeScale = 1f;
-        player.GetMovementController().SetCanMove(true);
-        player.GetShotController().SetCanShoot(true);
+        PlayerInputManager.SetCanReadGameplayInput(true);
     }
     #endregion
     #endregion

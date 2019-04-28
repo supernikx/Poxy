@@ -4,6 +4,9 @@ using StateMachine.PlayerSM;
 
 public class PlayerPlatformState : PlayerSMStateBase
 {
+    [SerializeField]
+    private float parasiteTimeDelay;
+
     private bool healthMax;
     private LaunchingPlatform parasitePlatform;
 
@@ -13,6 +16,7 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
         PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+        PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
 
         parasitePressed = false;
         healthMax = false;

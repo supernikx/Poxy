@@ -25,9 +25,8 @@ public class PlayerInputManager : MonoBehaviour
     private Vector2 aimVector;
     private bool isJumping;
     private bool isShooting;
-
-    private float parasiteDelay = 1f;
     private bool canPressParasite = true;
+    private bool canReadGameplayInput = true;
 
     private void Awake()
     {
@@ -35,6 +34,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             instance = this;
             player = GetComponent<Player>();
+            canReadGameplayInput = true;
         }
     }
 
@@ -59,71 +59,73 @@ public class PlayerInputManager : MonoBehaviour
     /// </summary>
     private void CheckJoystickInput()
     {
-        //Movement Stick
-        float LX = joystickState.ThumbSticks.Left.X;
-        float LY = joystickState.ThumbSticks.Left.Y;
-
-        if (LX >= 0.5)
-            movementVector.x = 1;
-        else if (LX <= -0.5)
-            movementVector.x = -1;
-        else
-            movementVector.x = 0;
-
-        if (LY >= 0.5)
-            movementVector.y = 1;
-        else if (LY <= -0.5)
-            movementVector.y = -1;
-        else
-            movementVector.y = 0;
-
-        //Movement DPad
-        if (movementVector == Vector2.zero)
+        if (canReadGameplayInput)
         {
-            if (joystickState.DPad.Right == ButtonState.Pressed)
+            //Movement Stick
+            float LX = joystickState.ThumbSticks.Left.X;
+            float LY = joystickState.ThumbSticks.Left.Y;
+
+            if (LX >= 0.5)
                 movementVector.x = 1;
-            else if (joystickState.DPad.Left == ButtonState.Pressed)
+            else if (LX <= -0.5)
                 movementVector.x = -1;
             else
                 movementVector.x = 0;
 
-            if (joystickState.DPad.Up == ButtonState.Pressed)
+            if (LY >= 0.5)
                 movementVector.y = 1;
-            else if (joystickState.DPad.Down == ButtonState.Pressed)
+            else if (LY <= -0.5)
                 movementVector.y = -1;
             else
                 movementVector.y = 0;
-        }
 
-        //Aim
-        aimVector.x = joystickState.ThumbSticks.Right.X;
-        aimVector.y = joystickState.ThumbSticks.Right.Y;
+            //Movement DPad
+            if (movementVector == Vector2.zero)
+            {
+                if (joystickState.DPad.Right == ButtonState.Pressed)
+                    movementVector.x = 1;
+                else if (joystickState.DPad.Left == ButtonState.Pressed)
+                    movementVector.x = -1;
+                else
+                    movementVector.x = 0;
 
-        //Jump
-        if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed) ||
-            (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed))
-        {
-            isJumping = true;
-            if (OnJumpPressed != null)
-                OnJumpPressed();
-        }
-        else if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released) ||
-            (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released))
-        {
-            isJumping = false;
-            if (OnJumpRelease != null)
-                OnJumpRelease();
-        }
+                if (joystickState.DPad.Up == ButtonState.Pressed)
+                    movementVector.y = 1;
+                else if (joystickState.DPad.Down == ButtonState.Pressed)
+                    movementVector.y = -1;
+                else
+                    movementVector.y = 0;
+            }
 
-        //Shoot
-        isShooting = joystickState.Triggers.Right > 0;
+            //Aim
+            aimVector.x = joystickState.ThumbSticks.Right.X;
+            aimVector.y = joystickState.ThumbSticks.Right.Y;
 
-        //Parasite
-        if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
-        {
-            StartCoroutine(ParasiteDelay());
-            if (OnParasitePressed != null)
-                OnParasitePressed();
+            //Jump
+            if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed) ||
+                (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed))
+            {
+                isJumping = true;
+                if (OnJumpPressed != null)
+                    OnJumpPressed();
+            }
+            else if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released) ||
+                (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released))
+            {
+                isJumping = false;
+                if (OnJumpRelease != null)
+                    OnJumpRelease();
+            }
+
+            //Shoot
+            isShooting = joystickState.Triggers.Right > 0;
+
+            //Parasite
+            if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
+            {                
+                if (OnParasitePressed != null)
+                    OnParasitePressed();
+            }
         }
 
         //Pause
@@ -146,36 +148,38 @@ public class PlayerInputManager : MonoBehaviour
     /// </summary>
     private void CheckKeyboardInput()
     {
-        //Movement       
-        movementVector = new Vector2(Input.GetAxisRaw("AD"), Input.GetAxisRaw("WS"));
-
-        //Aim
-        Vector3 playerScreen = Camera.main.WorldToScreenPoint(player.transform.position);
-        aimVector = (Input.mousePosition - playerScreen).normalized;
-
-        //Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (canReadGameplayInput)
         {
-            isJumping = true;
-            if (OnJumpPressed != null)
-                OnJumpPressed();
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            isJumping = false;
-            if (OnJumpRelease != null)
-                OnJumpRelease();
-        }
+            //Movement       
+            movementVector = new Vector2(Input.GetAxisRaw("AD"), Input.GetAxisRaw("WS"));
 
-        //Shoot
-        isShooting = Input.GetMouseButton(0);
+            //Aim
+            Vector3 playerScreen = Camera.main.WorldToScreenPoint(player.transform.position);
+            aimVector = (Input.mousePosition - playerScreen).normalized;
 
-        //Parasite
-        if (canPressParasite && Input.GetKeyDown(KeyCode.Q))
-        {
-            StartCoroutine(ParasiteDelay());
-            if (OnParasitePressed != null)
-                OnParasitePressed();
+            //Jump
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isJumping = true;
+                if (OnJumpPressed != null)
+                    OnJumpPressed();
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                isJumping = false;
+                if (OnJumpRelease != null)
+                    OnJumpRelease();
+            }
+
+            //Shoot
+            isShooting = Input.GetMouseButton(0);
+
+            //Parasite
+            if (canPressParasite && Input.GetKeyDown(KeyCode.Q))
+            {
+                if (OnParasitePressed != null)
+                    OnParasitePressed();
+            }
         }
 
         //Pause
@@ -238,6 +242,24 @@ public class PlayerInputManager : MonoBehaviour
         if (instance.currentInputType == InputType.Joystick)
             instance.StartCoroutine(instance.RumbleCoroutine(_leftMotorIntensity, _rightMotorIntensity, _duration));
     }
+
+    /// <summary>
+    /// Funzione che imposta la variabile canReadGameplayInput con il valore passato come parametro
+    /// </summary>
+    /// <param name="_switch"></param>
+    public static void SetCanReadGameplayInput(bool _switch)
+    {
+        instance.canReadGameplayInput = _switch;
+    }
+
+    /// <summary>
+    /// Funzione che ritarda del tempo che si passa come parametro la pressio del tasto parassita
+    /// </summary>
+    /// <param name="_time"></param>
+    public static void DelayParasiteButtonPress(float _time)
+    {
+        instance.StartCoroutine(instance.ParasiteDelay(_time));
+    }
     #endregion
 
     /// <summary>
@@ -258,10 +280,10 @@ public class PlayerInputManager : MonoBehaviour
     /// Coroutine che disattiva/riattiva la possibilità di premere il tasto parasite
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ParasiteDelay()
+    private IEnumerator ParasiteDelay(float _time)
     {
         canPressParasite = false;
-        yield return new WaitForSeconds(parasiteDelay);
+        yield return new WaitForSeconds(_time);
         canPressParasite = true;
     }
 }
