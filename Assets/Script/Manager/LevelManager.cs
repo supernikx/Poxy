@@ -211,6 +211,15 @@ public class LevelManager : MonoBehaviour
     {
         return checkpointMng;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il camera manager
+    /// </summary>
+    /// <returns></returns>
+    public CameraManager GetCameraManager()
+    {
+        return cameraMng;
+    }
     #endregion
 
     private void OnDisable()

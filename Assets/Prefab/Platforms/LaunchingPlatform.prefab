@@ -109,6 +109,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3979581104424254072}
+  - {fileID: 3506487886671957247}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -140,6 +141,7 @@ MonoBehaviour:
   respawnTime: 3
   defaultMaterial: {fileID: 2100000, guid: 03b19ab31b2ffe147bd14d18555b5e8b, type: 2}
   infectedMaterial: {fileID: 2100000, guid: 479a626eb3134fe478f1e5b54208f01f, type: 2}
+  objectToFollow: {fileID: 3506487886671957247}
 --- !u!114 &7337448839234341791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +252,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphicModel: {fileID: 1198279032145018}
   aimObject: {fileID: 0}
+--- !u!1 &8611314737977357738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3506487886671957247}
+  m_Layer: 0
+  m_Name: ObjectToFollow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3506487886671957247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8611314737977357738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.83, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4165893756254710}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

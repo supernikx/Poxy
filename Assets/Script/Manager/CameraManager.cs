@@ -28,6 +28,11 @@ public class CameraManager : MonoBehaviour
         PlayerHealthController.OnHealthChange += HandleOnHealthChange;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
     }
+
+    public void ChangeTarget(Transform _newTarget)
+    {
+        targetCamera.Follow = _newTarget;
+    }
     #endregion
 
     #region Handlers
