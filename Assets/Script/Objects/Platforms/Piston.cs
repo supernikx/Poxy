@@ -68,8 +68,21 @@ public class Piston : PlatformBase
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
 
-        initialPosition = (direction == PistonDirection.Vertical) ? transform.position.y : transform.position.x;
-        targetPosition = (direction == PistonDirection.Vertical) ? waypoint.position.y : waypoint.position.x;
+        if (direction == PistonDirection.Vertical)
+        {
+            initialPosition = transform.position.y;
+            targetPosition = waypoint.position.y;
+        }
+        else if (direction == PistonDirection.Horizontal)
+        {
+            initialPosition = transform.position.x;
+            targetPosition = waypoint.position.x;
+        }
+        else if (direction == PistonDirection.Platform)
+        {
+            initialPosition = transform.position.z;
+            targetPosition = waypoint.position.z;
+        }
     }
 
     private Vector3 movementVelocity = Vector3.zero;
@@ -110,6 +123,13 @@ public class Piston : PlatformBase
                 stompVFX.Play();
                 currentState = PistonState.Backward;
             }
+            else if (direction == PistonDirection.Platform)
+            {
+                if ((Vector3.forward == transform.up && transform.position.z <= targetPosition) || (Vector3.forward != transform.up && transform.position.z >= targetPosition))
+                {
+                    currentState = PistonState.Backward;
+                }
+            }
         }
 
         if (currentState == PistonState.Backward)
@@ -129,6 +149,14 @@ public class Piston : PlatformBase
             else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x >= initialPosition)
             {
                 currentState = PistonState.Forward;
+            }
+            else if (direction == PistonDirection.Platform)
+            {
+                if ((Vector3.forward == transform.up && transform.position.z >= initialPosition) || 
+                    (Vector3.forward != transform.up && transform.position.z <= initialPosition))
+                {
+                    currentState = PistonState.Forward;
+                }
             }
         }
     }
@@ -228,7 +256,8 @@ public class Piston : PlatformBase
     public enum PistonDirection
     {
         Vertical,
-        Horizontal
+        Horizontal,
+        Platform
     }
 
     public enum PistonOrientation
