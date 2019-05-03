@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: EnemyBase_M
   m_Shader: {fileID: 4800000, guid: 7252379db4c18b641b517f2c91bb57e1, type: 3}
-  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP _USECOLORMAP_ON _USEMETALLICMAP_ON
-    _USENORMALMAP_ON _USEROUGHNESSMAP_ON
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP _USECOLORMAP_ON _USEEMISSIVEMAP_ON
+    _USEMETALLICMAP_ON _USENORMALMAP_ON _USEROUGHNESSMAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -23,7 +23,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 83726214d16c6424e959e7f3b8e1d08f, type: 3}
+        m_Texture: {fileID: 2800000, guid: e550de55e0259fb4cb2eea2cd00f909e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -39,15 +39,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2a0d4c4e64b5b88419699ebf72fb905b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0f0d6a327af1bff43b8bcb7e9812d2c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: ee3cda9ab05a176498097bd0849cce63, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: ac8ef0e269131fb46a8c45db8af38b69, type: 3}
+        m_Texture: {fileID: 2800000, guid: 542f0ac5223c5e94cbf5794082667291, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -59,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
-        m_Texture: {fileID: 2800000, guid: 43bf7a0fd82ab594d9e81daa811feb4b, type: 3}
+        m_Texture: {fileID: 2800000, guid: c525e31f055a5954a860add481d69af5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -80,7 +80,7 @@ Material:
     - _UVSec: 0
     - _UseAoMap: 0
     - _UseColorMap: 1
-    - _UseEmissiveMap: 0
+    - _UseEmissiveMap: 1
     - _UseMetallicMap: 1
     - _UseNormalMap: 1
     - _UseRoughnessMap: 1
