@@ -6,7 +6,9 @@ public class CameraManager : MonoBehaviour
 {
     [Header("Camera Target")]
     [SerializeField]
-    private CinemachineVirtualCamera targetCamera;
+    private CinemachineVirtualCamera playerVirtualCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera platformVirtualCamera;
 
     [Header("Camera Shake Options")]
     [SerializeField]
@@ -23,15 +25,23 @@ public class CameraManager : MonoBehaviour
     public void Init()
     {
         currentState = CameraState.Normal;
-        noise = targetCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        noise = playerVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
         PlayerHealthController.OnHealthChange += HandleOnHealthChange;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
     }
 
-    public void ChangeTarget(Transform _newTarget)
+    public void SetPlatformCamera(Transform _platformTarget)
     {
-        targetCamera.Follow = _newTarget;
+        platformVirtualCamera.Follow = _platformTarget;
+        platformVirtualCamera.gameObject.SetActive(true);
+        playerVirtualCamera.gameObject.SetActive(false);
+    }
+
+    public void SetPlayerCamera()
+    {
+        platformVirtualCamera.gameObject.SetActive(false);
+        playerVirtualCamera.gameObject.SetActive(true);
     }
     #endregion
 

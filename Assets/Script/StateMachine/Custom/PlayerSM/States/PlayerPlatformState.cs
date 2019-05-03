@@ -30,7 +30,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         context.player.StopImmunityCoroutine();
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
 
-        cam.ChangeTarget(parasitePlatform.GetObjectToFollow());
+        cam.SetPlatformCamera(parasitePlatform.GetObjectToFollow());
     }
 
     public override void Tick()
@@ -75,7 +75,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePressed = false;
         healthMax = false;
 
-        cam.ChangeTarget(context.player.transform);
+        cam.SetPlayerCamera();
         context.player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
