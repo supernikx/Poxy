@@ -27,6 +27,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
     [SerializeField]
     private Material infectedMaterial;
 
+    [Header("Camera Settings")]
+    [SerializeField]
+    private Transform objectToFollow;
+
     private MeshRenderer meshRenderer;
 
     private Vector3 launchDirection;
@@ -190,6 +194,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
     public Vector3 GetLaunchDirection()
     {
         return launchDirection;
+    }
+
+    public Transform GetObjectToFollow()
+    {
+        return objectToFollow;
     }
     #endregion
 
