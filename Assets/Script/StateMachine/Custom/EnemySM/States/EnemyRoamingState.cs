@@ -7,13 +7,15 @@ namespace StateMachine.EnemySM
 
     public class EnemyRoamingState : EnemySMStateBase
     {
+        [SerializeField]
+        private float hitDelayTime;
+
         private IEnemy enemy;
         private EnemyViewController viewCtrl;
         private Vector3 movementVector;
         private float pathLenght;
         private float pathTraveled;
         private float targetAngle;
-        private bool movementBlocked;
 
         /// <summary>
         /// Function that activate on state enter
@@ -28,11 +30,12 @@ namespace StateMachine.EnemySM
         private void RoamingSetup()
         {
             enemy.EnemyRoamingState();
+            (enemy as EnemyBase).OnEnemyHit += HitDelay;
             movementVector = Vector3.zero;
             targetAngle = enemy.gameObject.transform.localEulerAngles.y;
             pathLenght = enemy.GetPathLenght();
             pathTraveled = 0f;
-            movementBlocked = false;
+            hitDelay = false;
 
             if (enemy.gameObject.transform.localEulerAngles.y != targetAngle)
             {
@@ -78,6 +81,16 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Tick()
         {
+            if (hitDelay)
+            {
+                hitDelayTimer += Time.deltaTime;
+                if (hitDelayTimer >= hitDelayTime)
+                {
+                    hitDelay = false;
+                }
+                return;
+            }
+
             Transform playerTransform = viewCtrl.FindPlayer();
             if (playerTransform != null)
             {
@@ -88,6 +101,22 @@ namespace StateMachine.EnemySM
             }
             else
                 MoveRoaming();
+        }
+
+        bool hitDelay;
+        float hitDelayTimer;
+        private void HitDelay()
+        {
+            if (hitDelay == false)
+            {
+                hitDelay = true;
+                hitDelayTimer = 0f;
+            }
+        }
+
+        public override void Exit()
+        {
+            (enemy as EnemyBase).OnEnemyHit -= HitDelay;
         }
     }
 }

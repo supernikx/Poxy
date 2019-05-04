@@ -10,6 +10,7 @@ namespace StateMachine.EnemySM
         public delegate void ChangeStateEvents();
         public ChangeStateEvents GoToStun;
         public ChangeStateEvents GoToDeath;
+        public ChangeStateEvents GoToRoaming;
 
         public delegate void EnemyParasiteEvents(Player _player);
         public EnemyParasiteEvents GoToParasite;
@@ -36,6 +37,7 @@ namespace StateMachine.EnemySM
             GoToStun += HandleEnemyStun;
             GoToDeath += HandleEnemyDeath;
             GoToParasite += HandleEnemyParasite;
+            GoToRoaming += HandleEnemyRoaming;
 
             enemySM.SetTrigger("StartSM");
         }
@@ -83,8 +85,6 @@ namespace StateMachine.EnemySM
                 EnemyManager.OnEnemyEndStun(enemy);
 
             enemySM.SetTrigger("GoToRoaming");
-
-
         }
 
         /// <summary>
@@ -120,6 +120,7 @@ namespace StateMachine.EnemySM
             GoToStun -= HandleEnemyStun;
             GoToDeath -= HandleEnemyDeath;
             GoToParasite -= HandleEnemyParasite;
+            GoToRoaming -= HandleEnemyRoaming;
         }
     }
 

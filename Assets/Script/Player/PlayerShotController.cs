@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class PlayerShotController : MonoBehaviour
 {
     #region Delegates
-    public delegate void ShotDelegate();
+    public delegate void ShotDelegate(Action _ShotcCallback);
     public static ShotDelegate OnShot;
     public delegate void ShotBulletDelegate(ObjectTypes _bullet);
     public static ShotBulletDelegate OnEnemyBulletChanged;
@@ -62,7 +63,7 @@ public class PlayerShotController : MonoBehaviour
                 {
                     //Sparo
                     if (OnShot != null)
-                        OnShot();
+                        OnShot(ShotActiveBullet);
                 }
             }
         }
@@ -169,7 +170,6 @@ public class PlayerShotController : MonoBehaviour
         ChangeShotType(stunShotSettings);
         SetShotPoint(GetShotPoint());
         defaultAngle = aimObject.transform.eulerAngles;
-        OnShot += ShotActiveBullet;
         canAim = true;
         canShot = true;
     }
@@ -261,11 +261,6 @@ public class PlayerShotController : MonoBehaviour
     }
     #endregion
     #endregion
-
-    private void OnDisable()
-    {
-        OnShot -= ShotActiveBullet;
-    }
 }
 
 [System.Serializable]

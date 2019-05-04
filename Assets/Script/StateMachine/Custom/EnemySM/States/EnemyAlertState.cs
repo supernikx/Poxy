@@ -5,6 +5,9 @@ using StateMachine.EnemySM;
 
 public class EnemyAlertState : EnemySMStateBase
 {
+    [SerializeField]
+    private float hitDelayTime;
+
     private IEnemy enemy;
     private EnemyViewController viewCtrl;
     private Transform target;
@@ -26,6 +29,7 @@ public class EnemyAlertState : EnemySMStateBase
     {
         enemy.EnemyAlertState();
         target = viewCtrl.FindPlayer();
+        (enemy as EnemyBase).OnEnemyHit += HitDelay;
 
         direction = (target.position - enemy.gameObject.transform.position).normalized;
         if (direction != enemy.gameObject.transform.right)
@@ -80,10 +84,36 @@ public class EnemyAlertState : EnemySMStateBase
 
     public override void Tick()
     {
+        if (hitDelay)
+        {
+            hitDelayTimer += Time.deltaTime;
+            if (hitDelayTimer >= hitDelayTime)
+            {
+                hitDelay = false;
+            }
+            return;
+        }
+
         target = viewCtrl.FindPlayer();
         if (target == null)
             context.EndAlertCallback();
         else
             MoveAlert(target);
+    }
+
+    bool hitDelay;
+    float hitDelayTimer;
+    private void HitDelay()
+    {
+        if (hitDelay == false)
+        {
+            hitDelay = true;
+            hitDelayTimer = 0f;
+        }
+    }
+
+    public override void Exit()
+    {
+        (enemy as EnemyBase).OnEnemyHit += HitDelay;
     }
 }

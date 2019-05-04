@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class EnemyAnimationController : MonoBehaviour
 {
     private Animator anim;
+    private EnemyBase enemy;
     private EnemyCollisionController collisionCtrl;
 
     #region Head Animations
@@ -35,6 +35,16 @@ public class EnemyAnimationController : MonoBehaviour
             anim.SetTrigger("HeadEndStun");
             anim.ResetTrigger("HeadStun");
         }
+    }
+
+    private void HeadHit()
+    {
+        anim.SetTrigger("HeadHit");
+    }
+
+    private void HeadDeath()
+    {
+        anim.SetTrigger("HeadDeath");
     }
     #endregion
 
@@ -68,13 +78,27 @@ public class EnemyAnimationController : MonoBehaviour
             anim.ResetTrigger("BodyStun");
         }
     }
+
+    private void BodyHit()
+    {
+        anim.SetTrigger("BodyHit");
+    }
+
+    private void BodyDeath()
+    {
+        anim.SetTrigger("BodyDeath");
+    }
     #endregion
 
     #region API
-    public void Init(EnemyCollisionController _collisionCtrl)
+    public void Init(EnemyBase _enemy, EnemyCollisionController _collisionCtrl)
     {
         anim = GetComponentInChildren<Animator>();
         collisionCtrl = _collisionCtrl;
+        enemy = _enemy;
+
+        enemy.OnEnemyShot += ShotAnimation;
+        enemy.OnEnemyHit += HitAnimation;
     }
 
     /// <summary>
@@ -85,16 +109,7 @@ public class EnemyAnimationController : MonoBehaviour
         return anim;
     }
 
-    public void ShotAnimation()
-    {
-        HeadShot();
-
-        if (!moving)
-        {
-            BodyShot();
-        }
-    }
-
+    #region Movement
     bool moving;
     bool jumping;
     public void MovementAnimation(Vector3 _movementVelocity)
@@ -131,6 +146,55 @@ public class EnemyAnimationController : MonoBehaviour
             HeadJump(true);
         }
     }
+    #endregion
+
+    #region Shot
+    Action shotAnimationCallback;
+    public void ShotAnimation(Action _OnShotAnimationEndCallback)
+    {
+        shotAnimationCallback = _OnShotAnimationEndCallback;
+        HeadShot();
+
+        if (!moving)
+        {
+            BodyShot();
+        }
+    }
+
+    public void HandleShotAnimationEnd()
+    {
+        if (shotAnimationCallback != null)
+            shotAnimationCallback();
+
+        shotAnimationCallback = null;
+    }
+    #endregion
+
+    #region Hit
+    public void HitAnimation()
+    {
+        HeadHit();
+        BodyHit();
+    }
+    #endregion
+
+    #region DeathAnimation
+    Action deathAnimationCallback;
+    public void DeathAnimation(Action _OnDeathAnimationEndCallback)
+    {
+        deathAnimationCallback = _OnDeathAnimationEndCallback;
+        HeadDeath();
+        BodyDeath();
+    }
+
+    public void HandleDeathAnimationEnd()
+    {
+        if (deathAnimationCallback != null)
+            deathAnimationCallback();
+
+        deathAnimationCallback = null;
+    }
+    #endregion
 
     public void ResetAnimator()
     {
@@ -155,4 +219,10 @@ public class EnemyAnimationController : MonoBehaviour
         BodyStun(stun);
     }
     #endregion
+
+    private void OnDisable()
+    {
+        enemy.OnEnemyShot -= ShotAnimation;
+        enemy.OnEnemyHit -= HitAnimation;
+    }
 }

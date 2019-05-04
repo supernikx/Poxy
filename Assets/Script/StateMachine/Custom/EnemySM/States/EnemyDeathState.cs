@@ -25,18 +25,25 @@ namespace StateMachine.EnemySM
         public override void Enter()
         {
             // If exists a reference to the enemy object
-            context.enemy.GetVFXController().EnemyDeathVFX();
             deathDuration = context.enemy.GetRespawnDuration();
             timer = 0;
-            context.enemy.GetGraphics().Disable();
             context.enemy.GetCollider().enabled = false;
             context.enemy.GetCollisionCtrl().OnStickyEnd();
-            context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();            
+            context.enemy.GetCollisionCtrl().GetCollisionInfo().ResetAll();
             context.enemy.ResetLife();
             context.enemy.ResetStunHit();
-            context.enemy.GetAnimationController().ResetAnimator();
             context.enemy.SetCanStun(false);
             start = true;
+
+            if (deathDuration != 0)
+                context.enemy.GetAnimationController().DeathAnimation(HandleDeathAnimationEnd);
+        }
+
+        private void HandleDeathAnimationEnd()
+        {
+            context.enemy.GetAnimationController().ResetAnimator();
+            context.enemy.GetVFXController().EnemyDeathVFX();
+            context.enemy.GetGraphics().Disable();
         }
 
         /// <summary>
