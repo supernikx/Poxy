@@ -14,12 +14,17 @@ public class ParabolicBullet : BulletBase
     [SerializeField]
     float speedMultiplayer;
     [SerializeField]
-    float gravity;[SerializeField]
+    float gravity;
+    [SerializeField]
     private ParticleSystem bulletParticle;
+    [SerializeField]
+    private ParticleSystem bulletExplosionParticle;
 
     private float travelTime;
     private float yVelocity;
     private float xVelocity;
+
+    private bool canMove = true;
 
     protected override bool OnBulletCollision(RaycastHit _collisionInfo)
     {
@@ -69,20 +74,23 @@ public class ParabolicBullet : BulletBase
 
     protected override void Move()
     {
-        Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
-        if (!Checkcollisions(_movementDirection * Time.deltaTime))
+        if (canMove)
         {
-            //Calcolo la rotazione in base al movimento del proiettile e la applico
-            float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
-
-            transform.position += _movementDirection * Time.deltaTime;
-            travelTime += Time.deltaTime;
-
-            if (Vector3.Distance(shotPosition, transform.position) >= range)
+            Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
+            if (!Checkcollisions(_movementDirection * Time.deltaTime))
             {
-                ObjectDestroyEvent();
-            }
+                //Calcolo la rotazione in base al movimento del proiettile e la applico
+                float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
+
+                transform.position += _movementDirection * Time.deltaTime;
+                travelTime += Time.deltaTime;
+
+                if (Vector3.Distance(shotPosition, transform.position) >= range)
+                {
+                    ObjectDestroyEvent();
+                }
+            } 
         }
     }
 
@@ -160,7 +168,20 @@ public class ParabolicBullet : BulletBase
     #region Spawn/Destroy
     protected override void ObjectDestroyEvent()
     {
+        canMove = false;
         bulletParticle.Stop();
+        bulletExplosionParticle.gameObject.transform.position = this.transform.position + new Vector3(0, 0.65f, 0);
+        bulletExplosionParticle.Play();
+        StartCoroutine(CBulletExplosion());
+    }
+
+    private IEnumerator CBulletExplosion()
+    {
+        while (bulletExplosionParticle.isPlaying)
+        {
+            yield return null;
+        }
+        canMove = true;
         base.ObjectDestroyEvent();
     }
 
