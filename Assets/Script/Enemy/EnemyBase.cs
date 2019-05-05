@@ -257,6 +257,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             respawnTime = _respawnTime;
 
         stunHitGot = 0;
+
         if (enemySM.GoToDeath != null)
         {
             enemySM.GoToDeath();

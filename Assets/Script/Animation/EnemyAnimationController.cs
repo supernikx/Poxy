@@ -29,16 +29,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void HeadStun(bool _stun)
     {
-        if (_stun)
-        {
-            anim.SetTrigger("HeadStun");
-            anim.ResetTrigger("HeadEndStun");
-        }
-        else
-        {
-            anim.SetTrigger("HeadEndStun");
-            anim.ResetTrigger("HeadStun");
-        }
+        anim.SetBool("HeadStun", _stun);
     }
 
     private void HeadHit()
@@ -75,17 +66,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void BodyStun(bool _stun)
     {
-        if (_stun)
-        {
-            anim.SetTrigger("BodyStun");
-            anim.ResetTrigger("BodyEndStun");
-
-        }
-        else
-        {
-            anim.SetTrigger("BodyEndStun");
-            anim.ResetTrigger("BodyStun");
-        }
+        anim.SetBool("BodyStun", _stun);
     }
 
     private void BodyHit()
@@ -233,7 +214,6 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void HandleHitAnimationEnd()
     {
-        Debug.Log("End");
         hitEndAnimationCount++;
         if (hitEndAnimationCount == 2)
             hittable = true;
@@ -268,16 +248,16 @@ public class EnemyAnimationController : MonoBehaviour
         BodyStun(stun);
 
         jumping = false;
-        BodyJump(false);
-        HeadJump(false);
+        BodyJump(jumping);
+        HeadJump(jumping);
 
         moving = false;
-        HeadMovement(false);
-        BodyMovement(false);
+        HeadMovement(moving);
+        BodyMovement(moving);
 
         sticky = false;
-        HeadSticky(false);
-        BodySticky(false);
+        HeadSticky(sticky);
+        BodySticky(sticky);
     }
 
     bool stun;
@@ -286,6 +266,9 @@ public class EnemyAnimationController : MonoBehaviour
         stun = _stun;
         HeadStun(stun);
         BodyStun(stun);
+
+        if (!stun)
+            hittable = true;
     }
     #endregion
 

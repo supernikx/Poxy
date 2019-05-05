@@ -101,7 +101,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (!deadEnemies.Contains(_current))
             {
-                _current.Die();
+                _current.Die(0);
                 deadEnemies.Add(_current);
             }
             else
