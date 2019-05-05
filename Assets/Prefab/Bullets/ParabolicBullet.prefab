@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 5347524739854621087}
   - component: {fileID: 5347524739854621081}
   - component: {fileID: 5347524739854621080}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: VFX_BombExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,6 +4854,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4886667082779792}
     m_Modifications:
+    - target: {fileID: 6053526431237109237, guid: f1b6e1ac68a59234f9394e4530562fea,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_Bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053526431237109237, guid: f1b6e1ac68a59234f9394e4530562fea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 6497304798173525430, guid: f1b6e1ac68a59234f9394e4530562fea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4923,16 +4933,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.29999998
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053526431237109237, guid: f1b6e1ac68a59234f9394e4530562fea,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_Bomb
-      objectReference: {fileID: 0}
-    - target: {fileID: 6053526431237109237, guid: f1b6e1ac68a59234f9394e4530562fea,
-        type: 3}
-      propertyPath: m_Layer
-      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1b6e1ac68a59234f9394e4530562fea, type: 3}
