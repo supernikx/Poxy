@@ -184,7 +184,7 @@ public class ParabolicBullet : BulletBase
             yield return null;
         }
         canMove = true;
-        bulletExplosionParticle.transform.parent = transform;
+        bulletExplosionParticle.transform.parent = transform.GetChild(1).transform;
         bulletExplosionParticle.transform.position = Vector3.zero;
     }
 
