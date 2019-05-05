@@ -170,9 +170,11 @@ public class ParabolicBullet : BulletBase
     {
         canMove = false;
         bulletParticle.Stop();
-        bulletExplosionParticle.gameObject.transform.position = this.transform.position + new Vector3(0, 0.65f, 0);
+        bulletExplosionParticle.transform.parent = null;
+        bulletExplosionParticle.gameObject.transform.position = transform.position + new Vector3(0, 0.65f, 0);
         bulletExplosionParticle.Play();
         StartCoroutine(CBulletExplosion());
+        base.ObjectDestroyEvent();
     }
 
     private IEnumerator CBulletExplosion()
@@ -182,7 +184,8 @@ public class ParabolicBullet : BulletBase
             yield return null;
         }
         canMove = true;
-        base.ObjectDestroyEvent();
+        bulletExplosionParticle.transform.parent = transform.GetChild(1).transform;
+        bulletExplosionParticle.transform.position = Vector3.zero;
     }
 
     protected override void ObjectSpawnEvent()

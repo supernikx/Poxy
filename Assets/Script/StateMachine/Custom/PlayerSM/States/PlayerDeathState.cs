@@ -19,7 +19,7 @@ public class PlayerDeathState : PlayerSMStateBase
         PlayerInputManager.Rumble(1f, 1f, 0.5f);
         context.player.ChangeGraphics(context.player.GetPlayerGraphic());
 
-        context.player.GetAnimatorController().SetAnimator(context.player.GetAnimatorController().GetPlayerAnimator());
+        context.player.GetAnimatorController().SetAnimatorController(null);
 
         PlayerShotController shotCtrl = context.player.GetShotController();
         shotCtrl.ChangeShotType(shotCtrl.GetPlayerDefaultShotSetting());
@@ -44,9 +44,7 @@ public class PlayerDeathState : PlayerSMStateBase
         if (context.player.OnPlayerDeath != null)
             context.player.OnPlayerDeath();
 
-        context.player.GetCollisionController().GetPlayerCollider().enabled = true;
         context.player.GetHealthController().Setup();
-        context.player.GetActualGraphic().Enable();
         context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
         timerForRespawn = true;
     }
@@ -69,6 +67,9 @@ public class PlayerDeathState : PlayerSMStateBase
 
     public override void Exit()
     {
+        context.player.GetActualGraphic().Enable();
+        context.player.GetCollisionController().GetPlayerCollider().enabled = true;
+
         context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Game);
         context.player.GetMovementController().SetCanMove(true);
         context.player.GetShotController().SetCanShoot(true);

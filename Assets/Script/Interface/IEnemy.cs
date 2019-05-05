@@ -99,6 +99,11 @@ public interface IEnemy
     /// Funzione che reimposta gli stunhit
     /// </summary>
     void ResetStunHit();
+
+    /// <summary>
+    /// Funzione che riporta il nemico in stato di roaming
+    /// </summary>
+    void Respawn();
     #endregion
 
     #region Getter

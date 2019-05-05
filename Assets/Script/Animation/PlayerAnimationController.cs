@@ -6,103 +6,139 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     Animator playerAnim;
-    Animator animToUse;
-    PlayerCollisionController collisionCtrl;
+    Player player;
+    EnemyAnimationController controllerToUse;
 
-    public void Init(PlayerCollisionController _collisionCtrl)
+    public void Init(Player _player)
     {
-        animToUse = playerAnim = GetComponentInChildren<Animator>();
-        collisionCtrl = _collisionCtrl;
+        playerAnim = GetComponentInChildren<Animator>();
+        player = _player;
+        controllerToUse = null;
 
         PlayerShotController.OnShot += ShotAnimation;
         PlayerMovementController.OnMovement += MovementAnimation;
+        player.OnPlayerHit += HitAnimation;
 
-        moving = false;
+        ResetAnimator();
     }
 
     #region Head Animations
     private void HeadShot()
     {
-        animToUse.SetTrigger("HeadShot");
+        playerAnim.SetTrigger("HeadShot");
     }
 
     private void HeadMovement(bool _enabled)
     {
-        animToUse.SetBool("HeadWalk", _enabled);
+        playerAnim.SetBool("HeadWalk", _enabled);
     }
 
     private void HeadJump(bool _enabled)
     {
-        animToUse.SetBool("HeadJump", _enabled);
+        playerAnim.SetBool("HeadJump", _enabled);
     }
     #endregion
 
     #region Body Animations
     private void BodyShot()
     {
-        animToUse.SetTrigger("BodyShot");
+        playerAnim.SetTrigger("BodyShot");
     }
 
     private void BodyMovement(bool _enabled)
     {
-        animToUse.SetBool("BodyWalk", _enabled);
+        playerAnim.SetBool("BodyWalk", _enabled);
     }
 
     private void BodyJump(bool _enabled)
     {
-        animToUse.SetBool("BodyJump", _enabled);
+        playerAnim.SetBool("BodyJump", _enabled);
     }
     #endregion
 
     #region API
-    public void ShotAnimation()
-    {
-        HeadShot();
-
-        if (!moving)
-        {
-            BodyShot();
-        }
-    }
-
     bool moving;
     bool jumping;
-    public void MovementAnimation(Vector3 _movementVelocity)
+    public void MovementAnimation(Vector3 _movementVelocity, CollisionInfo _collisions)
     {
-        if (collisionCtrl.GetCollisionInfo().below)
+        if (controllerToUse == null)
         {
-            if (jumping)
+            if (_collisions.below)
             {
-                jumping = false;
-                BodyJump(false);
-                HeadJump(false);
-            }
+                if (jumping)
+                {
+                    jumping = false;
+                    BodyJump(false);
+                    HeadJump(false);
+                }
 
-            if (!moving && (_movementVelocity.x < -0.001f || _movementVelocity.x > 0.001f))
-            {
-                moving = true;
-                HeadMovement(true);
-                BodyMovement(true);
+                if (!moving && (_movementVelocity.x < -0.001f || _movementVelocity.x > 0.001f))
+                {
+                    moving = true;
+                    HeadMovement(true);
+                    BodyMovement(true);
+                }
+                else if (moving && (_movementVelocity.x > -0.001f && _movementVelocity.x < 0.001f))
+                {
+                    moving = false;
+                    HeadMovement(false);
+                    BodyMovement(false);
+                }
             }
-            else if (moving && (_movementVelocity.x > -0.001f && _movementVelocity.x < 0.001f))
+            else if (!_collisions.below && !jumping)
             {
-                moving = false;
-                HeadMovement(false);
-                BodyMovement(false);
+                jumping = true;
+                BodyJump(true);
+                HeadJump(true);
             }
         }
-        else if (!collisionCtrl.GetCollisionInfo().below && !jumping)
+        else
         {
-            jumping = true;
-            BodyJump(true);
-            HeadJump(true);
+            controllerToUse.MovementAnimation(_movementVelocity, _collisions);
         }
     }
 
-    #region Setter
-    public void SetAnimator(Animator _anim)
+    #region Shot
+    Action shotAnimationCallback;
+    public void ShotAnimation(Action _OnShotAnimationEndCallback)
     {
-        animToUse = _anim;
+        if (controllerToUse == null)
+        {
+            shotAnimationCallback = _OnShotAnimationEndCallback;
+
+            HeadShot();
+            if (!moving)
+            {
+                BodyShot();
+            }
+        }
+        else
+        {
+            controllerToUse.ShotAnimation(_OnShotAnimationEndCallback);
+        }
+    }
+
+    private void HandleShotAnimationEnd()
+    {
+        if (shotAnimationCallback != null)
+            shotAnimationCallback();
+
+        shotAnimationCallback = null;
+    }
+    #endregion
+
+    #region Hit
+    private void HitAnimation()
+    {
+        if (controllerToUse != null)
+            controllerToUse.HitAnimation();
+    }
+    #endregion
+
+    #region Setter
+    public void SetAnimatorController(EnemyAnimationController _controller)
+    {
+        controllerToUse = _controller;
         moving = false;
         jumping = false;
     }
@@ -113,17 +149,24 @@ public class PlayerAnimationController : MonoBehaviour
     {
         return playerAnim;
     }
+    #endregion
+    #endregion
 
-    public Animator GetCurrentAnimator()
+    public void ResetAnimator()
     {
-        return animToUse;
+        jumping = false;
+        BodyJump(false);
+        HeadJump(false);
+
+        moving = false;
+        HeadMovement(false);
+        BodyMovement(false);
     }
-    #endregion
-    #endregion
 
     private void OnDisable()
     {
         PlayerShotController.OnShot -= ShotAnimation;
         PlayerMovementController.OnMovement -= MovementAnimation;
+        player.OnPlayerHit -= HitAnimation;
     }
 }

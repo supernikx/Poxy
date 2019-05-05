@@ -12,6 +12,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 {
     #region Delegates
     public Action OnEnemyHit;
+    public Action<Action> OnEnemyShot;
     #endregion
 
     [Header("General Movement Settings")]
@@ -96,7 +97,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
         animCtrl = GetComponentInChildren<EnemyAnimationController>();
         if (animCtrl != null)
-            animCtrl.Init(collisionCtrl);
+            animCtrl.Init(this);
 
         commandsSpriteCtrl = GetComponentInChildren<EnemyCommandsSpriteController>();
         if (commandsSpriteCtrl != null)
@@ -288,6 +289,15 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public void ResetStunHit()
     {
         stunHitGot = 0;
+    }
+
+    /// <summary>
+    /// Funzione che riporta il nemico in stato di roaming
+    /// </summary>
+    public void Respawn()
+    {
+        if (enemySM.GoToRoaming != null)
+            enemySM.GoToRoaming();
     }
     #endregion
 

@@ -99,7 +99,16 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (IEnemy _current in enemyList)
         {
-            _current.Die(0f);
+            if (!deadEnemies.Contains(_current))
+            {
+                _current.Die();
+                deadEnemies.Add(_current);
+            }
+            else
+            {
+                _current.Respawn();
+                HandleEnemyEndDeath(_current);
+            }
         }
     }
     #endregion

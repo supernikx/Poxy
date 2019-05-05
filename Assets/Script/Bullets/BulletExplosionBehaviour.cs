@@ -28,7 +28,7 @@ public class BulletExplosionBehaviour : MonoBehaviour
         else
         {
             Collider[] collisions = Physics.OverlapSphere(transform.position, explosionRange, playerLayer);
-            if (collisions == null)
+            if (collisions == null || collisions.Length == 0)
                 return;
 
             Player player = collisions[0].transform.gameObject.GetComponent<Player>();
@@ -44,5 +44,10 @@ public class BulletExplosionBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, explosionRange);
     }
 }

@@ -226,7 +226,7 @@ public class Piston : PlatformBase
                 else
                     _player = hit.transform.gameObject.GetComponentInParent<Player>();
 
-                PlayerCollisionController.CollisionInfo collisions = _player.GetCollisionController().GetCollisionInfo();
+                CollisionInfo collisions = _player.GetCollisionController().GetCollisionInfo();
                 if (_player != null &&
                     ((direction == PistonDirection.Horizontal &&
                     ((horizontalOrientation == PistonOrientation.LeftToRight && (collisions.right || collisions.rightStickyCollision)) ||
