@@ -5,7 +5,6 @@ public class EnemyAnimationController : MonoBehaviour
 {
     private Animator anim;
     private EnemyBase enemy;
-    private EnemyCollisionController collisionCtrl;
 
     #region Head Animations
     private void HeadShot()
@@ -21,6 +20,11 @@ public class EnemyAnimationController : MonoBehaviour
     private void HeadJump(bool _enabled)
     {
         anim.SetBool("HeadJump", _enabled);
+    }
+
+    private void HeadSticky(bool _enabled)
+    {
+        anim.SetBool("HeadSticky", _enabled);
     }
 
     private void HeadStun(bool _stun)
@@ -64,6 +68,11 @@ public class EnemyAnimationController : MonoBehaviour
         anim.SetBool("BodyJump", _enabled);
     }
 
+    private void BodySticky(bool _enabled)
+    {
+        anim.SetBool("BodySticky", _enabled);
+    }
+
     private void BodyStun(bool _stun)
     {
         if (_stun)
@@ -91,14 +100,15 @@ public class EnemyAnimationController : MonoBehaviour
     #endregion
 
     #region API
-    public void Init(EnemyBase _enemy, EnemyCollisionController _collisionCtrl)
+    public void Init(EnemyBase _enemy)
     {
         anim = GetComponentInChildren<Animator>();
-        collisionCtrl = _collisionCtrl;
         enemy = _enemy;
 
         enemy.OnEnemyShot += ShotAnimation;
         enemy.OnEnemyHit += HitAnimation;
+
+        ResetAnimator();
     }
 
     /// <summary>
@@ -112,12 +122,13 @@ public class EnemyAnimationController : MonoBehaviour
     #region Movement
     bool moving;
     bool jumping;
-    public void MovementAnimation(Vector3 _movementVelocity)
+    bool sticky;
+    public void MovementAnimation(Vector3 _movementVelocity, CollisionInfo _collisions)
     {
         if (stun)
             return;
 
-        if (collisionCtrl.GetCollisionInfo().below)
+        if (_collisions.StickyCollision())
         {
             if (jumping)
             {
@@ -138,8 +149,44 @@ public class EnemyAnimationController : MonoBehaviour
                 HeadMovement(false);
                 BodyMovement(false);
             }
+
+            if (!sticky)
+            {
+                sticky = true;
+                HeadSticky(true);
+                BodySticky(true);
+            }
         }
-        else if (!collisionCtrl.GetCollisionInfo().below && !jumping)
+        else if (_collisions.below)
+        {
+            if (sticky)
+            {
+                sticky = false;
+                HeadSticky(false);
+                BodySticky(false);
+            }
+
+            if (jumping)
+            {
+                jumping = false;
+                BodyJump(false);
+                HeadJump(false);
+            }
+
+            if (!moving && (_movementVelocity.x < -0.001f || _movementVelocity.x > 0.001f))
+            {
+                moving = true;
+                HeadMovement(true);
+                BodyMovement(true);
+            }
+            else if (moving && (_movementVelocity.x > -0.001f && _movementVelocity.x < 0.001f))
+            {
+                moving = false;
+                HeadMovement(false);
+                BodyMovement(false);
+            }
+        }
+        else if (!_collisions.below && !jumping)
         {
             jumping = true;
             BodyJump(true);
@@ -171,10 +218,25 @@ public class EnemyAnimationController : MonoBehaviour
     #endregion
 
     #region Hit
+    bool hittable;
+    int hitEndAnimationCount;
     public void HitAnimation()
     {
+        if (!hittable || stun)
+            return;
+
+        hittable = false;
+        hitEndAnimationCount = 0;
         HeadHit();
         BodyHit();
+    }
+
+    public void HandleHitAnimationEnd()
+    {
+        Debug.Log("End");
+        hitEndAnimationCount++;
+        if (hitEndAnimationCount == 2)
+            hittable = true;
     }
     #endregion
 
@@ -198,6 +260,9 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void ResetAnimator()
     {
+        hittable = true;
+        hitEndAnimationCount = 0;
+
         stun = false;
         HeadStun(stun);
         BodyStun(stun);
@@ -209,6 +274,10 @@ public class EnemyAnimationController : MonoBehaviour
         moving = false;
         HeadMovement(false);
         BodyMovement(false);
+
+        sticky = false;
+        HeadSticky(false);
+        BodySticky(false);
     }
 
     bool stun;

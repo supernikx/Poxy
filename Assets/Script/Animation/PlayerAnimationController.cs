@@ -7,13 +7,11 @@ public class PlayerAnimationController : MonoBehaviour
 {
     Animator playerAnim;
     Player player;
-    PlayerCollisionController collisionCtrl;
     EnemyAnimationController controllerToUse;
 
-    public void Init(Player _player, PlayerCollisionController _collisionCtrl)
+    public void Init(Player _player)
     {
         playerAnim = GetComponentInChildren<Animator>();
-        collisionCtrl = _collisionCtrl;
         player = _player;
         controllerToUse = null;
 
@@ -21,7 +19,7 @@ public class PlayerAnimationController : MonoBehaviour
         PlayerMovementController.OnMovement += MovementAnimation;
         player.OnPlayerHit += HitAnimation;
 
-        moving = false;
+        ResetAnimator();
     }
 
     #region Head Animations
@@ -61,11 +59,11 @@ public class PlayerAnimationController : MonoBehaviour
     #region API
     bool moving;
     bool jumping;
-    public void MovementAnimation(Vector3 _movementVelocity)
+    public void MovementAnimation(Vector3 _movementVelocity, CollisionInfo _collisions)
     {
         if (controllerToUse == null)
         {
-            if (collisionCtrl.GetCollisionInfo().below)
+            if (_collisions.below)
             {
                 if (jumping)
                 {
@@ -87,7 +85,7 @@ public class PlayerAnimationController : MonoBehaviour
                     BodyMovement(false);
                 }
             }
-            else if (!collisionCtrl.GetCollisionInfo().below && !jumping)
+            else if (!_collisions.below && !jumping)
             {
                 jumping = true;
                 BodyJump(true);
@@ -96,7 +94,7 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else
         {
-            controllerToUse.MovementAnimation(_movementVelocity);
+            controllerToUse.MovementAnimation(_movementVelocity, _collisions);
         }
     }
 
@@ -153,6 +151,17 @@ public class PlayerAnimationController : MonoBehaviour
     }
     #endregion
     #endregion
+
+    public void ResetAnimator()
+    {
+        jumping = false;
+        BodyJump(false);
+        HeadJump(false);
+
+        moving = false;
+        HeadMovement(false);
+        BodyMovement(false);
+    }
 
     private void OnDisable()
     {

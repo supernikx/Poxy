@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
 
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
-            animCtrl.Init(this, collisionCtrl);
+            animCtrl.Init(this);
 
         vfxCtrl = GetComponentInChildren<PlayerVFXController>();
         if (vfxCtrl != null)

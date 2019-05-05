@@ -71,7 +71,7 @@ namespace StateMachine.EnemySM
             movementVector.x = enemy.GetMovementSpeed();
             Vector3 distanceTraveled = enemy.GetMovementCtrl().MovementCheck(movementVector);
 
-            enemy.GetAnimationController().MovementAnimation(distanceTraveled);
+            enemy.GetAnimationController().MovementAnimation(distanceTraveled, enemy.GetCollisionCtrl().GetCollisionInfo());
             pathTraveled += distanceTraveled.x;
         }
 

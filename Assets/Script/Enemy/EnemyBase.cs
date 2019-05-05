@@ -97,7 +97,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
         animCtrl = GetComponentInChildren<EnemyAnimationController>();
         if (animCtrl != null)
-            animCtrl.Init(this, collisionCtrl);
+            animCtrl.Init(this);
 
         commandsSpriteCtrl = GetComponentInChildren<EnemyCommandsSpriteController>();
         if (commandsSpriteCtrl != null)

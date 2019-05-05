@@ -79,7 +79,7 @@ public class EnemyAlertState : EnemySMStateBase
             movementVelocity = enemy.GetMovementCtrl().MovementCheck(movementVector);
         }
 
-        enemy.GetAnimationController().MovementAnimation(movementVelocity);
+        enemy.GetAnimationController().MovementAnimation(movementVelocity, enemy.GetCollisionCtrl().GetCollisionInfo());
     }
 
     public override void Tick()

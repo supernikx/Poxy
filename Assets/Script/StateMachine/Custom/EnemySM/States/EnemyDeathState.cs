@@ -35,7 +35,7 @@ namespace StateMachine.EnemySM
             context.enemy.SetCanStun(false);
             start = true;
 
-            if (deathDuration != 0)
+            if (deathDuration != 0 && context.enemy.GetGraphics().GetModel().activeSelf)
                 context.enemy.GetAnimationController().DeathAnimation(HandleDeathAnimationEnd);
         }
 
