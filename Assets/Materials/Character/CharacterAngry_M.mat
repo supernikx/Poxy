@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CharacterAngry_M
-  m_Shader: {fileID: 4800000, guid: b226427582a68ac40a41add57e71dc7f, type: 3}
-  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP _USECOLORMAP_ON _USEMETALLICMAP_ON
-    _USENORMALMAP_ON _USEROUGHNESSMAP_ON
+  m_Shader: {fileID: 4800000, guid: 7252379db4c18b641b517f2c91bb57e1, type: 3}
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP _USECOLORMAP_ON _USEEMISSIVEMAP_ON
+    _USEMETALLICMAP_ON _USENORMALMAP_ON _USEROUGHNESSMAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -31,7 +31,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 690f249103694f84e91d7454c5f54bff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0941da17b63731d4d89b847a56c34486, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -47,15 +47,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 0ebd0e7b1a47dea4c88b667b7f1ff351, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 377519ea42d8c3d49a6bda76cc228af0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7ef7bb1b7fb43794ea95fd08b01f6738, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 8bcf0b8b961d2c446988e689c173660b, type: 3}
+        m_Texture: {fileID: 2800000, guid: ad10eb2f6a60f364da96554e28b6547f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
-        m_Texture: {fileID: 2800000, guid: 7b39d52dd40d0da45bc0d5d59325b7d1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3b38e37ea44aa934fbd7da0ee9879c58, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -89,12 +89,13 @@ Material:
     - _UVSec: 0
     - _UseAoMap: 0
     - _UseColorMap: 1
-    - _UseEmissiveMap: 0
+    - _UseEmissiveMap: 1
     - _UseMetallicMap: 1
     - _UseNormalMap: 1
     - _UseRoughnessMap: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_C82A060B: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _UvOffset: {r: 0, g: 0, b: 0, a: 0}

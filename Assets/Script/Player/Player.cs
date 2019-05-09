@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
 
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
-            animCtrl.Init(collisionCtrl);
+            animCtrl.Init(this);
 
         vfxCtrl = GetComponentInChildren<PlayerVFXController>();
         if (vfxCtrl != null)
@@ -149,6 +149,7 @@ public class Player : MonoBehaviour
         shootCtrl.SetCanAim(false);
         shootCtrl.ChangeShotType(shootCtrl.GetShotSettingByBullet(_e.GetBulletType()));
         _e.Parasite(this);
+        _e.GetAnimationController().ResetAnimator();
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
 
@@ -161,7 +162,7 @@ public class Player : MonoBehaviour
         #endregion
 
         ChangeGraphics(_e.GetGraphics());
-        animCtrl.SetAnimator(_e.GetAnimationController().GetAnimator());
+        animCtrl.SetAnimatorController(_e.GetAnimationController());
 
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
@@ -237,7 +238,7 @@ public class Player : MonoBehaviour
         shootCtrl.SetCanAim(false);
         shootCtrl.SetCanShoot(false);
         ChangeGraphics(playerGraphic);
-        animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
+        animCtrl.SetAnimatorController(null);
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
         movementCtrl.Eject(parasiteCtrl.GetParasite());
 

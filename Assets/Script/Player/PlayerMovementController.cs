@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     #region Delegates
-    public delegate void MovementDelegate(Vector3 _movementVelocity);
+    public delegate void MovementDelegate(Vector3 _movementVelocity, CollisionInfo _collisions);
     public static MovementDelegate OnMovement;
     #endregion
 
@@ -121,7 +121,7 @@ public class PlayerMovementController : MonoBehaviour
         transform.Translate(movementVelocityCollision);
 
         if (OnMovement != null)
-            OnMovement(movementVelocityCollision);
+            OnMovement(movementVelocityCollision, collisionCtrl.GetCollisionInfo());
     }
 
     /// <summary>

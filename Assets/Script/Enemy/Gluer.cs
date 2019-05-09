@@ -47,14 +47,26 @@ public class Gluer : EnemyBase
     {
         if (CanShot)
         {
-            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            Vector3 _direction = (_target.position - shotPosition.position);
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
-            animCtrl.ShotAnimation();
+            targetPos = _target;
             StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
+            if (OnEnemyShot != null)
+                OnEnemyShot(HandleShotAnimationEnd);
             return true;
         }
         return false;
+    }
+
+    Transform targetPos;
+    /// <summary>
+    /// Funzione che aspetta la fine dell'animazione di sparo per sparare effettivamente il proiettile
+    /// </summary>
+    private void HandleShotAnimationEnd()
+    {
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        Vector3 shotPosToCheck = shotPosition.position;
+        shotPosToCheck.z = targetPos.position.z;
+        Vector3 _direction = (targetPos.position - shotPosToCheck);
+        bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
     }
     #endregion
 }
