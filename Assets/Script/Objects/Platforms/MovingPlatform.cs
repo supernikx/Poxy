@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using System.Linq;
 
-[RequireComponent(typeof (PlatformCollisionController))]
+[RequireComponent(typeof(PlatformCollisionController))]
 public class MovingPlatform : PlatformBase
 {
     [Header("Movement Options")]
     [SerializeField]
     private float movingSpd;
     [SerializeField]
-    private Transform reachPoint;
+    private List<Transform> reachPoints = new List<Transform>();
+    private List<Vector3> reachPointsPositions = new List<Vector3>();
     [SerializeField]
     private float waitTime = 0;
-    Vector3 reachPosition;
-    private Vector3 startPosition;
+    Vector3 nextReachPosition;
     private Vector3 direction;
     bool setupped = false;
     bool canMove = false;
@@ -27,10 +27,10 @@ public class MovingPlatform : PlatformBase
         if (collisionCtrl != null)
             collisionCtrl.Init();
 
-        startPosition = transform.position;
-        reachPosition = reachPoint.position;
-        direction = (reachPosition - startPosition).normalized;
-        pointReached = false;
+        reachPoints.Add(Instantiate(new GameObject("StartPosition"), transform).transform);
+        reachPointsPositions = reachPoints.Select(t => t.position).ToList();
+
+        SetNextWaypoint();
         setupped = true;
         canMove = true;
     }
@@ -61,28 +61,17 @@ public class MovingPlatform : PlatformBase
     /// Funzione che calcola la direzione in cui deve andare la piattaforma
     /// </summary>
     Vector3 moveVelocity;
-    bool pointReached;
     private void CalculatePlatformMovement()
     {
-        if (!pointReached && Vector3.Distance(transform.position, reachPosition) > 0.1f)
+        if (Vector3.Distance(transform.position, nextReachPosition) > 0.2f)
         {
             moveVelocity = direction * movingSpd * Time.deltaTime;
         }
         else
         {
-            if (!pointReached)
-            {
-                pointReached = true;
-                StartCoroutine(WaitTime(waitTime));
-            }
-
-            moveVelocity = -direction * movingSpd * Time.deltaTime;
-
-            if (Vector3.Distance(transform.position, startPosition) < 0.1f)
-            {
-                pointReached = false;
-                StartCoroutine(WaitTime(waitTime));
-            }
+            transform.position = nextReachPosition;
+            StartCoroutine(WaitTime(waitTime));
+            SetNextWaypoint();
         }
     }
 
@@ -92,6 +81,18 @@ public class MovingPlatform : PlatformBase
     private void MovePlatform()
     {
         transform.Translate(moveVelocity);
+    }
+
+    int actualPosition = -1;
+    private void SetNextWaypoint()
+    {
+        if (actualPosition == -1 || actualPosition + 1 >= reachPointsPositions.Count)
+            actualPosition = 0;
+        else
+            actualPosition++;
+
+        nextReachPosition = reachPointsPositions[actualPosition];
+        direction = (nextReachPosition - transform.position).normalized;
     }
 
     /// <summary>
