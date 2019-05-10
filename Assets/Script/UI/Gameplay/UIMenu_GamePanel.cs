@@ -26,17 +26,22 @@ namespace UI
         [SerializeField]
         private Image toleranceBarFill;
         private float maxTolerance;
-        [Header("Bullet Image")]
+        [Header("Character Image")]
         [SerializeField]
-        private Image bulletUI;
+        private float changeCharacterLifeValue;
         [SerializeField]
-        private Sprite stunBulletSprite;
+        private Image characterUI;
         [SerializeField]
-        private Sprite parabolicBulletSprite;
+        private Sprite poxyCalmSprite;
         [SerializeField]
-        private Sprite stickyBulletSprite;
+        private Sprite poxyAngrySprite;
+        [SerializeField]
+        private Sprite parabolicEnemySprite;
+        [SerializeField]
+        private Sprite stickyEnemySprite;
 
         private UI_ManagerBase uiManager;
+        private ObjectTypes activeBullet;
 
         public override void Setup(UI_ManagerBase _uiManager)
         {
@@ -47,6 +52,7 @@ namespace UI
             HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);
+            activeBullet = ObjectTypes.StunBullet;
         }
 
         public override void Enable()
@@ -57,19 +63,23 @@ namespace UI
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
         }
 
-        #region Bullet
+        #region Character
         private void HandleOnEnemyBulletChanged(ObjectTypes _bullet)
         {
-            switch (_bullet)
+            activeBullet = _bullet;
+            switch (activeBullet)
             {
                 case ObjectTypes.ParabolicBullet:
-                    bulletUI.sprite = parabolicBulletSprite;
+                    characterUI.sprite = parabolicEnemySprite;
                     break;
                 case ObjectTypes.StickyBullet:
-                    bulletUI.sprite = stickyBulletSprite;
+                    characterUI.sprite = stickyEnemySprite;
                     break;
                 case ObjectTypes.StunBullet:
-                    bulletUI.sprite = stunBulletSprite;
+                    if (healthBarFill.fillAmount > changeCharacterLifeValue)
+                        characterUI.sprite = poxyCalmSprite;
+                    else
+                        characterUI.sprite = poxyAngrySprite;
                     break;
             }
         }
@@ -93,6 +103,14 @@ namespace UI
             }
             else if (lowLifePanel.gameObject.activeSelf)
                 EnableLowLifePanel(false);
+
+            if (activeBullet == ObjectTypes.StunBullet)
+            {
+                if (health > changeCharacterLifeValue)
+                    characterUI.sprite = poxyCalmSprite;
+                else
+                    characterUI.sprite = poxyAngrySprite;
+            }
         }
 
         /// <summary>
@@ -122,7 +140,7 @@ namespace UI
         private void HandleOnToleranceChange(float tolerance)
         {
             float tolerancePercentage = tolerance / maxTolerance;
-            toleranceBarFill.fillAmount = tolerancePercentage;
+            toleranceBarFill.fillAmount = 1 - tolerancePercentage;
         }
 
         /// <summary>

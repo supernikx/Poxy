@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using DG.Tweening;
 
 public class FallingPlatform : PlatformBase
 {
@@ -10,6 +11,8 @@ public class FallingPlatform : PlatformBase
     private bool canRespawn;
     [SerializeField]
     private float respawnTime;
+    [SerializeField]
+    private float fallTime;
     [SerializeField]
     private TriggerOption triggerOption;
     [SerializeField]
@@ -39,7 +42,7 @@ public class FallingPlatform : PlatformBase
     private Collider collider;
 
     private FallingTrigger fallingTrigger;
-       
+
     private Vector3 startingPosition;
 
     private Coroutine respawnCoroutine = null;
@@ -60,6 +63,7 @@ public class FallingPlatform : PlatformBase
         collider.enabled = true;
         currentContactState = false;
         previousContactState = false;
+        transform.position = startingPosition;
         isActive = true;
     }
 
@@ -69,6 +73,7 @@ public class FallingPlatform : PlatformBase
         collider = GetComponent<Collider>();
         previousContactState = false;
         currentContactState = true;
+        startingPosition = transform.position;
         fallingTrigger = GetComponentInChildren<FallingTrigger>();
 
         if (triggerOption == TriggerOption.BeforeTouch)
@@ -95,9 +100,8 @@ public class FallingPlatform : PlatformBase
         if (isActive)
         {
             isActive = false;
-            graphic.SetActive(false);
-            collider.enabled = false;
-            respawnCoroutine = StartCoroutine(CRespawn());
+
+            StartCoroutine(FallCoroutine());
         }
     }
 
@@ -148,6 +152,19 @@ public class FallingPlatform : PlatformBase
             yield return null;
         }
     }
+
+    private IEnumerator FallCoroutine()
+    {
+        Vector3 shakeStrenght = Vector3.zero;
+        shakeStrenght.x = 0.6f;
+        float halfFallTime = fallTime / 2f;
+        yield return new WaitForSeconds(halfFallTime);
+        yield return graphic.transform.DOShakePosition(halfFallTime, shakeStrenght, 150).WaitForCompletion();
+        collider.enabled = false;
+        yield return transform.DOMoveY(transform.position.y - 5f, 0.5f).SetEase(Ease.Linear).WaitForCompletion();
+        graphic.SetActive(false);
+        respawnCoroutine = StartCoroutine(CRespawn());
+    }
     #endregion
 
     #region Collision
@@ -160,7 +177,7 @@ public class FallingPlatform : PlatformBase
         bounds.Expand(collisionOffset * -2);
 
         verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
-        
+
         verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
 
     }
@@ -217,7 +234,7 @@ public class FallingPlatform : PlatformBase
         }
     }
     #endregion
-    
+
     #region Classes
     public enum TriggerOption
     {
@@ -232,5 +249,14 @@ public class FallingPlatform : PlatformBase
     }
     #endregion
 
+    private void OnDisable()
+    {
+        LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
+
+        if (triggerOption == TriggerOption.BeforeTouch)
+        {
+            fallingTrigger.FallTriggerEvent -= HandleFallTriggerEvent;
+        }
+    }
 }
 

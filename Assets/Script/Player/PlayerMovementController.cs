@@ -105,6 +105,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 //Se sono in collisione con qualcosa sopra/sotto evito di accumulare gravità
                 movementVelocity.y = 0;
+                impulseX = 0;
             }
         }
     }
@@ -131,23 +132,16 @@ public class PlayerMovementController : MonoBehaviour
     {
         float targetTranslation;
 
-        //Calcolo di quanto dovrò traslare
-        targetTranslation = input.x * MovementSpeed;
-
-        //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
-        movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
-
         //Se presente un impulso sulla x lo aggiungo alla movementVelocity
         if (impulseX != 0)
+            movementVelocity.x = impulseX;
+        else
         {
-            float prevSign = Mathf.Sign(impulseX);
+            //Calcolo di quanto dovrò traslare
+            targetTranslation = input.x * MovementSpeed;
 
-            impulseX += prevSign * (gravity * Time.deltaTime);
-
-            if (prevSign == Mathf.Sign(impulseX))
-                movementVelocity.x += impulseX;
-            else
-                impulseX = 0;
+            //Eseguo una breve transizione dalla mia velocity attuale a quella successiva
+            movementVelocity.x = Mathf.SmoothDamp(movementVelocity.x, targetTranslation, ref velocityXSmoothing, (collisionCtrl.GetCollisionInfo().below ? AccelerationTimeOnGround : AccelerationTimeOnAir));
         }
 
         //Aggiungo gravità al player se non sono incollato
@@ -289,7 +283,7 @@ public class PlayerMovementController : MonoBehaviour
 
         float rotationZ = Mathf.Atan2(_launchDirection.y, _launchDirection.x);
         movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
-        impulseX = (maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ) * 0.5f);
+        impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
     }
     #endregion
 
