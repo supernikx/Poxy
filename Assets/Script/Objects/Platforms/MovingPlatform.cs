@@ -14,6 +14,11 @@ public class MovingPlatform : PlatformBase
     private List<Vector3> reachPointsPositions = new List<Vector3>();
     [SerializeField]
     private float waitTime = 0;
+
+    [Header("Graphics Settings")]
+    [SerializeField]
+    LineRenderer trail;
+
     Vector3 nextReachPosition;
     private Vector3 direction;
     bool setupped = false;
@@ -30,6 +35,7 @@ public class MovingPlatform : PlatformBase
         reachPoints.Add(Instantiate(new GameObject("StartPosition"), transform).transform);
         reachPointsPositions = reachPoints.Select(t => t.position).ToList();
 
+        SetTrail();
         SetNextWaypoint();
         setupped = true;
         canMove = true;
@@ -84,6 +90,9 @@ public class MovingPlatform : PlatformBase
     }
 
     int actualPosition = -1;
+    /// <summary>
+    /// Funzione che aggiorna il waypoint da seguire
+    /// </summary>
     private void SetNextWaypoint()
     {
         if (actualPosition == -1 || actualPosition + 1 >= reachPointsPositions.Count)
@@ -93,6 +102,20 @@ public class MovingPlatform : PlatformBase
 
         nextReachPosition = reachPointsPositions[actualPosition];
         direction = (nextReachPosition - transform.position).normalized;
+    }
+
+    /// <summary>
+    /// Funzione che setuppa il trail
+    /// </summary>
+    private void SetTrail()
+    {
+        trail.positionCount = reachPointsPositions.Count;
+        trail.SetPositions(reachPointsPositions.ToArray());
+        if (reachPointsPositions.Count > 2)
+        {
+            trail.positionCount++;
+            trail.SetPosition(trail.positionCount - 1, reachPointsPositions[0]);
+        }
     }
 
     /// <summary>
