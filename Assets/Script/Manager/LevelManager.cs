@@ -42,6 +42,10 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private StickyObjectManager stickyMng;
     /// <summary>
+    /// Reference al poop controller
+    /// </summary>
+    private PoopController poopCtrl;
+    /// <summary>
     /// Reference al camera manager
     /// </summary>
     private CameraManager cameraMng;
@@ -76,6 +80,10 @@ public class LevelManager : MonoBehaviour
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
             checkpointMng.Init();
+
+        poopCtrl = FindObjectOfType<PoopController>();
+        if (poopCtrl != null)
+            poopCtrl.Init();
 
         player = FindObjectOfType<Player>();
         if (player != null)

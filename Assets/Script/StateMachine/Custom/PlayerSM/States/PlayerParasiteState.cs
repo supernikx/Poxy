@@ -100,8 +100,6 @@ namespace StateMachine.PlayerSM
                 case DamageableType.Acid:
                     context.player.StartNormalCoroutine();
                     break;
-                default:
-                    break;
             }
 
             immunity = true;

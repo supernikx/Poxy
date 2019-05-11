@@ -89,8 +89,6 @@ namespace StateMachine.PlayerSM
                     context.player.OnDamageableCollision -= OnDamageableCollision;
                     context.player.StartDeathCoroutine();
                     break;
-                default:
-                    break;
             }
 
             loseHealth = false;
