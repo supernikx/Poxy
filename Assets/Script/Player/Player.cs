@@ -18,6 +18,12 @@ public class Player : MonoBehaviour
     public Action OnPlayerHit;
     #endregion
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool canDie = true;
+    [SerializeField]
+    GameObject godModeText;
+
     /// <summary>
     /// Riferimento alla grafica
     /// </summary>
@@ -74,6 +80,16 @@ public class Player : MonoBehaviour
     /// Referenza al VFX controller
     /// </summary>
     private PlayerVFXController vfxCtrl;
+
+    //DEBUG
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            canDie = !canDie;
+            godModeText.SetActive(!canDie);
+        }
+    }
 
     #region API
     /// <summary>
@@ -316,7 +332,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StartDeathCoroutine()
     {
-        StartCoroutine(DeathCoroutine());
+        if (canDie)
+            StartCoroutine(DeathCoroutine());
     }
     /// <summary>
     /// Coroutine che manda il player in stato di morte
@@ -444,6 +461,14 @@ public class Player : MonoBehaviour
     public IGraphic GetPlayerGraphic()
     {
         return playerGraphic;
+    }
+    /// <summary>
+    /// Funzione che ritorna se il player può morire
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanDie()
+    {
+        return canDie;
     }
     #endregion
     #endregion

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.037641823, g: 0.047974117, b: 0.061336726, a: 1}
+  m_IndirectSpecularColor: {r: 0.037641965, g: 0.047974292, b: 0.061336875, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4952,16 +4952,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1753327496}
     m_Modifications:
-    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
-        type: 3}
-      propertyPath: m_Name
-      value: Acid_tile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
     - target: {fileID: 6822036860621984411, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5016,6 +5006,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
+        type: 3}
+      propertyPath: m_Name
+      value: Acid_tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6026050531930687331, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
         type: 3}
@@ -9799,12 +9799,12 @@ PrefabInstance:
     - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.873337
+      value: -34.8652
       objectReference: {fileID: 0}
     - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.098198
+      value: 16.098202
       objectReference: {fileID: 0}
     - target: {fileID: 4968012879819952482, guid: 7295e8a0e88410145973e269104b40c2,
         type: 3}
@@ -12482,6 +12482,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114842883902325374, guid: 508f37d86c8079542a3c4fa7b8418cb3,
+        type: 3}
+      propertyPath: godModeText
+      value: 
+      objectReference: {fileID: 1882927496}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508f37d86c8079542a3c4fa7b8418cb3, type: 3}
 --- !u!4 &1661805706 stripped
@@ -14108,6 +14113,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.7, y: 2, z: 3.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1882927496 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1882927496, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3301653875193625355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1901219956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18343,15 +18354,17 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3786461488945113726, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1.9819946
+    - target: {fileID: 1882927496, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3786461488945113726, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 8.459961
+    - target: {fileID: 1882927498, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882927498, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
