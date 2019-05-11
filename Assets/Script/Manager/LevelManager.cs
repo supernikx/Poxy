@@ -42,6 +42,10 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private StickyObjectManager stickyMng;
     /// <summary>
+    /// Reference al poop controller
+    /// </summary>
+    private PoopController poopCtrl;
+    /// <summary>
     /// Reference al camera manager
     /// </summary>
     private CameraManager cameraMng;
@@ -76,6 +80,10 @@ public class LevelManager : MonoBehaviour
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
             checkpointMng.Init();
+
+        poopCtrl = FindObjectOfType<PoopController>();
+        if (poopCtrl != null)
+            poopCtrl.Init();
 
         player = FindObjectOfType<Player>();
         if (player != null)
@@ -149,8 +157,7 @@ public class LevelManager : MonoBehaviour
     {
         pause = true;
         Time.timeScale = 0f;
-        player.GetMovementController().SetCanMove(false);
-        player.GetShotController().SetCanShoot(false);
+        PlayerInputManager.SetCanReadGameplayInput(false);
     }
 
     /// <summary>
@@ -160,8 +167,7 @@ public class LevelManager : MonoBehaviour
     {
         pause = false;
         Time.timeScale = 1f;
-        player.GetMovementController().SetCanMove(true);
-        player.GetShotController().SetCanShoot(true);
+        PlayerInputManager.SetCanReadGameplayInput(true);
     }
     #endregion
     #endregion
@@ -212,6 +218,15 @@ public class LevelManager : MonoBehaviour
     public CheckpointManager GetCheckpointManager()
     {
         return checkpointMng;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il camera manager
+    /// </summary>
+    /// <returns></returns>
+    public CameraManager GetCameraManager()
+    {
+        return cameraMng;
     }
     #endregion
 

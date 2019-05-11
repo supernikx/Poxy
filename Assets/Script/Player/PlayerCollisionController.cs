@@ -677,86 +677,101 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
         public Vector3 bottomLeft;
         public Vector3 bottomRight;
     }
-
-    /// <summary>
-    /// Struttura che contiene le informazioni sulla collisione attuale
-    /// </summary>
-    public struct CollisionInfo
-    {
-        public bool above;
-        public bool below;
-        public bool previewBelow;
-        public bool left;
-        public bool right;
-
-        public bool climbingSlope;
-        public bool descendingSlope;
-        public float oldSlopeAngle;
-        public float slopeAngle;
-
-        public bool leftStickyCollision;
-        public bool rightStickyCollision;
-        public bool aboveStickyCollision;
-        public bool belowStickyCollision;
-
-        public void Reset()
-        {
-            above = false;
-            previewBelow = below;
-            below = false;
-            left = false;
-            right = false;
-            climbingSlope = false;
-            descendingSlope = false;
-            oldSlopeAngle = slopeAngle;
-            slopeAngle = 0f;
-        }
-
-        public void ResetAll()
-        {
-            above = false;
-            previewBelow = below;
-            below = false;
-            left = false;
-            right = false;
-            aboveStickyCollision = false;
-            belowStickyCollision = false;
-            leftStickyCollision = false;
-            rightStickyCollision = false;
-            climbingSlope = false;
-            descendingSlope = false;
-            oldSlopeAngle = slopeAngle;
-            slopeAngle = 0f;
-        }
-
-        public bool StickyCollision()
-        {
-            if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)
-                return true;
-            return false;
-        }
-
-        public bool HorizontalStickyCollision()
-        {
-            if (leftStickyCollision || rightStickyCollision)
-                return true;
-            return false;
-        }
-
-        public bool VerticalStickyCollision()
-        {
-            if (aboveStickyCollision || belowStickyCollision)
-                return true;
-            return false;
-        }
-
-        public void ResetStickyCollision()
-        {
-            aboveStickyCollision = false;
-            belowStickyCollision = false;
-            leftStickyCollision = false;
-            rightStickyCollision = false;
-        }
-    }
     #endregion
+}
+
+/// <summary>
+/// Struttura che contiene le informazioni sulla collisione attuale
+/// </summary>
+public struct CollisionInfo
+{
+    public bool above;
+    public bool below;
+    public bool previewBelow;
+    public bool left;
+    public bool right;
+
+    public bool climbingSlope;
+    public bool descendingSlope;
+    public float oldSlopeAngle;
+    public float slopeAngle;
+
+    public bool leftStickyCollision;
+    public bool rightStickyCollision;
+    public bool aboveStickyCollision;
+    public bool belowStickyCollision;
+
+    public void Reset()
+    {
+        above = false;
+        previewBelow = below;
+        below = false;
+        left = false;
+        right = false;
+        climbingSlope = false;
+        descendingSlope = false;
+        oldSlopeAngle = slopeAngle;
+        slopeAngle = 0f;
+    }
+
+    public void ResetAll()
+    {
+        above = false;
+        previewBelow = below;
+        below = false;
+        left = false;
+        right = false;
+        aboveStickyCollision = false;
+        belowStickyCollision = false;
+        leftStickyCollision = false;
+        rightStickyCollision = false;
+        climbingSlope = false;
+        descendingSlope = false;
+        oldSlopeAngle = slopeAngle;
+        slopeAngle = 0f;
+    }
+
+    public bool HorizontalCollision()
+    {
+        if (left || right)
+            return true;
+        return false;
+    }
+
+    public bool VerticalCollision()
+    {
+        if (above || below)
+            return true;
+        return false;
+    }
+
+
+    public bool StickyCollision()
+    {
+        if (leftStickyCollision || rightStickyCollision || aboveStickyCollision || belowStickyCollision)
+            return true;
+        return false;
+    }
+
+    public bool HorizontalStickyCollision()
+    {
+        if (leftStickyCollision || rightStickyCollision)
+            return true;
+        return false;
+    }
+
+    public bool VerticalStickyCollision()
+    {
+        if (aboveStickyCollision || belowStickyCollision)
+            return true;
+        return false;
+    }
+
+    public void ResetStickyCollision()
+    {
+        aboveStickyCollision = false;
+        belowStickyCollision = false;
+        leftStickyCollision = false;
+        rightStickyCollision = false;
+    }
 }

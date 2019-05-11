@@ -11,4 +11,5 @@ public enum DamageableType
 {
     Spike,
     Acid,
+    Poop,
 }

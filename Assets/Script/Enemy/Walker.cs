@@ -46,13 +46,23 @@ public class Walker : EnemyBase
     {
         if (CanShot)
         {
-            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            animCtrl.ShotAnimation();
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _target);
+            targetPos = _target;
             StartCoroutine(FiringRateCoroutine());
+            if (OnEnemyShot != null)
+                OnEnemyShot(HandleShotAnimationEnd);
             return true;
         }
         return false;
+    }
+
+    Transform targetPos;
+    /// <summary>
+    /// Funzione che aspetta la fine dell'animazione di sparo per sparare effettivamente il proiettile
+    /// </summary>
+    private void HandleShotAnimationEnd()
+    {
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, targetPos);
     }
     #endregion
 }

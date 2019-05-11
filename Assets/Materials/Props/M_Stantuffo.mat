@@ -10,7 +10,7 @@ Material:
   m_Name: M_Stantuffo
   m_Shader: {fileID: 4800000, guid: 7252379db4c18b641b517f2c91bb57e1, type: 3}
   m_ShaderKeywords: _EMISSIVE_COLOR_MAP _MATERIAL_FEATURE_SUBSURFACE_SCATTERING _MATERIAL_FEATURE_TRANSMISSION
-    _NORMALMAP_TANGENT_SPACE _SPECGLOSSMAP _USECOLORMAP_ON _USEEMISSIVEMAP_ON _USENORMALMAP_ON
+    _NORMALMAP_TANGENT_SPACE _SPECGLOSSMAP _USEAOMAP_ON _USECOLORMAP_ON _USENORMALMAP_ON
     _USEROUGHNESSMAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 99e290e073e5f7647a19ed5add2a1f3b, type: 3}
+        m_Texture: {fileID: 2800000, guid: ecee9d89cdeffa34fa8311944dbf6027, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CoatMaskMap:
@@ -92,7 +92,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3886b1e94661c974e899ccd22feb003e, type: 3}
+        m_Texture: {fileID: 2800000, guid: fb8992194304e954eb43da823bfab606, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -112,7 +112,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f93c6ae1b3c33554c9750e118f6b89e5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -120,7 +120,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
-        m_Texture: {fileID: 2800000, guid: af30d64e9dbb0d741bbf3d8cfa936cd3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44b58771c1ec84840bf9270c4d3c9ab6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularColorMap:
@@ -263,9 +263,9 @@ Material:
     - _UVDetail: 0
     - _UVEmissive: 0
     - _UVSec: 0
-    - _UseAoMap: 0
+    - _UseAoMap: 1
     - _UseColorMap: 1
-    - _UseEmissiveMap: 1
+    - _UseEmissiveMap: 0
     - _UseMetallicMap: 0
     - _UseNormalMap: 1
     - _UseRoughnessMap: 1
@@ -279,7 +279,7 @@ Material:
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

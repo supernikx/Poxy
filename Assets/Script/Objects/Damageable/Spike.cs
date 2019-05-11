@@ -5,8 +5,6 @@ using UnityEngine;
 public class Spike : MonoBehaviour, IDamageable
 {
     [SerializeField]
-    private int damage;
-    [SerializeField]
     private DamageableType type;
     public DamageableType DamageableType
     {
@@ -19,10 +17,5 @@ public class Spike : MonoBehaviour, IDamageable
         {
             type = value;
         }
-    }
-
-    public int GetDamage()
-    {
-        return damage;
     }
 }

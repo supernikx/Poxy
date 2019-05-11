@@ -24,9 +24,9 @@ namespace StateMachine.PlayerSM
             }
 
             context.player.GetMovementController().SetCanMove(true);
-            parasitePressed = false;            
+            parasitePressed = false;
         }
-       
+
         public override void Tick()
         {
             if (loseHealth && !parasitePressed)
@@ -46,7 +46,7 @@ namespace StateMachine.PlayerSM
                 context.player.GetMovementController().SetCanMove(false);
                 switch (e.GetControllableType())
                 {
-                    case ControllableType.Enemy:                        
+                    case ControllableType.Enemy:
                         context.player.StartParasiteEnemyCoroutine(e as IEnemy);
                         break;
                     case ControllableType.Platform:
@@ -78,18 +78,16 @@ namespace StateMachine.PlayerSM
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
-                    if (immunity)
-                        return;
-                    context.player.GetHealthController().DamageHit((_damageable as Spike).GetDamage());
-                    context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
-                    context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
-                    break;
+                //if (immunity)
+                //    return;
+                //context.player.GetHealthController().DamageHit((_damageable as Spike).GetDamage());
+                //context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                //context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                 case DamageableType.Acid:
-                    PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+                    if (context.player.GetCanDie())
+                        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
                     context.player.OnDamageableCollision -= OnDamageableCollision;
                     context.player.StartDeathCoroutine();
-                    break;
-                default:
                     break;
             }
 

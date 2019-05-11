@@ -23,8 +23,6 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]
     [Tooltip("Min Health")]
     private float minHealth = 0;
-    [SerializeField]
-    private bool canDie = true;
 
     /// <summary>
     /// Player Health
@@ -84,7 +82,7 @@ public class PlayerHealthController : MonoBehaviour
     public void LoseHealthOverTime()
     {
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
-        if (health == minHealth && canDie)
+        if (health == minHealth)
             player.StartDeathCoroutine();
     }
 
@@ -97,7 +95,7 @@ public class PlayerHealthController : MonoBehaviour
         if (_time == 0)
         {
             health = Mathf.Clamp(health - _health, minHealth, maxHealth);
-            if (health == minHealth && canDie)
+            if (health == minHealth)
                 player.StartDeathCoroutine();
         }
         else

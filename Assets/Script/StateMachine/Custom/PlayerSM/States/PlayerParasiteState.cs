@@ -7,6 +7,9 @@ namespace StateMachine.PlayerSM
 {
     public class PlayerParasiteState : PlayerSMStateBase
     {
+        [SerializeField]
+        private float parasiteTimeDelay;
+
         private IEnemy parasiteEnemy;
 
         public override void Enter()
@@ -14,6 +17,7 @@ namespace StateMachine.PlayerSM
             parasiteEnemy = context.parasite as IEnemy;
 
             PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+            PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
             context.player.OnDamageableCollision += OnDamageableCollision;
             parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
@@ -87,18 +91,14 @@ namespace StateMachine.PlayerSM
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
-                    if (immunity)
-                        return;
-
-                    parasiteEnemy.GetToleranceCtrl().AddTolerance((_damageable as Spike).GetDamage());
-                    context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
-                    parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-                    context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
-                    break;
+                    //if (immunity)
+                    //    return;
+                    //parasiteEnemy.GetToleranceCtrl().AddTolerance((_damageable as Spike).GetDamage());
+                    //context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                    //parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
+                    //context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                 case DamageableType.Acid:
                     context.player.StartNormalCoroutine();
-                    break;
-                default:
                     break;
             }
 

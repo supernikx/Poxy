@@ -18,6 +18,12 @@ public class Player : MonoBehaviour
     public Action OnPlayerHit;
     #endregion
 
+    [Header("Debug")]
+    [SerializeField]
+    private bool canDie = true;
+    [SerializeField]
+    GameObject godModeText;
+
     /// <summary>
     /// Riferimento alla grafica
     /// </summary>
@@ -75,6 +81,16 @@ public class Player : MonoBehaviour
     /// </summary>
     private PlayerVFXController vfxCtrl;
 
+    //DEBUG
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            canDie = !canDie;
+            godModeText.SetActive(!canDie);
+        }
+    }
+
     #region API
     /// <summary>
     /// Funzione che inizializza lo script
@@ -112,7 +128,7 @@ public class Player : MonoBehaviour
 
         animCtrl = GetComponentInChildren<PlayerAnimationController>();
         if (animCtrl != null)
-            animCtrl.Init(collisionCtrl);
+            animCtrl.Init(this);
 
         vfxCtrl = GetComponentInChildren<PlayerVFXController>();
         if (vfxCtrl != null)
@@ -149,6 +165,7 @@ public class Player : MonoBehaviour
         shootCtrl.SetCanAim(false);
         shootCtrl.ChangeShotType(shootCtrl.GetShotSettingByBullet(_e.GetBulletType()));
         _e.Parasite(this);
+        _e.GetAnimationController().ResetAnimator();
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
 
@@ -161,7 +178,7 @@ public class Player : MonoBehaviour
         #endregion
 
         ChangeGraphics(_e.GetGraphics());
-        animCtrl.SetAnimator(_e.GetAnimationController().GetAnimator());
+        animCtrl.SetAnimatorController(_e.GetAnimationController());
 
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
@@ -237,7 +254,7 @@ public class Player : MonoBehaviour
         shootCtrl.SetCanAim(false);
         shootCtrl.SetCanShoot(false);
         ChangeGraphics(playerGraphic);
-        animCtrl.SetAnimator(animCtrl.GetPlayerAnimator());
+        animCtrl.SetAnimatorController(null);
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
         movementCtrl.Eject(parasiteCtrl.GetParasite());
 
@@ -315,7 +332,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void StartDeathCoroutine()
     {
-        StartCoroutine(DeathCoroutine());
+        if (canDie)
+            StartCoroutine(DeathCoroutine());
     }
     /// <summary>
     /// Coroutine che manda il player in stato di morte
@@ -443,6 +461,14 @@ public class Player : MonoBehaviour
     public IGraphic GetPlayerGraphic()
     {
         return playerGraphic;
+    }
+    /// <summary>
+    /// Funzione che ritorna se il player può morire
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanDie()
+    {
+        return canDie;
     }
     #endregion
     #endregion

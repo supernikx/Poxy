@@ -4,15 +4,21 @@ using StateMachine.PlayerSM;
 
 public class PlayerPlatformState : PlayerSMStateBase
 {
+    [SerializeField]
+    private float parasiteTimeDelay;
+
+    private CameraManager cam;
     private bool healthMax;
     private LaunchingPlatform parasitePlatform;
 
     public override void Enter()
     {
+        cam = LevelManager.instance.GetCameraManager();
         parasitePlatform = context.parasite as LaunchingPlatform;
 
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
         PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+        PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
 
         parasitePressed = false;
         healthMax = false;
@@ -23,6 +29,8 @@ public class PlayerPlatformState : PlayerSMStateBase
         context.player.GetShotController().SetCanShoot(false);
         context.player.StopImmunityCoroutine();
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
+
+        cam.SetPlatformCamera(parasitePlatform.GetObjectToFollow());
     }
 
     public override void Tick()
@@ -67,6 +75,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePressed = false;
         healthMax = false;
 
+        cam.SetPlayerCamera();
         context.player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 

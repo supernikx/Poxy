@@ -20,7 +20,7 @@ public class PlatformManager : MonoBehaviour
 
     private List<IPlatform> platforms;
     private List<LaunchingPlatform> launchingPlatforms;
-    private List<LaunchingPlatform> launchingPlatformsInUse;
+    private List<LaunchingPlatform> launchingPlatformsInUse;    
 
     private UI_GameplayManager uiGameplay;
 
