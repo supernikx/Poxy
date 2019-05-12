@@ -32,8 +32,6 @@ public class PlayerDeathState : PlayerSMStateBase
         context.player.GetMovementController().SetCanMove(false);
         context.player.GetShotController().SetCanShoot(false);
         context.player.GetShotController().SetCanAim(false);
-
-        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.None);
     }
 
     private void HandleDeathVFXEnd()
