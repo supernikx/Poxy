@@ -34,6 +34,8 @@ public class EnemyManager : MonoBehaviour
 
         enemyList = (FindObjectsOfType<EnemyBase>() as IEnemy[]).ToList();
 
+        enemyList.AddRange((FindObjectsOfType<Turret>() as IEnemy[]).ToList());
+
         OnEnemyStun += HandleEnemyStun;
         OnEnemyEndStun += HandleEnemyEndStun;
         OnEnemyDeath += HandleEnemyDeath;
