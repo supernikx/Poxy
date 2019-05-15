@@ -1620,6 +1620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f154b5cb4d3754dac3a3d32f9a4474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canDie: 1
+  godModeText: {fileID: 0}
 --- !u!114 &4394535992582613803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,11 +1770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a61818480ac944b8b7127114b0bcbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDeplete: 20
+  timeToDeplete: 12
   timeToFill: 5
   maxHealth: 100
   minHealth: 0
-  canDie: 1
 --- !u!1 &1922722297458210
 GameObject:
   m_ObjectHideFlags: 0
