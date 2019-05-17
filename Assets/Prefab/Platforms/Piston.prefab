@@ -146,6 +146,7 @@ MonoBehaviour:
   downMovementSpd: 5
   upMovementSpd: 3
   direction: 1
+  horizontalOrientation: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -220,7 +221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8903592909467283931}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -4.91, z: 0}
+  m_LocalPosition: {x: -0, y: -6.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6036209644734516795}
@@ -298,6 +299,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6636632704339227562, guid: 2b2fb57c546392c44a94376faa74c4d3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
         type: 3}
       propertyPath: looping
@@ -312,11 +318,6 @@ PrefabInstance:
         type: 3}
       propertyPath: moveWithTransform
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6636632704339227562, guid: 2b2fb57c546392c44a94376faa74c4d3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2fb57c546392c44a94376faa74c4d3, type: 3}
