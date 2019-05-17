@@ -18,11 +18,16 @@ public class GameManager : MonoBehaviour
     /// Riferimento all'ui manager
     /// </summary>
     UI_ManagerBase uiManager;
+    /// <summary>
+    /// RIferimento alla leaderboard
+    /// </summary>
+    dreamloLeaderBoard leaderBoard;
 
     private void Awake()
     {
         //Get Components
         gameSM = GetComponent<GameSMController>();
+        leaderBoard = GetComponentInChildren<dreamloLeaderBoard>();
 
         // Singleton
         if (instance == null)
@@ -36,7 +41,18 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        leaderBoard.Setup();
         gameSM.Init(this);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            leaderBoard.AddScore("test", 1.3f);
+            dreamloLeaderBoard.Score scoreTOSHow = leaderBoard.ToListLowToHigh()[0];
+            Debug.Log(scoreTOSHow.playerName + " " + scoreTOSHow.seconds);
+        }
     }
 
     #region API
@@ -51,7 +67,7 @@ public class GameManager : MonoBehaviour
             uiManager = newUi;
             uiManager.Setup(this);
         }
-        
+
         return uiManager;
     }
 
@@ -61,6 +77,15 @@ public class GameManager : MonoBehaviour
     public UI_ManagerBase GetUIManager()
     {
         return uiManager;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna la leaderboard
+    /// </summary>
+    /// <returns></returns>
+    public dreamloLeaderBoard GerLeaderboard()
+    {
+        return leaderBoard;
     }
 
     /// <summary>
