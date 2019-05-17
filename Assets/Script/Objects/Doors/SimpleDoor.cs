@@ -5,10 +5,6 @@ using DG.Tweening;
 
 public class SimpleDoor : DoorBase
 {
-    [Header("Door options")]
-    [SerializeField]
-    private bool isActive;
-
     [Header("Animation Settings")]
     [SerializeField]
     private Transform finalPosition;
@@ -30,13 +26,12 @@ public class SimpleDoor : DoorBase
     public override void Setup()
     {
         transform.position = startingPosition;
-        currentState = isActive;
-        gameObject.SetActive(currentState);
+        gameObject.SetActive(true);
     }
 
     public override void Activate()
     {
-        transform.DOMoveY(finalPosition.position.y, duration);
+        transform.DOMoveY(finalPosition.position.y, duration).OnComplete(() => gameObject.SetActive(false));
     }
     #endregion
 
