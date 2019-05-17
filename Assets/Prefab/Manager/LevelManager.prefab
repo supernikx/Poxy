@@ -74,6 +74,9 @@ MonoBehaviour:
   - prefab: {fileID: 1012531077359320, guid: 5e2da71c121dcd64786f720bf221b107, type: 3}
     ammount: 50
     objectType: 2
+  - prefab: {fileID: 1104106523037292, guid: 04f4f3eb33174c5479c53f0bfcbcd7b7, type: 3}
+    ammount: 50
+    objectType: 4
 --- !u!114 &2106494652088720895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87802a6d31b55b4fb8ff663554f8670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
+  playerVirtualCamera: {fileID: 0}
+  platformVirtualCamera: {fileID: 0}
   amplitudeGain: 1
   frequencyGain: 1
   shakeActivationPercentage: 30
