@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -71,18 +72,34 @@ public class dreamloLeaderBoard : MonoBehaviour
         return false;
     }
 
-    public void AddScore(string playerName, float _time)
+    public void AddScore(string playerName, float _time, Action<bool> _scoreAddedCallback = null)
     {
         if (TooManyRequests()) return;
+        StartCoroutine(CheckForAddScoreCoroutine(playerName, _time, _scoreAddedCallback));
+    }
 
-        int _decimale = (int)_time;
-        int _mantissa = (int)((_time - _decimale) * Mathf.Pow(10, (_time.ToString().Length - _decimale.ToString().Length)));
+    IEnumerator CheckForAddScoreCoroutine(string playerName, float _time, Action<bool> _scoreAddedCallback = null)
+    {
+        Score? returnScore = null;
+        yield return StartCoroutine(GetSingleScore(playerName, (Score? foundScore) =>
+        {
+            returnScore = foundScore;
+        }));
 
-        StartCoroutine(AddScoreWithPipe(playerName, _decimale, _mantissa));
+        if (returnScore != null && _time > returnScore.Value.seconds)
+        {
+            Debug.Log("Valore migliore già registrato");
+            yield break;
+        }
+
+        int _decimale = Mathf.FloorToInt(_time);
+        float _tempMantissa = (float)Math.Round(_time - _decimale, 2);
+        int _mantissa = Mathf.RoundToInt(_tempMantissa * Mathf.Pow(10, (_tempMantissa.ToString().Length - 2)));
+        StartCoroutine(AddScoreWithPipe(playerName, _decimale, _mantissa, _scoreAddedCallback));
     }
 
     // This function saves a trip to the server. Adds the score and retrieves results in one trip.
-    IEnumerator AddScoreWithPipe(string playerName, int _decimale, int _mantissa)
+    IEnumerator AddScoreWithPipe(string playerName, int _decimale, int _mantissa, Action<bool> _scoreAddedCallback)
     {
         playerName = Clean(playerName);
         string url = dreamloWebserviceURL + privateCode + "/add-pipe/" + UnityWebRequest.EscapeURL(playerName + "-" + SystemInfo.deviceUniqueIdentifier) + "/" + _decimale.ToString() + "/" + _mantissa.ToString();
@@ -97,10 +114,16 @@ public class dreamloLeaderBoard : MonoBehaviour
             if (webRequest.isNetworkError)
             {
                 Debug.Log(pages[page] + ": Error: " + webRequest.error);
+
+                if (_scoreAddedCallback != null)
+                    _scoreAddedCallback(false);
             }
             else
             {
                 highScores = webRequest.downloadHandler.text;
+
+                if (_scoreAddedCallback != null)
+                    _scoreAddedCallback(true);
             }
         }
     }
@@ -128,10 +151,9 @@ public class dreamloLeaderBoard : MonoBehaviour
         }
     }
 
-    IEnumerator GetSingleScore(string playerName)
+    IEnumerator GetSingleScore(string playerName, Action<Score?> _scoreFoundCallback)
     {
-        highScores = "";
-        string url = dreamloWebserviceURL + publicCode + "/pipe-get/" + UnityWebRequest.EscapeURL(playerName);
+        string url = dreamloWebserviceURL + publicCode + "/pipe-get/" + UnityWebRequest.EscapeURL(playerName + "-" + SystemInfo.deviceUniqueIdentifier);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             // Request and wait for the desired page.
@@ -146,7 +168,25 @@ public class dreamloLeaderBoard : MonoBehaviour
             }
             else
             {
-                highScores = webRequest.downloadHandler.text;
+                string scoreFoundString = webRequest.downloadHandler.text;
+                Score? scoreFound = null;
+                if (scoreFoundString != null && scoreFoundString != "")
+                {
+                    string[] values = scoreFoundString.Split(new char[] { '|' }, System.StringSplitOptions.None);
+
+                    Score current = new Score();
+
+                    current.playerName = values[0].Split(new char[] { '-' }, System.StringSplitOptions.None)[0];
+                    current.seconds = 0;
+                    current.shortText = "";
+                    current.dateString = "";
+                    if (values.Length > 2) current.seconds = CheckFloat(values[1], values[2]);
+                    if (values.Length > 3) current.shortText = values[3];
+                    if (values.Length > 4) current.dateString = values[4];
+
+                    scoreFound = current;
+                }
+                _scoreFoundCallback(scoreFound);
             }
         }
     }

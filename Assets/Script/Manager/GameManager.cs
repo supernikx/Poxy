@@ -45,16 +45,6 @@ public class GameManager : MonoBehaviour
         gameSM.Init(this);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            leaderBoard.AddScore("test", 1.3f);
-            dreamloLeaderBoard.Score scoreTOSHow = leaderBoard.ToListLowToHigh()[0];
-            Debug.Log(scoreTOSHow.playerName + " " + scoreTOSHow.seconds);
-        }
-    }
-
     #region API
     /// <summary>
     /// Funzione che cerca un ui manager in scena e se è diverso da quello precedente lo sostituisce
