@@ -17,7 +17,8 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform = context.parasite as LaunchingPlatform;
 
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
-        PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnShotPressed += HandleParasiteExit;
+        PlayerInputManager.OnParasitePressed += HandleParasiteExit;
         PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
 
         parasitePressed = false;
@@ -46,7 +47,7 @@ public class PlayerPlatformState : PlayerSMStateBase
     }
 
     private bool parasitePressed;
-    private void HandleOnPlayerParasitePressed()
+    private void HandleParasiteExit()
     {
         if (parasitePressed)
             return;
@@ -63,7 +64,8 @@ public class PlayerPlatformState : PlayerSMStateBase
     public override void Exit()
     {
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
-        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnShotPressed -= HandleParasiteExit;
+        PlayerInputManager.OnParasitePressed -= HandleParasiteExit;
 
         context.player.GetParasiteController().SetParasite(null);
 
@@ -83,6 +85,7 @@ public class PlayerPlatformState : PlayerSMStateBase
     {
         if (parasitePlatform != null)
             parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
-        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
+        PlayerInputManager.OnShotPressed -= HandleParasiteExit;
+        PlayerInputManager.OnParasitePressed -= HandleParasiteExit;
     }
 }

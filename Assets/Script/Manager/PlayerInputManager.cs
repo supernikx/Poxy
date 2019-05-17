@@ -9,6 +9,7 @@ public class PlayerInputManager : MonoBehaviour
     public static Action OnJumpPressed;
     public static Action OnJumpRelease;
     public static Action OnParasitePressed;
+    public static Action OnShotPressed;
     public static Action OnPausePressed;
     public static Action OnConfirmPressed;
     #endregion
@@ -119,6 +120,11 @@ public class PlayerInputManager : MonoBehaviour
 
             //Shoot
             isShooting = joystickState.Triggers.Right > 0;
+            if (joystickState.Triggers.Right > 0 && joystickPrevState.Triggers.Right == 0)
+            {
+                if (OnShotPressed != null)
+                    OnShotPressed();
+            }
 
             //Parasite
             if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
@@ -173,6 +179,11 @@ public class PlayerInputManager : MonoBehaviour
 
             //Shoot
             isShooting = Input.GetMouseButton(0);
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (OnShotPressed != null)
+                    OnShotPressed();
+            }
 
             //Parasite
             if (canPressParasite && Input.GetKeyDown(KeyCode.Q))
