@@ -49,6 +49,10 @@ public class LevelManager : MonoBehaviour
     /// Reference al camera manager
     /// </summary>
     private CameraManager cameraMng;
+    /// <summary>
+    /// Reference al camera manager
+    /// </summary>
+    private DoorsButtonsManager doorsMng;
 
     #region API
     /// <summary>
@@ -92,6 +96,10 @@ public class LevelManager : MonoBehaviour
         cameraMng = GetComponent<CameraManager>();
         if (cameraMng != null)
             cameraMng.Init();
+
+        doorsMng = GetComponent<DoorsButtonsManager>();
+        if (doorsMng != null)
+            doorsMng.Init();
 
         //Setup
         enemyMng.EnemiesSetup();
