@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
+    #region Actions
+    public static Action<bool> OnZoomOutTriggered;
+    #endregion
+
     [Header("Camera Target")]
     [SerializeField]
     private CinemachineVirtualCamera playerVirtualCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera playerVirtualCameraZoomOut;
     [SerializeField]
     private CinemachineVirtualCamera platformVirtualCamera;
 
@@ -29,6 +35,7 @@ public class CameraManager : MonoBehaviour
 
         PlayerHealthController.OnHealthChange += HandleOnHealthChange;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
+        OnZoomOutTriggered += HandleZoomOutTriggered;
     }
 
     public void SetPlatformCamera(Transform _platformTarget)
@@ -62,8 +69,36 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    private void HandleZoomOutTriggered(bool _zoomOutEnable)
+    {
+        playerVirtualCameraZoomOut.gameObject.SetActive(_zoomOutEnable);
+
+        //Noise settings
+        float oldApmplitudeValue = 0;
+        float oldFrequencyValue = 0;
+        if (noise != null)
+        {
+            oldApmplitudeValue = noise.m_AmplitudeGain;
+            oldFrequencyValue = noise.m_FrequencyGain;
+            noise.m_AmplitudeGain = 0;
+            noise.m_FrequencyGain = 0;
+        }
+
+        if (_zoomOutEnable)
+            noise = playerVirtualCameraZoomOut.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        else
+            noise = playerVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        noise.m_AmplitudeGain = oldApmplitudeValue;
+        noise.m_FrequencyGain = oldFrequencyValue;
+    }
+
+
     private void HandleOnPlayerDeath()
     {
+        if (playerVirtualCameraZoomOut.gameObject.activeSelf)
+            playerVirtualCameraZoomOut.gameObject.SetActive(false);
+
         if (currentState == CameraState.Shake)
         {
             currentState = CameraState.Normal;
@@ -77,6 +112,7 @@ public class CameraManager : MonoBehaviour
     {
         PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
         LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
+        OnZoomOutTriggered -= HandleZoomOutTriggered;
     }
 }
 

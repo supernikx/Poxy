@@ -2299,51 +2299,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -34.86565
-      objectReference: {fileID: 0}
-    - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 16.29829
-      objectReference: {fileID: 0}
-    - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -14.925131
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968012879819952482, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -38.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968012879819952482, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 16.29791
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968012879819952482, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -14.925131
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963435980459556869, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: -36.564728
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963435980459556869, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -43.721493
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963435980459556869, guid: 7295e8a0e88410145973e269104b40c2,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
-      value: -36.683952
-      objectReference: {fileID: 0}
+    - target: {fileID: 1670016668, guid: 7295e8a0e88410145973e269104b40c2, type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 1661805706}
+    - target: {fileID: 1670016668, guid: 7295e8a0e88410145973e269104b40c2, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 1661805706}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7295e8a0e88410145973e269104b40c2, type: 3}
 --- !u!1001 &640489865
@@ -5994,7 +5957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4119272098453544, guid: 508f37d86c8079542a3c4fa7b8418cb3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -38.08
+      value: -38.2
       objectReference: {fileID: 0}
     - target: {fileID: 4119272098453544, guid: 508f37d86c8079542a3c4fa7b8418cb3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6049,6 +6012,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1661805705}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1670016668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1670016668, guid: 7295e8a0e88410145973e269104b40c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 622377895}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1675321607 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4760587029968730109, guid: 1bd1f954cee219849b0d91208786fc4c,
@@ -6140,6 +6115,10 @@ PrefabInstance:
       propertyPath: platformVirtualCamera
       value: 
       objectReference: {fileID: 734054643}
+    - target: {fileID: 582705599, guid: 84526066e1e9c8a4093714f8e4e0d78a, type: 3}
+      propertyPath: playerVirtualCameraZoomOut
+      value: 
+      objectReference: {fileID: 1670016668}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84526066e1e9c8a4093714f8e4e0d78a, type: 3}
 --- !u!1001 &1708118324
