@@ -1,41 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using DG.Tweening;
 
 public class SimpleDoor : DoorBase
 {
-    [Header("Door options")]
+    [Header("Animation Settings")]
     [SerializeField]
-    private bool isActive;
+    private Transform finalPosition;
+    [SerializeField]
+    private float duration;
 
     private bool currentState;
+    private Vector3 startingPosition;
 
     #region API
     public override void Init()
     {
         //ActivateEvent += HandleActivate;
+
+        startingPosition = transform.position;
         Setup();
     }
 
     public override void Setup()
     {
-        currentState = isActive;
-        gameObject.SetActive(currentState);
+        transform.position = startingPosition;
+        gameObject.SetActive(true);
     }
 
     public override void Activate()
     {
-        currentState = !currentState;
-        this.gameObject.SetActive(currentState);
+        transform.DOMoveY(finalPosition.position.y, duration).OnComplete(() => gameObject.SetActive(false));
     }
     #endregion
 
     #region Handlers
-    /*
-    private void HandleActivate(object sender, EventArgs e)
-    {
-        Debug.Log("Activate");
-    }
-    */
+    //private void HandleActivate(object sender, EventArgs e)
+    //{
+    //    Debug.Log("Activate");
+    //}
     #endregion
 }

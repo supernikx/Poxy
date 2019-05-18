@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114105362086096742}
   - component: {fileID: 228114427}
   - component: {fileID: 582705599}
+  - component: {fileID: 8851013487042415093}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -74,6 +75,9 @@ MonoBehaviour:
   - prefab: {fileID: 1012531077359320, guid: 5e2da71c121dcd64786f720bf221b107, type: 3}
     ammount: 50
     objectType: 2
+  - prefab: {fileID: 1104106523037292, guid: 04f4f3eb33174c5479c53f0bfcbcd7b7, type: 3}
+    ammount: 50
+    objectType: 4
 --- !u!114 &2106494652088720895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +146,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87802a6d31b55b4fb8ff663554f8670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
+  playerVirtualCamera: {fileID: 0}
+  platformVirtualCamera: {fileID: 0}
   amplitudeGain: 1
   frequencyGain: 1
   shakeActivationPercentage: 30
+--- !u!114 &8851013487042415093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618661823558618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be33d609d265a1468dfffde18ac1a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorsContainer: {fileID: 0}
+  buttonsContainer: {fileID: 0}

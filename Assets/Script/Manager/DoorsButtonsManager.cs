@@ -15,12 +15,12 @@ public class DoorsButtonsManager : MonoBehaviour
     private List<IButton> buttons = new List<IButton>();
 
     #region API
-    public void Init(TokenManager _tokenMng)
+    public void Init()
     {
         if (!doorsContainer || !buttonsContainer)
             return;
 
-        tokenMng = _tokenMng;
+        //tokenMng = _tokenMng;
 
         for (int i = 0; i < doorsContainer.childCount; i++)
         {
@@ -42,7 +42,7 @@ public class DoorsButtonsManager : MonoBehaviour
             }
         }
 
-        tokenMng.FinishToken += HandleFinishToken;
+        //tokenMng.FinishToken += HandleFinishToken;
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
     }
     #endregion
@@ -75,7 +75,7 @@ public class DoorsButtonsManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        tokenMng.FinishToken -= HandleFinishToken;
+        //tokenMng.FinishToken -= HandleFinishToken;
         LevelManager.OnPlayerDeath -= HandlePlayerDeath;
     }
 }
