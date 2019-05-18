@@ -26,6 +26,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private Material defaultMaterial;
     [SerializeField]
     private Material infectedMaterial;
+    [SerializeField]
+    private EnemyCommandsSpriteController idleCommandsCtrl;
+    [SerializeField]
+    private EnemyCommandsSpriteController parasiteCommandCtrl;
 
     [Header("Camera Settings")]
     [SerializeField]
@@ -61,11 +65,23 @@ public class LaunchingPlatform : PlatformBase, IControllable
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
+        if (idleCommandsCtrl != null)
+            idleCommandsCtrl.Init();
+
+        if (parasiteCommandCtrl != null)
+            parasiteCommandCtrl.Init();
+
         SetObjectState(true);
         meshRenderer.material = defaultMaterial;
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
 
+
+        idleCommandsCtrl.Init();
+        parasiteCommandCtrl.Init();
+        parasiteCommandCtrl.ToggleButton(false);
+        idleCommandsCtrl.ToggleButton(true);
+        
         prevRotation = 90;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
     }
@@ -82,6 +98,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
         }
 
         toleranceCtrl.SetActive(false);
+        
+        parasiteCommandCtrl.ToggleButton(false);
+        idleCommandsCtrl.ToggleButton(false);
 
         SetObjectState(false);
         StartCoroutine(Respawn());
@@ -117,6 +136,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         rotationBehaviour.enabled = false;
         launchDirection = transform.right;
+
+        idleCommandsCtrl.ToggleButton(false);
+        parasiteCommandCtrl.ToggleButton(true);
+
         tickCoroutine = StartCoroutine(Tick());
     }
 
@@ -166,6 +189,10 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         meshRenderer.material = defaultMaterial;
         SetObjectState(true);
+
+        parasiteCommandCtrl.ToggleButton(false);
+        idleCommandsCtrl.ToggleButton(true);
+
         rotationBehaviour.enabled = true;
     }
     #endregion
