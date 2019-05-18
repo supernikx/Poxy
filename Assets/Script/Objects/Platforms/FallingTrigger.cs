@@ -8,7 +8,7 @@ public class FallingTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && FallTriggerEvent != null)
+        if ((other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")) && FallTriggerEvent != null)
         {
             FallTriggerEvent();
         }
