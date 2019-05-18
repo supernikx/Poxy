@@ -107,7 +107,8 @@ public class FallingPlatform : PlatformBase
 
     private void HandleOnPlayerDeath()
     {
-        StopCoroutine(respawnCoroutine);
+        if (respawnCoroutine != null)
+            StopCoroutine(respawnCoroutine);
         Respawn();
     }
     #endregion
