@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3074539946952279730}
   - component: {fileID: 3074539946952279732}
   - component: {fileID: 3074539946952279734}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: FallingPlatformX4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 3074539947055756786}
   - component: {fileID: 3074539947055756788}
   - component: {fileID: 3074539947055756787}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: FallingTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.7785401, y: 0.520699, z: 1.8958732}
-  m_Center: {x: -0.108869314, y: 0.05558753, z: 0.14422482}
+  m_Size: {x: 3.626134, y: 0.17557764, z: 1.8958732}
+  m_Center: {x: -0.15876245, y: -0.06326747, z: 0.14422482}
 --- !u!54 &3074539947055756788
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3074539947498393302}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3441549556650973805}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,6 +217,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7ca3e9e15dacd2d459bbdd9a7b560270, type: 3}
       propertyPath: m_Name
       value: ModularTile_FWR_Air (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7ca3e9e15dacd2d459bbdd9a7b560270, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7ca3e9e15dacd2d459bbdd9a7b560270, type: 3}
       propertyPath: m_LocalPosition.x
@@ -284,6 +288,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_Name
       value: ModularTile_EndCap (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -356,6 +364,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModularTile_FWR_Air
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7ca3e9e15dacd2d459bbdd9a7b560270, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7ca3e9e15dacd2d459bbdd9a7b560270, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.8499924
@@ -422,6 +434,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_Name
       value: ModularTile_EndCap (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_LocalPosition.x

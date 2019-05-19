@@ -66,6 +66,11 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// Bullet explosion behaviour (può essere null)
     /// </summary>
     protected BulletExplosionBehaviour bulletExplosion;
+    /// <summary>
+    /// Riferimento al collider del bullet
+    /// </summary>
+    protected SphereCollider bulletCollider;
+
     [SerializeField]
     /// <summary>
     /// Variabile che controlla la forza del knockback del nemico
@@ -78,9 +83,8 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     public virtual void Setup()
     {
         bulletExplosion = GetComponent<BulletExplosionBehaviour>();
-        bulletCollider = GetComponent<Collider>();
-        CalculateRaySpacing();
-        UpdateRaycastOrigins();
+        bulletCollider = GetComponent<SphereCollider>();
+        bulletCollider.enabled = false;
     }
 
     /// <summary>
@@ -88,6 +92,8 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     protected virtual void ObjectSpawnEvent()
     {
+        bulletCollider.enabled = true;
+
         if (OnObjectSpawn != null)
             OnObjectSpawn(this);
     }
@@ -96,6 +102,8 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     /// </summary>
     protected virtual void ObjectDestroyEvent()
     {
+        bulletCollider.enabled = false;
+
         if (bulletExplosion != null)
             bulletExplosion.Explode(ownerObject, damage);
 
@@ -168,99 +176,27 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
     #endregion
 
-    #region Collision
-    Collider bulletCollider;
-    const float colliderOffset = 0.1f;
-    [Header("Collision Settings")]
-    [SerializeField]
-    int rayCount;
-    [SerializeField]
-    float rayLenght;
-    float raySpacing;
-    RaycastStartPoints raycastPoint;
-
-    /// <summary>
-    /// Funzione che calcola lo spazio tra i raycast
-    /// </summary>
-    private void CalculateRaySpacing()
+    private void OnCollisionEnter(Collision collision)
     {
-        Bounds bulletBound = bulletCollider.bounds;
-        bulletBound.Expand(colliderOffset * -2f);
-        raySpacing = bulletBound.size.y / (rayCount - 1);
-    }
-
-    /// <summary>
-    /// Funzione che calcola i 4 punti principali da cui partono i raycast
-    /// AltoDestra, AltoSinistra, BassoDestra, BassoSinistra
-    /// </summary>
-    private void UpdateRaycastOrigins()
-    {
-        Bounds bounds = bulletCollider.bounds;
-        bounds.Expand(colliderOffset * -2);
-
-        raycastPoint.bottomLeft = new GameObject("BottomLeftPoint").transform;
-        raycastPoint.bottomRight = new GameObject("BottomRightPoint").transform;
-        raycastPoint.topLeft = new GameObject("TopLeftPoint").transform;
-        raycastPoint.topRight = new GameObject("TopRightPoint").transform;
-
-        raycastPoint.bottomLeft.SetParent(transform);
-        raycastPoint.bottomRight.SetParent(transform);
-        raycastPoint.topLeft.SetParent(transform);
-        raycastPoint.topRight.SetParent(transform);
-
-        raycastPoint.bottomLeft.position = new Vector3(bounds.min.x, bounds.min.y, transform.position.z);
-        raycastPoint.bottomRight.position = new Vector3(bounds.max.x, bounds.min.y, transform.position.z);
-        raycastPoint.topLeft.position = new Vector3(bounds.min.x, bounds.max.y, transform.position.z);
-        raycastPoint.topRight.position = new Vector3(bounds.max.x, bounds.max.y, transform.position.z);
-    }
-
-    /// <summary>
-    /// Funzione che controlla se avviene una collisione
-    /// </summary>
-    /// <param name="_movementVelocity"></param>
-    protected bool Checkcollisions(Vector3 _direction)
-    {
-        rayLenght = Mathf.Abs(_direction.x) + colliderOffset;
-        //Cicla tutti i punti da cui deve partire un raycast
-        for (int i = 0; i < rayCount; i++)
-        {
-            //Determina il punto da cui deve partire il ray (centro del proiettile)
-            //Vector3 rayOrigin = transform.position - transform.up * (raySpacing * ((rayCount - 1) / 2)) + (transform.right * offSet);
-            Vector3 rayOrigin = raycastPoint.topLeft.position;
-            rayOrigin += -transform.right * (raySpacing * i);
-
-            //Crea il ray            
-            Ray ray = new Ray(rayOrigin, transform.right);
-            RaycastHit hit;
-
-            //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght))
-            {
-                //Se colpisce qualcosa chiama la funzione e ritorna il valore di ritorno di OnBulletCollision            
-                return OnBulletCollision(hit);
-            }
-
-            Debug.DrawRay(rayOrigin, transform.right * rayLenght, Color.red);
-        }
-        return false;
+        OnBulletCollision(collision);
     }
 
     /// <summary>
     /// Funzione chiamata quando il proiettile entra in collisione con qualcosa
     /// </summary>
     /// <param name="_collisionInfo"></param>
-    protected virtual bool OnBulletCollision(RaycastHit _collisionInfo)
+    protected virtual bool OnBulletCollision(Collision _collision)
     {
         if (
             ownerObject != null &&
             (
-            _collisionInfo.transform.GetComponent<IBullet>() != null ||
-            _collisionInfo.transform.gameObject == gameObject ||
-            _collisionInfo.transform.gameObject == ownerObject ||
-            _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
-             _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
-            ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player") ||
-            ownerObject.tag == "PlayerImmunity" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
+            _collision.gameObject.GetComponent<IBullet>() != null ||
+            _collision.gameObject == gameObject ||
+            _collision.gameObject == ownerObject ||
+            _collision.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
+            _collision.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
+            ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player") ||
+            ownerObject.tag == "PlayerImmunity" && _collision.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
             )
           )
             return false;
@@ -268,19 +204,6 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
         ObjectDestroyEvent();
         return true;
     }
-
-    /// <summary>
-    /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
-    /// che controllano le collisioni
-    /// </summary>
-    private struct RaycastStartPoints
-    {
-        public Transform topLeft;
-        public Transform topRight;
-        public Transform bottomLeft;
-        public Transform bottomRight;
-    }
-    #endregion
 
     private void OnDisable()
     {

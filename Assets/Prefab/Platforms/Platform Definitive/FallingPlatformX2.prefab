@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4127730671657692820}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4332612313914168760}
   - component: {fileID: 4332612313914168766}
   - component: {fileID: 4332612313914168764}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: FallingPlatformX2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 4332612314336405240}
   - component: {fileID: 4332612314336405246}
   - component: {fileID: 4332612314336405241}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: FallingTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,8 +144,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.8920238, y: 0.52472687, z: 1.8958732}
-  m_Center: {x: -0.047834963, y: 0.1974392, z: 0.14422482}
+  m_Size: {x: 1.74913, y: 0.28968573, z: 1.8958732}
+  m_Center: {x: -0.021108985, y: 0.07991862, z: 0.14422482}
 --- !u!54 &4332612314336405246
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4332612314510613980}
-  m_Layer: 10
+  m_Layer: 16
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,6 +215,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_Name
       value: ModularTile_EndCap
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -282,6 +286,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_Name
       value: ModularTile_EndCap (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a12c79fac5b1df047ae4eb4be509979b, type: 3}
       propertyPath: m_LocalPosition.x

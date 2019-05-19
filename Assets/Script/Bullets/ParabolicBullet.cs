@@ -26,11 +26,11 @@ public class ParabolicBullet : BulletBase
 
     private bool canMove = true;
 
-    protected override bool OnBulletCollision(RaycastHit _collisionInfo)
+    protected override bool OnBulletCollision(Collision _collision)
     {
-        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+            IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
                 enemyHit.DamageHit(GetBulletDamage());
@@ -41,14 +41,14 @@ public class ParabolicBullet : BulletBase
             }
         }
 
-        else if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject.tag != "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
+            Player player = _collision.gameObject.GetComponent<Player>();
             if (player != null)
                 player.GetHealthController().DamageHit(damage);
             else
             {
-                IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+                IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
                 if (enemyHit != null)
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
@@ -60,16 +60,16 @@ public class ParabolicBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
+            IButton _target = _collision.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        return base.OnBulletCollision(_collisionInfo);
+        return base.OnBulletCollision(_collision);
     }
 
     protected override void Move()
@@ -77,20 +77,17 @@ public class ParabolicBullet : BulletBase
         if (canMove)
         {
             Vector3 _movementDirection = new Vector3(xVelocity, (yVelocity - (gravity * travelTime)), 0);
-            if (!Checkcollisions(_movementDirection * Time.deltaTime))
+            //Calcolo la rotazione in base al movimento del proiettile e la applico
+            float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
+
+            transform.position += _movementDirection * Time.deltaTime;
+            travelTime += Time.deltaTime;
+
+            if (Vector3.Distance(shotPosition, transform.position) >= range)
             {
-                //Calcolo la rotazione in base al movimento del proiettile e la applico
-                float zRotation = Mathf.Atan2(_movementDirection.y, _movementDirection.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0.0f, 0.0f, zRotation);
-
-                transform.position += _movementDirection * Time.deltaTime;
-                travelTime += Time.deltaTime;
-
-                if (Vector3.Distance(shotPosition, transform.position) >= range)
-                {
-                    ObjectDestroyEvent();
-                }
-            } 
+                ObjectDestroyEvent();
+            }
         }
     }
 

@@ -42,12 +42,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
     private float duration;
     [SerializeField]
     private BoxCollider boxCollider;
+    private Bounds stickyBounds;
     [Header("Stickyobject Range Settings")]
     [SerializeField]
     private float minRange;
     [SerializeField]
     private int checkSpaceRayCount = 4;
     private float checkSpaceRaySpacing;
+    private float checkSpaceRayLenght = 0.3f;
     [SerializeField]
     private LayerMask stickyObjectCollisionLayer;
     [SerializeField]
@@ -71,16 +73,24 @@ public class StickyObject : MonoBehaviour, IPoolObject
     float maxXScale;
     float yOffset;
 
+    [Header("Stickyobject Graphic Settings")]
+    [SerializeField]
+    private GameObject pivotFix;
+    [SerializeField]
+    private GameObject graphic;
+    [SerializeField]
+    private ParticleSystem spawnParticle;
+
     #region API
     /// <summary>
     /// Funzione di Setup
     /// </summary>
     public void Setup()
     {
-        boxCollider = GetComponent<BoxCollider>();
-        Vector3 bottomLeftCorner = new Vector3(boxCollider.bounds.min.x, boxCollider.bounds.min.y, transform.position.z);
-        Vector3 bottomRightCorner = new Vector3(boxCollider.bounds.max.x, boxCollider.bounds.min.y, transform.position.z);
-        yOffset = boxCollider.bounds.size.y * 0.5f;
+        stickyBounds = boxCollider.bounds;
+        Vector3 bottomLeftCorner = new Vector3(stickyBounds.min.x, stickyBounds.min.y, transform.position.z);
+        Vector3 bottomRightCorner = new Vector3(stickyBounds.max.x, stickyBounds.min.y, transform.position.z);
+        yOffset = stickyBounds.size.y * 0.5f;
         maxDistance = Vector3.Distance(bottomLeftCorner, bottomRightCorner);
         maxXScale = transform.localScale.x;
         checkSpaceRaySpacing = CalculateRaySpacing(checkSpaceRayCount);
@@ -94,8 +104,45 @@ public class StickyObject : MonoBehaviour, IPoolObject
     public void Init(Vector3 _spawnPosition, Quaternion _rotation)
     {
         transform.position = _spawnPosition;
+        Vector3 positionToCheck = new Vector3(0, checkSpaceRayLenght - (checkSpaceRayLenght / 3f), 0);
+        pivotFix.transform.localPosition = positionToCheck;
         transform.rotation = _rotation;
+    }
 
+    /// <summary>
+    /// Funzione che fa spawnare lo sticky object (da chiamare dopo Init)
+    /// </summary>
+    /// <param name="_leftPoint"></param>
+    /// <param name="_rightPoint"></param>
+    public void Spawn(Vector3 _leftPoint, Vector3 _rightPoint)
+    {
+        float actualDistance = Vector3.Distance(_leftPoint, _rightPoint);
+        pivotFix.transform.localPosition = Vector3.zero;
+        if (actualDistance < minRange)
+        {
+            if (OnObjectDestroy != null)
+                OnObjectDestroy(this);
+        }
+        else
+        {
+            Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
+            transform.localScale = newScale;
+            boxCollider.size.Scale(newScale);
+            transform.position = Vector3.Lerp(_leftPoint, _rightPoint, 0.5f);
+            leftPoint.position = _leftPoint;
+            rightPoint.position = _rightPoint;
+            velocity = Vector3.zero;
+            previousPosition = transform.position;
+            checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
+
+            StartCoroutine(SpawnEffectCoroutine());
+
+            if (OnObjectSpawn != null)
+                OnObjectSpawn(this);
+
+            gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
+            StartCoroutine(DespawnCoroutine());
+        }
     }
 
     /// <summary>
@@ -107,7 +154,6 @@ public class StickyObject : MonoBehaviour, IPoolObject
         if (CurrentState == State.InPool)
             return;
 
-        checkStuckedObjectsRaySpacing = CalculateRaySpacing(checkStuckedObjectsRayCount);
         Direction hitDirection = GetHitDirection();
         int rayRequiredStuckObject = (hitDirection == Direction.Above || hitDirection == Direction.Below) ? horizontalRayRequiredStuckObject : verticalRayRequiredStuckObject;
 
@@ -197,39 +243,6 @@ public class StickyObject : MonoBehaviour, IPoolObject
     }
 
     /// <summary>
-    /// Funzione che fa spawnare lo sticky object (da chiamare dopo Init)
-    /// </summary>
-    /// <param name="_leftPoint"></param>
-    /// <param name="_rightPoint"></param>
-    public void Spawn(Vector3 _leftPoint, Vector3 _rightPoint)
-    {
-        float actualDistance = Vector3.Distance(_leftPoint, _rightPoint);
-
-        if (actualDistance < minRange)
-        {
-            if (OnObjectDestroy != null)
-                OnObjectDestroy(this);
-        }
-        else
-        {
-            Vector3 newScale = new Vector3(actualDistance * maxXScale / maxDistance, transform.localScale.y, transform.localScale.z);
-            transform.localScale = newScale;
-            boxCollider.size.Scale(newScale);
-            transform.position = Vector3.Lerp(_leftPoint, _rightPoint, 0.5f);
-            leftPoint.position = _leftPoint;
-            rightPoint.position = _rightPoint;
-            velocity = Vector3.zero;
-            previousPosition = transform.position;
-
-            if (OnObjectSpawn != null)
-                OnObjectSpawn(this);
-
-            gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
-            StartCoroutine(DespawnCoroutine());
-        }
-    }
-
-    /// <summary>
     /// Funzione che calcola ritorna l'ultimo punto con cui si collide con il collision layer
     /// nella direzione passata come parametro
     /// </summary>
@@ -239,8 +252,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// <returns></returns>
     public Vector3 CheckSpace(Vector3 _normal, int _direction)
     {
-        float rayLenght = 0.3f;
-        Vector3 maxCenterPoint = boxCollider.bounds.center + transform.up.normalized * yOffset;
+        Vector3 maxCenterPoint = transform.position + transform.up.normalized * yOffset;
         Vector3 previewRayOrigin = maxCenterPoint;
 
         for (int i = 0; i < checkSpaceRayCount; i++)
@@ -254,14 +266,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
             RaycastHit hit;
 
             //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, avoidStickyObjectLayer))
+            if (Physics.Raycast(ray, out hit, checkSpaceRayLenght, avoidStickyObjectLayer))
             {
                 if (hit.transform.gameObject != gameObject)
                     break;
             }
 
             //Eseguo il raycast
-            if (Physics.Raycast(ray, out hit, rayLenght, stickyObjectCollisionLayer))
+            if (Physics.Raycast(ray, out hit, checkSpaceRayLenght, stickyObjectCollisionLayer))
             {
                 previewRayOrigin = rayOrigin;
             }
@@ -285,30 +297,12 @@ public class StickyObject : MonoBehaviour, IPoolObject
     }
 
     /// <summary>
-    /// Funzione che ritorna il numero di ray dell'oggetto sticky
-    /// </summary>
-    /// <returns></returns>
-    public int GetRayCount()
-    {
-        return checkSpaceRayCount;
-    }
-
-    /// <summary>
     /// Funzione che ritorna il collision layer dell'ggetto sticky
     /// </summary>
     /// <returns></returns>
     public LayerMask GetCollisionLayer()
     {
         return stickyObjectCollisionLayer;
-    }
-
-    /// <summary>
-    /// Funzione che ritorna il box collider dell'oggetto sticky
-    /// </summary>
-    /// <returns></returns>
-    public BoxCollider GetBoxCollider()
-    {
-        return boxCollider;
     }
     #endregion
     #endregion
@@ -342,6 +336,19 @@ public class StickyObject : MonoBehaviour, IPoolObject
         gameObject.layer = LayerMask.NameToLayer("Sticky");
         if (OnObjectDestroy != null)
             OnObjectDestroy(this);
+    }
+
+    /// <summary>
+    /// Funzione che fa partire il vfx di spawn e attiva la grafica alla fine
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnEffectCoroutine()
+    {
+        graphic.SetActive(false);
+        spawnParticle.Play(true);
+        yield return new WaitForSeconds(spawnParticle.main.duration);
+        spawnParticle.Stop(true);
+        graphic.SetActive(true);
     }
 
     /// <summary>

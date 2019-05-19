@@ -18,21 +18,18 @@ public class StickyBullet : BulletBase
     protected override void Move()
     {
         Vector3 _movementDirection = transform.right * speed;
-        if (!Checkcollisions(_movementDirection * Time.deltaTime))
+        transform.position += _movementDirection * Time.deltaTime;
+        if (Vector3.Distance(shotPosition, transform.position) >= range)
         {
-            transform.position += _movementDirection * Time.deltaTime;
-            if (Vector3.Distance(shotPosition, transform.position) >= range)
-            {
-                ObjectDestroyEvent();
-            }
+            ObjectDestroyEvent();
         }
     }
 
-    protected override bool OnBulletCollision(RaycastHit _collisionInfo)
+    protected override bool OnBulletCollision(Collision _collision)
     {
-        if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+            IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
                 enemyHit.DamageHit(GetBulletDamage());
@@ -42,9 +39,9 @@ public class StickyBullet : BulletBase
             }
         }
 
-        else if (ownerObject.tag != "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject != null && ownerObject.tag != "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = _collisionInfo.transform.gameObject.GetComponent<Player>();
+            Player player = _collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
                 float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
@@ -52,7 +49,7 @@ public class StickyBullet : BulletBase
             }
             else
             {
-                IEnemy enemyHit = _collisionInfo.transform.gameObject.GetComponent<IEnemy>();
+                IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
                 if (enemyHit != null)
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
@@ -65,21 +62,25 @@ public class StickyBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-       else if (ownerObject.tag == "Player" && _collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject != null && ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collisionInfo.transform.gameObject.GetComponent<IButton>();
+            IButton _target = _collision.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        else if (_collisionInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        else if (_collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
-            SpawnStickyObject(_collisionInfo.point, _collisionInfo.normal);
+            ContactPoint contact = _collision.contacts[0];
+            Vector3 collisionPoint = contact.point;
+            collisionPoint.z = 0f;
+            Vector3 closePoint = _collision.collider.ClosestPointOnBounds(collisionPoint);
+            SpawnStickyObject(closePoint, contact.normal);
         }
 
-        return base.OnBulletCollision(_collisionInfo);
+        return base.OnBulletCollision(_collision);
     }
 
     /// <summary>
@@ -91,7 +92,6 @@ public class StickyBullet : BulletBase
     {
         StickyObject stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
         stickyObject.Init(_spawnPosition, Quaternion.LookRotation(Vector3.forward, _normal));
-
         Vector3 rightMaxPosition = stickyObject.CheckSpace(_normal, 1);
         Vector3 leftMaxPosition = stickyObject.CheckSpace(_normal, -1);
         stickyObject.Spawn(leftMaxPosition, rightMaxPosition);
