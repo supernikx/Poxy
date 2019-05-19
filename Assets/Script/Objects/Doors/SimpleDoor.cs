@@ -25,6 +25,7 @@ public class SimpleDoor : DoorBase
 
     public override void Setup()
     {
+        transform.DOKill();
         transform.position = startingPosition;
         gameObject.SetActive(true);
     }
