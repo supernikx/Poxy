@@ -27,7 +27,7 @@ namespace StateMachine.GameSM
         {
             uiManager = context.gameManager.FindUIManager();
             LevelManager levelManager = FindObjectOfType<LevelManager>();
-            levelManager.Init(uiManager);
+            levelManager.Init(uiManager, context.gameManager.speedrunMode);
             uiManager.ToggleMenu(MenuType.None);
             context.OnLevelSetupCallback();
         }

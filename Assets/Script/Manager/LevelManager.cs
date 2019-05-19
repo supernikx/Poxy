@@ -53,12 +53,16 @@ public class LevelManager : MonoBehaviour
     /// Reference al camera manager
     /// </summary>
     private DoorsButtonsManager doorsMng;
+    /// <summary>
+    /// Reference al speedrun manager
+    /// </summary>
+    private SpeedrunManager speedMng;
 
     #region API
     /// <summary>
     /// Inizializzazione elementi del livello (verrà chiamata dalla SM)
     /// </summary>
-    public void Init(UI_ManagerBase _uiManager)
+    public void Init(UI_ManagerBase _uiManager, bool _speedrunMode)
     {
         instance = this;
         pause = false;
@@ -81,9 +85,13 @@ public class LevelManager : MonoBehaviour
         if (platformMng != null)
             platformMng.Init(uiManager.GetGameplayManager());
 
+        speedMng = GetComponent<SpeedrunManager>();
+        if (speedMng != null)
+            speedMng.Init(_speedrunMode);
+
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
-            checkpointMng.Init();
+            checkpointMng.Init(speedMng);
 
         poopCtrl = FindObjectOfType<PoopController>();
         if (poopCtrl != null)
@@ -100,6 +108,7 @@ public class LevelManager : MonoBehaviour
         doorsMng = GetComponent<DoorsButtonsManager>();
         if (doorsMng != null)
             doorsMng.Init();
+
 
         //Setup
         enemyMng.EnemiesSetup();

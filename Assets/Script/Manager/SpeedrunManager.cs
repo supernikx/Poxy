@@ -7,18 +7,28 @@ public class SpeedrunManager : MonoBehaviour
     #region Delegates
     public static Action StartTimer;
     public static Action StopTimer;
+
+    // DA COLLEGARE
+    public static Action PauseTimer;
+    public static Action ResumeTimer;
     #endregion
-    
+
     [SerializeField]
     private float timer;
 
     private bool canCount;
+    private bool isActive;
 
     #region API
     public void Init(bool _isActive)
     {
-        StartTimer += HandleStartTimer;
-        StopTimer += HandleStopTimer;
+        isActive = _isActive;
+
+        if (isActive)
+        {
+            StartTimer += HandleStartTimer;
+            StopTimer += HandleStopTimer; 
+        }
     }
     #endregion
 
@@ -47,6 +57,18 @@ public class SpeedrunManager : MonoBehaviour
         canCount = false;
         StopAllCoroutines();
         // timer is score
+    }
+    #endregion
+
+    #region Getters
+    public float GetTimer()
+    {
+        return timer;
+    }
+
+    public bool GetIsActive()
+    {
+        return isActive;
     }
     #endregion
 
