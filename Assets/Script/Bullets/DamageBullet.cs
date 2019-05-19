@@ -3,35 +3,35 @@ using System.Collections;
 
 public class DamageBullet : BulletBase
 {
-    protected override bool OnBulletCollision(Collision _collision)
+    protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            _collision.gameObject.GetComponent<IEnemy>().DamageHit(GetBulletDamage());
+            _collider.gameObject.GetComponent<IEnemy>().DamageHit(GetBulletDamage());
         }
 
-        if (ownerObject.tag != "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = _collision.gameObject.GetComponent<Player>();
+            Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
                 player.GetHealthController().DamageHit(damage);
             else
-                _collision.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
+                _collider.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
 
             if (player.OnPlayerHit != null)
                 player.OnPlayerHit();
         }
 
-        if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collision.gameObject.GetComponent<IButton>();
+            IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        return base.OnBulletCollision(_collision);
+        return base.OnBulletCollision(_collider);
     }
 
     protected override void Move()

@@ -176,27 +176,27 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        OnBulletCollision(collision);
+        OnBulletCollision(other);
     }
 
     /// <summary>
     /// Funzione chiamata quando il proiettile entra in collisione con qualcosa
     /// </summary>
     /// <param name="_collisionInfo"></param>
-    protected virtual bool OnBulletCollision(Collision _collision)
+    protected virtual bool OnBulletCollision(Collider _collider)
     {
         if (
             ownerObject != null &&
             (
-            _collision.gameObject.GetComponent<IBullet>() != null ||
-            _collision.gameObject == gameObject ||
-            _collision.gameObject == ownerObject ||
-            _collision.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
-            _collision.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
-            ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player") ||
-            ownerObject.tag == "PlayerImmunity" && _collision.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
+            _collider.gameObject.GetComponent<IBullet>() != null ||
+            _collider.gameObject == gameObject ||
+            _collider.gameObject == ownerObject ||
+            _collider.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
+            _collider.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
+            ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player") ||
+            ownerObject.tag == "PlayerImmunity" && _collider.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")
             )
           )
             return false;

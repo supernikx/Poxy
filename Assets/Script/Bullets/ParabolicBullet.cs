@@ -26,11 +26,11 @@ public class ParabolicBullet : BulletBase
 
     private bool canMove = true;
 
-    protected override bool OnBulletCollision(Collision _collision)
+    protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
+            IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
                 enemyHit.DamageHit(GetBulletDamage());
@@ -41,14 +41,14 @@ public class ParabolicBullet : BulletBase
             }
         }
 
-        else if (ownerObject.tag != "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = _collision.gameObject.GetComponent<Player>();
+            Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
                 player.GetHealthController().DamageHit(damage);
             else
             {
-                IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
+                IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
                 if (enemyHit != null)
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
@@ -60,16 +60,16 @@ public class ParabolicBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        else if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collision.gameObject.GetComponent<IButton>();
+            IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        return base.OnBulletCollision(_collision);
+        return base.OnBulletCollision(_collider);
     }
 
     protected override void Move()

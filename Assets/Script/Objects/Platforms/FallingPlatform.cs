@@ -14,6 +14,8 @@ public class FallingPlatform : PlatformBase
     [SerializeField]
     private float fallTime;
     [SerializeField]
+    private float shakeTime;
+    [SerializeField]
     private TriggerOption triggerOption;
     [SerializeField]
     private GameObject graphic;
@@ -158,9 +160,8 @@ public class FallingPlatform : PlatformBase
     {
         Vector3 shakeStrenght = Vector3.zero;
         shakeStrenght.x = 0.6f;
-        float halfFallTime = fallTime / 2f;
-        yield return new WaitForSeconds(halfFallTime);
-        yield return graphic.transform.DOShakePosition(halfFallTime, shakeStrenght, 150).WaitForCompletion();
+        yield return new WaitForSeconds(fallTime - shakeTime);
+        yield return graphic.transform.DOShakePosition(shakeTime, shakeStrenght, 150).WaitForCompletion();
         collider.enabled = false;
         yield return transform.DOMoveY(transform.position.y - 5f, 0.5f).SetEase(Ease.Linear).WaitForCompletion();
         graphic.SetActive(false);

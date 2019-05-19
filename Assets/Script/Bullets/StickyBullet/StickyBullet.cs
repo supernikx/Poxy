@@ -25,11 +25,11 @@ public class StickyBullet : BulletBase
         }
     }
 
-    protected override bool OnBulletCollision(Collision _collision)
+    protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject != null && ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
+            IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
                 enemyHit.DamageHit(GetBulletDamage());
@@ -39,9 +39,9 @@ public class StickyBullet : BulletBase
             }
         }
 
-        else if (ownerObject != null && ownerObject.tag != "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject != null && ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = _collision.gameObject.GetComponent<Player>();
+            Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
             {
                 float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
@@ -49,7 +49,7 @@ public class StickyBullet : BulletBase
             }
             else
             {
-                IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
+                IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
                 if (enemyHit != null)
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
@@ -62,25 +62,27 @@ public class StickyBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        else if (ownerObject != null && ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collision.gameObject.GetComponent<IButton>();
+            IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        else if (_collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        else if (_collider.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
-            ContactPoint contact = _collision.contacts[0];
-            Vector3 collisionPoint = contact.point;
-            collisionPoint.z = 0f;
-            Vector3 closePoint = _collision.collider.ClosestPointOnBounds(collisionPoint);
-            SpawnStickyObject(closePoint, contact.normal);
+            RaycastHit hit;
+            Vector3 endPoint = transform.position + transform.right.normalized * 0.5f;
+            if (Physics.Linecast(transform.position, endPoint, out hit))
+            {
+                Vector3 closePoint = _collider.ClosestPointOnBounds(transform.position);
+                SpawnStickyObject(closePoint, hit.normal);
+            }
         }
 
-        return base.OnBulletCollision(_collision);
+        return base.OnBulletCollision(_collider);
     }
 
     /// <summary>

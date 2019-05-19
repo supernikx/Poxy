@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class StunBullet : BulletBase
 {
-    protected override bool OnBulletCollision(Collision _collision)
+    protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            IEnemy enemyHit = _collision.gameObject.GetComponent<IEnemy>();
+            IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
                 enemyHit.StunHit();
@@ -21,16 +21,16 @@ public class StunBullet : BulletBase
                     enemyBase.OnEnemyHit();
             }
         }
-        else if (ownerObject.tag == "Player" && _collision.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
-            IButton _target = _collision.gameObject.GetComponent<IButton>();
+            IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
                 _target.Activate();
             else
                 return false;
         }
 
-        return base.OnBulletCollision(_collision);
+        return base.OnBulletCollision(_collider);
     }
 
     protected override void Move()
