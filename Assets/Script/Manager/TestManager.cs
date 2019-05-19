@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TestManager : MonoBehaviour
 {
+    public bool speedrunMode = false;
+
     private void Awake()
     {
         UI_ManagerBase ui = FindObjectOfType<UI_ManagerBase>();
@@ -13,7 +15,7 @@ public class TestManager : MonoBehaviour
         {
             ui.Setup(gm);
             ui.ToggleMenu(MenuType.Game);
-            lvl.Init(ui);
+            lvl.Init(ui, speedrunMode);
         }
         else
             DestroyImmediate(gameObject);

@@ -16,9 +16,13 @@ public class CheckpointManager : MonoBehaviour
     [SerializeField]
     private CheckpointBase activeCheckpoint;
 
+    private SpeedrunManager speedMng;
+
     #region API
-    public void Init()
+    public void Init(SpeedrunManager _speedMng)
     {
+        speedMng = _speedMng;
+
         if (initialCheckpoint == null)
         {
             Debug.LogError("An initial checkpoint should always be setted", initialCheckpoint);
@@ -39,7 +43,7 @@ public class CheckpointManager : MonoBehaviour
     #region Handlers
     private void HandleActivateCheckpoint(CheckpointBase _checkpoint)
     {
-        if (activeCheckpoint != _checkpoint)
+        if (!speedMng.GetIsActive() && activeCheckpoint != _checkpoint)
             activeCheckpoint = _checkpoint;
     }
 
