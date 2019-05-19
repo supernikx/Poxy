@@ -61,8 +61,11 @@ public class Walker : EnemyBase
     /// </summary>
     private void HandleShotAnimationEnd()
     {
-        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-        bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, targetPos);
+        if (CanShot)
+        {
+            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, targetPos);
+        }
     }
     #endregion
 }
