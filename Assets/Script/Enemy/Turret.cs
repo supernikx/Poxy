@@ -195,7 +195,7 @@ public class Turret : MonoBehaviour, IEnemy
         {
             Transform _target = viewCtrl.FindPlayer();
 
-            if (_target != null && CheckShot(_target))
+            if (_target != null && viewCtrl.CanSeePlayer(_target.position) && CheckShot(_target))
             {
                 Shot(_target);
             }

@@ -175,6 +175,8 @@ public class LevelManager : MonoBehaviour
         pause = true;
         Time.timeScale = 0f;
         PlayerInputManager.SetCanReadGameplayInput(false);
+        if (SpeedrunManager.PauseTimer != null)
+            SpeedrunManager.PauseTimer();
     }
 
     /// <summary>
@@ -185,6 +187,8 @@ public class LevelManager : MonoBehaviour
         pause = false;
         Time.timeScale = 1f;
         PlayerInputManager.SetCanReadGameplayInput(true);
+        if (SpeedrunManager.ResumeTimer != null)
+            SpeedrunManager.ResumeTimer();
     }
     #endregion
     #endregion

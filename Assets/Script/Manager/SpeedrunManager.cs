@@ -7,8 +7,6 @@ public class SpeedrunManager : MonoBehaviour
     #region Delegates
     public static Action StartTimer;
     public static Action StopTimer;
-
-    // DA COLLEGARE
     public static Action PauseTimer;
     public static Action ResumeTimer;
     #endregion
@@ -27,7 +25,9 @@ public class SpeedrunManager : MonoBehaviour
         if (isActive)
         {
             StartTimer += HandleStartTimer;
-            StopTimer += HandleStopTimer; 
+            StopTimer += HandleStopTimer;
+            PauseTimer += HandlePauseTimer;
+            ResumeTimer += HandleResumeTimer;
         }
     }
     #endregion
@@ -35,9 +35,10 @@ public class SpeedrunManager : MonoBehaviour
     #region Coroutines
     private IEnumerator CTimerUpdate()
     {
-        while (canCount)
+        while (true)
         {
-            timer += Time.deltaTime;
+            if (canCount)
+                timer += Time.deltaTime; 
             yield return null;
         }
     }
@@ -57,6 +58,16 @@ public class SpeedrunManager : MonoBehaviour
         canCount = false;
         StopAllCoroutines();
         // timer is score
+    }
+
+    private void HandlePauseTimer()
+    {
+        canCount = false;
+    }
+
+    private void HandleResumeTimer()
+    {
+        canCount = true;
     }
     #endregion
 
