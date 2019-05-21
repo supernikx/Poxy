@@ -8,6 +8,9 @@ public class Rotation : MonoBehaviour
     float speedMultiplier;
     [SerializeField]
     AnimationCurve xVelocity, yVelocity, zVelocity;
+    [SerializeField]
+    private List<GameObject> fixedPositionChildren = new List<GameObject>();
+
     float time;
     IEnumerator rotatingCoroutineRef;
 
@@ -23,6 +26,13 @@ public class Rotation : MonoBehaviour
         {
             time += Time.deltaTime;
             transform.Rotate(xVelocity.Evaluate(time) * speedMultiplier, yVelocity.Evaluate(time) * speedMultiplier, zVelocity.Evaluate(time) * speedMultiplier);
+            if (fixedPositionChildren.Count != 0)
+            {
+                foreach (GameObject _current in fixedPositionChildren)
+                {
+                    _current.transform.Rotate(-xVelocity.Evaluate(time) * speedMultiplier, -yVelocity.Evaluate(time) * speedMultiplier, -zVelocity.Evaluate(time) * speedMultiplier);
+                }
+            }
             yield return new WaitForFixedUpdate();
         }
     }

@@ -116,6 +116,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
             if (prevRotation != rotationZ && (Mathf.Abs(_aimVector.x) >= 0.5 || Mathf.Abs(_aimVector.y) >= 0.5))
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationZ));
+                parasiteCommandCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                idleCommandsCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 prevRotation = rotationZ;
                 launchDirection = _aimVector.normalized;
             }
@@ -186,6 +188,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
         }
         prevRotation = 90f;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
+        parasiteCommandCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        idleCommandsCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
         meshRenderer.material = defaultMaterial;
         SetObjectState(true);

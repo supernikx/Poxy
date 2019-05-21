@@ -66,13 +66,13 @@ public class InputChecker : MonoBehaviour
         joystickPrevState = joystickState;
         joystickState = GamePad.GetState(joystickPlayerIndex);
 
-        if (currentinputType == InputType.None || (playerIndexSet && currentinputType == InputType.Keyboard))
+        if ((playerIndexSet && currentinputType == InputType.None) || (playerIndexSet && currentinputType == InputType.Keyboard))
         {
             currentinputType = InputType.Joystick;
             if (OnInputChanged != null)
                 OnInputChanged(currentinputType);
         }
-        else if (currentinputType == InputType.None || (!playerIndexSet && currentinputType == InputType.Joystick))
+        else if ((!playerIndexSet && currentinputType == InputType.None) || (!playerIndexSet && currentinputType == InputType.Joystick))
         {
             currentinputType = InputType.Keyboard;
             if (OnInputChanged != null)

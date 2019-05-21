@@ -26,6 +26,11 @@ public class EnemyCommandsSpriteController : MonoBehaviour
     /// <param name="_toggle"></param>
     public void ToggleButton(bool _toggle)
     {
+        if (_toggle)
+            InputChecker.OnInputChanged += HandleOnInputChange;
+        else
+            InputChecker.OnInputChanged -= HandleOnInputChange;
+
         switch (InputChecker.GetCurrentInputType())
         {
             case InputType.None:
@@ -42,4 +47,25 @@ public class EnemyCommandsSpriteController : MonoBehaviour
                 break;
         }
     }
+
+    #region Handlers
+    private void HandleOnInputChange(InputType _newType)
+    {
+        switch (_newType)
+        {
+            case InputType.None:
+                buttonSprite.joystickSprite.SetActive(false);
+                buttonSprite.keyboardSprite.SetActive(false);
+                break;
+            case InputType.Joystick:
+                buttonSprite.joystickSprite.SetActive(true);
+                buttonSprite.keyboardSprite.SetActive(false);
+                break;
+            case InputType.Keyboard:
+                buttonSprite.keyboardSprite.SetActive(true);
+                buttonSprite.joystickSprite.SetActive(false);
+                break;
+        }
+    }
+    #endregion
 }
