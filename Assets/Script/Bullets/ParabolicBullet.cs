@@ -176,11 +176,8 @@ public class ParabolicBullet : BulletBase
 
     private IEnumerator CBulletExplosion()
     {
-        while (bulletExplosionParticle.isPlaying)
-        {
-            yield return null;
-        }
-        canMove = true;
+        yield return new WaitForSeconds(bulletExplosionParticle.main.duration);
+
         bulletExplosionParticle.transform.parent = transform.GetChild(1).transform;
         bulletExplosionParticle.transform.position = Vector3.zero;
     }
@@ -188,6 +185,8 @@ public class ParabolicBullet : BulletBase
     protected override void ObjectSpawnEvent()
     {
         bulletParticle.Play();
+        canMove = true;
+
         base.ObjectSpawnEvent();
     }
     #endregion

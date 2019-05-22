@@ -6,20 +6,20 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Walker : EnemyBase
 {
-    bool CanShot;
+    bool canShot;
 
     private IEnumerator FiringRateCoroutine()
     {
-        CanShot = false;
+        canShot = false;
         yield return new WaitForSeconds(1 / enemyShotSettings.firingRate);
-        CanShot = true;
+        canShot = true;
     }
 
     #region API
     public override void Init(EnemyManager _enemyMng)
     {
         base.Init(_enemyMng);
-        CanShot = true;
+        canShot = true;
     }
 
     /// <summary>
@@ -29,6 +29,9 @@ public class Walker : EnemyBase
     /// <returns></returns>
     public override bool CheckShot(Transform _target)
     {
+        if (!canShot)
+            return false;
+
         IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
         if ((bullet as ParabolicBullet).CheckShotRange(_target.position, shotPosition.position, enemyShotSettings.shotSpeed))
         {
@@ -44,7 +47,7 @@ public class Walker : EnemyBase
     /// <returns></returns>
     public override bool Shot(Transform _target)
     {
-        if (CanShot)
+        if (canShot)
         {
             targetPos = _target;
             StartCoroutine(FiringRateCoroutine());
@@ -61,11 +64,8 @@ public class Walker : EnemyBase
     /// </summary>
     private void HandleShotAnimationEnd()
     {
-        if (CanShot)
-        {
-            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, targetPos);
-        }
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, targetPos);
     }
     #endregion
 }

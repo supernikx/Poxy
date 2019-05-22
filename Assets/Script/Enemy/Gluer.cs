@@ -6,21 +6,21 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Gluer : EnemyBase
 {
-    private bool CanShot;
+    private bool canShot;
     private IEnumerator roamingFiringRateCoroutine;
 
     private IEnumerator FiringRateCoroutine(float _firingRate)
     {
-        CanShot = false;
+        canShot = false;
         yield return new WaitForSeconds(1 / _firingRate);
-        CanShot = true;
+        canShot = true;
     }
 
     #region API
     public override void Init(EnemyManager _enemyMng)
     {
         base.Init(_enemyMng);
-        CanShot = true;
+        canShot = true;
     }
 
     /// <summary>
@@ -30,6 +30,9 @@ public class Gluer : EnemyBase
     /// <returns></returns>
     public override bool CheckShot(Transform _target)
     {
+        if (!canShot)
+            return false;
+
         float _distance = Vector3.Distance(_target.position, shotPosition.position);
         if (_distance <= enemyShotSettings.range)
         {
@@ -45,7 +48,7 @@ public class Gluer : EnemyBase
     /// <returns></returns>
     public override bool Shot(Transform _target)
     {
-        if (CanShot)
+        if (canShot)
         {
             targetPos = _target;
             StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
