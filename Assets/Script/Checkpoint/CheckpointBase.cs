@@ -15,4 +15,9 @@ public abstract class CheckpointBase : MonoBehaviour
     {
         return transform.position;
     }
+
+    public virtual CheckpointAnimatorManager GetCheckpointAnimatorManager()
+    {
+        return null;
+    }
 }

@@ -7,6 +7,8 @@ public class StandardCheckpoint : CheckpointBase
     [SerializeField]
     private float range;
 
+    CheckpointAnimatorManager animMng;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
@@ -19,6 +21,13 @@ public class StandardCheckpoint : CheckpointBase
     public override void Init()
     {
         GetComponent<SphereCollider>().radius = range;
+        animMng = GetComponentInChildren<CheckpointAnimatorManager>();
+        animMng.Init();
+    }
+
+    public override CheckpointAnimatorManager GetCheckpointAnimatorManager()
+    {
+        return animMng;
     }
     #endregion
 
