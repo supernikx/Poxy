@@ -18,7 +18,7 @@ public class DamageBullet : BulletBase
             else
                 _collider.gameObject.GetComponent<IEnemy>().GetToleranceCtrl().AddTolerance(damage);
 
-            if (player.OnPlayerHit != null)
+            if (player != null && player.OnPlayerHit != null)
                 player.OnPlayerHit();
         }
 

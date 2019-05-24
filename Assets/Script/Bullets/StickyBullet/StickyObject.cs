@@ -61,7 +61,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
     [Header("Stickyobject Stuck Settings")]
     [SerializeField]
-    private int checkStuckedObjectsRayCount = 4;
+    private int checkStuckedObjectsRayCount;
     private float checkStuckedObjectsRaySpacing;
     [SerializeField]
     private int horizontalRayRequiredStuckObject;
@@ -159,20 +159,24 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
         //Determina la lunghezza del raycast
         float rayLenght = 0.1f;
+
         //Ciclo tutti i ray
         for (int i = 0; i < checkStuckedObjectsRayCount; i++)
         {
             //Determina il punto da cui deve partire il ray
             Vector3 rayOrigin = leftPoint.position;
-            rayOrigin += transform.right * (checkStuckedObjectsRaySpacing * i);
+            rayOrigin += transform.right.normalized * (checkStuckedObjectsRaySpacing * i);
 
-            //Crea il ray
-            Ray ray = new Ray(rayOrigin, transform.up);
+            //Imposto i parametri per il linecast
             RaycastHit hit;
+            Ray ray = new Ray(rayOrigin, transform.up.normalized);
+            Vector3 endPosition = rayOrigin + transform.up.normalized * rayLenght;
 
-            //Eseguo il raycast
+            //Eseguo il linecast
             if (Physics.Raycast(ray, out hit, rayLenght, layersWhichCanBeStucked))
             {
+                Debug.DrawLine(rayOrigin, endPosition, Color.red);
+
                 //Se colpisco qualcosa che rientra nei layer stuck
                 GameObject objectHit = hit.transform.gameObject;
                 if ((objectHit.layer == LayerMask.NameToLayer("Player") || objectHit.layer == LayerMask.NameToLayer("PlayerImmunity")) && objectHit.transform.parent != null)
@@ -202,6 +206,8 @@ public class StickyObject : MonoBehaviour, IPoolObject
                     stickyInfo.StickyRay++;
                 }
             }
+
+            Debug.DrawLine(rayOrigin, endPosition, Color.blue);
         }
 
         //Calcolo la velocity
