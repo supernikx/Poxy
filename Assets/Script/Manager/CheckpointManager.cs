@@ -28,7 +28,6 @@ public class CheckpointManager : MonoBehaviour
             Debug.LogError("An initial checkpoint should always be setted", initialCheckpoint);
             return;
         }
-        activeCheckpoint = initialCheckpoint;
 
         for (int i = 0; i < checkpointContainer.childCount; i++)
         {
@@ -37,6 +36,9 @@ public class CheckpointManager : MonoBehaviour
             _current.Init();
             _current.ActivateCheckpoint += HandleActivateCheckpoint;
         }
+
+        activeCheckpoint = initialCheckpoint;
+        activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
     }
     #endregion
 
@@ -44,7 +46,11 @@ public class CheckpointManager : MonoBehaviour
     private void HandleActivateCheckpoint(CheckpointBase _checkpoint)
     {
         if (!speedMng.GetIsActive() && activeCheckpoint != _checkpoint)
+        {
+            activeCheckpoint.GetCheckpointAnimatorManager().Enable(false);
             activeCheckpoint = _checkpoint;
+            activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
+        }
     }
 
     private void HandlePlayerDeath()
