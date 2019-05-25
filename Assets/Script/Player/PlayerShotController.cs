@@ -68,6 +68,9 @@ public class PlayerShotController : MonoBehaviour
             }
         }
 
+        //Muovo il mirino
+        Crossair(PlayerInputManager.GetAimVector());
+
         //Aumento il contatore del firing rate
         firingRateTimer -= Time.deltaTime;
     }
@@ -105,9 +108,26 @@ public class PlayerShotController : MonoBehaviour
 
         //Prendo la direzione a cui devo mirare
         direction = aimObject.transform.right;
+    }
+
+    /// <summary>
+    /// Funzione che muove il mirino
+    /// </summary>
+    /// <param name="_aimVector"></param>
+    private void Crossair(Vector2 _aimVector)
+    {
+        if (aimObject == null)
+            return;
+
+        //Calcolo la rotazione dell'aim object
+        float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
+        Quaternion rotation = (_aimVector.x >= 0) ? Quaternion.Euler(0.0f, 0.0f, rotationZ) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+
+        //Calcolo il vettore di rotazione
+        Vector3 targetRight = rotation * Vector3.right;
 
         //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = aimObject.transform.position + (aimObject.transform.right.normalized * crossAirDistance);
+        crossAir.transform.position = aimObject.transform.position + (targetRight.normalized * crossAirDistance);
     }
     #endregion
 
@@ -213,6 +233,24 @@ public class PlayerShotController : MonoBehaviour
             aimObject = _aimObject;
             defaultAngle = aimObject.transform.eulerAngles;
         }
+    }
+
+    /// <summary>
+    /// Funzione che imposta il mirino alla distanza passata come parametro
+    /// </summary>
+    /// <param name="_newDistance"></param>
+    public void SetCrossairDistance(float _newDistance)
+    {
+        crossAirDistance = _newDistance;
+    }
+
+    /// <summary>
+    /// Funzione che abilita/disabilita il mirino
+    /// </summary>
+    /// <param name="_enable"></param>
+    public void SetCanUseCrossair(bool _enable)
+    {
+        crossAir.SetActive(_enable);
     }
 
     /// <summary>

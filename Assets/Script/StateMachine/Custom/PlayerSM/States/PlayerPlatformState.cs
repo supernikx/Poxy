@@ -27,6 +27,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform.gameObject.transform.parent = context.player.transform;
         parasitePlatform.gameObject.transform.localPosition = Vector3.zero;
 
+        context.player.GetShotController().SetCrossairDistance(3f);
         context.player.GetShotController().SetCanShoot(false);
         context.player.StopImmunityCoroutine();
         context.player.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
@@ -71,6 +72,7 @@ public class PlayerPlatformState : PlayerSMStateBase
 
         context.player.GetCollisionController().CalculateNormalCollision();
 
+        context.player.GetShotController().SetCrossairDistance(1.5f);
         context.player.GetShotController().SetCanShoot(true);
         context.player.GetMovementController().SetCanMove(true);
 
