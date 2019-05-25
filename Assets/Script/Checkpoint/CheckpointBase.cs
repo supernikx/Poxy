@@ -16,7 +16,7 @@ public abstract class CheckpointBase : MonoBehaviour
         return transform.position;
     }
 
-    public virtual CheckpointAnimatorManager GetCheckpointAnimatorManager()
+    public virtual CheckpointAnimationController GetCheckpointAnimatorManager()
     {
         return null;
     }

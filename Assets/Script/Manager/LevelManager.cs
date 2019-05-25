@@ -57,6 +57,10 @@ public class LevelManager : MonoBehaviour
     /// Reference al speedrun manager
     /// </summary>
     private SpeedrunManager speedMng;
+    /// <summary>
+    /// Reference al tutorial manager
+    /// </summary>
+    private TutorialManager tutorialMng;
 
     #region API
     /// <summary>
@@ -72,6 +76,10 @@ public class LevelManager : MonoBehaviour
         poolMng = GetComponent<PoolManager>();
         if (poolMng != null)
             poolMng.Init();
+
+        tutorialMng = GetComponent<TutorialManager>();
+        if (tutorialMng != null)
+            tutorialMng.Init();
 
         stickyMng = GetComponent<StickyObjectManager>();
         if (stickyMng != null)

@@ -7,7 +7,7 @@ public class StandardCheckpoint : CheckpointBase
     [SerializeField]
     private float range;
 
-    CheckpointAnimatorManager animMng;
+    CheckpointAnimationController animMng;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,11 +21,11 @@ public class StandardCheckpoint : CheckpointBase
     public override void Init()
     {
         GetComponent<SphereCollider>().radius = range;
-        animMng = GetComponentInChildren<CheckpointAnimatorManager>();
+        animMng = GetComponentInChildren<CheckpointAnimationController>();
         animMng.Init();
     }
 
-    public override CheckpointAnimatorManager GetCheckpointAnimatorManager()
+    public override CheckpointAnimationController GetCheckpointAnimatorManager()
     {
         return animMng;
     }
