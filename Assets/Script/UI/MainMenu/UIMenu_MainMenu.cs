@@ -11,31 +11,13 @@ namespace UI
         Button startButton;
 
         /// <summary>
-        /// Riferimento all'ui manager
-        /// </summary>
-        UI_ManagerBase uiManager;
-
-        /// <summary>
         /// Funzione che inizializza il controller
         /// </summary>
         /// <param name="_uiManager"></param>
         public override void Setup(UI_ManagerBase _uiManager)
         {
-            uiManager = _uiManager;
+            base.Setup(_uiManager);
         }
-
-
-        #region API
-        /// <summary>
-        /// Funzione che attiva/disattiva il menu
-        /// </summary>
-        /// <param name="_switch"></param>
-        public void ActiveMenu(bool _switch)
-        {
-            gameObject.SetActive(_switch);
-        }
-
-        #endregion
 
         #region ButtonHandler
         /// <summary>
@@ -43,7 +25,7 @@ namespace UI
         /// </summary>
         public void StartButton()
         {
-            GameManager.StartGame();
+            GameManager.SelectLevel();
         }
 
         /// <summary>

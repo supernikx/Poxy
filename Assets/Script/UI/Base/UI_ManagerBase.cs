@@ -111,6 +111,7 @@ public abstract class UI_ManagerBase : MonoBehaviour
         {
             StopCoroutine(eventSystemFix);
             eventSystemFix = null;
+            storedSelected = null;
         }
     }
 
@@ -162,6 +163,7 @@ public enum MenuType
 {
     None,
     MainMenu,
+    LevelSelection,
     Loading,
     Game,
     Pause,

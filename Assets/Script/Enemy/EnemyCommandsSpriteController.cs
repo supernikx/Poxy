@@ -68,4 +68,9 @@ public class EnemyCommandsSpriteController : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDisable()
+    {
+        InputChecker.OnInputChanged -= HandleOnInputChange;
+    }
 }

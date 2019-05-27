@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     UI_ManagerBase uiManager;
     /// <summary>
+    /// Riferimento al levels manager
+    /// </summary>
+    LevelsManager lvlsManager;
+    /// <summary>
     /// RIferimento alla leaderboard
     /// </summary>
     dreamloLeaderBoard leaderBoard;
@@ -30,6 +34,7 @@ public class GameManager : MonoBehaviour
     {
         //Get Components
         gameSM = GetComponent<GameSMController>();
+        lvlsManager = GetComponent<LevelsManager>();
         leaderBoard = GetComponentInChildren<dreamloLeaderBoard>();
 
         // Singleton
@@ -73,6 +78,15 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che ritorna il levels manager
+    /// </summary>
+    /// <returns></returns>
+    public LevelsManager GetLevelsManager()
+    {
+        return lvlsManager;
+    }
+
+    /// <summary>
     /// Funzione che ritorna la leaderboard
     /// </summary>
     /// <returns></returns>
@@ -88,6 +102,15 @@ public class GameManager : MonoBehaviour
     {
         if (instance.gameSM.GoToLevelSetup != null)
             instance.gameSM.GoToLevelSetup();
+    }
+
+    /// <summary>
+    /// Funzione che manda in selezione livello
+    /// </summary>
+    public static void SelectLevel()
+    {
+        if (instance.gameSM.GoToLevelSelection != null)
+            instance.gameSM.GoToLevelSelection();
     }
 
     /// <summary>

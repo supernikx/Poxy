@@ -9,6 +9,8 @@ public class UI_MenuManager : UI_ManagerBase
     [SerializeField]
     private UIMenu_MainMenu mainMenuPanel;
     [SerializeField]
+    private UIMenu_LevelSelection levelSelctionPanel;
+    [SerializeField]
     private UIMenu_LoadingPanel loadingPanel;
     [SerializeField]
     private UIMenu_TutorialPanel tutorialPanel;
@@ -38,7 +40,7 @@ public class UI_MenuManager : UI_ManagerBase
     /// Funzione che imposta i settaggi come devono essere alla conclusione del Setup
     /// </summary>
     public override void StartSetup()
-    {        
+    {
         ToggleMenu(MenuType.MainMenu);
     }
 
@@ -56,7 +58,10 @@ public class UI_MenuManager : UI_ManagerBase
             case MenuType.None:
                 break;
             case MenuType.MainMenu:
-                mainMenuPanel.Enable();               
+                mainMenuPanel.Enable();
+                break;
+            case MenuType.LevelSelection:
+                levelSelctionPanel.Enable();
                 break;
             case MenuType.Loading:
                 loadingPanel.Enable();
@@ -85,6 +90,10 @@ public class UI_MenuManager : UI_ManagerBase
                 StopFixEventSystemCoroutine();
                 break;
             case MenuType.MainMenu:
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.LevelSelection:
+                eventSystem.firstSelectedGameObject = levelSelctionPanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.Loading:

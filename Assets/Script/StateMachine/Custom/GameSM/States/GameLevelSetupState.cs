@@ -19,7 +19,7 @@ namespace StateMachine.GameSM
         private void HandleOnTutorialEnded()
         {
             context.gameManager.GetUIManager().ToggleMenu(MenuType.Loading);
-            SceneManager.LoadScene("Level1"); //TODO: mettere il livello scelto
+            SceneManager.LoadScene(context.gameManager.GetLevelsManager().GetSelectedLevel().SceneName);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 

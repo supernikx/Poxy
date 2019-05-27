@@ -11,6 +11,7 @@ namespace StateMachine.GameSM
         public delegate void GameSMEvents();
         public GameSMEvents GoToLevelSetup;
         public GameSMEvents GoToMainMenu;
+        public GameSMEvents GoToLevelSelection;
         #endregion
 
         protected Animator gameSM;
@@ -35,6 +36,7 @@ namespace StateMachine.GameSM
             }
 
             GoToLevelSetup += HandleLevelSetupState;
+            GoToLevelSelection += HandleLevelSelection;
             GoToMainMenu += HandleGoToMainMenu;
 
             gameSM.SetTrigger("StartSM");
@@ -64,11 +66,20 @@ namespace StateMachine.GameSM
         {
             gameSM.SetTrigger("GoToMainMenu");
         }
+
+        /// <summary>
+        /// Handle all'evento GoToLevelSelection
+        /// </summary>
+        private void HandleLevelSelection()
+        {
+            gameSM.SetTrigger("GoToLevelSelection");
+        }
         #endregion
 
         private void OnDisable()
         {
             GoToLevelSetup -= HandleLevelSetupState;
+            GoToLevelSelection += HandleLevelSelection;
             GoToMainMenu -= HandleGoToMainMenu;
         }
     }

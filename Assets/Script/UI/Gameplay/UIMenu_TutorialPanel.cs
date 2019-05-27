@@ -15,12 +15,10 @@ namespace UI
         [SerializeField]
         private GameObject SectionB;
 
-        UI_ManagerBase uiManager;
-
         #region API
         public override void Setup(UI_ManagerBase _uiManager)
         {
-            uiManager = _uiManager;
+            base.Setup(_uiManager);
         }
 
         public override void Enable()
