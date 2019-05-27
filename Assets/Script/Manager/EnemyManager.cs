@@ -178,7 +178,6 @@ public class EnemyManager : MonoBehaviour
 
     private void OnDisable()
     {
-
         OnEnemyStun -= HandleEnemyStun;
         OnEnemyEndStun -= HandleEnemyEndStun;
         OnEnemyDeath -= HandleEnemyDeath;

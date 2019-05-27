@@ -83,7 +83,7 @@ namespace StateMachine.PlayerSM
             OnPlayerEnemyParaiste -= HandlePlayerEnemyParasite;
             OnPlayerPlatformParaiste -= HandlePlayerPlatformParasite;
             OnPlayerNormal -= HandlePlayerNormal;
-            player.OnPlayerDeath -= HandlePlayerDeath;
+            GoToDeath -= HandlePlayerDeath;
         }
     }
 

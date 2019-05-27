@@ -66,6 +66,8 @@ namespace StateMachine.EnemySM
         /// </summary>
         public override void Exit()
         {
+            if (context.enemy.gameObject.transform.parent != null && context.enemy.gameObject.transform.parent != context.enemy.GetEnemyDefaultParent())
+                context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
             context.enemy.ResetPosition();
             start = false;
             context.enemy.SetCanStun(true);

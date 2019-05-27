@@ -91,12 +91,6 @@ namespace StateMachine.PlayerSM
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
-                    //if (immunity)
-                    //    return;
-                    //parasiteEnemy.GetToleranceCtrl().AddTolerance((_damageable as Spike).GetDamage());
-                    //context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
-                    //parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
-                    //context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                 case DamageableType.Acid:
                     context.player.StartNormalCoroutine();
                     break;

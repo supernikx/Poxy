@@ -81,11 +81,6 @@ namespace StateMachine.PlayerSM
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
-                //if (immunity)
-                //    return;
-                //context.player.GetHealthController().DamageHit((_damageable as Spike).GetDamage());
-                //context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
-                //context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
                 case DamageableType.Acid:
                     if (context.player.GetCanDie())
                         PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;

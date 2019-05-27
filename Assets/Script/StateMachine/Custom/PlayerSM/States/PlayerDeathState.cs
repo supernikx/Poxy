@@ -8,30 +8,35 @@ public class PlayerDeathState : PlayerSMStateBase
     [SerializeField]
     float respawnTime;
 
+    Player player;
+
     public override void Enter()
     {
+        player = context.player;
+
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
-        context.player.GetVFXController().PlayDeathVFX();
+        player.GetVFXController().PlayDeathVFX();
 
         timerForRespawn = false;
         respawnTimer = 0f;
-        context.player.StopImmunityCoroutine();
+        player.StopImmunityCoroutine();
         PlayerInputManager.Rumble(1f, 1f, 0.5f);
-        context.player.ChangeGraphics(context.player.GetPlayerGraphic());
+        player.ChangeGraphics(context.player.GetPlayerGraphic());
 
-        context.player.GetAnimatorController().SetAnimatorController(null);
+        player.GetAnimatorController().SetAnimatorController(null);
 
         PlayerShotController shotCtrl = context.player.GetShotController();
         shotCtrl.ChangeShotType(shotCtrl.GetPlayerDefaultShotSetting());
 
-        context.player.GetActualGraphic().GetModel().transform.localScale = new Vector3(1, 1, 1);
-        context.player.GetActualGraphic().Disable();
-        context.player.GetCollisionController().OnStickyEnd();
-        context.player.GetCollisionController().GetPlayerCollider().enabled = false;
-        context.player.GetCollisionController().GetCollisionInfo().ResetAll();
-        context.player.GetMovementController().SetCanMove(false);
-        context.player.GetShotController().SetCanShoot(false);
-        context.player.GetShotController().SetCanAim(false);
+        player.GetActualGraphic().GetModel().transform.localScale = new Vector3(1, 1, 1);
+        player.GetActualGraphic().Disable();
+        player.GetCollisionController().OnStickyEnd();
+        player.GetCollisionController().GetPlayerCollider().enabled = false;
+        player.GetCollisionController().GetCollisionInfo().ResetAll();
+        player.GetMovementController().SetCanMove(false);
+        shotCtrl.SetCanShoot(false);
+        shotCtrl.SetCanUseCrossair(false);
+        shotCtrl.SetCanAim(false);
 
         if (SpeedrunManager.StopTimer != null)
             SpeedrunManager.StopTimer();
@@ -45,8 +50,8 @@ public class PlayerDeathState : PlayerSMStateBase
         if (context.player.OnPlayerDeath != null)
             context.player.OnPlayerDeath();
 
-        context.player.GetHealthController().Setup();
-        context.player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
+        player.GetHealthController().Setup();
+        player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
         timerForRespawn = true;
     }
 
@@ -59,7 +64,7 @@ public class PlayerDeathState : PlayerSMStateBase
             respawnTimer += Time.deltaTime;
             if (respawnTimer >= respawnTime)
             {
-                context.player.GoToNormalState();
+                player.GoToNormalState();
                 respawnTimer = 0f;
                 timerForRespawn = false;
             }
@@ -68,13 +73,14 @@ public class PlayerDeathState : PlayerSMStateBase
 
     public override void Exit()
     {
-        context.player.GetActualGraphic().Enable();
-        context.player.GetCollisionController().GetPlayerCollider().enabled = true;
+        player.GetActualGraphic().Enable();
+        player.GetCollisionController().GetPlayerCollider().enabled = true;
 
         context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Game);
-        context.player.GetMovementController().SetCanMove(true);
-        context.player.GetShotController().SetCanShoot(true);
-        context.player.GetShotController().SetCanAim(true);
+        player.GetMovementController().SetCanMove(true);
+        player.GetShotController().SetCanShoot(true);
+        player.GetShotController().SetCanUseCrossair(true);
+        player.GetShotController().SetCanAim(true);
     }
 
     private void OnDestroy()

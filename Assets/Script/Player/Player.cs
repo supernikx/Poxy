@@ -169,7 +169,7 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckEnemyCollision(false);
         collisionCtrl.CheckDamageableCollision(false);
 
-        #region Animazione(per ora fatta a caso)
+        #region Animazione(per ora fatta a caso, ma che tanto rimarrà)
         Vector3 enemyPosition = _e.gameObject.transform.position;
         enemyPosition.z = transform.position.z;
         Sequence sequence = DOTween.Sequence();
