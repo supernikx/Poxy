@@ -11,7 +11,7 @@ public class DoorsButtonsManager : MonoBehaviour
     [SerializeField]
     private Transform buttonsContainer;
     private TokenManager tokenMng;
-    private List<IDoor> doors = new List<IDoor>();
+    private List<IActivable> doors = new List<IActivable>();
     private List<IButton> buttons = new List<IButton>();
 
     #region API
@@ -24,7 +24,7 @@ public class DoorsButtonsManager : MonoBehaviour
 
         for (int i = 0; i < doorsContainer.childCount; i++)
         {
-            IDoor _current = doorsContainer.GetChild(i).GetComponent<IDoor>();
+            IActivable _current = doorsContainer.GetChild(i).GetComponent<IActivable>();
             if (_current != null)
             {
                 _current.Init();
@@ -50,7 +50,7 @@ public class DoorsButtonsManager : MonoBehaviour
     #region Handlers
     private void HandleFinishToken()
     {
-        foreach (IDoor _current in doors)
+        foreach (IActivable _current in doors)
         {
             if (_current is TokenDoor)
             {
@@ -66,7 +66,7 @@ public class DoorsButtonsManager : MonoBehaviour
             _current.Setup();
         }
 
-        foreach (IDoor _current in doors)
+        foreach (IActivable _current in doors)
         {
             _current.Setup();
         }

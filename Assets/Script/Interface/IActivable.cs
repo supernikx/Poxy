@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 
-public interface IDoor
+
+public interface IActivable
 {
     //event EventHandler ActivateEvent;
 

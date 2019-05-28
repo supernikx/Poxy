@@ -19,9 +19,11 @@ public class DoorButton : ButtonBase
 
     public override void Activate()
     {
-        foreach (DoorBase _current in targets)
+        foreach (GameObject _current in targets)
         {
-            _current.Activate();
+            IActivable _temp = _current.GetComponent<IActivable>();
+            if (_temp != null)
+                _temp.Activate();
         }
     }
     #endregion

@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 using System.Collections;
 
 public class Turret : MonoBehaviour, IEnemy
 {
+    #region Delegates
+    public Action<Action> OnEnemyShot; 
+    public Action<Action> OnEnemyDeath;
+    #endregion
+
     [Header("Damage Settings")]
     [SerializeField]
     protected float enemyStartLife;
+    [SerializeField]
     protected float enemyLife;
     [SerializeField]
     protected Transform shotPosition;
@@ -17,27 +24,20 @@ public class Turret : MonoBehaviour, IEnemy
     [SerializeField]
     protected float defaultRespawnTime;
     protected float respawnTime;
+    [SerializeField]
+    protected float speedrunBonusTime;
+
+    [SerializeField]
+    private GameObject objectToRotate;
 
     protected EnemyGraphicController graphics;
+    protected TurretAnimationController animCtrl;
     protected Vector3 startPosition;
     protected Quaternion startRotation;
     protected Collider collider;
     protected EnemyManager enemyMng;
     protected EnemyViewController viewCtrl;
-
-    //Transform targetPos;
-    /// <summary>
-    /// Funzione che aspetta la fine dell'animazione di sparo per sparare effettivamente il proiettile
-    /// </summary>
-    //private void HandleShotAnimationEnd()
-    //{
-    //    IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-    //    Vector3 shotPosToCheck = shotPosition.position;
-    //    shotPosToCheck.z = targetPos.position.z;
-    //    Vector3 _direction = (targetPos.position - shotPosToCheck);
-    //    bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
-    //}
-
+    
     #region API
     /// <summary>
     /// Initialize Script
@@ -58,6 +58,10 @@ public class Turret : MonoBehaviour, IEnemy
         viewCtrl = GetComponent<EnemyViewController>();
         if (viewCtrl != null)
             viewCtrl.Init();
+
+        animCtrl = GetComponentInChildren<TurretAnimationController>();
+        if (animCtrl != null)
+            animCtrl.Init(this);
 
         behaviourCoroutine = StartCoroutine(NormalBehaviour());
     }
@@ -81,20 +85,32 @@ public class Turret : MonoBehaviour, IEnemy
         }
     }
 
+    float tempRespawnTime;
     public void Die(float _respawnTime = -1)
     {
         StopCoroutine(behaviourCoroutine);
         behaviourCoroutine = null;
 
         collider.enabled = false;
+        tempRespawnTime = _respawnTime;
+
+        if (OnEnemyDeath != null)
+            OnEnemyDeath(HandleDeathAnimationEnd);
+    }
+
+    private void HandleDeathAnimationEnd()
+    {
         ResetLife();
         ResetStunHit();
         graphics.Disable();
 
-        if (_respawnTime == -1)
+        if (tempRespawnTime == -1)
             respawnTime = defaultRespawnTime;
         else
-            respawnTime = _respawnTime;
+            respawnTime = tempRespawnTime;
+
+        if (SpeedrunManager.StopForSeconds != null)
+            SpeedrunManager.StopForSeconds(speedrunBonusTime);
 
         deathCoroutine = StartCoroutine(DeathCoroutine());
     }
@@ -136,6 +152,7 @@ public class Turret : MonoBehaviour, IEnemy
         EnemyManager.OnEnemyEndDeath(this);
 
         ResetPosition();
+        animCtrl.ResetAnimator();
         graphics.Enable();
         collider.enabled = true;
 
@@ -160,22 +177,30 @@ public class Turret : MonoBehaviour, IEnemy
         return false;
     }
 
+    Transform targetPos;
     public bool Shot(Transform _target)
     {
         if (CanShot)
         {
-            //targetPos = _target;
+            targetPos = _target;
             StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
-            //if (OnEnemyShot != null)
-            //    OnEnemyShot(HandleShotAnimationEnd);
-            IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-            Vector3 shotPosToCheck = shotPosition.position;
-            shotPosToCheck.z = _target.position.z;
-            Vector3 _direction = (_target.position - shotPosToCheck);
-            bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
+            if (OnEnemyShot != null)
+                OnEnemyShot(HandleShotAnimationEnd);
             return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Funzione che aspetta la fine dell'animazione di sparo per sparare effettivamente il proiettile
+    /// </summary>
+    private void HandleShotAnimationEnd()
+    {
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        Vector3 shotPosToCheck = shotPosition.position;
+        shotPosToCheck.z = targetPos.position.z;
+        Vector3 _direction = (targetPos.position - shotPosToCheck);
+        bullet.Shot(enemyShotSettings.damage, enemyShotSettings.shotSpeed, enemyShotSettings.range, shotPosition.position, _direction);
     }
     #endregion
 
@@ -197,6 +222,7 @@ public class Turret : MonoBehaviour, IEnemy
 
             if (_target != null && viewCtrl.CanSeePlayer(_target.position) && CheckShot(_target))
             {
+                objectToRotate.transform.up = (_target.position - transform.position).normalized;
                 Shot(_target);
             }
 

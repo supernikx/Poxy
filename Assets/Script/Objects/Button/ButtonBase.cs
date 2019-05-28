@@ -39,7 +39,7 @@ public abstract class ButtonBase : MonoBehaviour, IButton
     [SerializeField]
     protected ButtonTriggerType triggerType;
     [SerializeField]
-    protected List<DoorBase> targets = new List<DoorBase>();
+    protected List<GameObject> targets = new List<GameObject>();
 
     #region Abstract
     public abstract void Init();

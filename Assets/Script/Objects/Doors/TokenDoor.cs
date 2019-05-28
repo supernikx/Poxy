@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TokenDoor : DoorBase
+public class TokenDoor : ActivableBase
 {
     private bool isActive;
 

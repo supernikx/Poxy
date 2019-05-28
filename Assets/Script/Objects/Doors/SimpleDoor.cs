@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using DG.Tweening;
 
-public class SimpleDoor : DoorBase
+public class SimpleDoor : ActivableBase
 {
     [Header("Animation Settings")]
     [SerializeField]

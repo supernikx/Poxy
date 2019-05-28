@@ -45,6 +45,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     [SerializeField]
     protected float defaultRespawnTime;
     protected float respawnTime;
+    [SerializeField]
+    protected float speedrunBonusTime;
 
     protected EnemyGraphicController graphics;
     protected Vector3 startPosition;
@@ -257,6 +259,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
             respawnTime = _respawnTime;
 
         stunHitGot = 0;
+
+        if (SpeedrunManager.StopForSeconds != null)
+            SpeedrunManager.StopForSeconds(speedrunBonusTime);
 
         if (enemySM.GoToDeath != null)
         {

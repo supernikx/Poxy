@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piston : PlatformBase
+public class Piston : PlatformBase, IActivable
 {
     [Header("Graphic Settings")]
     [SerializeField]
@@ -25,6 +25,8 @@ public class Piston : PlatformBase
     private Transform bottomLeft;
     [SerializeField]
     private Transform bottomRight;
+    [SerializeField]
+    private bool canMoveAtStart = true;
 
     [Header("Collisions")]
     [SerializeField]
@@ -64,6 +66,92 @@ public class Piston : PlatformBase
     #region API
     public override void Init()
     {
+        Setup();
+    }
+
+    private Vector3 movementVelocity = Vector3.zero;
+    public override void MoveBehaviour()
+    {
+        if (canMoveAtStart)
+        {
+            if (currentState == PistonState.Forward)
+            {
+                movementVelocity = new Vector3(0, -downMovementSpd, 0);
+            }
+            else if (currentState == PistonState.Backward)
+            {
+                movementVelocity = new Vector3(0, upMovementSpd, 0);
+            }
+
+            CheckMovementCollisions(movementVelocity * Time.deltaTime);
+
+            transform.Translate(movementVelocity * Time.deltaTime);
+
+            if (currentState == PistonState.Forward)
+            {
+                if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y <= targetPosition)
+                {
+                    stompVFX.Play();
+                    currentState = PistonState.Backward;
+                }
+                else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y >= targetPosition)
+                {
+                    stompVFX.Play();
+                    currentState = PistonState.Backward;
+                }
+                else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x >= targetPosition)
+                {
+                    stompVFX.Play();
+                    currentState = PistonState.Backward;
+                }
+                else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x <= targetPosition)
+                {
+                    stompVFX.Play();
+                    currentState = PistonState.Backward;
+                }
+                else if (direction == PistonDirection.Platform)
+                {
+                    if ((Vector3.forward == transform.up && transform.position.z <= targetPosition) || (Vector3.forward != transform.up && transform.position.z >= targetPosition))
+                    {
+                        currentState = PistonState.Backward;
+                    }
+                }
+            }
+
+            if (currentState == PistonState.Backward)
+            {
+                if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y >= initialPosition)
+                {
+                    currentState = PistonState.Forward;
+                }
+                else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y <= initialPosition)
+                {
+                    currentState = PistonState.Forward;
+                }
+                else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x <= initialPosition)
+                {
+                    currentState = PistonState.Forward;
+                }
+                else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x >= initialPosition)
+                {
+                    currentState = PistonState.Forward;
+                }
+                else if (direction == PistonDirection.Platform)
+                {
+                    if ((Vector3.forward == transform.up && transform.position.z >= initialPosition) ||
+                        (Vector3.forward != transform.up && transform.position.z <= initialPosition))
+                    {
+                        currentState = PistonState.Forward;
+                    }
+                }
+            } 
+        }
+    }
+    #endregion
+
+    #region Activable
+    public void Setup()
+    {
         currentState = PistonState.Forward;
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
@@ -85,80 +173,9 @@ public class Piston : PlatformBase
         }
     }
 
-    private Vector3 movementVelocity = Vector3.zero;
-    public override void MoveBehaviour()
+    public void Activate()
     {
-        if (currentState == PistonState.Forward)
-        {
-            movementVelocity = new Vector3(0, -downMovementSpd, 0);
-        }
-        else if (currentState == PistonState.Backward)
-        {
-            movementVelocity = new Vector3(0, upMovementSpd, 0);
-        }
-
-        CheckMovementCollisions(movementVelocity * Time.deltaTime);
-
-        transform.Translate(movementVelocity * Time.deltaTime);
-
-        if (currentState == PistonState.Forward)
-        {
-            if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y <= targetPosition)
-            {
-                stompVFX.Play();
-                currentState = PistonState.Backward;
-            }
-            else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y >= targetPosition)
-            {
-                stompVFX.Play();
-                currentState = PistonState.Backward;
-            }
-            else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x >= targetPosition)
-            {
-                stompVFX.Play();
-                currentState = PistonState.Backward;
-            }
-            else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x <= targetPosition)
-            {
-                stompVFX.Play();
-                currentState = PistonState.Backward;
-            }
-            else if (direction == PistonDirection.Platform)
-            {
-                if ((Vector3.forward == transform.up && transform.position.z <= targetPosition) || (Vector3.forward != transform.up && transform.position.z >= targetPosition))
-                {
-                    currentState = PistonState.Backward;
-                }
-            }
-        }
-
-        if (currentState == PistonState.Backward)
-        {
-            if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y >= initialPosition)
-            {
-                currentState = PistonState.Forward;
-            }
-            else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y <= initialPosition)
-            {
-                currentState = PistonState.Forward;
-            }
-            else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x <= initialPosition)
-            {
-                currentState = PistonState.Forward;
-            }
-            else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x >= initialPosition)
-            {
-                currentState = PistonState.Forward;
-            }
-            else if (direction == PistonDirection.Platform)
-            {
-                if ((Vector3.forward == transform.up && transform.position.z >= initialPosition) || 
-                    (Vector3.forward != transform.up && transform.position.z <= initialPosition))
-                {
-                    currentState = PistonState.Forward;
-                }
-            }
-        }
+        canMoveAtStart = true;
     }
     #endregion
 

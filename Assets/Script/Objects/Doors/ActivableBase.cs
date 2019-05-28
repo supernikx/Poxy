@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [System.Serializable]
-public abstract class DoorBase : MonoBehaviour, IDoor
+public abstract class ActivableBase : MonoBehaviour, IActivable
 {
     /*
     #region Events

@@ -9,13 +9,20 @@ public class SpeedrunManager : MonoBehaviour
     public static Action StopTimer;
     public static Action PauseTimer;
     public static Action ResumeTimer;
+    public static Action<float> StopForSeconds;
     #endregion
 
     [SerializeField]
     private float timer;
+    [SerializeField]
+    private float bonusTimer;
 
     private bool canCount;
-    private bool isActive;
+    /// <summary>
+    /// Attivo quando ci sono secondi guadagnati dai nemici
+    /// </summary>
+    private bool bonusTime = false;
+    private bool isActive = false;
 
     #region API
     public void Init(bool _isActive)
@@ -28,6 +35,7 @@ public class SpeedrunManager : MonoBehaviour
             StopTimer += HandleStopTimer;
             PauseTimer += HandlePauseTimer;
             ResumeTimer += HandleResumeTimer;
+            StopForSeconds += HandleStopForSeconds;
         }
     }
     #endregion
@@ -37,10 +45,24 @@ public class SpeedrunManager : MonoBehaviour
     {
         while (true)
         {
-            if (canCount)
+            if (canCount && !bonusTime)
                 timer += Time.deltaTime; 
             yield return null;
         }
+    }
+
+    private IEnumerator CStopForSeconds(float _value)
+    {
+        bonusTimer = 0;
+
+        while (bonusTimer <= _value)
+        {
+            if (canCount)
+                bonusTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        bonusTime = false;
     }
     #endregion
 
@@ -69,6 +91,12 @@ public class SpeedrunManager : MonoBehaviour
     {
         canCount = true;
     }
+
+    private void HandleStopForSeconds(float _val)
+    {
+        bonusTime = true;
+        StartCoroutine(CStopForSeconds(_val));
+    }
     #endregion
 
     #region Getters
@@ -87,5 +115,6 @@ public class SpeedrunManager : MonoBehaviour
     {
         StartTimer -= HandleStartTimer;
         StopTimer -= HandleStopTimer;
+        StopForSeconds -= HandleStopForSeconds;
     }
 }
