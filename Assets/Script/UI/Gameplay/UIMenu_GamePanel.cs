@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace UI
 {
@@ -13,6 +14,7 @@ namespace UI
         private Image lowLifePanel;
         [SerializeField]
         private float lowLifePanelLife;
+
         [Header("Health Bar")]
         [SerializeField]
         private GameObject healthBar;
@@ -20,12 +22,14 @@ namespace UI
         private Image healthBarFill;
         [SerializeField]
         private float playerMaxHealth;
+
         [Header("Tolerance Bar")]
         [SerializeField]
         private GameObject toleranceBar;
         [SerializeField]
         private Image toleranceBarFill;
         private float maxTolerance;
+
         [Header("Character Image")]
         [SerializeField]
         private float changeCharacterLifeValue;
@@ -40,6 +44,16 @@ namespace UI
         [SerializeField]
         private Sprite stickyEnemySprite;
 
+        [Header("Speedrun Panel")]
+        [SerializeField]
+        private GameObject speedrunPanel;
+        [SerializeField]
+        private TextMeshProUGUI timerText;
+        [SerializeField]
+        private Color timerDefaultColor;
+        [SerializeField]
+        private Color timerHoldColor;
+
         private UI_ManagerBase uiManager;
         private ObjectTypes activeBullet;
 
@@ -49,10 +63,13 @@ namespace UI
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
+            SpeedrunManager.OnTimerUpdate += HandleOnTimerUpdate;
+            SpeedrunManager.OnTimerHold += HandleOnTimerHold;
             HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);
             activeBullet = ObjectTypes.StunBullet;
+            timerText.color = timerDefaultColor;
         }
 
         public override void Enable()
@@ -61,6 +78,11 @@ namespace UI
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
+            SpeedrunManager.OnTimerUpdate += HandleOnTimerUpdate;
+            SpeedrunManager.OnTimerHold += HandleOnTimerHold;
+
+            timerText.color = timerDefaultColor;
+            ToggleSpeedrunPanel(SpeedrunManager.GetIsActive());
         }
 
         #region Character
@@ -163,11 +185,33 @@ namespace UI
         }
         #endregion
 
+        #region Speedrun
+        private void ToggleSpeedrunPanel(bool _val)
+        {
+            speedrunPanel.SetActive(_val);
+        }
+
+        private void HandleOnTimerUpdate(float _timer)
+        {
+            timerText.SetText("{0:2}", _timer);
+        }
+
+        private void HandleOnTimerHold(bool _val)
+        {
+            if (_val)
+                timerText.color = timerHoldColor;
+            else
+                timerText.color = timerDefaultColor;
+        }
+        #endregion
+
         private void OnDisable()
         {
             PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged -= HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
+            SpeedrunManager.OnTimerUpdate -= HandleOnTimerUpdate;
+            SpeedrunManager.OnTimerHold -= HandleOnTimerHold;
         }
     }
 }

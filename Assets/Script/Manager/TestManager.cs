@@ -14,8 +14,11 @@ public class TestManager : MonoBehaviour
         if (gm == null && lvl != null)
         {
             ui.Setup(gm);
-            ui.ToggleMenu(MenuType.Game);
             lvl.Init(ui, speedrunMode);
+            if (speedrunMode)
+                ui.ToggleMenu(MenuType.Countdown);
+            else
+                ui.ToggleMenu(MenuType.Game);
         }
         else
             DestroyImmediate(gameObject);

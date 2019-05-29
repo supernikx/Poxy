@@ -14,6 +14,8 @@ public class UI_GameplayManager : UI_ManagerBase
     private UIMenu_PausePanel pausePanel;
     [SerializeField]
     private UI_MenuEndGamePanel endGamePanel;
+    [SerializeField]
+    private UIMenu_CountdownPanel countdownPanel;
     /// <summary>
     /// Riferimento al menù attualmente attivo
     /// </summary>
@@ -100,6 +102,9 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.Loading:
                 loadingPanel.Enable();
                 break;
+            case MenuType.Countdown:
+                countdownPanel.Enable();
+                break;
             case MenuType.Game:
                 gamePanel.Enable();
                 break;
@@ -130,6 +135,10 @@ public class UI_GameplayManager : UI_ManagerBase
                 StopFixEventSystemCoroutine();
                 break;
             case MenuType.Loading:
+                eventSystem.SetSelectedGameObject(null);
+                StopFixEventSystemCoroutine();
+                break;
+            case MenuType.Countdown:
                 eventSystem.SetSelectedGameObject(null);
                 StopFixEventSystemCoroutine();
                 break;

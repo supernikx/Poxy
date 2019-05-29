@@ -25,9 +25,6 @@ namespace StateMachine.PlayerSM
 
             context.player.GetMovementController().SetCanMove(true);
             parasitePressed = false;
-
-            if (SpeedrunManager.StartTimer != null)
-                SpeedrunManager.StartTimer();
         }
 
         public override void Tick()

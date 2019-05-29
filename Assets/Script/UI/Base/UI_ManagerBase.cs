@@ -165,6 +165,7 @@ public enum MenuType
     MainMenu,
     LevelSelection,
     Loading,
+    Countdown,
     Game,
     Pause,
     Tutorial,

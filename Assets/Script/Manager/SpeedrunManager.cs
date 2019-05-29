@@ -10,6 +10,9 @@ public class SpeedrunManager : MonoBehaviour
     public static Action PauseTimer;
     public static Action ResumeTimer;
     public static Action<float> StopForSeconds;
+
+    public static Action<float> OnTimerUpdate;
+    public static Action<bool> OnTimerHold;
     #endregion
 
     [SerializeField]
@@ -22,7 +25,7 @@ public class SpeedrunManager : MonoBehaviour
     /// Attivo quando ci sono secondi guadagnati dai nemici
     /// </summary>
     private bool bonusTime = false;
-    private bool isActive = false;
+    private static bool isActive = false;
 
     #region API
     public void Init(bool _isActive)
@@ -46,7 +49,11 @@ public class SpeedrunManager : MonoBehaviour
         while (true)
         {
             if (canCount && !bonusTime)
-                timer += Time.deltaTime; 
+            {
+                timer += Time.deltaTime;
+                if (OnTimerUpdate != null)
+                    OnTimerUpdate(timer);
+            }
             yield return null;
         }
     }
@@ -55,6 +62,9 @@ public class SpeedrunManager : MonoBehaviour
     {
         bonusTimer = 0;
 
+        if (OnTimerHold != null)
+            OnTimerHold(true);
+
         while (bonusTimer <= _value)
         {
             if (canCount)
@@ -62,7 +72,11 @@ public class SpeedrunManager : MonoBehaviour
             yield return null;
         }
 
+        if (OnTimerHold != null)
+            OnTimerHold(false);
+        
         bonusTime = false;
+        stopForSecondsC = null;
     }
     #endregion
 
@@ -71,12 +85,15 @@ public class SpeedrunManager : MonoBehaviour
     {
         timer = 0;
         canCount = true;
+        bonusTime = false;
         StopAllCoroutines();
         StartCoroutine(CTimerUpdate());
+        StopForSeconds += HandleStopForSeconds;
     }
 
     private void HandleStopTimer()
     {
+        StopForSeconds -= HandleStopForSeconds;
         canCount = false;
         StopAllCoroutines();
         // timer is score
@@ -84,18 +101,25 @@ public class SpeedrunManager : MonoBehaviour
 
     private void HandlePauseTimer()
     {
+        StopForSeconds -= HandleStopForSeconds;
         canCount = false;
     }
 
     private void HandleResumeTimer()
     {
+        StopForSeconds += HandleStopForSeconds;
         canCount = true;
     }
 
+    Coroutine stopForSecondsC = null;
     private void HandleStopForSeconds(float _val)
     {
         bonusTime = true;
-        StartCoroutine(CStopForSeconds(_val));
+        if (stopForSecondsC != null)
+        {
+            StopCoroutine(stopForSecondsC);
+        }
+        stopForSecondsC = StartCoroutine(CStopForSeconds(_val));
     }
     #endregion
 
@@ -105,16 +129,9 @@ public class SpeedrunManager : MonoBehaviour
         return timer;
     }
 
-    public bool GetIsActive()
+    public static bool GetIsActive()
     {
         return isActive;
     }
     #endregion
-
-    private void OnDisable()
-    {
-        StartTimer -= HandleStartTimer;
-        StopTimer -= HandleStopTimer;
-        StopForSeconds -= HandleStopForSeconds;
-    }
 }

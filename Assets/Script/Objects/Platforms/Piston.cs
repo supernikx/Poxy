@@ -6,6 +6,8 @@ public class Piston : PlatformBase, IActivable
 {
     [Header("Graphic Settings")]
     [SerializeField]
+    private GameObject graphics;
+    [SerializeField]
     private ParticleSystem stompVFX;
 
     [Header("Piston Settings")]
@@ -26,7 +28,7 @@ public class Piston : PlatformBase, IActivable
     [SerializeField]
     private Transform bottomRight;
     [SerializeField]
-    private bool canMoveAtStart = true;
+    private bool activeFromStart = true;
 
     [Header("Collisions")]
     [SerializeField]
@@ -72,7 +74,7 @@ public class Piston : PlatformBase, IActivable
     private Vector3 movementVelocity = Vector3.zero;
     public override void MoveBehaviour()
     {
-        if (canMoveAtStart)
+        if (activeFromStart)
         {
             if (currentState == PistonState.Forward)
             {
@@ -171,11 +173,19 @@ public class Piston : PlatformBase, IActivable
             initialPosition = transform.position.z;
             targetPosition = waypoint.position.z;
         }
+
+        if (!activeFromStart)
+        {
+            graphics.SetActive(false);
+            colliderToCheck.enabled = false;
+        }
     }
 
     public void Activate()
     {
-        canMoveAtStart = true;
+        activeFromStart = true;
+        graphics.SetActive(true);
+        colliderToCheck.enabled = true;
     }
     #endregion
 

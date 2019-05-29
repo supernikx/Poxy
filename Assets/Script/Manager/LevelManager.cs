@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
 
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
-            checkpointMng.Init(speedMng);
+            checkpointMng.Init();
 
         poopCtrl = FindObjectOfType<PoopController>();
         if (poopCtrl != null)
