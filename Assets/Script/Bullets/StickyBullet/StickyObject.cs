@@ -200,7 +200,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                         stickyList.Add(stickyInfo);
                     }
                 }
-                else if (!tempImmunityObjectList.Contains(objectHit))
+                else
                 {
                     //Se è resente aumento i ray che lo colpiscono di uno
                     stickyInfo.StickyRay++;
@@ -229,7 +229,6 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 //Lo scollo chiamo la callback di fine sticky
                 stickyList[i].Sticky = false;
                 stickyList[i].GIStickyRef.OnStickyEnd();
-                StartCoroutine(DelayTempListCoroutine(i));
             }
             //Se i ray che colpiscono l'oggetto sono 0
             else if (stickyList[i].StickyRay == 0)
@@ -461,7 +460,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     {
         GameObject objectToAdd = stickyList[_index].Gobject;
         tempImmunityObjectList.Add(objectToAdd);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         tempImmunityObjectList.Remove(objectToAdd);
     }
 
