@@ -12,12 +12,6 @@ namespace StateMachine.GameSM
         UI_ManagerBase uiManager;
         public override void Enter()
         {
-            UIMenu_TutorialPanel.OnTutorialEnded += HandleOnTutorialEnded;
-            context.gameManager.GetUIManager().ToggleMenu(MenuType.Tutorial);
-        }
-
-        private void HandleOnTutorialEnded()
-        {
             context.gameManager.GetUIManager().ToggleMenu(MenuType.Loading);
             SceneManager.LoadScene(context.gameManager.GetLevelsManager().GetSelectedLevel().SceneName);
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -34,7 +28,6 @@ namespace StateMachine.GameSM
 
         public override void Exit()
         {
-            UIMenu_TutorialPanel.OnTutorialEnded -= HandleOnTutorialEnded;
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

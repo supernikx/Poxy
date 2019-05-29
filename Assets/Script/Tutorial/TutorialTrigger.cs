@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TutorialTrigger : MonoBehaviour
 {
     #region Action
+    public static Action<TutorialTrigger> OnTutorialBehaviourTriggered;
     public static Action<TutorialTrigger> OnTutorialTriggerEnter;
     public static Action<TutorialTrigger> OnTutorialTriggerExit;
     #endregion
@@ -23,9 +24,15 @@ public class TutorialTrigger : MonoBehaviour
     [SerializeField]
     private Sprite artToShow;
 
+    private TutorialWallTrigger wallTrigger;
+
     #region API
     public void Init()
     {
+        wallTrigger = GetComponentInChildren<TutorialWallTrigger>(true);
+        if (wallTrigger != null)
+            wallTrigger.Enable(true);
+
         tutorialSpriteRenderer.sprite = artToShow;
         tutorialSpriteRenderer.gameObject.SetActive(false);
     }
@@ -43,11 +50,23 @@ public class TutorialTrigger : MonoBehaviour
     #endregion
     #endregion
 
+    private void HandleTutorialWallTriggered()
+    {
+        wallTrigger.Enable(false);
+        if (OnTutorialBehaviourTriggered != null)
+            OnTutorialBehaviourTriggered(this);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
+
             tutorialSpriteRenderer.gameObject.SetActive(true);
+
+            if (wallTrigger != null)
+                wallTrigger.OnWallTriggered += HandleTutorialWallTriggered;
+
             if (OnTutorialTriggerEnter != null)
                 OnTutorialTriggerEnter(this);
         }
@@ -58,16 +77,24 @@ public class TutorialTrigger : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
             tutorialSpriteRenderer.gameObject.SetActive(false);
+
+            if (wallTrigger != null)
+                wallTrigger.OnWallTriggered -= HandleTutorialWallTriggered;
+
             if (OnTutorialTriggerExit != null)
                 OnTutorialTriggerExit(this);
         }
     }
 
+    private void OnDisable()
+    {
+        if (wallTrigger != null)
+            wallTrigger.OnWallTriggered -= HandleTutorialWallTriggered;
+    }
 
     public enum TriggerBehaviours
     {
         None,
         HealthBar,
-        TolleranceBar,
     }
 }

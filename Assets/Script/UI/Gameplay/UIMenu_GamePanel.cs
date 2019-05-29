@@ -45,9 +45,6 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             base.Setup(_uiManager);
-            PlayerHealthController.OnHealthChange += HandleOnHealthChange;
-            PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
-            EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
             HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);
