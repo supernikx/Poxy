@@ -63,9 +63,12 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     public void Init(Player _player)
     {
-        lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
-        gainPerSecond = (maxHealth - minHealth) / timeToFill;
+        if (timeToDeplete == -1)
+            lossPerSecond = -1;
+        else
+            lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
 
+        gainPerSecond = (maxHealth - minHealth) / timeToFill;
         player = _player;
 
         Setup();
@@ -81,6 +84,9 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     public void LoseHealthOverTime()
     {
+        if (lossPerSecond == -1)
+            return;
+
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == minHealth)
             player.StartDeathCoroutine();

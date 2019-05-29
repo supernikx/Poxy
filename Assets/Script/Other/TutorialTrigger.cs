@@ -1,16 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TutorialTrigger : MonoBehaviour
 {
+    #region Action
+    public static Action<TutorialTrigger> OnTutorialTriggerEnter;
+    public static Action<TutorialTrigger> OnTutorialTriggerExit;
+    #endregion
+
     [Header("Reference Settings")]
     [SerializeField]
-    private TextMeshProUGUI tutorialText;
-    [SerializeField]
-    private Image tutorialImage;
+    private SpriteRenderer tutorialSpriteRenderer;
 
     [Header("Trigger Settings")]
     [SerializeField]
@@ -20,21 +23,33 @@ public class TutorialTrigger : MonoBehaviour
     [SerializeField]
     private Sprite artToShow;
 
+    #region API
     public void Init()
     {
-        tutorialText.text = textToShow;
-        tutorialImage.sprite = artToShow;
-
-        tutorialText.gameObject.SetActive(false);
-        tutorialImage.gameObject.SetActive(false);
+        tutorialSpriteRenderer.sprite = artToShow;
+        tutorialSpriteRenderer.gameObject.SetActive(false);
     }
+
+    #region Getter
+    public string GetTextToShow()
+    {
+        return textToShow;
+    }
+
+    public TriggerBehaviours GetBehvaiourToTrigger()
+    {
+        return triggerBehaviours;
+    }
+    #endregion
+    #endregion
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
-            tutorialText.gameObject.SetActive(true);
-            tutorialImage.gameObject.SetActive(true);
+            tutorialSpriteRenderer.gameObject.SetActive(true);
+            if (OnTutorialTriggerEnter != null)
+                OnTutorialTriggerEnter(this);
         }
     }
 
@@ -42,8 +57,9 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
-            tutorialText.gameObject.SetActive(false);
-            tutorialImage.gameObject.SetActive(false);
+            tutorialSpriteRenderer.gameObject.SetActive(false);
+            if (OnTutorialTriggerExit != null)
+                OnTutorialTriggerExit(this);
         }
     }
 

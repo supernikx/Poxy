@@ -7,13 +7,6 @@ namespace UI
 {
     public class UIMenu_PausePanel : UIMenu_Base
     {
-        UI_ManagerBase uiManager;
-
-        public override void Setup(UI_ManagerBase _uiManager)
-        {
-            uiManager = _uiManager;
-        }
-
         public void ResumeButton()
         {
             if (LevelManager.OnGameUnPause != null)

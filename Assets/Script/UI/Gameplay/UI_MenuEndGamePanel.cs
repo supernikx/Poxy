@@ -7,11 +7,6 @@ namespace UI
 {
     public class UI_MenuEndGamePanel : UIMenu_Base
     {
-        public override void Setup(UI_ManagerBase uiManager)
-        {
-
-        }
-
         public override void Enable()
         {
             base.Enable();

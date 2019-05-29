@@ -40,12 +40,11 @@ namespace UI
         [SerializeField]
         private Sprite stickyEnemySprite;
 
-        private UI_ManagerBase uiManager;
         private ObjectTypes activeBullet;
 
         public override void Setup(UI_ManagerBase _uiManager)
         {
-            uiManager = _uiManager;
+            base.Setup(_uiManager);
             PlayerHealthController.OnHealthChange += HandleOnHealthChange;
             PlayerShotController.OnEnemyBulletChanged += HandleOnEnemyBulletChanged;
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
