@@ -57,6 +57,11 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     private Player player;
 
+    /// <summary>
+    /// Identifica se il player può perdere vita nel tempo
+    /// </summary>
+    private bool canLoseHealth;
+
     #region API
     /// <summary>
     /// Initialize this script
@@ -65,15 +70,14 @@ public class PlayerHealthController : MonoBehaviour
     {
         lossPerSecond = (maxHealth - minHealth) / timeToDeplete;
         gainPerSecond = (maxHealth - minHealth) / timeToFill;
-
         player = _player;
-
         Setup();
     }
 
     public void Setup()
     {
         health = maxHealth;
+        canLoseHealth = true;
     }
 
     /// <summary>
@@ -81,6 +85,9 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     public void LoseHealthOverTime()
     {
+        if (!canLoseHealth)
+            return;
+
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
         if (health == minHealth)
             player.StartDeathCoroutine();
@@ -144,6 +151,17 @@ public class PlayerHealthController : MonoBehaviour
     public float GetHealth()
     {
         return health;
+    }
+    #endregion
+
+    #region Setter
+    /// <summary>
+    /// Funzione che imposta se il player può perdere vita overtime
+    /// </summary>
+    /// <param name="_enable"></param>
+    public void SetCanLoseHealth(bool _enable)
+    {
+        canLoseHealth = _enable;
     }
     #endregion
     #endregion

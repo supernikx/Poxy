@@ -77,10 +77,6 @@ public class LevelManager : MonoBehaviour
         if (poolMng != null)
             poolMng.Init();
 
-        tutorialMng = GetComponent<TutorialManager>();
-        if (tutorialMng != null)
-            tutorialMng.Init();
-
         stickyMng = GetComponent<StickyObjectManager>();
         if (stickyMng != null)
             stickyMng.Init();
@@ -108,6 +104,10 @@ public class LevelManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         if (player != null)
             player.Init(enemyMng, platformMng);
+
+        tutorialMng = GetComponent<TutorialManager>();
+        if (tutorialMng != null)
+            tutorialMng.Init(player);
 
         cameraMng = GetComponent<CameraManager>();
         if (cameraMng != null)

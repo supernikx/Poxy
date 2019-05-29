@@ -24,6 +24,7 @@ public class PlayerDeathState : PlayerSMStateBase
         player.ChangeGraphics(context.player.GetPlayerGraphic());
 
         player.GetAnimatorController().SetAnimatorController(null);
+        player.GetAnimatorController().ResetAnimator();
 
         PlayerShotController shotCtrl = context.player.GetShotController();
         shotCtrl.ChangeShotType(shotCtrl.GetPlayerDefaultShotSetting());
@@ -44,15 +45,16 @@ public class PlayerDeathState : PlayerSMStateBase
 
     private void HandleDeathVFXEnd()
     {
-        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Loading);
         PlayerVFXController.OnDeathVFXEnd -= HandleDeathVFXEnd;
-
-        if (context.player.OnPlayerDeath != null)
-            context.player.OnPlayerDeath();
 
         player.GetHealthController().Setup();
         player.transform.position = context.checkpointManager.GetActiveCheckpoint().GetPosition();
         timerForRespawn = true;
+
+        context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Loading);
+
+        if (context.player.OnPlayerDeath != null)
+            context.player.OnPlayerDeath();
     }
 
     bool timerForRespawn;

@@ -168,7 +168,6 @@ public enum MenuType
     Countdown,
     Game,
     Pause,
-    Tutorial,
     EndGame,
 }
 

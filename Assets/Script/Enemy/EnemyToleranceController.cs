@@ -52,7 +52,10 @@ public class EnemyToleranceController : MonoBehaviour
     #region API
     public void Init()
     {
-        gainPerSecond = (maxTolerance - minTolerance) / timeToFill;
+        if (timeToFill == -1)
+            gainPerSecond = -1;
+        else
+            gainPerSecond = (maxTolerance - minTolerance) / timeToFill;
     }
 
     public void Setup()
@@ -65,6 +68,9 @@ public class EnemyToleranceController : MonoBehaviour
     /// </summary>
     public void AddTolleranceOvertime()
     {
+        if (gainPerSecond == -1)
+            return;
+
         tolerance = Mathf.Clamp(tolerance + gainPerSecond * Time.deltaTime, minTolerance, maxTolerance);
     }
 
