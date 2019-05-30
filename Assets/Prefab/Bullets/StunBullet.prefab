@@ -62,7 +62,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 8
-  m_CollisionDetection: 3
+  m_CollisionDetection: 1
 --- !u!114 &114694964068457376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +120,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharaAttack
       objectReference: {fileID: 0}
+    - target: {fileID: 1997911907437204423, guid: cd97a6844bf97aa4b8370f1df69421d1,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5095339306767912384, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -175,7 +180,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1997911907437204423, guid: cd97a6844bf97aa4b8370f1df69421d1,
+    - target: {fileID: 12944170805214768, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -185,12 +190,7 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7139642135498034557, guid: cd97a6844bf97aa4b8370f1df69421d1,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 12944170805214768, guid: cd97a6844bf97aa4b8370f1df69421d1,
+    - target: {fileID: 1440958765189316575, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -200,7 +200,7 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4901011039695124671, guid: cd97a6844bf97aa4b8370f1df69421d1,
+    - target: {fileID: 7139642135498034557, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -210,17 +210,17 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6512406451892005895, guid: cd97a6844bf97aa4b8370f1df69421d1,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5030850781957966926, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1440958765189316575, guid: cd97a6844bf97aa4b8370f1df69421d1,
+    - target: {fileID: 4901011039695124671, guid: cd97a6844bf97aa4b8370f1df69421d1,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512406451892005895, guid: cd97a6844bf97aa4b8370f1df69421d1,
         type: 3}
       propertyPath: playOnAwake
       value: 0

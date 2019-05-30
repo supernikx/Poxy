@@ -54,12 +54,10 @@ namespace UI
         [SerializeField]
         private Color timerHoldColor;
 
-        private UI_ManagerBase uiManager;
         private ObjectTypes activeBullet;
 
         public override void Setup(UI_ManagerBase _uiManager)
         {
-            uiManager = _uiManager;
             HandleOnEnemyBulletChanged(ObjectTypes.None);
             EnableHealthBar(true);
             EnableToleranceBar(false);

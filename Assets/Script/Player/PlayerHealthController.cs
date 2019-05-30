@@ -58,9 +58,14 @@ public class PlayerHealthController : MonoBehaviour
     private Player player;
 
     /// <summary>
-    /// Identifica se il player può perdere vita nel tempo
+    /// Identifica se il player può seguire il default behaviour
     /// </summary>
     private bool canLoseHealth;
+
+    /// <summary>
+    /// Identifica se il player di default può perdere vita nel tempo
+    /// </summary>
+    private bool canLoseHealthDefaultBehaviour;
 
     #region API
     /// <summary>
@@ -77,7 +82,7 @@ public class PlayerHealthController : MonoBehaviour
     public void Setup()
     {
         health = maxHealth;
-        canLoseHealth = true;
+        canLoseHealthDefaultBehaviour = canLoseHealth = true;
     }
 
     /// <summary>
@@ -85,7 +90,7 @@ public class PlayerHealthController : MonoBehaviour
     /// </summary>
     public void LoseHealthOverTime()
     {
-        if (!canLoseHealth)
+        if (!canLoseHealthDefaultBehaviour || !canLoseHealth)
             return;
 
         health = Mathf.Clamp(health - lossPerSecond * Time.deltaTime, minHealth, maxHealth);
@@ -156,12 +161,21 @@ public class PlayerHealthController : MonoBehaviour
 
     #region Setter
     /// <summary>
-    /// Funzione che imposta se il player può perdere vita overtime
+    /// Funzione che imposta se il player esegue il defaul behaviour
     /// </summary>
     /// <param name="_enable"></param>
     public void SetCanLoseHealth(bool _enable)
     {
         canLoseHealth = _enable;
+    }
+
+    /// <summary>
+    /// Funzione che imposta se il player può perdere vita overtime
+    /// </summary>
+    /// <param name="_enable"></param>
+    public void SetCanLoseHealthDefaultBehaviour(bool _enable)
+    {
+        canLoseHealthDefaultBehaviour = _enable;
     }
     #endregion
     #endregion

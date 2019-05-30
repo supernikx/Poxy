@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour
 
     private void PlayerSettings()
     {
-        player.GetHealthController().SetCanLoseHealth(false);
+        player.GetHealthController().SetCanLoseHealthDefaultBehaviour(false);
     }
 
     #region Handler
@@ -52,13 +52,14 @@ public class TutorialManager : MonoBehaviour
         switch (_trigger.GetBehvaiourToTrigger())
         {
             case TutorialTrigger.TriggerBehaviours.HealthBar:
-                player.GetHealthController().SetCanLoseHealth(true);
+                player.GetHealthController().SetCanLoseHealthDefaultBehaviour(true);
                 break;
         }
     }
 
     private void HandleTutorialTriggerEnter(TutorialTrigger _triggerTriggered)
     {
+        player.GetHealthController().SetCanLoseHealth(false);
         tutorialText.text = _triggerTriggered.GetTextToShow();
         tutorialText.gameObject.SetActive(true);
     }
@@ -66,6 +67,7 @@ public class TutorialManager : MonoBehaviour
     private void HandleTutorialTriggerExit(TutorialTrigger _triggerExit)
     {
         tutorialText.gameObject.SetActive(false);
+        player.GetHealthController().SetCanLoseHealth(true);
     }
 
     private void HandlePlayerDeath()
