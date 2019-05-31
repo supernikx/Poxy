@@ -179,6 +179,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
                 //Se colpisco qualcosa che rientra nei layer stuck
                 GameObject objectHit = hit.transform.gameObject;
+                if (tempImmunityObjectList.Contains(objectHit))
+                    continue;
+
                 if ((objectHit.layer == LayerMask.NameToLayer("Player") || objectHit.layer == LayerMask.NameToLayer("PlayerImmunity")) && objectHit.transform.parent != null)
                 {
                     objectHit = objectHit.transform.parent.gameObject;
@@ -229,6 +232,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 //Lo scollo chiamo la callback di fine sticky
                 stickyList[i].Sticky = false;
                 stickyList[i].GIStickyRef.OnStickyEnd();
+                StartCoroutine(DelayTempListCoroutine(stickyList[i].Gobject));
             }
             //Se i ray che colpiscono l'oggetto sono 0
             else if (stickyList[i].StickyRay == 0)
@@ -456,11 +460,11 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// Funzione che mette in una "black list" gli oggetti che si sono appena staccati per 0.1 secondi
     /// </summary>
     List<GameObject> tempImmunityObjectList = new List<GameObject>();
-    private IEnumerator DelayTempListCoroutine(int _index)
+    private IEnumerator DelayTempListCoroutine(GameObject _objectToAdd)
     {
-        GameObject objectToAdd = stickyList[_index].Gobject;
+        GameObject objectToAdd = _objectToAdd;
         tempImmunityObjectList.Add(objectToAdd);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         tempImmunityObjectList.Remove(objectToAdd);
     }
 
