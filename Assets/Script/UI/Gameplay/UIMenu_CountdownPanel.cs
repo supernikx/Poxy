@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using TMPro;
 
 namespace UI
 {
     public class UIMenu_CountdownPanel : UIMenu_Base
     {
+        #region Delegates
+        public Action OnCountdown;
+        public Action OnCountdownEnd;
+        #endregion
+
         [Header("Countdown Options")]
         [SerializeField]
         private int countFrom = 3;
@@ -31,7 +37,8 @@ namespace UI
         {
             timer = countFrom;
 
-            PlayerInputManager.SetCanReadGameplayInput(false);
+            if (OnCountdown != null)
+                OnCountdown();
 
             while (timer >= 0)
             {
@@ -43,12 +50,8 @@ namespace UI
                 yield return null;
             }
             
-            if (SpeedrunManager.StartTimer != null)
-                SpeedrunManager.StartTimer();
-
-            PlayerInputManager.SetCanReadGameplayInput(true);
-
-            uiManager.ToggleMenu(MenuType.Game);
+            if (OnCountdownEnd != null)
+                OnCountdownEnd();
         }
         #endregion
     } 

@@ -257,6 +257,14 @@ public class LevelManager : MonoBehaviour
     {
         return cameraMng;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il riferimento al player
+    /// </summary>
+    public Player GetPlayer()
+    {
+        return player;
+    }
     #endregion
 
     private void OnDisable()
