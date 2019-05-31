@@ -57,15 +57,18 @@ public class EnemyAlertState : EnemySMStateBase
             enemy.gameObject.transform.eulerAngles = rotationVector;
         }
 
-        if (enemy.CheckShot(target))
+        if (enemy.CheckRange(target))
         {
-            enemy.Shot(target);
-
-            if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
+            if (enemy.CheckShot(target))
             {
-                return;
+                enemy.Shot(target);
+
+                if (enemy.GetCollisionCtrl().GetCollisionInfo().StickyCollision())
+                {
+                    return;
+                }
+                movementVelocity = enemy.GetMovementCtrl().MovementCheck(movementVector);
             }
-            movementVelocity = enemy.GetMovementCtrl().MovementCheck(movementVector);
         }
         else
         {

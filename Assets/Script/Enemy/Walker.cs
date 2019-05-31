@@ -23,6 +23,21 @@ public class Walker : EnemyBase
     }
 
     /// <summary>
+    /// Funzione che controlla se sei in range di sparo e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool CheckRange(Transform _target)
+    {
+        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
+        if ((bullet as ParabolicBullet).CheckShotRange(_target.position, shotPosition.position, enemyShotSettings.shotSpeed))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>
     /// <param name="_target"></param>
@@ -32,12 +47,7 @@ public class Walker : EnemyBase
         if (!canShot)
             return false;
 
-        IBullet bullet = PoolManager.instance.GetPooledObject(enemyShotSettings.bulletType, gameObject).GetComponent<IBullet>();
-        if ((bullet as ParabolicBullet).CheckShotRange(_target.position, shotPosition.position, enemyShotSettings.shotSpeed))
-        {
-            return true;
-        }
-        return false;
+       return CheckRange(_target);
     }
 
     /// <summary>

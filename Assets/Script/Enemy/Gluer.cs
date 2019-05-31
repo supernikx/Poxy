@@ -24,6 +24,21 @@ public class Gluer : EnemyBase
     }
 
     /// <summary>
+    /// Funzione che controlla se sei in range di sparo e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public override bool CheckRange(Transform _target)
+    {
+        float _distance = Vector3.Distance(_target.position, shotPosition.position);
+        if (_distance <= enemyShotSettings.range)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Funzione che controlla se puoi sparare e ritorna true o false
     /// </summary>
     /// <param name="_target"></param>
@@ -33,12 +48,7 @@ public class Gluer : EnemyBase
         if (!canShot)
             return false;
 
-        float _distance = Vector3.Distance(_target.position, shotPosition.position);
-        if (_distance <= enemyShotSettings.range)
-        {
-            return true;
-        }
-        return false;
+        return CheckRange(_target);
     }
 
     /// <summary>

@@ -534,6 +534,13 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// <param name="_target"></param>
     /// <returns></returns>
     public abstract bool CheckShot(Transform _target);
+
+    /// <summary>
+    /// Funzione che controlla se sei in range di sparo e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public abstract bool CheckRange(Transform _target);
     #endregion
     #endregion
 }

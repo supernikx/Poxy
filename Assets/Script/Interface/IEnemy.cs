@@ -30,6 +30,13 @@ public interface IEnemy
     bool CheckShot(Transform _target);
 
     /// <summary>
+    /// Funzione che controlla se sei in range di sparo e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    bool CheckRange(Transform _target);
+
+    /// <summary>
     /// Funzione che fa sparare il nemico e ritorna true se spara, altrimenti false
     /// </summary>
     /// <param name="_target"></param>

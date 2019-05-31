@@ -6,7 +6,7 @@ using System.Collections;
 public class Turret : MonoBehaviour, IEnemy
 {
     #region Delegates
-    public Action<Action> OnEnemyShot; 
+    public Action<Action> OnEnemyShot;
     public Action<Action> OnEnemyDeath;
     #endregion
 
@@ -37,7 +37,7 @@ public class Turret : MonoBehaviour, IEnemy
     protected Collider collider;
     protected EnemyManager enemyMng;
     protected EnemyViewController viewCtrl;
-    
+
     #region API
     /// <summary>
     /// Initialize Script
@@ -49,7 +49,7 @@ public class Turret : MonoBehaviour, IEnemy
         enemyMng = _enemyMng;
         startPosition = transform.position;
         startRotation = transform.rotation;
-        CanShot = true;
+        canShot = true;
 
         ResetLife();
         ResetStunHit();
@@ -146,7 +146,7 @@ public class Turret : MonoBehaviour, IEnemy
         if (deathCoroutine != null)
         {
             StopCoroutine(deathCoroutine);
-            deathCoroutine = null; 
+            deathCoroutine = null;
         }
 
         EnemyManager.OnEnemyEndDeath(this);
@@ -158,16 +158,21 @@ public class Turret : MonoBehaviour, IEnemy
 
         behaviourCoroutine = StartCoroutine(NormalBehaviour());
     }
-    
+
     public void StunHit()
     {
         return;
     }
 
     #region Shot
-    private bool CanShot;
+    private bool canShot;
 
-    public bool CheckShot(Transform _target)
+    /// <summary>
+    /// Funzione che controlla se sei in range di sparo e ritorna true o false
+    /// </summary>
+    /// <param name="_target"></param>
+    /// <returns></returns>
+    public bool CheckRange(Transform _target)
     {
         float _distance = Vector3.Distance(_target.position, shotPosition.position);
         if (_distance <= enemyShotSettings.range)
@@ -177,10 +182,18 @@ public class Turret : MonoBehaviour, IEnemy
         return false;
     }
 
+    public bool CheckShot(Transform _target)
+    {
+        if (!canShot)
+            return false;
+
+        return CheckRange(_target);
+    }
+
     Transform targetPos;
     public bool Shot(Transform _target)
     {
-        if (CanShot)
+        if (canShot)
         {
             targetPos = _target;
             StartCoroutine(FiringRateCoroutine(enemyShotSettings.firingRate));
@@ -220,13 +233,16 @@ public class Turret : MonoBehaviour, IEnemy
         {
             Transform _target = viewCtrl.FindPlayer();
 
-            if (_target != null && viewCtrl.CanSeePlayer(_target.position) && CheckShot(_target))
+            if (_target != null && viewCtrl.CanSeePlayer(_target.position) && CheckRange(_target))
             {
-                objectToRotate.transform.up = (_target.position - transform.position).normalized;
-                Shot(_target);
+                if (CheckShot(_target))
+                {
+                    objectToRotate.transform.up = (_target.position - transform.position).normalized;
+                    Shot(_target);
+                }
             }
 
-            yield return null; 
+            yield return null;
         }
     }
 
@@ -263,12 +279,12 @@ public class Turret : MonoBehaviour, IEnemy
             yield return new WaitForSeconds(tickDuration);
         }
     }
-    
+
     private IEnumerator FiringRateCoroutine(float _firingRate)
     {
-        CanShot = false;
+        canShot = false;
         yield return new WaitForSeconds(1 / _firingRate);
-        CanShot = true;
+        canShot = true;
     }
     #endregion
 
@@ -289,7 +305,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return collider;
     }
-    
+
     /// <summary>
     /// Funzione che ritorna il danno del nemico
     /// </summary>
@@ -298,7 +314,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return enemyShotSettings.damage;
     }
-    
+
     /// <summary>
     /// Funzione che ritorna il layer dei nemici
     /// </summary>
@@ -333,7 +349,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return enemyLife;
     }
-    
+
     /// <summary>
     /// Get Death Duration
     /// </summary>
@@ -359,7 +375,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return viewCtrl;
     }
-    
+
     #region TODO
     public EnemyAnimationController GetAnimationController()
     {
@@ -397,7 +413,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return 0;
     }
-    
+
     public EnemyToleranceController GetToleranceCtrl()
     {
         return null;
@@ -427,7 +443,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return;
     }
-    
+
     public void EnemyAlertState()
     {
         return;
@@ -442,7 +458,5 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return;
     }
-    #endregion
-
-    
+    #endregion    
 }
