@@ -135,7 +135,7 @@ public class PlayerShotController : MonoBehaviour
         {
             //Calcolo la rotazione dell'aim object
             Quaternion rotation = (_movemenetVector.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 180.0f);
-
+            
             //Calcolo il vettore di rotazione
             Vector3 targetRight = rotation * Vector3.right;
 

@@ -169,6 +169,9 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void HanldeOnJumpPressed()
     {
+        if (ejecting)
+            return;
+
         //Controllo se è stato premuto il tasto di salto e se sono a terra
         if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
             movementVelocity.y = maxJumpVelocity;
@@ -179,8 +182,19 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void HanldeOnJumpReleased()
     {
+        if (ejecting)
+            return;
+
         if (movementVelocity.y > minJumpVelocity)
             movementVelocity.y = minJumpVelocity;
+    }
+
+    /// <summary>
+    /// Funzione che gestisce l'evento di atterraggio del player
+    /// </summary>
+    private void HandleOnPlayerLanding()
+    {
+        ejecting = false;
     }
     #endregion
 
@@ -200,6 +214,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         collisionCtrl = _collisionCtrl;
         collisionCtrl.OnStickyCollision += HandleOnStickyCollision;
+        collisionCtrl.OnPlayerLanding += HandleOnPlayerLanding;
 
         PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
@@ -213,6 +228,7 @@ public class PlayerMovementController : MonoBehaviour
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 
         canMove = false;
+        ejecting = false;
     }
 
     /// <summary>
@@ -229,6 +245,7 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    private bool ejecting;
     /// <summary>
     /// Funzione che esegue l'eject con l'eject multiplyer settato
     /// </summary>
@@ -237,6 +254,7 @@ public class PlayerMovementController : MonoBehaviour
         if (collisionCtrl.GetCollisionInfo().above)
             return;
 
+        ejecting = true;
         float ejectMultiplyer = 0f;
         switch (_controllable.GetControllableType())
         {
@@ -290,6 +308,7 @@ public class PlayerMovementController : MonoBehaviour
     private void OnDisable()
     {
         collisionCtrl.OnStickyCollision -= HandleOnStickyCollision;
+        collisionCtrl.OnPlayerLanding -= HandleOnPlayerLanding;
         PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease -= HanldeOnJumpReleased;
     }
