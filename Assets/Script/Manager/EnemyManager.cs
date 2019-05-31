@@ -24,6 +24,17 @@ public class EnemyManager : MonoBehaviour
     private List<IEnemy> stunnedEnemies;
     private List<IEnemy> deadEnemies;
 
+
+    /// <summary>
+    /// Identifica se i nemici possono seguire il default behaviour
+    /// </summary>
+    private bool canAddTollerance;
+
+    /// <summary>
+    /// Identifica se i nemici di default possono aumentare la tolleranza
+    /// </summary>
+    private bool canAddTolleranceDefaultBehaviour;
+
     public void Init()
     {
         enemiesLayerValue = LayerMaskToLayer(enemiesLayerMask);
@@ -42,6 +53,8 @@ public class EnemyManager : MonoBehaviour
         OnEnemyEndDeath += HandleEnemyEndDeath;
 
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
+
+        canAddTolleranceDefaultBehaviour = canAddTollerance = true;
     }
 
     public void EnemiesSetup()
@@ -172,6 +185,44 @@ public class EnemyManager : MonoBehaviour
     public int GetEnemyLayer()
     {
         return enemiesLayerValue;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se i nemici possono seguire il default behaviour
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanAddTollerance()
+    {
+        return canAddTollerance;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se i nemici di default possono aumentare la tolleranza
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanAddTolleranceDefaultBehaviour()
+    {
+        return canAddTolleranceDefaultBehaviour;
+    }
+    #endregion
+
+    #region Setter
+    /// <summary>
+    /// Funzione che imposta se i nemici possono seguire il default behaviour
+    /// </summary>
+    /// <param name="_enable"></param>
+    public void SetCanAddTollerance(bool _enable)
+    {
+        canAddTollerance = _enable;
+    }
+
+    /// <summary>
+    /// Funzione che imposta se i nemici di default possono aumentare la tolleranza
+    /// </summary>
+    /// <param name="_enable"></param>
+    public void SetCanAddTolleranceDefaultBehaviour(bool _enable)
+    {
+        canAddTolleranceDefaultBehaviour = _enable;
     }
     #endregion
     #endregion

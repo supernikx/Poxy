@@ -69,7 +69,7 @@ public class PlayerShotController : MonoBehaviour
         }
 
         //Muovo il mirino
-        Crossair(PlayerInputManager.GetAimVector());
+        Crossair(PlayerInputManager.GetAimVector(), PlayerInputManager.GetMovementVector());
 
         //Aumento il contatore del firing rate
         firingRateTimer -= Time.deltaTime;
@@ -114,20 +114,34 @@ public class PlayerShotController : MonoBehaviour
     /// Funzione che muove il mirino
     /// </summary>
     /// <param name="_aimVector"></param>
-    private void Crossair(Vector2 _aimVector)
+    private void Crossair(Vector2 _aimVector, Vector2 _movemenetVector)
     {
         if (aimObject == null)
             return;
 
-        //Calcolo la rotazione dell'aim object
-        float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
-        Quaternion rotation = (_aimVector.x >= 0) ? Quaternion.Euler(0.0f, 0.0f, rotationZ) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
+        if (_aimVector.x != 0 || _aimVector.y != 0)
+        {
+            //Calcolo la rotazione dell'aim object
+            float rotationZ = Mathf.Atan2(_aimVector.y, _aimVector.x) * Mathf.Rad2Deg;
+            Quaternion rotation = (_aimVector.x >= 0) ? Quaternion.Euler(0.0f, 0.0f, rotationZ) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, -rotationZ);
 
-        //Calcolo il vettore di rotazione
-        Vector3 targetRight = rotation * Vector3.right;
+            //Calcolo il vettore di rotazione
+            Vector3 targetRight = rotation * Vector3.right;
 
-        //Posiziono il mirino nel punto in cui si sta mirando
-        crossAir.transform.position = aimObject.transform.position + (targetRight.normalized * crossAirDistance);
+            //Posiziono il mirino nel punto in cui si sta mirando
+            crossAir.transform.position = aimObject.transform.position + (targetRight.normalized * crossAirDistance);
+        }
+        else if (_movemenetVector != Vector2.zero)
+        {
+            //Calcolo la rotazione dell'aim object
+            Quaternion rotation = (_movemenetVector.x == 1) ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Mathf.PI * Mathf.Rad2Deg, 0.0f, 180.0f);
+            
+            //Calcolo il vettore di rotazione
+            Vector3 targetRight = rotation * Vector3.right;
+
+            //Posiziono il mirino nel punto in cui si sta mirando
+            crossAir.transform.position = aimObject.transform.position + (targetRight.normalized * crossAirDistance);
+        }
     }
     #endregion
 
