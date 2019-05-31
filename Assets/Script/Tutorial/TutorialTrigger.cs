@@ -96,5 +96,6 @@ public class TutorialTrigger : MonoBehaviour
     {
         None,
         HealthBar,
+        TolleranceBar,
     }
 }

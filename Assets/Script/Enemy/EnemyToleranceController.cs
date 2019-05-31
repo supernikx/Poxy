@@ -27,6 +27,8 @@ public class EnemyToleranceController : MonoBehaviour
     [Tooltip("Min Health")]
     private float minTolerance = 0;
 
+
+
     private float tolerance
     {
         set
@@ -43,6 +45,7 @@ public class EnemyToleranceController : MonoBehaviour
     private float _tolerance;
 
     private bool active = false;
+    private EnemyManager enemyMng;
 
     /// <summary>
     /// Amount of tolerance gain every frame
@@ -52,10 +55,8 @@ public class EnemyToleranceController : MonoBehaviour
     #region API
     public void Init()
     {
-        if (timeToFill == -1)
-            gainPerSecond = -1;
-        else
-            gainPerSecond = (maxTolerance - minTolerance) / timeToFill;
+        enemyMng = LevelManager.instance.GetEnemyManager();
+        gainPerSecond = (maxTolerance - minTolerance) / timeToFill;
     }
 
     public void Setup()
@@ -68,7 +69,7 @@ public class EnemyToleranceController : MonoBehaviour
     /// </summary>
     public void AddTolleranceOvertime()
     {
-        if (gainPerSecond == -1)
+        if (enemyMng != null && (!enemyMng.GetCanAddTolleranceDefaultBehaviour() || !enemyMng.GetCanAddTollerance()))
             return;
 
         tolerance = Mathf.Clamp(tolerance + gainPerSecond * Time.deltaTime, minTolerance, maxTolerance);

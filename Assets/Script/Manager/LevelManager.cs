@@ -107,7 +107,7 @@ public class LevelManager : MonoBehaviour
 
         tutorialMng = GetComponent<TutorialManager>();
         if (tutorialMng != null)
-            tutorialMng.Init(player);
+            tutorialMng.Init(enemyMng, player);
 
         cameraMng = GetComponent<CameraManager>();
         if (cameraMng != null)

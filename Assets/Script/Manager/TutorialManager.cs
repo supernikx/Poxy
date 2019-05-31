@@ -11,22 +11,24 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI tutorialText;
 
+    EnemyManager enemyMng;
     Player player;
     List<TutorialTrigger> triggers = new List<TutorialTrigger>();
 
     #region API
-    public void Init(Player _player)
+    public void Init(EnemyManager _enemyMng, Player _player)
     {
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
         TutorialTrigger.OnTutorialBehaviourTriggered += HandleTutorialBehaviourTriggered;
         TutorialTrigger.OnTutorialTriggerEnter += HandleTutorialTriggerEnter;
         TutorialTrigger.OnTutorialTriggerExit += HandleTutorialTriggerExit;
 
+        enemyMng = _enemyMng;
         player = _player;
         triggers = triggersContainer.GetComponentsInChildren<TutorialTrigger>().ToList();
 
         TriggersSetup();
-        PlayerSettings();
+        LevelSettings();
 
         tutorialText.gameObject.SetActive(false);
     }
@@ -41,9 +43,10 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void PlayerSettings()
+    private void LevelSettings()
     {
         player.GetHealthController().SetCanLoseHealthDefaultBehaviour(false);
+        enemyMng.SetCanAddTolleranceDefaultBehaviour(false);
     }
 
     #region Handler
@@ -54,11 +57,15 @@ public class TutorialManager : MonoBehaviour
             case TutorialTrigger.TriggerBehaviours.HealthBar:
                 player.GetHealthController().SetCanLoseHealthDefaultBehaviour(true);
                 break;
+            case TutorialTrigger.TriggerBehaviours.TolleranceBar:
+                enemyMng.SetCanAddTolleranceDefaultBehaviour(true);
+                break;
         }
     }
 
     private void HandleTutorialTriggerEnter(TutorialTrigger _triggerTriggered)
     {
+        enemyMng.SetCanAddTollerance(false);
         player.GetHealthController().SetCanLoseHealth(false);
         tutorialText.text = _triggerTriggered.GetTextToShow();
         tutorialText.gameObject.SetActive(true);
@@ -68,12 +75,13 @@ public class TutorialManager : MonoBehaviour
     {
         tutorialText.gameObject.SetActive(false);
         player.GetHealthController().SetCanLoseHealth(true);
+        enemyMng.SetCanAddTollerance(true);
     }
 
     private void HandlePlayerDeath()
     {
         TriggersSetup();
-        PlayerSettings();
+        LevelSettings();
 
         tutorialText.gameObject.SetActive(false);
     }
