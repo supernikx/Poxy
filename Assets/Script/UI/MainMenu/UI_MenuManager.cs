@@ -18,15 +18,6 @@ public class UI_MenuManager : UI_ManagerBase
     /// </summary>
     private MenuType currentMenu;
 
-    //DEBUG
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            GameManager.instance.speedrunMode = !GameManager.instance.speedrunMode;
-        }
-    }
-
     #region Getter
     public override UI_MenuManager GetMenuManager()
     {

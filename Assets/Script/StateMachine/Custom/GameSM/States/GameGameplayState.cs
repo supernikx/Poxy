@@ -13,7 +13,7 @@ namespace StateMachine.GameSM
         {
             levelManager = FindObjectOfType<LevelManager>();
             ui = context.gameManager.GetUIManager();
-            if (context.gameManager.speedrunMode)
+            if (context.gameManager.GetLevelsManager().GetMode())
             {
                 ui.GetGameplayManager().GetCountdownPanel().OnCountdown += HandleOnCountdown;
                 ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd += HandleOnCountdownEnd;

@@ -9,7 +9,7 @@ namespace UI
     {
         [Header("General Settings")]
         [SerializeField]
-        private GameObject defaultSelection;
+        protected GameObject defaultSelection;
 
         /// <summary>
         /// Riferimento all'ui manager

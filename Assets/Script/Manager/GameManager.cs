@@ -26,9 +26,6 @@ public class GameManager : MonoBehaviour
     /// RIferimento alla leaderboard
     /// </summary>
     dreamloLeaderBoard leaderBoard;
-    
-    //TEMP
-    public bool speedrunMode = false;
 
     private void Awake()
     {
