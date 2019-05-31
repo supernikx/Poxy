@@ -237,9 +237,9 @@ public class StickyObject : MonoBehaviour, IPoolObject
                 stickyList.RemoveAt(i);
                 continue;
             }
-
+           
             //Muovo l'oggetto attaccato se velocity > 0
-            if (velocity != Vector3.zero)
+            if (!float.IsNaN(velocity.x) && velocity != Vector3.zero)
                 MovePassenger(stickyList[i].Gobject.transform, velocity * Time.deltaTime);
 
             //Azzero i ray che colpiscono l'oggetto
