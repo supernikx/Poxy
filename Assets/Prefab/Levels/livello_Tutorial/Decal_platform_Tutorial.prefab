@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1364801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1364802}
+  - component: {fileID: 1364803}
+  m_Layer: 21
+  m_Name: Decal Projector (81)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1364802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364801}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 50.81, y: -12.9, z: -4.5}
+  m_LocalScale: {x: 4.1475368, y: 0.6697156, z: 3.4832006}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 36
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1364803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
 --- !u!1 &9125499
 GameObject:
   m_ObjectHideFlags: 0
@@ -38,6 +90,58 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9125499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
+--- !u!1 &123877299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 123877300}
+  - component: {fileID: 123877301}
+  m_Layer: 21
+  m_Name: Decal Projector (82)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &123877300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123877299}
+  m_LocalRotation: {x: -0, y: -0.70710194, z: -0, w: -0.7071117}
+  m_LocalPosition: {x: 53.67, y: -12.9, z: -4.63}
+  m_LocalScale: {x: 3.834241, y: 0.6191268, z: 3.8489707}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 37
+  m_LocalEulerAnglesHint: {x: 0, y: -270.001, z: 0}
+--- !u!114 &123877301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123877299}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
@@ -133,7 +237,7 @@ Transform:
   m_LocalScale: {x: 3.1216483, y: 0.66041505, z: 3.3842165}
   m_Children: []
   m_Father: {fileID: 5952980442437473174}
-  m_RootOrder: 32
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: -450, z: 0}
 --- !u!114 &571337165
 MonoBehaviour:
@@ -142,6 +246,58 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571337163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
+--- !u!1 &638440824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638440825}
+  - component: {fileID: 638440826}
+  m_Layer: 21
+  m_Name: Decal Projector (84)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &638440825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638440824}
+  m_LocalRotation: {x: 0.49999985, y: -0.5000002, z: -0.5000002, w: -0.49999985}
+  m_LocalPosition: {x: 54.07, y: -11.575, z: -4.71}
+  m_LocalScale: {x: 3.8566768, y: 0.6227496, z: 3.325191}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 40
+  m_LocalEulerAnglesHint: {x: -90, y: -179.99998, z: -90.00001}
+--- !u!114 &638440826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638440824}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
@@ -233,7 +389,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808362051}
   m_LocalRotation: {x: -0, y: -0.70710194, z: -0, w: -0.7071117}
-  m_LocalPosition: {x: 30.543, y: -12.9, z: -4.86}
+  m_LocalPosition: {x: 30.543, y: -12.9, z: -4.377}
   m_LocalScale: {x: 3.1849353, y: 0.56097543, z: 3.0141966}
   m_Children: []
   m_Father: {fileID: 5952980442437473174}
@@ -298,6 +454,58 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170182450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
+--- !u!1 &1239542646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239542647}
+  - component: {fileID: 1239542648}
+  m_Layer: 21
+  m_Name: Decal Projector (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1239542647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239542646}
+  m_LocalRotation: {x: 0, y: 0.70710653, z: -0, w: -0.70710707}
+  m_LocalPosition: {x: 21.162, y: -12.9, z: -4.362}
+  m_LocalScale: {x: 2.7245758, y: 0.47414204, z: 2.221798}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 38
+  m_LocalEulerAnglesHint: {x: 0, y: -450, z: 0}
+--- !u!114 &1239542648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239542646}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
@@ -402,6 +610,110 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1424599973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
+--- !u!1 &1542221066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542221067}
+  - component: {fileID: 1542221068}
+  m_Layer: 21
+  m_Name: Decal Projector (83)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1542221067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542221066}
+  m_LocalRotation: {x: 0.7071068, y: 0.00000019861236, z: -0.7071068, w: -0.00000019861236}
+  m_LocalPosition: {x: 52.591, y: -3.91, z: -4.702}
+  m_LocalScale: {x: 4.1146646, y: 0.75168186, z: 3.857201}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 39
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 179.99998}
+--- !u!114 &1542221068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542221066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
+--- !u!1 &1560534568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1560534569}
+  - component: {fileID: 1560534570}
+  m_Layer: 21
+  m_Name: Decal Projector (78)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1560534569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560534568}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 48.19, y: -12.9, z: -4.66}
+  m_LocalScale: {x: 3.834241, y: 0.6191268, z: 3.2200875}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 35
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1560534570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560534568}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
@@ -624,6 +936,58 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0}
   m_Size: {x: 1, y: 0.05470562, z: 1}
   m_IsCropModeEnabled: 0
+--- !u!1 &2044184721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2044184722}
+  - component: {fileID: 2044184723}
+  m_Layer: 21
+  m_Name: Decal Projector (85)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &2044184722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044184721}
+  m_LocalRotation: {x: 0.5000044, y: -0.4999956, z: 0.4999956, w: 0.5000044}
+  m_LocalPosition: {x: 54.07, y: -9.061, z: -4.47}
+  m_LocalScale: {x: 3.364989, y: 0.6227496, z: 3.1175141}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 41
+  m_LocalEulerAnglesHint: {x: 90, y: -180.002, z: -90.003006}
+--- !u!114 &2044184723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044184721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
 --- !u!1 &2103078868
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +1040,58 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0}
   m_Size: {x: 1, y: 0.05470562, z: 1}
   m_IsCropModeEnabled: 0
+--- !u!1 &672826372041875314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4901099894846395971}
+  - component: {fileID: 1876822446786979246}
+  m_Layer: 21
+  m_Name: Decal Projector (77)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &4901099894846395971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672826372041875314}
+  m_LocalRotation: {x: 0.7071068, y: 0.00000019861236, z: -0.7071068, w: -0.00000019861236}
+  m_LocalPosition: {x: 57.89, y: -3.91, z: -4.55}
+  m_LocalScale: {x: 3.148226, y: 0.6191268, z: 3.2200875}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 33
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 179.99998}
+--- !u!114 &1876822446786979246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672826372041875314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
 --- !u!1 &2288895874682910767
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,8 +1117,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2288895874682910767}
   m_LocalRotation: {x: 0.5009111, y: -0.4990873, z: 0.4978882, w: 0.502103}
-  m_LocalPosition: {x: 54.07, y: -0.17999983, z: -4.44}
-  m_LocalScale: {x: 3.8566768, y: 0.6227496, z: 3.23893}
+  m_LocalPosition: {x: 54.07, y: 0.01, z: -4.44}
+  m_LocalScale: {x: 3.8566768, y: 0.6227496, z: 2.8655784}
   m_Children: []
   m_Father: {fileID: 5952980442437473174}
   m_RootOrder: 26
@@ -936,6 +1352,58 @@ MonoBehaviour:
   m_Offset: {x: 0, y: 0, z: 0}
   m_Size: {x: 1, y: 0.05470562, z: 1}
   m_IsCropModeEnabled: 0
+--- !u!1 &5633755562041769080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3830054332843749911}
+  - component: {fileID: 4465191519473382781}
+  m_Layer: 21
+  m_Name: Decal Projector (76)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &3830054332843749911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5633755562041769080}
+  m_LocalRotation: {x: -0.70711315, y: 0, z: -0.70710045, w: -0}
+  m_LocalPosition: {x: 55.37, y: -3.91, z: -4.55}
+  m_LocalScale: {x: 3.5916102, y: 0.6191268, z: 3.2200875}
+  m_Children: []
+  m_Father: {fileID: 5952980442437473174}
+  m_RootOrder: 32
+  m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 180}
+--- !u!114 &4465191519473382781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5633755562041769080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: d20370fe71d68cb4cb612c77438b3b26, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.05470562, z: 1}
+  m_IsCropModeEnabled: 0
 --- !u!1 &5952980442243267133
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,7 +1515,16 @@ Transform:
   - {fileID: 1627470834187870542}
   - {fileID: 9125500}
   - {fileID: 1581253398}
+  - {fileID: 3830054332843749911}
+  - {fileID: 4901099894846395971}
   - {fileID: 571337164}
+  - {fileID: 1560534569}
+  - {fileID: 1364802}
+  - {fileID: 123877300}
+  - {fileID: 1239542647}
+  - {fileID: 1542221067}
+  - {fileID: 638440825}
+  - {fileID: 2044184722}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1648,8 +2125,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6961673735959573598}
   m_LocalRotation: {x: 0.50085884, y: -0.49913973, z: 0.49794075, w: 0.5020508}
-  m_LocalPosition: {x: 54.07, y: -2.68, z: -4.3047}
-  m_LocalScale: {x: 3.7659185, y: 0.6080946, z: 3.1627088}
+  m_LocalPosition: {x: 54.07, y: -2.507, z: -4.53}
+  m_LocalScale: {x: 4.2857733, y: 0.69203705, z: 3.599295}
   m_Children: []
   m_Father: {fileID: 5952980442437473174}
   m_RootOrder: 19
