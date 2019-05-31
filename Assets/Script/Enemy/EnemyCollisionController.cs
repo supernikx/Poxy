@@ -39,7 +39,7 @@ public class EnemyCollisionController : MonoBehaviour, ISticky
     /// <summary>
     /// Offset del bound del collider
     /// </summary>
-    private float collisionOffset = 0.015f;
+    private float collisionOffset = 0.030f;
 
     private Collider enemyCollider;
     private RaycastStartPoints raycastStartPoints;
