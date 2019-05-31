@@ -64,6 +64,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
     protected ControllableType controllableType = ControllableType.Enemy;
 
+    private bool canTakeDamage;
+
     #region API
     /// <summary>
     /// Initialize Script
@@ -202,11 +204,6 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         if (enemySM.GoToStun != null)
             enemySM.GoToStun();
     }
-
-    public void SetCanStun(bool _switch)
-    {
-        canStun = _switch;
-    }
     #endregion
 
     #region Damage
@@ -215,6 +212,9 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     public void DamageHit(float _damage, float _time = 0)
     {
+        if (!canTakeDamage)
+            return;
+
         if (_time == 0)
         {
             enemyLife = Mathf.Clamp(enemyLife - _damage, 0, enemyStartLife);
@@ -276,6 +276,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// </summary>
     public void ResetLife()
     {
+        SetCanTakeDamage(true);
         enemyLife = enemyStartLife;
     }
 
@@ -482,6 +483,26 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     public ControllableType GetControllableType()
     {
         return controllableType;
+    }
+    #endregion
+
+    #region Setter
+    /// <summary>
+    /// Funzione che imposta se puoi prendere danno o no
+    /// </summary>
+    /// <param name="_canTakeDamage"></param>
+    public void SetCanTakeDamage(bool _canTakeDamage)
+    {
+        canTakeDamage = _canTakeDamage;
+    }
+
+    /// <summary>
+    /// Funzione che imposta se il nemico può essere stunnato
+    /// </summary>
+    /// <param name="_switc"></param>
+    public void SetCanStun(bool _switch)
+    {
+        canStun = _switch;
     }
     #endregion
 

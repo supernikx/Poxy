@@ -431,6 +431,10 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return;
     }
+    public void SetCanTakeDamage(bool _canTakeDamage)
+    {
+        return;
+    }
     #endregion
 
     #region Unused
@@ -458,5 +462,5 @@ public class Turret : MonoBehaviour, IEnemy
     {
         return;
     }
-    #endregion    
+    #endregion
 }

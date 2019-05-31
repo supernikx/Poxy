@@ -18,6 +18,7 @@ namespace StateMachine.EnemySM
             uiManager.GetGamePanel().SetMaxToleranceValue(tolleranceCtrl.GetMaxTolerance());
             uiManager.GetGamePanel().EnableToleranceBar(true);
             context.enemy.SetCanStun(false);
+            context.enemy.SetCanTakeDamage(false);
             context.player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
             if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
@@ -93,6 +94,8 @@ namespace StateMachine.EnemySM
             uiManager.GetGamePanel().EnableToleranceBar(false);
 
             context.enemy.SetCanStun(true);
+            context.enemy.SetCanTakeDamage(true);
+
             context.enemy.gameObject.transform.parent = context.enemy.GetEnemyDefaultParent();
             context.enemy.gameObject.layer = context.enemy.GetEnemyDefaultLayer();
         }

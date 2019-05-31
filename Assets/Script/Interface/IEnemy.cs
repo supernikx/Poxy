@@ -231,5 +231,11 @@ public interface IEnemy
     /// </summary>
     /// <param name="_switc"></param>
     void SetCanStun(bool _switc);
+
+    /// <summary>
+    /// Funzione che imposta se il nemico può prendere danno
+    /// </summary>
+    /// <param name="_switc"></param>
+    void SetCanTakeDamage(bool _canTakeDamage);
     #endregion
 }

@@ -103,14 +103,14 @@ public class PlayerInputManager : MonoBehaviour
             aimVector.y = joystickState.ThumbSticks.Right.Y;
 
             //Jump
-            if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Released && joystickState.Buttons.LeftShoulder == ButtonState.Pressed) ||
+            if ((joystickPrevState.Triggers.Left == 0 && joystickState.Triggers.Left > 0) ||
                 (joystickPrevState.Buttons.A == ButtonState.Released && joystickState.Buttons.A == ButtonState.Pressed))
             {
                 isJumping = true;
                 if (OnJumpPressed != null)
                     OnJumpPressed();
             }
-            else if ((joystickPrevState.Buttons.LeftShoulder == ButtonState.Pressed && joystickState.Buttons.LeftShoulder == ButtonState.Released) ||
+            else if ((joystickPrevState.Triggers.Left > 0 && joystickState.Triggers.Left == 0) ||
                 (joystickPrevState.Buttons.A == ButtonState.Pressed && joystickState.Buttons.A == ButtonState.Released))
             {
                 isJumping = false;
@@ -128,7 +128,7 @@ public class PlayerInputManager : MonoBehaviour
 
             //Parasite
             if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
-            {                
+            {
                 if (OnParasitePressed != null)
                     OnParasitePressed();
             }
