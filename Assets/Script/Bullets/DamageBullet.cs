@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class DamageBullet : BulletBase
-{
+{    [Header("Damage Bullet Settings")]
+    [SerializeField]
+    private ParticleSystem bulletParticle;
+
     protected override bool OnBulletCollision(Collider _collider)
     {
         if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -43,4 +46,18 @@ public class DamageBullet : BulletBase
             ObjectDestroyEvent();
         }
     }
+
+    #region Spawn/Destroy
+    protected override void ObjectDestroyEvent()
+    {
+        bulletParticle.Stop();
+        base.ObjectDestroyEvent();
+    }
+
+    protected override void ObjectSpawnEvent()
+    {
+        bulletParticle.Play();
+        base.ObjectSpawnEvent();
+    }
+    #endregion
 }
