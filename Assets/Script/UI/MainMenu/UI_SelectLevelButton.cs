@@ -10,8 +10,6 @@ public class UI_SelectLevelButton : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI levelNameText;
     [SerializeField]
-    private Image levelImage;
-    [SerializeField]
     private GameObject selectModePanel;
     private LevelScriptable level;
 
@@ -21,7 +19,6 @@ public class UI_SelectLevelButton : MonoBehaviour
     {
         level = _level;
         menuLevelSelection = _menuLevelSelection;
-        levelImage.sprite = level.Image;
         levelNameText.text = level.LevelName;
         SelectMode(false);
     }
