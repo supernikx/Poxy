@@ -57,6 +57,15 @@ public class UI_GameplayManager : UI_ManagerBase
     {
         return pausePanel;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il countdown panel
+    /// </summary>
+    /// <returns></returns>
+    public UIMenu_CountdownPanel GetCountdownPanel()
+    {
+        return countdownPanel;
+    }
     #endregion
 
     #region Pause
