@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 0.000030518, y: -0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &508488460381259234
@@ -197,10 +197,10 @@ RectTransform:
   m_Father: {fileID: 508488462301735464}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.69999695, y: 2.0999908}
-  m_SizeDelta: {x: -5.700012, y: -4}
+  m_AnchorMin: {x: 0.05636014, y: 0.12039321}
+  m_AnchorMax: {x: 0.95119995, y: 0.43978646}
+  m_AnchoredPosition: {x: -1.4999542, y: -0.5}
+  m_SizeDelta: {x: 3.7000008, y: -0.30000305}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &508488460744521623
 CanvasRenderer:
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 508488462164887206}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -280,16 +280,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: StartButton
-        m_Mode: 1
+      - m_Target: {fileID: 2481835171967487783}
+        m_MethodName: SelectMode
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -306,23 +306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 15
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1129178710657722332}
-          m_MethodName: LevelModePressed
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   - eventID: 0
     callback:
       m_PersistentCalls:
@@ -391,6 +374,23 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2481835171967487783}
+          m_MethodName: DeselectLevel
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
 --- !u!1 &508488461999071498
 GameObject:
@@ -426,7 +426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: -0.000022888184}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.000022888184}
   m_SizeDelta: {x: 0, y: 0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &508488461999071503
@@ -589,10 +589,10 @@ RectTransform:
   m_Father: {fileID: 508488462301735464}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.69999695, y: -1.9000015}
-  m_SizeDelta: {x: -5.799988, y: -3.800003}
+  m_AnchorMin: {x: 0, y: 0.47713494}
+  m_AnchorMax: {x: 1, y: 0.76129216}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_SizeDelta: {x: -5.75, y: 1.0999985}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &508488462164887204
 CanvasRenderer:
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 508488460744521617}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 2
@@ -672,9 +672,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: StartButton
-        m_Mode: 1
+      - m_Target: {fileID: 2481835171967487783}
+        m_MethodName: SelectMode
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -698,23 +698,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 15
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1129178710657722332}
-          m_MethodName: LevelModePressed
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   - eventID: 0
     callback:
       m_PersistentCalls:
@@ -783,6 +766,23 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 16
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2481835171967487783}
+          m_MethodName: DeselectLevel
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
 --- !u!1 &508488462301735467
 GameObject:
@@ -795,6 +795,7 @@ GameObject:
   - component: {fileID: 508488462301735464}
   - component: {fileID: 508488462301735465}
   - component: {fileID: 508488462301735466}
+  - component: {fileID: 2481835171967487783}
   m_Layer: 5
   m_Name: Select Mode
   m_TagString: Untagged
@@ -820,8 +821,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.43843064}
-  m_AnchoredPosition: {x: 0.7634735, y: -1.2999878}
-  m_SizeDelta: {x: -1.7229, y: -3.7000008}
+  m_AnchoredPosition: {x: 0.76348877, y: 97.1}
+  m_SizeDelta: {x: -1.723, y: 193.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &508488462301735465
 CanvasRenderer:
@@ -860,6 +861,19 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &2481835171967487783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508488462301735467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c13be73b5738b439799754816d3709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultButton: {fileID: 508488462164887201}
 --- !u!1 &1161816516181701770
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,10 +981,10 @@ RectTransform:
   m_Father: {fileID: 508488460744521619}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.6994986, y: 252.6372}
-  m_SizeDelta: {x: 390.8, y: 651.6}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 11.225, y: 299}
+  m_SizeDelta: {x: -22.45, y: 211.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2468544199162765740
 CanvasRenderer:
@@ -1043,7 +1057,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.036285937, y: 0.006}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1.6857758, y: -0.37200165}
+  m_AnchoredPosition: {x: -1.685791, y: -0.37200165}
   m_SizeDelta: {x: 2.9204001, y: -0.17499924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8827378484265479385
@@ -1315,12 +1329,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 15
+  - eventID: 16
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1129178710657722332}
-          m_MethodName: LevelButtonPressed
+        - m_Target: {fileID: 0}
+          m_MethodName: BackButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1345,8 +1359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4283cca1b76ed41b8d3be1b5eb7c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: {fileID: 11400000, guid: cc3d3c399b4601741bee3a9b83a56333, type: 2}
   levelNameText: {fileID: 1774252101154449020}
-  selectModePanel: {fileID: 508488462301735467}
+  selectModePanel: {fileID: 2481835171967487783}
 --- !u!1 &5993555674037603028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,10 +1394,10 @@ RectTransform:
   m_Father: {fileID: 508488462164887200}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.6994986, y: 114.562805}
-  m_SizeDelta: {x: 390.8, y: 651.6}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 9, y: 137}
+  m_SizeDelta: {x: -44.899994, y: 185.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5200542585852471819
 CanvasRenderer:

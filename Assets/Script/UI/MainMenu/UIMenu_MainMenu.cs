@@ -12,8 +12,8 @@ namespace UI
         /// Funzione che fa startare il game
         /// </summary>
         public void StartButton()
-        {
-            GameManager.SelectLevel();
+        {           
+            uiManager.ToggleMenu(MenuType.LevelSelection);
         }
 
         /// <summary>

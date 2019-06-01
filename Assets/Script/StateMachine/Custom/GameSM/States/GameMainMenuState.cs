@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UI;
 
 namespace StateMachine.GameSM
 {
@@ -10,7 +11,9 @@ namespace StateMachine.GameSM
         UI_ManagerBase uiManager;
 
         public override void Enter()
-        {            
+        {
+            UIMenu_LevelSelection.OnLevelSelected += HandleLevelSelected;
+
             if (SceneManager.GetActiveScene().name == "MainMenu")
             {
                 uiManager = context.gameManager.FindUIManager();
@@ -30,8 +33,16 @@ namespace StateMachine.GameSM
             uiManager.ToggleMenu(MenuType.MainMenu);
         }
 
+        private void HandleLevelSelected(LevelScriptable _selectedLevel, bool _speedRun)
+        {
+            context.gameManager.GetLevelsManager().SetSelectedLevel(_selectedLevel);
+            context.gameManager.GetLevelsManager().SetMode(_speedRun);
+            GameManager.StartGame();
+        }
+
         public override void Exit()
         {
+            UIMenu_LevelSelection.OnLevelSelected -= HandleLevelSelected;
             SceneManager.sceneLoaded -= OnSceneLoaded;
             uiManager.ToggleMenu(MenuType.None);
         }

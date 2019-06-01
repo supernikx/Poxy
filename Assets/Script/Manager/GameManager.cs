@@ -102,15 +102,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Funzione che manda in selezione livello
-    /// </summary>
-    public static void SelectLevel()
-    {
-        if (instance.gameSM.GoToLevelSelection != null)
-            instance.gameSM.GoToLevelSelection();
-    }
-
-    /// <summary>
     /// FUnzione che ricarica il livello attuale
     /// </summary>
     public static void RestartCurrentLevel()

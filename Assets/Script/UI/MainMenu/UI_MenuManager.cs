@@ -98,7 +98,7 @@ public class UI_MenuManager : UI_ManagerBase
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.LevelSelection:
-                eventSystem.firstSelectedGameObject = levelSelctionPanel.GetPanelDefaultSelection();
+                eventSystem.firstSelectedGameObject = levelSelctionPanel.GetButtonToSelect();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.Loading:

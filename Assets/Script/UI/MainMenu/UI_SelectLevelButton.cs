@@ -4,23 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UI;
+using System;
+using UnityEngine.EventSystems;
 
 public class UI_SelectLevelButton : MonoBehaviour
 {
     [SerializeField]
+    private LevelScriptable level;
+    [SerializeField]
     private TextMeshProUGUI levelNameText;
     [SerializeField]
-    private GameObject selectModePanel;
-    private LevelScriptable level;
+    private UI_ModeSelection selectModePanel;
 
     UIMenu_LevelSelection menuLevelSelection;
 
-    public void Init(LevelScriptable _level, UIMenu_LevelSelection _menuLevelSelection)
+    public void Init(UIMenu_LevelSelection _menuLevelSelection)
     {
-        level = _level;
         menuLevelSelection = _menuLevelSelection;
         levelNameText.text = level.LevelName;
-        SelectMode(false);
+        selectModePanel.Init(this);
+        SelectModePanel(false);
     }
 
     public void LevelButtonPressed()
@@ -29,10 +32,17 @@ public class UI_SelectLevelButton : MonoBehaviour
             menuLevelSelection.OnLevelButtonPressed(this);
     }
 
+    public void DeselectLevel()
+    {
+        FocusOnPanel();
+        if (menuLevelSelection != null)
+            menuLevelSelection.OnLevelButtonDeselected();
+    }
+
     public void LevelModePressed(bool _speedRun)
     {
-        if (UIMenu_LevelSelection.OnModeSelected != null)
-            UIMenu_LevelSelection.OnModeSelected(_speedRun);
+        if (menuLevelSelection != null)
+            menuLevelSelection.OnModeButtonPressed(_speedRun);
     }
 
     public LevelScriptable GetLevelScriptable()
@@ -40,8 +50,14 @@ public class UI_SelectLevelButton : MonoBehaviour
         return level;
     }
 
-    public void SelectMode(bool _enable)
+    public void SelectModePanel(bool _enable)
     {
-        selectModePanel.SetActive(_enable);
+        selectModePanel.EnablePanel(_enable);
+    }
+
+    public void FocusOnPanel()
+    {
+        if (InputChecker.GetCurrentInputType() == InputType.Joystick)
+            EventSystem.current.SetSelectedGameObject(gameObject);
     }
 }
