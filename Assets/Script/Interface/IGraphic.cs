@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public interface IGraphic
 {
     /// <summary>
@@ -36,4 +37,16 @@ public interface IGraphic
     /// </summary>
     /// <returns></returns>
     GameObject GetModel();
+
+    /// <summary>
+    /// Funzione che cambia la texture del modello
+    /// </summary>
+    /// <param name="_type"></param>
+    void ChangeTexture(TextureType _type);
+}
+
+public enum TextureType
+{
+    Default,
+    Parasite,
 }

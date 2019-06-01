@@ -168,4 +168,9 @@ public class PlayerGraphicController : MonoBehaviour, IGraphic
     {
         PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
     }
+
+    public void ChangeTexture(TextureType _type)
+    {
+        return;
+    }
 }

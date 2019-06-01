@@ -118,7 +118,7 @@ public class ParabolicBullet : BulletBase
         if (discriminant < 0)
         {
             Debug.LogWarning("Speed is to low for reach the target");
-            ObjectDestroyEvent();
+            ObjectForceDestroy();
             return;
         }
 
@@ -172,6 +172,13 @@ public class ParabolicBullet : BulletBase
         bulletExplosionParticle.Play();
         StartCoroutine(CBulletExplosion());
         base.ObjectDestroyEvent();
+    }
+
+    protected override void ObjectForceDestroy()
+    {
+        canMove = false;
+        bulletParticle.Stop();
+        base.ObjectForceDestroy();
     }
 
     private IEnumerator CBulletExplosion()

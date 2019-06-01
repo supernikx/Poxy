@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphicModel: {fileID: 6699811328597893856}
+  modelMesh: {fileID: 6699811328609464290}
+  defaultMaterial: {fileID: 2100000, guid: c407b2665659b434985d0b7d82125221, type: 2}
+  parasiteMaterial: {fileID: 2100000, guid: 1093dea11a58073478faf7e9eebd00f1, type: 2}
   aimObject: {fileID: 2642463486110664499}
 --- !u!114 &5288953852381794262
 MonoBehaviour:
@@ -1950,6 +1953,12 @@ Transform:
 --- !u!4 &6699811328597473364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400404, guid: 3df50834d6a877c4d8926fa93bb37629,
+    type: 3}
+  m_PrefabInstance: {fileID: 6699811328597861440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6699811328609464290 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700002, guid: 3df50834d6a877c4d8926fa93bb37629,
     type: 3}
   m_PrefabInstance: {fileID: 6699811328597861440}
   m_PrefabAsset: {fileID: 0}

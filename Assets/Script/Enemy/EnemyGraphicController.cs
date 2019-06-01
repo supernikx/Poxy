@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class EnemyGraphicController : MonoBehaviour, IGraphic
 {
+    [Header("Graphics Settings")]
     [SerializeField]
     private GameObject graphicModel;
+    [SerializeField]
+    private Renderer modelMesh;
+    [SerializeField]
+    private Material defaultMaterial;
+    [SerializeField]
+    private Material parasiteMaterial;
     [SerializeField]
     private GameObject aimObject;
 
@@ -69,5 +76,25 @@ public class EnemyGraphicController : MonoBehaviour, IGraphic
     public GameObject GetAimObject()
     {
         return aimObject;
+    }
+
+    /// <summary>
+    /// Funzione che cambia la texture del modello
+    /// </summary>
+    /// <param name="_type"></param>
+    public void ChangeTexture(TextureType _type)
+    {
+        if (modelMesh == null)
+            return;
+
+        switch (_type)
+        {
+            case TextureType.Default:
+                modelMesh.material = defaultMaterial;
+                break;
+            case TextureType.Parasite:
+                modelMesh.material = parasiteMaterial;
+                break;
+        }
     }
 }

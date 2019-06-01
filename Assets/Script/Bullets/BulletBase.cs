@@ -112,6 +112,17 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
     }
 
     /// <summary>
+    /// Funzione che richiama l'evento di Destroy del proiettile senza chiamare altri behaviour
+    /// </summary>
+    protected virtual void ObjectForceDestroy()
+    {
+        bulletCollider.enabled = false;
+
+        if (OnObjectDestroy != null)
+            OnObjectDestroy(this);
+    }
+
+    /// <summary>
     /// Funzione che gestisce il behaviour del proiettile
     /// </summary>
     protected abstract void Move();

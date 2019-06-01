@@ -19,6 +19,7 @@ namespace StateMachine.EnemySM
             uiManager.GetGamePanel().EnableToleranceBar(true);
             context.enemy.SetCanStun(false);
             context.enemy.SetCanTakeDamage(false);
+            context.enemy.GetGraphics().ChangeTexture(TextureType.Parasite);
             context.player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
             if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
@@ -93,6 +94,7 @@ namespace StateMachine.EnemySM
 
             uiManager.GetGamePanel().EnableToleranceBar(false);
 
+            context.enemy.GetGraphics().ChangeTexture(TextureType.Default);
             context.enemy.SetCanStun(true);
             context.enemy.SetCanTakeDamage(true);
 

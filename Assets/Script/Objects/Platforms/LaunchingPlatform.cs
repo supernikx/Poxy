@@ -23,10 +23,6 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     [Header("Graphics Settings")]
     [SerializeField]
-    private Material defaultMaterial;
-    [SerializeField]
-    private Material infectedMaterial;
-    [SerializeField]
     private EnemyCommandsSpriteController idleCommandsCtrl;
     [SerializeField]
     private EnemyCommandsSpriteController parasiteCommandCtrl;
@@ -72,7 +68,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
             parasiteCommandCtrl.Init();
 
         SetObjectState(true);
-        meshRenderer.material = defaultMaterial;
+        graphics.ChangeTexture(TextureType.Default);
         Parasite += HandleParasite;
         LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
 
@@ -134,7 +130,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
         toleranceCtrl.Setup();
         player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
 
-        meshRenderer.material = infectedMaterial;
+        graphics.ChangeTexture(TextureType.Parasite);
 
         rotationBehaviour.enabled = false;
         launchDirection = transform.right;
@@ -191,7 +187,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
         parasiteCommandCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         idleCommandsCtrl.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
-        meshRenderer.material = defaultMaterial;
+        graphics.ChangeTexture(TextureType.Default);
         SetObjectState(true);
 
         parasiteCommandCtrl.ToggleButton(false);
