@@ -74,7 +74,12 @@ public class dreamloLeaderBoard : MonoBehaviour
 
     public void AddScore(string playerName, float _time, Action<bool> _scoreAddedCallback = null)
     {
-        if (TooManyRequests()) return;
+        if (TooManyRequests())
+        {
+            if (_scoreAddedCallback != null)
+                _scoreAddedCallback(false);
+            return;
+        }
         StartCoroutine(CheckForAddScoreCoroutine(playerName, _time, _scoreAddedCallback));
     }
 
@@ -128,7 +133,7 @@ public class dreamloLeaderBoard : MonoBehaviour
         }
     }
 
-    IEnumerator GetScores()
+    IEnumerator GetScores(Action<bool> _loadScoreCallback = null)
     {
         highScores = "";
         string url = dreamloWebserviceURL + publicCode + "/pipe";
@@ -143,10 +148,14 @@ public class dreamloLeaderBoard : MonoBehaviour
             if (webRequest.isNetworkError)
             {
                 Debug.Log(pages[page] + ": Error: " + webRequest.error);
+                if (_loadScoreCallback != null)
+                    _loadScoreCallback(false);
             }
             else
             {
                 highScores = webRequest.downloadHandler.text;
+                if (_loadScoreCallback != null)
+                    _loadScoreCallback(true);
             }
         }
     }
@@ -191,10 +200,15 @@ public class dreamloLeaderBoard : MonoBehaviour
         }
     }
 
-    public void LoadScores()
+    public void LoadScores(Action<bool> _loadScoreCallback = null)
     {
-        if (TooManyRequests()) return;
-        StartCoroutine(GetScores());
+        if (TooManyRequests())
+        {
+            if (_loadScoreCallback != null)
+                _loadScoreCallback(false);
+            return;
+        }
+        StartCoroutine(GetScores(_loadScoreCallback));
     }
 
     public string[] ToStringArray()

@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
     /// Funzione che ritorna la leaderboard
     /// </summary>
     /// <returns></returns>
-    public dreamloLeaderBoard GerLeaderboard()
+    public dreamloLeaderBoard GetLeaderboard()
     {
         return leaderBoard;
     }

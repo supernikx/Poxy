@@ -9,6 +9,10 @@ public class UI_MenuManager : UI_ManagerBase
     [SerializeField]
     private UIMenu_MainMenu mainMenuPanel;
     [SerializeField]
+    private UIMenu_Options optionsPanel;
+    [SerializeField]
+    private UIMenu_Leaderboard leaderboardPanel;
+    [SerializeField]
     private UIMenu_LevelSelection levelSelctionPanel;
     [SerializeField]
     private UIMenu_LoadingPanel loadingPanel;
@@ -22,16 +26,6 @@ public class UI_MenuManager : UI_ManagerBase
     public override UI_MenuManager GetMenuManager()
     {
         return this;
-    }
-
-    public UIMenu_MainMenu GetMainMenuPanel()
-    {
-        return mainMenuPanel;
-    }
-
-    public UIMenu_LoadingPanel GetLoadingPanel()
-    {
-        return loadingPanel;
     }
     #endregion
 
@@ -59,12 +53,17 @@ public class UI_MenuManager : UI_ManagerBase
             case MenuType.MainMenu:
                 mainMenuPanel.Enable();
                 break;
+            case MenuType.Options:
+                optionsPanel.Enable();
+                break;
+            case MenuType.Leaderboard:
+                leaderboardPanel.Enable();
+                break;
             case MenuType.LevelSelection:
                 levelSelctionPanel.Enable();
                 break;
             case MenuType.Loading:
                 loadingPanel.Enable();
-                break;
                 break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");
@@ -87,6 +86,15 @@ public class UI_MenuManager : UI_ManagerBase
                 StopFixEventSystemCoroutine();
                 break;
             case MenuType.MainMenu:
+                eventSystem.firstSelectedGameObject = mainMenuPanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Options:
+                eventSystem.firstSelectedGameObject = optionsPanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Leaderboard:
+                eventSystem.firstSelectedGameObject = leaderboardPanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.LevelSelection:

@@ -7,18 +7,6 @@ namespace UI
 {
     public class UIMenu_MainMenu : UIMenu_Base
     {
-        [SerializeField]
-        Button startButton;
-
-        /// <summary>
-        /// Funzione che inizializza il controller
-        /// </summary>
-        /// <param name="_uiManager"></param>
-        public override void Setup(UI_ManagerBase _uiManager)
-        {
-            base.Setup(_uiManager);
-        }
-
         #region ButtonHandler
         /// <summary>
         /// Funzione che fa startare il game
@@ -26,6 +14,22 @@ namespace UI
         public void StartButton()
         {
             GameManager.SelectLevel();
+        }
+
+        /// <summary>
+        /// Funzione che apre il menù delle opzioni
+        /// </summary>
+        public void OptionsButton()
+        {
+            uiManager.ToggleMenu(MenuType.Options);
+        }
+
+        /// <summary>
+        /// Funzione che apre il menù delle opzioni
+        /// </summary>
+        public void LeaderboardButton()
+        {
+            uiManager.ToggleMenu(MenuType.Leaderboard);
         }
 
         /// <summary>

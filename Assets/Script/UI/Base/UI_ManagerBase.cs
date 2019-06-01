@@ -75,6 +75,7 @@ public abstract class UI_ManagerBase : MonoBehaviour
             case InputType.Joystick:
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                storedSelected = null;
                 if (eventSystemFix == null)
                 {
                     eventSystemFix = FixEventSystemCoroutine();
@@ -163,6 +164,8 @@ public enum MenuType
 {
     None,
     MainMenu,
+    Options,
+    Leaderboard,
     LevelSelection,
     Loading,
     Countdown,
