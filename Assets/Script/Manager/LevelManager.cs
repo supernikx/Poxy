@@ -61,6 +61,10 @@ public class LevelManager : MonoBehaviour
     /// Reference al tutorial manager
     /// </summary>
     private TutorialManager tutorialMng;
+    /// <summary>
+    /// Reference al token manager
+    /// </summary>
+    private TokenManager tokenMng;
 
     #region API
     /// <summary>
@@ -116,6 +120,10 @@ public class LevelManager : MonoBehaviour
         doorsMng = GetComponent<DoorsButtonsManager>();
         if (doorsMng != null)
             doorsMng.Init();
+
+        tokenMng = GetComponent<TokenManager>();
+        if (tokenMng != null)
+            tokenMng.Init();
 
 
         //Setup

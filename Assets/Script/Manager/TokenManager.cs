@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,6 +8,8 @@ public class TokenManager : MonoBehaviour
     #region Delegates
     public delegate void FinishTokenEvent();
     public FinishTokenEvent FinishToken;
+
+    public static Action<int> OnTokenTaken;
     #endregion
 
     [Header("Token Container")]
@@ -40,6 +43,10 @@ public class TokenManager : MonoBehaviour
     private void HandleGetToken(BaseToken _token)
     {
         tokenCounter++;
+
+        if (OnTokenTaken != null)
+            OnTokenTaken(tokenCounter);
+
         if (tokenCounter == tokens.Count)
         {
             if (FinishToken != null)

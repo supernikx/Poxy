@@ -54,6 +54,15 @@ namespace UI
         [SerializeField]
         private Color timerHoldColor;
 
+        [Header("Token Panel")]
+        [SerializeField]
+        private GameObject tokenPanel;
+        [SerializeField]
+        private TextMeshProUGUI tokenText;
+        [SerializeField]
+        private float secondsOnScreen;
+        private bool tokenPanelActive = false;
+
         private ObjectTypes activeBullet;
 
         public override void Setup(UI_ManagerBase _uiManager)
@@ -73,9 +82,11 @@ namespace UI
             EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
             SpeedrunManager.OnTimerUpdate += HandleOnTimerUpdate;
             SpeedrunManager.OnTimerHold += HandleOnTimerHold;
+            TokenManager.OnTokenTaken += HandleOnTokenTaken;
 
             timerText.color = timerDefaultColor;
             ToggleSpeedrunPanel(SpeedrunManager.GetIsActive());
+            ToggleTokenPanel(false);
         }
 
         #region Character
@@ -198,6 +209,40 @@ namespace UI
         }
         #endregion
 
+        #region Token
+        private void HandleOnTokenTaken(int _val)
+        {
+            tokenText.SetText("Tokens: {0}", _val);
+
+            if (!tokenPanelActive)
+            {
+                StartCoroutine(CTokenPanelActive());
+                ToggleTokenPanel(true);
+            }
+            else
+                tokenPanelTimer = 0;
+        }
+
+        float tokenPanelTimer = 0;
+        private IEnumerator CTokenPanelActive()
+        {
+            while (tokenPanelTimer <= secondsOnScreen)
+            {
+                tokenPanelTimer += Time.deltaTime;
+                yield return null;
+            }
+
+            tokenPanelTimer = 0;
+            ToggleTokenPanel(false);
+        }
+
+        private void ToggleTokenPanel(bool _val)
+        {
+            tokenPanelActive = _val;
+            tokenPanel.SetActive(_val);
+        }
+        #endregion
+
         private void OnDisable()
         {
             PlayerHealthController.OnHealthChange -= HandleOnHealthChange;
@@ -205,6 +250,7 @@ namespace UI
             EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
             SpeedrunManager.OnTimerUpdate -= HandleOnTimerUpdate;
             SpeedrunManager.OnTimerHold -= HandleOnTimerHold;
+            TokenManager.OnTokenTaken -= HandleOnTokenTaken;
         }
     }
 }
