@@ -24,6 +24,8 @@ public class Piston : PlatformBase, IActivable
     [SerializeField]
     private Transform waypoint;
     [SerializeField]
+    private Transform waypointStart;
+    [SerializeField]
     private Transform bottomLeft;
     [SerializeField]
     private Transform bottomRight;
@@ -154,38 +156,33 @@ public class Piston : PlatformBase, IActivable
     #region Activable
     public void Setup()
     {
-        currentState = PistonState.Forward;
+        if (!activeFromStart)
+            currentState = PistonState.Forward;
+        else
+            currentState = PistonState.Backward;
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
 
         if (direction == PistonDirection.Vertical)
         {
-            initialPosition = transform.position.y;
+            initialPosition = waypointStart.position.y;
             targetPosition = waypoint.position.y;
         }
         else if (direction == PistonDirection.Horizontal)
         {
-            initialPosition = transform.position.x;
+            initialPosition = waypointStart.position.x;
             targetPosition = waypoint.position.x;
         }
         else if (direction == PistonDirection.Platform)
         {
-            initialPosition = transform.position.z;
+            initialPosition = waypointStart.position.z;
             targetPosition = waypoint.position.z;
-        }
-
-        if (!activeFromStart)
-        {
-            graphics.SetActive(false);
-            colliderToCheck.enabled = false;
         }
     }
 
     public void Activate()
     {
         activeFromStart = true;
-        graphics.SetActive(true);
-        colliderToCheck.enabled = true;
     }
     #endregion
 
