@@ -105,9 +105,13 @@ public class LevelManager : MonoBehaviour
         if (poopCtrl != null)
             poopCtrl.Init();
 
+        tokenMng = GetComponent<TokenManager>();
+        if (tokenMng != null)
+            tokenMng.Init();
+
         player = FindObjectOfType<Player>();
         if (player != null)
-            player.Init(enemyMng, platformMng);
+            player.Init(enemyMng, platformMng, tokenMng);
 
         tutorialMng = GetComponent<TutorialManager>();
         if (tutorialMng != null)
@@ -120,11 +124,6 @@ public class LevelManager : MonoBehaviour
         doorsMng = GetComponent<DoorsButtonsManager>();
         if (doorsMng != null)
             doorsMng.Init();
-
-        tokenMng = GetComponent<TokenManager>();
-        if (tokenMng != null)
-            tokenMng.Init();
-
 
         //Setup
         enemyMng.EnemiesSetup();

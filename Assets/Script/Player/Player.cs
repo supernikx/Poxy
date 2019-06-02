@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che inizializza lo script
     /// </summary>
-    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng)
+    public void Init(EnemyManager _enemyMng, PlatformManager _platformMng, TokenManager _tokenMng)
     {
         //Prendo le referenze ai component e li inizializzo
         collisionCtrl = GetComponent<PlayerCollisionController>();
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
 
         livesCtrl = GetComponent<PlayerLivesController>();
         if (livesCtrl != null)
-            livesCtrl.Init();
+            livesCtrl.Init(_tokenMng);
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)

@@ -6,15 +6,19 @@ using System.Collections.Generic;
 public class TokenManager : MonoBehaviour
 {
     #region Delegates
-    public delegate void FinishTokenEvent();
-    public FinishTokenEvent FinishToken;
-
+    public Action FinishToken;
+    public Action<int> OnGainLife;
     public static Action<int> OnTokenTaken;
     #endregion
 
-    [Header("Token Container")]
+    [Header("Token Mng Options")]
     [SerializeField]
     private Transform tokenContainer;
+    [SerializeField]
+    private int tokenForGainLife;
+    [SerializeField]
+    private int livesGain;
+
 
     private List<BaseToken> tokens = new List<BaseToken>();
 
@@ -46,6 +50,9 @@ public class TokenManager : MonoBehaviour
 
         if (OnTokenTaken != null)
             OnTokenTaken(tokenCounter);
+
+        if (tokenCounter % tokenForGainLife == 0 && OnGainLife != null)
+            OnGainLife(livesGain);
 
         if (tokenCounter == tokens.Count)
         {
