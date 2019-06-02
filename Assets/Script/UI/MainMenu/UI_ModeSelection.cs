@@ -34,6 +34,11 @@ public class UI_ModeSelection : MonoBehaviour
         uI_SelectLevelButton.LevelModePressed(_select);
     }
 
+    public GameObject GetDefaultButton()
+    {
+        return defaultButton;
+    }
+
     public void FocusOnPanel()
     {
         if (InputChecker.GetCurrentInputType() == InputType.Joystick)

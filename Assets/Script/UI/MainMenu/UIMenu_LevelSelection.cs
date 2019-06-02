@@ -28,6 +28,7 @@ namespace UI
 
             levelSelected = null;
             selectingMode = false;
+            EnableAllButtons(true);
 
             SetupLevelsButtons();
         }
@@ -43,6 +44,7 @@ namespace UI
             }
             else
             {
+                EnableAllButtons(false);
                 selectingMode = true;
                 levelSelected.SelectModePanel(true);
             }
@@ -53,6 +55,7 @@ namespace UI
             levelSelected.SelectModePanel(false);
             levelSelected = null;
             selectingMode = false;
+            EnableAllButtons(true);
         }
 
         private void HandleModeSelected(bool _speedRun)
@@ -64,14 +67,28 @@ namespace UI
             }
         }
 
+        public void EnableAllButtons(bool _enable)
+        {
+            foreach (UI_SelectLevelButton lvlButton in levelsButtons)
+            {
+                lvlButton.EnableButton(_enable);
+            }
+        }
+
         public GameObject GetButtonToSelect()
         {
-            return defaultSelection;
+            if (selectingMode && levelSelected != null)
+                return levelSelected.GetModeSelectionPanel().GetDefaultButton();
+            else
+                return defaultSelection;
         }
 
         public void BackButton()
         {
-            uiManager.ToggleMenu(MenuType.MainMenu);
+            if (selectingMode)
+                HandleLevelDeSelected();
+            else
+                uiManager.ToggleMenu(MenuType.MainMenu);
         }
 
         public override void Disable()

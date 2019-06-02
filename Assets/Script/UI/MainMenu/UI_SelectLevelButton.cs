@@ -16,10 +16,12 @@ public class UI_SelectLevelButton : MonoBehaviour
     [SerializeField]
     private UI_ModeSelection selectModePanel;
 
+    Button button;
     UIMenu_LevelSelection menuLevelSelection;
 
     public void Init(UIMenu_LevelSelection _menuLevelSelection)
     {
+        button = GetComponent<Button>();
         menuLevelSelection = _menuLevelSelection;
         levelNameText.text = level.LevelName;
         selectModePanel.Init(this);
@@ -45,6 +47,11 @@ public class UI_SelectLevelButton : MonoBehaviour
             menuLevelSelection.OnModeButtonPressed(_speedRun);
     }
 
+    public void EnableButton(bool _enable)
+    {
+        button.interactable = _enable;
+    }
+
     public LevelScriptable GetLevelScriptable()
     {
         return level;
@@ -53,6 +60,11 @@ public class UI_SelectLevelButton : MonoBehaviour
     public void SelectModePanel(bool _enable)
     {
         selectModePanel.EnablePanel(_enable);
+    }
+
+    public UI_ModeSelection GetModeSelectionPanel()
+    {
+        return selectModePanel;
     }
 
     public void FocusOnPanel()
