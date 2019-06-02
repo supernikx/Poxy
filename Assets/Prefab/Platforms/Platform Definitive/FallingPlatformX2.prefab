@@ -79,14 +79,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canRespawn: 1
   respawnTime: 2
-  fallTime: 1
-  shakeTime: 0
+  fallTime: 0.4
+  shakeTime: 0.4
   triggerOption: 0
   graphic: {fileID: 4332612314510613983}
   verticalRayCount: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 4608
+  minbrightness: 0.5
+  maxbrightness: 2
 --- !u!65 &4332612313914168764
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,6 +214,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4127730671657692820}
     m_Modifications:
+    - target: {fileID: 100000, guid: df1f530c859c6fe4891733404e90c1d8, type: 3}
+      propertyPath: m_Name
+      value: Platform_falling_x2
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: df1f530c859c6fe4891733404e90c1d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.084
@@ -255,10 +261,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: df1f530c859c6fe4891733404e90c1d8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: df1f530c859c6fe4891733404e90c1d8, type: 3}
-      propertyPath: m_Name
-      value: Platform_falling_x2
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: df1f530c859c6fe4891733404e90c1d8, type: 3}
       propertyPath: m_Materials.Array.data[0]

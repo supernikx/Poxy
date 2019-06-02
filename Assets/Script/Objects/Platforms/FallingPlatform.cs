@@ -41,12 +41,16 @@ public class FallingPlatform : PlatformBase
     /// </summary>
     private RaycastStartPoints raycastStartPoints;
 
-    private Collider collider;
+    [Header("Graphic Settings")]
+    [SerializeField]
+    private float minbrightness;
+    [SerializeField]
+    private float maxbrightness;
 
+    private new Renderer renderer;
+    private new Collider collider;
     private FallingTrigger fallingTrigger;
-
     private Vector3 startingPosition;
-
     private Coroutine respawnCoroutine = null;
 
     private bool isActive;
@@ -72,6 +76,7 @@ public class FallingPlatform : PlatformBase
     #region API
     public override void Init()
     {
+        renderer = GetComponentInChildren<Renderer>();
         collider = GetComponent<Collider>();
         previousContactState = false;
         currentContactState = true;
@@ -161,11 +166,48 @@ public class FallingPlatform : PlatformBase
         Vector3 shakeStrenght = Vector3.zero;
         shakeStrenght.x = 0.6f;
         yield return new WaitForSeconds(fallTime - shakeTime);
+        IEnumerator emissionRoutine = ChangeEmission();
+        StartCoroutine(emissionRoutine);
         yield return graphic.transform.DOShakePosition(shakeTime, shakeStrenght, 150).WaitForCompletion();
+        StopCoroutine(emissionRoutine);
+        renderer.material.SetColor("_EmissiveColor", new Color(maxbrightness, maxbrightness, maxbrightness, 1f));
         collider.enabled = false;
-        yield return transform.DOMoveY(transform.position.y - 5f, 0.5f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return transform.DOMoveY(transform.position.y - 5f, 0.4f).SetEase(Ease.Linear).WaitForCompletion();
         graphic.SetActive(false);
         respawnCoroutine = StartCoroutine(CRespawn());
+    }
+
+    /// <summary>
+    /// Coroutine infinita che aumenta/diminuisce l'emissiva del materiale
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ChangeEmission()
+    {
+        bool lampincreasbrightness = true;
+        float actualbrightness = minbrightness;
+        while (true)
+        {
+            if (lampincreasbrightness)
+            {
+                while (actualbrightness < maxbrightness)
+                {
+                    renderer.material.SetColor("_EmissiveColor", new Color(actualbrightness, actualbrightness, actualbrightness, 1f));
+                    actualbrightness += 0.1f;
+                    yield return new WaitForSecondsRealtime(0.01f);
+                }
+                lampincreasbrightness = false;
+            }
+            else
+            {
+                while (actualbrightness > minbrightness)
+                {
+                    renderer.material.SetColor("_EmissiveColor", new Color(actualbrightness, actualbrightness, actualbrightness, 1f));
+                    actualbrightness -= 0.1f;
+                    yield return new WaitForSecondsRealtime(0.01f);
+                }
+                lampincreasbrightness = true;
+            }
+        }
     }
     #endregion
 

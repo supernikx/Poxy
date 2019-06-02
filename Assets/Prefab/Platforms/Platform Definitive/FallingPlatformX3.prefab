@@ -56,6 +56,8 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 4608
+  minbrightness: 0.5
+  maxbrightness: 2
 --- !u!65 &3133625627273304474
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,6 +214,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3320557255590734338}
     m_Modifications:
+    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
+      propertyPath: m_Name
+      value: Platform_falling_x3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.14500004
@@ -255,10 +261,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
-      propertyPath: m_Name
-      value: Platform_falling_x3
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -900,6 +900,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphicModel: {fileID: 1439813716250678}
+  modelMesh: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  parasiteMaterial: {fileID: 0}
   aimObject: {fileID: 7731085973724817567}
 --- !u!114 &1194157934070539226
 MonoBehaviour:
@@ -3601,7 +3604,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856903077613586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.88, y: -0.05499977, z: 0}
+  m_LocalPosition: {x: 2.25, y: -0.05499977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4084001388929980}
@@ -4040,7 +4043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882091a343f815344b3a664e8650110f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamingMovementSpeed: 3
+  roamingMovementSpeed: 2
   alertMovementSpeed: 3
   wayPoint: {fileID: 1856903077613586}
   enemyStartLife: 16
@@ -4150,8 +4153,8 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 590848
-  HorizontalRayCount: 10
-  VerticalRayCount: 10
+  HorizontalRayCount: 5
+  VerticalRayCount: 5
   maxClimbAngle: 70
   maxDecendingAngle: 70
 --- !u!136 &136332090315803374

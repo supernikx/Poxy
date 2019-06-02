@@ -471,16 +471,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3342191871025799342, guid: 12a713ddd2644a54ab0f432f333ba650,
-        type: 3}
-      propertyPath: fallTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3342191871025799342, guid: 12a713ddd2644a54ab0f432f333ba650,
-        type: 3}
-      propertyPath: shakeTime
-      value: 0.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12a713ddd2644a54ab0f432f333ba650, type: 3}
 --- !u!4 &35165105 stripped
@@ -500,6 +490,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
@@ -574,6 +569,10 @@ PrefabInstance:
     - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_Name
       value: Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1144,6 +1143,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: -30.83066
@@ -1555,6 +1558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.846659
@@ -1631,6 +1638,10 @@ PrefabInstance:
     - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_Name
       value: Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1857,6 +1868,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
@@ -3186,6 +3202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.97666
@@ -3293,6 +3313,10 @@ PrefabInstance:
     - target: {fileID: 1961723527231292, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
       propertyPath: m_Name
       value: Gluer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961723527231292, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4524415756016280, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3415,6 +3439,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
+      propertyPath: m_Name
+      value: LaunchingPlatform
+      objectReference: {fileID: 0}
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.89
@@ -3458,10 +3486,6 @@ PrefabInstance:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
-      propertyPath: m_Name
-      value: LaunchingPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 7383472467433049940, guid: 809bc0e2658ba0e409207cf024f1f6b8,
         type: 3}
@@ -3605,16 +3629,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3074539946952279732, guid: 7c8e534facf20df448c63c6b8afc4f15,
-        type: 3}
-      propertyPath: fallTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3074539946952279732, guid: 7c8e534facf20df448c63c6b8afc4f15,
-        type: 3}
-      propertyPath: shakeTime
-      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c8e534facf20df448c63c6b8afc4f15, type: 3}
@@ -3828,7 +3842,7 @@ PrefabInstance:
     - target: {fileID: 3133625627273304478, guid: a07be0155681ddb4794d3d84cdd288cf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.42
+      value: 28.64
       objectReference: {fileID: 0}
     - target: {fileID: 3133625627273304478, guid: a07be0155681ddb4794d3d84cdd288cf,
         type: 3}
@@ -3879,16 +3893,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3133625627273304472, guid: a07be0155681ddb4794d3d84cdd288cf,
-        type: 3}
-      propertyPath: fallTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3133625627273304472, guid: a07be0155681ddb4794d3d84cdd288cf,
-        type: 3}
-      propertyPath: shakeTime
-      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a07be0155681ddb4794d3d84cdd288cf, type: 3}
@@ -4188,6 +4192,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gluer
       objectReference: {fileID: 0}
+    - target: {fileID: 1961723527231292, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4524415756016280, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5766587
@@ -4251,6 +4259,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Piston
+      objectReference: {fileID: 0}
     - target: {fileID: 6036209644734516795, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4305,11 +4318,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Piston
       objectReference: {fileID: 0}
     - target: {fileID: 6418380648571190238, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
@@ -4453,6 +4461,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gluer
       objectReference: {fileID: 0}
+    - target: {fileID: 1961723527231292, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4524415756016280, guid: 7b393d1657065c54cbbecb4f26fea105, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.2833414
@@ -4572,6 +4584,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: 64.733345
@@ -4616,19 +4632,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4008191905364286, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006567803924618, guid: b39ff44bc9735a242ab60854ea482227,
+    - target: {fileID: 114682932104554664, guid: b39ff44bc9735a242ab60854ea482227,
         type: 3}
-      propertyPath: roamingMovementSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114006567803924618, guid: b39ff44bc9735a242ab60854ea482227,
-        type: 3}
-      propertyPath: alertMovementSpeed
-      value: 3
+      propertyPath: viewRadius
+      value: 4.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
@@ -5028,6 +5035,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
+      propertyPath: m_Name
+      value: LaunchingPlatform
+      objectReference: {fileID: 0}
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.81
@@ -5071,10 +5082,6 @@ PrefabInstance:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
-      propertyPath: m_Name
-      value: LaunchingPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 7383472467433049940, guid: 809bc0e2658ba0e409207cf024f1f6b8,
         type: 3}
@@ -6169,6 +6176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: 57.28334
@@ -6242,6 +6253,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Piston
+      objectReference: {fileID: 0}
     - target: {fileID: 6036209644734516795, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6296,11 +6312,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Piston
       objectReference: {fileID: 0}
     - target: {fileID: 6418380648571190238, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
@@ -6381,6 +6392,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
@@ -6686,16 +6702,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4332612313914168766, guid: 67aa9b2c9fe104642873ec2acc8f39bd,
-        type: 3}
-      propertyPath: fallTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4332612313914168766, guid: 67aa9b2c9fe104642873ec2acc8f39bd,
-        type: 3}
-      propertyPath: shakeTime
-      value: 0.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67aa9b2c9fe104642873ec2acc8f39bd, type: 3}
 --- !u!4 &1463809119 stripped
@@ -6715,6 +6721,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
@@ -6847,6 +6858,10 @@ PrefabInstance:
     - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_Name
       value: Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7055,6 +7070,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7128,6 +7148,10 @@ PrefabInstance:
     - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_Name
       value: Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7261,16 +7285,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4332612313914168766, guid: 67aa9b2c9fe104642873ec2acc8f39bd,
-        type: 3}
-      propertyPath: fallTime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4332612313914168766, guid: 67aa9b2c9fe104642873ec2acc8f39bd,
-        type: 3}
-      propertyPath: shakeTime
-      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67aa9b2c9fe104642873ec2acc8f39bd, type: 3}
@@ -8290,6 +8304,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 775752482659747707, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 775752482659747706, guid: 1e14191a590f62f4cb6ef5ad7baab5ef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8516,6 +8535,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Piston
+      objectReference: {fileID: 0}
     - target: {fileID: 6036209644734516795, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8570,11 +8594,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036209644734516792, guid: 572f8ad1eafbb92449013185c16625d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Piston
       objectReference: {fileID: 0}
     - target: {fileID: 6418380648571190238, guid: 572f8ad1eafbb92449013185c16625d9,
         type: 3}
@@ -8940,6 +8959,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walker
       objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
       value: 33.10334
@@ -9080,6 +9103,10 @@ PrefabInstance:
     - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_Name
       value: Walker
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938858400792474, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4084001388929980, guid: b39ff44bc9735a242ab60854ea482227, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9670,6 +9697,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924693355}
     m_Modifications:
+    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
+      propertyPath: m_Name
+      value: LaunchingPlatform
+      objectReference: {fileID: 0}
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.49
@@ -9713,10 +9744,6 @@ PrefabInstance:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
-      propertyPath: m_Name
-      value: LaunchingPlatform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
