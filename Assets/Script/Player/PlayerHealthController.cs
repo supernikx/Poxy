@@ -102,37 +102,11 @@ public class PlayerHealthController : MonoBehaviour
     /// Funzione che diminuisce la vita del valore passato come parametro
     /// </summary>
     /// <param name="_health"></param>
-    public void DamageHit(float _health, float _time = 0)
+    public void DamageHit(float _health)
     {
-        if (_time == 0)
-        {
-            health = Mathf.Clamp(health - _health, minHealth, maxHealth);
-            if (health == minHealth)
-                player.StartDeathCoroutine();
-        }
-        else
-        {
-            StartCoroutine(DamageHitOverTime(_health, _time));
-        }
-    }
-    /// <summary>
-    /// Coroutine che fa perdere vita overtime al player
-    /// </summary>
-    /// <param name="_health"></param>
-    /// <param name="_time"></param>
-    /// <returns></returns>
-    private IEnumerator DamageHitOverTime(float _health, float _time)
-    {
-        float tickDuration = 0.5f;
-        float damgeEachTick = tickDuration * _health / _time;
-        int ticks = Mathf.RoundToInt(_time / tickDuration);
-        int tickCounter = 0;
-        while (tickCounter < ticks)
-        {
-            health = Mathf.Clamp(health - damgeEachTick, minHealth, maxHealth);
-            tickCounter++;
-            yield return new WaitForSeconds(tickDuration);
-        }
+        health = Mathf.Clamp(health - _health, minHealth, maxHealth);
+        if (health == minHealth)
+            player.StartDeathCoroutine();
     }
 
     /// <summary>

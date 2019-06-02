@@ -12,8 +12,6 @@ public class StickyBullet : BulletBase
     private ObjectTypes stickyObjectType;
     [SerializeField]
     private int percentageLife;
-    [SerializeField]
-    private int timeInSeconds;
 
     protected override void Move()
     {
@@ -45,7 +43,7 @@ public class StickyBullet : BulletBase
             if (player != null)
             {
                 float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
-                player.GetHealthController().DamageHit(damage, timeInSeconds);
+                player.GetHealthController().DamageHit(damage);
             }
             else
             {
@@ -54,7 +52,7 @@ public class StickyBullet : BulletBase
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
                     float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
-                    enemyHit.GetToleranceCtrl().AddTolerance(damage, timeInSeconds);
+                    enemyHit.GetToleranceCtrl().AddTolerance(damage);
                 }
             }
 

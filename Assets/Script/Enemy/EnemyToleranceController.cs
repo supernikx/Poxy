@@ -78,35 +78,9 @@ public class EnemyToleranceController : MonoBehaviour
     /// <summary>
     /// Funzione che aumenta la tolleranza del valore passato come parametro
     /// </summary>
-    public void AddTolerance(float _damage, float _time = 0)
+    public void AddTolerance(float _damage)
     {
-        if (_time == 0)
-        {
-            tolerance = Mathf.Clamp(tolerance + _damage, minTolerance, maxTolerance);
-        }
-        else
-        {
-            StartCoroutine(AddToleranceOverTimeCoroutine(_damage, _time));
-        }
-    }
-    /// <summary>
-    /// Coroutine che fa aumentare la tollercane dle nemcio overtime
-    /// </summary>
-    /// <param name="_damage"></param>
-    /// <param name="_time"></param>
-    /// <returns></returns>
-    private IEnumerator AddToleranceOverTimeCoroutine(float _damage, float _time)
-    {
-        float tickDuration = 0.5f;
-        float damgeEachTick = tickDuration * _damage / _time;
-        int ticks = Mathf.RoundToInt(_time / tickDuration);
-        int tickCounter = 0;
-        while (tickCounter < ticks)
-        {
-            tolerance = Mathf.Clamp(tolerance + damgeEachTick, minTolerance, maxTolerance);
-            tickCounter++;
-            yield return new WaitForSeconds(tickDuration);
-        }
+        tolerance = Mathf.Clamp(tolerance + _damage, minTolerance, maxTolerance);
     }
 
     /// <summary>
