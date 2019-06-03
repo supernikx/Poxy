@@ -44,8 +44,10 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             base.Setup(_uiManager);
-            if (GameManager.instance != null)
-                optionsMng = GameManager.instance.GetOptionsManager();
+            if (!GameManager.Exist())
+                return;
+
+            optionsMng = GameManager.instance.GetOptionsManager();
 
             if (resolutionDropdown != null)
                 LoadResolutions(optionsMng.GetResolutions());
@@ -57,7 +59,8 @@ namespace UI
         public override void Enable()
         {
             base.Enable();
-            LoadOptionsSettings();
+            if (optionsMng != null)
+                LoadOptionsSettings();
         }
 
         /// <summary>
@@ -151,6 +154,9 @@ namespace UI
         /// <param name="_resolutionIndex"></param>
         public void SetResolution(int _resolutionIndex)
         {
+            if (optionsMng == null)
+                return;
+
             currentResolutionIndex = _resolutionIndex;
             optionsMng.SetResolution(_resolutionIndex);
         }
@@ -161,6 +167,9 @@ namespace UI
         /// <param name="_qualityIndex"></param>
         public void SetQuality(int _qualityIndex)
         {
+            if (optionsMng == null)
+                return;
+
             currentQualityIndex = _qualityIndex;
             optionsMng.SetQuality(_qualityIndex);
         }
@@ -171,6 +180,9 @@ namespace UI
         /// <param name="fullscreen"></param>
         public void SetFullScreen(bool _fullscreen)
         {
+            if (optionsMng == null)
+                return;
+
             fullScreen = _fullscreen;
             optionsMng.SetFullScreen(fullScreen);
         }
@@ -181,6 +193,9 @@ namespace UI
         /// <param name="_volume"></param>
         public void SetMusicVolume(float _volume)
         {
+            if (optionsMng == null)
+                return;
+
             musicVolume = _volume;
             optionsMng.SetMusicVolume(_volume);
         }

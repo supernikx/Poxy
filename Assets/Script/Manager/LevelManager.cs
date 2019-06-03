@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        if (GameManager.instance != null)
+        if (GameManager.Exist())
             GameManager.RestartCurrentLevel();
     }
 
@@ -159,7 +159,7 @@ public class LevelManager : MonoBehaviour
     public void BackToMenu()
     {
         Time.timeScale = 1f;
-        if (GameManager.instance != null)
+        if (GameManager.Exist())
             GameManager.BackToMenu();
     }
 

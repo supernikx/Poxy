@@ -108,6 +108,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che ritorna se il gamemanage esiste o no
+    /// </summary>
+    public static bool Exist()
+    {
+        return instance != null;
+    }
+
+    /// <summary>
     /// Funzione che inizia la partita
     /// </summary>
     public static void StartGame()
