@@ -18,6 +18,7 @@ public class TutorialManager : MonoBehaviour
     #region API
     public void Init(EnemyManager _enemyMng, Player _player)
     {
+        InputChecker.OnInputChanged += HandleInputChanged;
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
         TutorialTrigger.OnTutorialBehaviourTriggered += HandleTutorialBehaviourTriggered;
         TutorialTrigger.OnTutorialTriggerEnter += HandleTutorialTriggerEnter;
@@ -32,11 +33,12 @@ public class TutorialManager : MonoBehaviour
 
         tutorialText.gameObject.SetActive(false);
     }
-
     #endregion
 
     private void TriggersSetup()
     {
+        tutorialTriggered = null;
+
         foreach (TutorialTrigger trigger in triggers)
         {
             trigger.Init();
@@ -63,16 +65,19 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    TutorialTrigger tutorialTriggered;
     private void HandleTutorialTriggerEnter(TutorialTrigger _triggerTriggered)
     {
+        tutorialTriggered = _triggerTriggered;
         enemyMng.SetCanAddTollerance(false);
         player.GetHealthController().SetCanLoseHealth(false);
-        tutorialText.text = _triggerTriggered.GetTextToShow();
+        tutorialText.text = tutorialTriggered.GetTextToShow(InputChecker.GetCurrentInputType());
         tutorialText.gameObject.SetActive(true);
     }
 
     private void HandleTutorialTriggerExit(TutorialTrigger _triggerExit)
     {
+        tutorialTriggered = null;
         tutorialText.gameObject.SetActive(false);
         player.GetHealthController().SetCanLoseHealth(true);
         enemyMng.SetCanAddTollerance(true);
@@ -85,10 +90,27 @@ public class TutorialManager : MonoBehaviour
 
         tutorialText.gameObject.SetActive(false);
     }
+
+    private void HandleInputChanged(InputType _newInput)
+    {
+        if (tutorialTriggered != null)
+        {
+            switch (_newInput)
+            {
+                case InputType.Joystick:
+                    tutorialText.text = tutorialTriggered.GetTextToShow(_newInput);
+                    break;
+                case InputType.Keyboard:
+                    tutorialText.text = tutorialTriggered.GetTextToShow(_newInput);
+                    break;
+            }
+        }
+    }
     #endregion
 
     private void OnDisable()
     {
+        InputChecker.OnInputChanged -= HandleInputChanged;
         LevelManager.OnPlayerDeath -= HandlePlayerDeath;
         TutorialTrigger.OnTutorialBehaviourTriggered -= HandleTutorialBehaviourTriggered;
         TutorialTrigger.OnTutorialTriggerEnter -= HandleTutorialTriggerEnter;

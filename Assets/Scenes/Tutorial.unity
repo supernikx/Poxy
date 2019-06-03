@@ -468,6 +468,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1543509334}
     m_Modifications:
+    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
+      propertyPath: m_Name
+      value: LaunchingPlatform
+      objectReference: {fileID: 0}
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.7
@@ -511,10 +515,6 @@ PrefabInstance:
     - target: {fileID: 4165893756254710, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1229200106385224, guid: 809bc0e2658ba0e409207cf024f1f6b8, type: 3}
-      propertyPath: m_Name
-      value: LaunchingPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 7337448839234341791, guid: 809bc0e2658ba0e409207cf024f1f6b8,
         type: 3}
@@ -813,6 +813,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 774eed4368173c840be6500847d0974f,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: You can immediately Eject out of an enemy for an extra Jump! use it to
+        reach Higher grounds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: You can immediately Eject out of an enemy for an extra Jump! use it to
+        reach Higher grounds
+      objectReference: {fileID: 0}
     - target: {fileID: 3773888075472182833, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_Size.x
@@ -1300,6 +1312,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c44c0ed99dd45434bb8df9883c3cd2df,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: You can Enter these platform to shoot yourself In any direction you need,
+        use it wisely
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: You can Enter these platform to shoot yourself In any direction you need,
+        use it wisely
+      objectReference: {fileID: 0}
     - target: {fileID: 2684622704939213634, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1414,6 +1438,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 69ad744a8f2e0d64abfaadbf2040fd1e,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: While into the Enemies their Tolerance will decrease causing you to be
+        ejected in no time! Take this time to use the Different ability of your Enemy!
+        Press RT to Continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: While into the Enemies their Tolerance will decrease causing you to be
+        ejected in no time! Take this time to use the Different ability of your Enemy!
+        Press LMB to Continue
+      objectReference: {fileID: 0}
     - target: {fileID: 3773888075472182833, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_Size.y
@@ -1548,6 +1586,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e9f557c4173d9734395df71bbe4e7017,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: "Poxy cannot stand alone in this \u201CWorld\u201D, his life will decrease!
+        To save yourself shoot the enemies and Transfer into them By pressing X; Press
+        RT to Continue"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: "Poxy cannot stand alone in this \u201CWorld\u201D, his life will decrease!
+        To save yourself shoot the enemies and Transfer into them By pressing Q; Press
+        LMB to Continue"
+      objectReference: {fileID: 0}
     - target: {fileID: 3773888075472182833, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_Size.y
@@ -1924,6 +1976,7 @@ Transform:
   - {fileID: 5952980442437473174}
   - {fileID: 211685597}
   - {fileID: 111966498}
+  - {fileID: 2106781990}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2079,6 +2132,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2c3b5c54d8f373446a7b4489e011cd08,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: "If you die you\u2019ll respawn to the Nearest Checkpoint"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: "If you die you\u2019ll respawn to the Nearest Checkpoint"
+      objectReference: {fileID: 0}
     - target: {fileID: 3773888075472182833, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_Size.x
@@ -2610,6 +2673,91 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089911494}
   m_Mesh: {fileID: 4300002, guid: 19e903a659a17ee4c8a2f4e069cdafb0, type: 3}
+--- !u!1001 &2106781989
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1753327496}
+    m_Modifications:
+    - target: {fileID: 7596061033969464128, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_Name
+      value: piattaforma_chiusuraLivello
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.328
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -27.769
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2079875
+      objectReference: {fileID: 0}
+    - target: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3340218
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fe316db6523633f40a47bc72496aa790, type: 3}
+--- !u!4 &2106781990 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 702825026065835502, guid: fe316db6523633f40a47bc72496aa790,
+    type: 3}
+  m_PrefabInstance: {fileID: 2106781989}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2111215075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2865,10 +3013,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1882927496, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3301653874559335071, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2974,14 +3118,23 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7962699542141505553, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
+    - target: {fileID: 5711312742582907865, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
         type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7962699542141505553, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1882927497, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 5.025879
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882927496, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1882927498, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
       propertyPath: m_havePropertiesChanged
@@ -3000,6 +3153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -2.1000977
+      objectReference: {fileID: 0}
+    - target: {fileID: 7857954816652090422, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.999756
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4983c53eeadaa9e4299f8ee89d6cd3c0, type: 3}
@@ -3092,6 +3250,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d04709244c8a1cd44b76c9e81b6bc71e,
         type: 3}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: joystickTextToShow
+      value: Press A to Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773888075472182832, guid: 53aa1de68f581f049aaca6f3b0fe745a,
+        type: 3}
+      propertyPath: keyboardTextToShow
+      value: Press SPACE to Jump
+      objectReference: {fileID: 0}
     - target: {fileID: 3773888075472182833, guid: 53aa1de68f581f049aaca6f3b0fe745a,
         type: 3}
       propertyPath: m_Size.y

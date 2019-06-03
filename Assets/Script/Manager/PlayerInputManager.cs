@@ -37,12 +37,12 @@ public class PlayerInputManager : MonoBehaviour
             instance = this;
             player = GetComponent<Player>();
             canReadGameplayInput = true;
+            canReadInpit = true;
         }
     }
 
     private void Update()
     {
-
         if (!canReadInpit)
             return;
 

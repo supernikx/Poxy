@@ -20,7 +20,9 @@ public class TutorialTrigger : MonoBehaviour
     [SerializeField]
     private TriggerBehaviours triggerBehaviours;
     [SerializeField]
-    private string textToShow;
+    private string joystickTextToShow;
+    [SerializeField]
+    private string keyboardTextToShow;
     [SerializeField]
     private Sprite artToShow;
 
@@ -38,9 +40,16 @@ public class TutorialTrigger : MonoBehaviour
     }
 
     #region Getter
-    public string GetTextToShow()
+    public string GetTextToShow(InputType _type)
     {
-        return textToShow;
+        switch (_type)
+        {
+            case InputType.Joystick:
+                return joystickTextToShow;
+            case InputType.Keyboard:
+                return keyboardTextToShow;
+        }
+        return null;
     }
 
     public TriggerBehaviours GetBehvaiourToTrigger()
