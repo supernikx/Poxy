@@ -13,6 +13,8 @@ public class UI_GameplayManager : UI_ManagerBase
     [SerializeField]
     private UIMenu_PausePanel pausePanel;
     [SerializeField]
+    private UIMenu_Options optionsPanel;
+    [SerializeField]
     private UI_MenuEndGamePanel endGamePanel;
     [SerializeField]
     private UIMenu_CountdownPanel countdownPanel;
@@ -120,6 +122,9 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.Pause:
                 pausePanel.Enable();                
                 break;
+            case MenuType.Options:
+                optionsPanel.Enable();
+                break;
             case MenuType.EndGame:
                 endGamePanel.Enable();
                 break;
@@ -156,6 +161,11 @@ public class UI_GameplayManager : UI_ManagerBase
                 StopFixEventSystemCoroutine();
                 break;
             case MenuType.Pause:
+                eventSystem.firstSelectedGameObject = pausePanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Options:
+                eventSystem.firstSelectedGameObject = optionsPanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.EndGame:

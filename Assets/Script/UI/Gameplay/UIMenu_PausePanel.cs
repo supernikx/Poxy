@@ -18,14 +18,14 @@ namespace UI
             LevelManager.instance.RestartGame();
         }
 
+        public void Options()
+        {
+            uiManager.ToggleMenu(MenuType.Options);
+        }
+
         public void MenuButton()
         {
             LevelManager.instance.BackToMenu();
-        }
-
-        public void QuitButton()
-        {
-            LevelManager.instance.QuitGame();
         }
     }
 }

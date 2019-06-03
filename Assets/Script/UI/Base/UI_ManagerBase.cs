@@ -160,6 +160,7 @@ public abstract class UI_ManagerBase : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public enum MenuType
 {
     None,

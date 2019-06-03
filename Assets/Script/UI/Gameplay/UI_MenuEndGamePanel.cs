@@ -11,7 +11,6 @@ namespace UI
         {
             base.Enable();
             PlayerInputManager.OnConfirmPressed += HandleOnConfirmPressed;
-            Time.timeScale = 0f;
         }
 
         private void HandleOnConfirmPressed()
@@ -22,7 +21,6 @@ namespace UI
         public override void Disable()
         {
             PlayerInputManager.OnConfirmPressed -= HandleOnConfirmPressed;
-            Time.timeScale = 1f;
             base.Disable();
         }
     }
