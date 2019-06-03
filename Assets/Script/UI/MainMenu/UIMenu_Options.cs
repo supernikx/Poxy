@@ -44,7 +44,8 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             base.Setup(_uiManager);
-            optionsMng = GameManager.instance.GetOptionsManager();
+            if (GameManager.instance != null)
+                optionsMng = GameManager.instance.GetOptionsManager();
 
             if (resolutionDropdown != null)
                 LoadResolutions(optionsMng.GetResolutions());
@@ -233,7 +234,8 @@ namespace UI
         public override void Disable()
         {
             base.Disable();
-            optionsMng.SaveSettings();
+            if (optionsMng != null)
+                optionsMng.SaveSettings();
         }
     }
 }
