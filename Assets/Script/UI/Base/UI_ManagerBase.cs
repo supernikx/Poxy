@@ -167,6 +167,7 @@ public enum MenuType
     MainMenu,
     Options,
     Leaderboard,
+    Credits,
     LevelSelection,
     Loading,
     Countdown,

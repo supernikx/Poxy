@@ -33,6 +33,14 @@ namespace UI
         }
 
         /// <summary>
+        /// Funzione che apre il menù dei crediti
+        /// </summary>
+        public void CreditsButton()
+        {
+            uiManager.ToggleMenu(MenuType.Credits);
+        }
+
+        /// <summary>
         /// Funzione che chiude l'applicazione
         /// </summary>
         public void QuitGame()

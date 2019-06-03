@@ -13,6 +13,8 @@ public class UI_MenuManager : UI_ManagerBase
     [SerializeField]
     private UIMenu_Leaderboard leaderboardPanel;
     [SerializeField]
+    private UIMenu_CreditsPanel creditsPanel;
+    [SerializeField]
     private UIMenu_LevelSelection levelSelctionPanel;
     [SerializeField]
     private UIMenu_LoadingPanel loadingPanel;
@@ -59,6 +61,9 @@ public class UI_MenuManager : UI_ManagerBase
             case MenuType.Leaderboard:
                 leaderboardPanel.Enable();
                 break;
+            case MenuType.Credits:
+                creditsPanel.Enable();
+                break;
             case MenuType.LevelSelection:
                 levelSelctionPanel.Enable();
                 break;
@@ -95,6 +100,10 @@ public class UI_MenuManager : UI_ManagerBase
                 break;
             case MenuType.Leaderboard:
                 eventSystem.firstSelectedGameObject = leaderboardPanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Credits:
+                eventSystem.firstSelectedGameObject = creditsPanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.LevelSelection:
