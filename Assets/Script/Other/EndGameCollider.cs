@@ -8,6 +8,8 @@ public class EndGameCollider : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
+            Time.timeScale = 0f;
+            PlayerInputManager.SetCanReadInput(false);
             LevelManager.instance.GetUIGameplayManager().ToggleMenu(MenuType.EndGame);
         }
     }

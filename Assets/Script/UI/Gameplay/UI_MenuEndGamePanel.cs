@@ -7,21 +7,10 @@ namespace UI
 {
     public class UI_MenuEndGamePanel : UIMenu_Base
     {
-        public override void Enable()
+        public void BackMenuButton()
         {
-            base.Enable();
-            PlayerInputManager.OnConfirmPressed += HandleOnConfirmPressed;
-        }
-
-        private void HandleOnConfirmPressed()
-        {
+            Time.timeScale = 1f;
             LevelManager.instance.BackToMenu();
-        }
-
-        public override void Disable()
-        {
-            PlayerInputManager.OnConfirmPressed -= HandleOnConfirmPressed;
-            base.Disable();
         }
     }
 }

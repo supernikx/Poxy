@@ -28,6 +28,7 @@ public class PlayerInputManager : MonoBehaviour
     private bool isShooting;
     private bool canPressParasite = true;
     private bool canReadGameplayInput = true;
+    private bool canReadInpit = true;
 
     private void Awake()
     {
@@ -41,6 +42,10 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (!canReadInpit)
+            return;
+
         currentInputType = InputChecker.GetCurrentInputType();
         switch (currentInputType)
         {
@@ -261,6 +266,15 @@ public class PlayerInputManager : MonoBehaviour
     public static void SetCanReadGameplayInput(bool _switch)
     {
         instance.canReadGameplayInput = _switch;
+    }
+
+    /// <summary>
+    /// Funzione che imposta la variabile canReadInput con il valore passato come parametro
+    /// </summary>
+    /// <param name="_switch"></param>
+    public static void SetCanReadInput(bool _switch)
+    {
+        instance.canReadInpit = _switch;
     }
 
     /// <summary>

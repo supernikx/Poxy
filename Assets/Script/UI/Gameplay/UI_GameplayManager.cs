@@ -169,8 +169,8 @@ public class UI_GameplayManager : UI_ManagerBase
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.EndGame:
-                eventSystem.SetSelectedGameObject(null);
-                StopFixEventSystemCoroutine();
+                eventSystem.firstSelectedGameObject = endGamePanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
                 break;
         }
     }
