@@ -3,10 +3,6 @@ using System.Collections;
 
 public class StandardCheckpoint : CheckpointBase
 {
-    [Header("Standard Checkpoint Settings")]
-    [SerializeField]
-    private float range;
-
     CheckpointAnimationController animMng;
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +16,6 @@ public class StandardCheckpoint : CheckpointBase
     #region API
     public override void Init()
     {
-        GetComponent<SphereCollider>().radius = range;
         animMng = GetComponentInChildren<CheckpointAnimationController>();
         animMng.Init();
     }
@@ -30,9 +25,4 @@ public class StandardCheckpoint : CheckpointBase
         return animMng;
     }
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, range);
-    }
 }
