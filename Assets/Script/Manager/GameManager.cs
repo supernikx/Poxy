@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     LevelsManager lvlsManager;
     /// <summary>
+    /// Riferimento all'options manager
+    /// </summary>
+    OptionsManager optionsMng;
+    /// <summary>
     /// RIferimento alla leaderboard
     /// </summary>
     dreamloLeaderBoard leaderBoard;
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
         //Get Components
         gameSM = GetComponent<GameSMController>();
         lvlsManager = GetComponent<LevelsManager>();
+        optionsMng = GetComponent<OptionsManager>();
         leaderBoard = GetComponentInChildren<dreamloLeaderBoard>();
 
         // Singleton
@@ -47,6 +52,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         leaderBoard.Setup();
+        optionsMng.Init();
         gameSM.Init(this);
     }
 
@@ -81,6 +87,15 @@ public class GameManager : MonoBehaviour
     public LevelsManager GetLevelsManager()
     {
         return lvlsManager;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna l'options manager
+    /// </summary>
+    /// <returns></returns>
+    public OptionsManager GetOptionsManager()
+    {
+        return optionsMng;
     }
 
     /// <summary>
