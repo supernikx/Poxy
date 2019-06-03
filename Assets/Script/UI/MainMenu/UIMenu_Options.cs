@@ -22,6 +22,10 @@ namespace UI
         [SerializeField]
         private Toggle fullScreenToggle;
 
+        [Header("User Settings")]
+        [SerializeField]
+        private TMP_InputField nameInputField;
+
         OptionsManager optionsMng;
         //Resolution
         List<string> resolutionOptions = new List<string>();
@@ -34,6 +38,8 @@ namespace UI
         float sfxVolume;
         //Fullscreen
         bool fullScreen;
+        //Username
+        string userName;
 
         public override void Setup(UI_ManagerBase _uiManager)
         {
@@ -91,6 +97,13 @@ namespace UI
             {
                 sfxVolume = optionsMng.GetSFXVolume();
                 sfxSlider.value = sfxVolume;
+            }
+
+            //User
+            if (nameInputField != null)
+            {
+                userName = optionsMng.GetUserName();
+                nameInputField.text = userName;
             }
         }
 
@@ -179,6 +192,16 @@ namespace UI
         {
             sfxVolume = _volume;
             optionsMng.SetSFXVolume(_volume);
+        }
+
+        /// <summary>
+        /// Funzione che imposta l'username
+        /// </summary>
+        /// <param name="_userName"></param>
+        public void SetUserName(string _userName)
+        {
+            userName = _userName;
+            optionsMng.SetUserName(_userName);
         }
 
         /// <summary>

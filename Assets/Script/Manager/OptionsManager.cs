@@ -20,6 +20,7 @@ public class OptionsManager : MonoBehaviour
     int currentResolutionIndex;
     int currentQualityIndex;
     bool fullScreen;
+    string userName;
 
     public void Init()
     {
@@ -39,6 +40,7 @@ public class OptionsManager : MonoBehaviour
             PlayerPrefs.SetInt("FullScreen", 1);
         else
             PlayerPrefs.SetInt("FullScreen", 0);
+        PlayerPrefs.SetString("UserName", userName);
     }
 
     #region Getter
@@ -104,6 +106,15 @@ public class OptionsManager : MonoBehaviour
     {
         return sfxVolume;
     }
+
+    /// <summary>
+    /// Funzione che ritorna l'username
+    /// </summary>
+    /// <returns></returns>
+    public string GetUserName()
+    {
+        return userName;
+    }
     #endregion
 
     #region Setter
@@ -166,6 +177,16 @@ public class OptionsManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che imposta l'username
+    /// </summary>
+    /// <param name="_userName"></param>
+    public void SetUserName(string _userName)
+    {
+        userName = _userName;
+        PlayerPrefs.SetString("UserName", userName);
+    }
+
+    /// <summary>
     /// Funzione che reimposta i settings ai valori di default
     /// </summary>
     public void SetDefaultValues()
@@ -202,6 +223,13 @@ public class OptionsManager : MonoBehaviour
         Screen.SetResolution(resolutions[currentResolutionIndex].width, resolutions[currentResolutionIndex].height, Screen.fullScreen);
         currentQualityIndex = PlayerPrefs.GetInt("Quality", 2);
         QualitySettings.SetQualityLevel(currentQualityIndex);
+
+        userName = PlayerPrefs.GetString("UserName", "");
+        if (userName == "")
+        {
+            userName = "Guest" + Random.Range(0, int.MaxValue);
+            PlayerPrefs.SetString("UserName", userName);
+        }
     }
 }
 
