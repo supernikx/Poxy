@@ -8,11 +8,51 @@ ModelImporter:
     100004: Lingua_lp
     100006: OcchioDX_lp
     100008: OcchioSX_lp
+    100010: Boss_Merda_lp
+    100012: Eye_CTRL
+    100014: Eye_L
+    100016: Eye_R
+    100018: Eyebrow_Bottom_L
+    100020: Eyebrow_Bottom_R
+    100022: Eyebrow_Top_L
+    100024: Eyebrow_Top_R
+    100026: Head
+    100028: Jaw_Bottom
+    100030: Jaw_Top
+    100032: Root
+    100034: Root_CTRL
+    100036: Spine1
+    100038: Spine2
+    100040: Tongue1
+    100042: Tongue2
+    100044: Tongue3
+    100046: Tongue_IK
+    100048: Tongue_IK_CTRL
     400000: Body_lp
     400002: //RootNode
     400004: Lingua_lp
     400006: OcchioDX_lp
     400008: OcchioSX_lp
+    400010: Boss_Merda_lp
+    400012: Eye_CTRL
+    400014: Eye_L
+    400016: Eye_R
+    400018: Eyebrow_Bottom_L
+    400020: Eyebrow_Bottom_R
+    400022: Eyebrow_Top_L
+    400024: Eyebrow_Top_R
+    400026: Head
+    400028: Jaw_Bottom
+    400030: Jaw_Top
+    400032: Root
+    400034: Root_CTRL
+    400036: Spine1
+    400038: Spine2
+    400040: Tongue1
+    400042: Tongue2
+    400044: Tongue3
+    400046: Tongue_IK
+    400048: Tongue_IK_CTRL
     2100000: M_Boss_Merda_Fronte
     2100002: M_Boss_Merda_Retro
     2300000: Body_lp
@@ -27,6 +67,11 @@ ModelImporter:
     4300002: Lingua_lp
     4300004: OcchioDX_lp
     4300006: OcchioSX_lp
+    9500000: //RootNode
+    13700000: Body_lp
+    13700002: Lingua_lp
+    13700004: OcchioDX_lp
+    13700006: OcchioSX_lp
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -57,7 +102,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -89,8 +134,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -114,10 +159,10 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
