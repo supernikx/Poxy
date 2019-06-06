@@ -132,7 +132,8 @@ public class PlayerInputManager : MonoBehaviour
             }
 
             //Parasite
-            if (canPressParasite && joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed)
+            if (canPressParasite && (joystickPrevState.Buttons.X == ButtonState.Released && joystickState.Buttons.X == ButtonState.Pressed) ||
+                (joystickPrevState.Buttons.RightShoulder == ButtonState.Released && joystickState.Buttons.RightShoulder == ButtonState.Pressed))
             {
                 if (OnParasitePressed != null)
                     OnParasitePressed();

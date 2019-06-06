@@ -10,8 +10,6 @@ public class StickyBullet : BulletBase
     private ParticleSystem muzzleFlashParticle;
     [SerializeField]
     private ObjectTypes stickyObjectType;
-    [SerializeField]
-    private int percentageLife;
 
     protected override void Move()
     {
@@ -42,8 +40,7 @@ public class StickyBullet : BulletBase
             Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
-                player.GetHealthController().DamageHit(damage);
+                player.GetHealthController().DamageHit(GetBulletDamage());
             }
             else
             {
@@ -51,8 +48,7 @@ public class StickyBullet : BulletBase
                 if (enemyHit != null)
                 {
                     player = enemyHit.gameObject.GetComponentInParent<Player>();
-                    float damage = player.GetHealthController().GetHealth() * percentageLife / 100;
-                    enemyHit.GetToleranceCtrl().AddTolerance(damage);
+                    enemyHit.GetToleranceCtrl().AddTolerance(GetBulletDamage());
                 }
             }
 
