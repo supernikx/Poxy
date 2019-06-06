@@ -5,46 +5,39 @@ using System;
 
 public abstract class ButtonBase : MonoBehaviour, IButton
 {
-    /*
-    #region Events
-    public event EventHandler ActivateEvent;
-
-    object objectLock = new System.Object();
-
-    event EventHandler IButton.ActivateEvent
-    {
-        add
-        {
-            lock (objectLock)
-            {
-                ActivateEvent += value;
-            }
-        }
-        remove
-        {
-            lock (objectLock)
-            {
-                ActivateEvent -= value;
-            }
-        }
-    }
-
-    public void Activate()
-    {
-        ActivateEvent?.Invoke(this, EventArgs.Empty);
-    }
-    #endregion*/
-
     [Header("Button Options")]
     [SerializeField]
     protected ButtonTriggerType triggerType;
     [SerializeField]
     protected List<GameObject> targets = new List<GameObject>();
 
+    [Header("Graphic Settings")]
+    [SerializeField]
+    protected Material activeMaterial;
+    [SerializeField]
+    protected Material inactiveMaterial;
+
+    new protected Renderer renderer;
+    protected bool isActive;
+
     #region Abstract
-    public abstract void Init();
-    public abstract void Setup();
-    public abstract void Activate();
+    public virtual void Init()
+    {
+        renderer = GetComponentInChildren<Renderer>();
+    }
+    public virtual void Setup()
+    {
+        isActive = true;
+        renderer.material = activeMaterial;
+    }
+    public virtual void Activate()
+    {
+        if (!isActive)
+            return;
+
+        isActive = false;
+        renderer.material = inactiveMaterial;
+    }
     #endregion
 
     #region Getters

@@ -8,17 +8,18 @@ public class DoorButton : ButtonBase
     public override void Init()
     {
         //ActivateEvent += HandleActivate;
-
+        base.Init();
         Setup();
     }
 
     public override void Setup()
     {
-        
+        base.Setup();
     }
 
     public override void Activate()
     {
+        base.Activate();
         foreach (GameObject _current in targets)
         {
             IActivable _temp = _current.GetComponent<IActivable>();
@@ -26,14 +27,5 @@ public class DoorButton : ButtonBase
                 _temp.Activate();
         }
     }
-    #endregion
-
-    #region Handlers
-    /*
-    private void HandleActivate(object sender, EventArgs e)
-    {
-        Debug.Log("Activate");
-    }
-    */
     #endregion
 }
