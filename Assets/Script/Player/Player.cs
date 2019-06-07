@@ -256,20 +256,28 @@ public class Player : MonoBehaviour
         ChangeGraphics(playerGraphic);
         animCtrl.SetAnimatorController(null);
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
-        movementCtrl.Eject(parasiteCtrl.GetParasite());
 
+        movementCtrl.Eject(parasiteCtrl.GetParasite());
         parasiteCtrl.GetParasite().EndParasite();
+
+        if (playerSM.OnPlayerNormal != null)
+            playerSM.OnPlayerNormal();
+
+        if (collisionCtrl.GetCollisionInfo().HorizontalCollision())
+        {
+            Vector3 fixOffsetVector = PlayerInputManager.GetMovementVector();
+            transform.position -= (fixOffsetVector * 0.5f);
+        }
 
         #region Animazione (per ora fatta a caso)
         activeGraphic.GetModel().transform.DOScale(1, 0.5f);
         yield return null;
         #endregion
+
         shootCtrl.SetCanAim(true);
         shootCtrl.SetCanShoot(true);
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
-        if (playerSM.OnPlayerNormal != null)
-            playerSM.OnPlayerNormal();
     }
     #endregion
 
