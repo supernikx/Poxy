@@ -173,7 +173,7 @@ public class PlayerMovementController : MonoBehaviour
             return;
 
         //Controllo se è stato premuto il tasto di salto e se sono a terra
-        if (collisionCtrl.GetCollisionInfo().below || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
+        if (collisionCtrl.GetCollisionInfo().nearBelow || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
             movementVelocity.y = maxJumpVelocity;
     }
 

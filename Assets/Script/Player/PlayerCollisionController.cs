@@ -61,6 +61,12 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// Spazio tra un raycast verticale e l'altro
     /// </summary>
     private float verticalRaySpacing;
+    [SerializeField]
+    /// <summary>
+    /// Offset della lunghezza del raggio per poter saltare prima di toccare terra
+    /// </summary>
+    private float jumpCollisionOffset;
+
 
     /// <summary>
     /// Offset del bound del collider
@@ -328,7 +334,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             //Rileva la direzione in cui si sta andando
             float directionY = Mathf.Sign(_movementVelocity.y);
             //Determina la lunghezza del raycast
-            float rayLenght = Mathf.Abs(_movementVelocity.y) + collisionOffset;
+            float rayLenght = (Mathf.Abs(_movementVelocity.y) + collisionOffset) * jumpCollisionOffset;
 
             //Cicla tutti i punti da cui deve partire un raycast sull'asse verticale
             for (int i = 0; i < verticalRayCount; i++)
@@ -344,19 +350,25 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                 //Eseguo il raycast
                 if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
                 {
-                    //Se colpisco qualcosa sul layer di collisione azzero la velocity
-                    _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
-                    rayLenght = hit.distance;
+                    //Assegno la variabile near below
+                    collisions.nearBelow = directionY == -1;
 
-                    //Se sto scalando qualcosa
-                    if (collisions.climbingSlope)
+                    if (hit.distance < (rayLenght / jumpCollisionOffset))
                     {
-                        _movementVelocity.x = _movementVelocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(_movementVelocity.x);
-                    }
+                        //Se colpisco qualcosa sul layer di collisione azzero la velocity
+                        _movementVelocity.y = (hit.distance - collisionOffset) * directionY;
+                        rayLenght = hit.distance;
 
-                    //Assegno la direzione della collisione al CollisionInfo
-                    collisions.above = directionY == 1;
-                    collisions.below = directionY == -1;
+                        //Se sto scalando qualcosa
+                        if (collisions.climbingSlope)
+                        {
+                            _movementVelocity.x = _movementVelocity.y / Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Sign(_movementVelocity.x);
+                        }
+
+                        //Assegno la direzione della collisione al CollisionInfo
+                        collisions.above = directionY == 1;
+                        collisions.below = directionY == -1;
+                    }
                 }
 
                 //Controllo se colpisco un nemico
@@ -388,17 +400,20 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             if (collisions.climbingSlope)
             {
                 float directionX = Mathf.Sign(_movementVelocity.x);
-                rayLenght = Mathf.Abs(_movementVelocity.x) + collisionOffset;
+                rayLenght = (Mathf.Abs(_movementVelocity.x) + collisionOffset) * jumpCollisionOffset;
                 Vector3 rayOrigin = ((directionX == -1) ? raycastStartPoints.bottomLeft : raycastStartPoints.bottomRight) + Vector3.up * _movementVelocity.y;
                 Ray ray = new Ray(rayOrigin, Vector3.right * directionX);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, rayLenght, collisionLayer))
                 {
-                    float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-                    if (slopeAngle != collisions.slopeAngle)
+                    if (hit.distance < (rayLenght / jumpCollisionOffset))
                     {
-                        _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
-                        collisions.slopeAngle = slopeAngle;
+                        float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+                        if (slopeAngle != collisions.slopeAngle)
+                        {
+                            _movementVelocity.x = (hit.distance - collisionOffset) * directionX;
+                            collisions.slopeAngle = slopeAngle;
+                        }
                     }
                 }
             }
@@ -687,6 +702,7 @@ public struct CollisionInfo
 {
     public bool above;
     public bool below;
+    public bool nearBelow;
     public bool previewBelow;
     public bool left;
     public bool right;
@@ -706,6 +722,7 @@ public struct CollisionInfo
         above = false;
         previewBelow = below;
         below = false;
+        nearBelow = false;
         left = false;
         right = false;
         climbingSlope = false;
@@ -718,6 +735,7 @@ public struct CollisionInfo
     {
         above = false;
         previewBelow = below;
+        nearBelow = false;
         below = false;
         left = false;
         right = false;
