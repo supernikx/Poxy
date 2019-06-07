@@ -663,6 +663,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphicModel: {fileID: 589384846533605495}
+  modelMesh: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  parasiteMaterial: {fileID: 0}
   aimObject: {fileID: 775752481161727328}
 --- !u!1 &775752482659747707
 GameObject:
@@ -724,16 +727,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2224f38fc4fc9214fb0e89c5c8e2a2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStartLife: 12
+  enemyStartLife: 24
   enemyLife: 0
   shotPosition: {fileID: 775752481161727335}
   enemyShotSettings:
     bulletType: 4
-    damage: 6
-    range: 6
-    shotSpeed: 3.5
-    firingRate: 0.8
-  defaultRespawnTime: 2
+    damage: 10
+    range: 20
+    shotSpeed: 12
+    firingRate: 2
+  defaultRespawnTime: 5
   speedrunBonusTime: 5
   objectToRotate: {fileID: 2020152760274470227}
 --- !u!114 &775752482659747705

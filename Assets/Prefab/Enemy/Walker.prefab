@@ -4053,10 +4053,10 @@ MonoBehaviour:
     damage: 8
     range: 20
     shotSpeed: 8
-    firingRate: 1
+    firingRate: 2
   stunDuration: 2
   stunHit: 2
-  defaultRespawnTime: 10
+  defaultRespawnTime: 5
   speedrunBonusTime: 5
 --- !u!114 &114229394083401848
 MonoBehaviour:
@@ -4101,7 +4101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f6252e9ba07fd4d9834042dc3a1e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToFill: 25
+  timeToFill: 20
   maxTolerance: 25
   minTolerance: 0
 --- !u!114 &114621463053029716
@@ -4663,16 +4663,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
-    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_EnemyHit
-      objectReference: {fileID: 0}
-    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 5503750700905914653, guid: cba4293ae8c105f4b813cf8893aa8afb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4728,6 +4718,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_EnemyHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 5503750701883375372, guid: cba4293ae8c105f4b813cf8893aa8afb,
         type: 3}
       propertyPath: m_Layer
@@ -4754,16 +4754,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
-    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_EnemyDeath
-      objectReference: {fileID: 0}
-    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 7279364904598728364, guid: 8e1e40d53a3522d44ac6f51413e182b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4818,6 +4808,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_EnemyDeath
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7279364905701140761, guid: 8e1e40d53a3522d44ac6f51413e182b9,
         type: 3}
