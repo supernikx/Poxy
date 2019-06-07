@@ -134,4 +134,13 @@ public class SpeedrunManager : MonoBehaviour
         return isActive;
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        StartTimer -= HandleStartTimer;
+        StopTimer -= HandleStopTimer;
+        PauseTimer -= HandlePauseTimer;
+        ResumeTimer -= HandleResumeTimer;
+        StopForSeconds -= HandleStopForSeconds;
+    }
 }

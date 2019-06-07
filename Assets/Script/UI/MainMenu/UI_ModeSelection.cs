@@ -43,5 +43,7 @@ public class UI_ModeSelection : MonoBehaviour
     {
         if (InputChecker.GetCurrentInputType() == InputType.Joystick)
             EventSystem.current.SetSelectedGameObject(defaultButton);
+        else
+            EventSystem.current.SetSelectedGameObject(null);
     }
 }

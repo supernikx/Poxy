@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d314af7bde09c4bac740b764c26a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxbrightness: 1.5
+  minbrightness: 0
 --- !u!1001 &1527332119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,6 +191,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4627542155740726}
     m_Modifications:
+    - target: {fileID: 1967320339273410, guid: c5b8d8ce167268848914a20a91b29889, type: 3}
+      propertyPath: m_Name
+      value: Token_plane
+      objectReference: {fileID: 0}
     - target: {fileID: 4547218980268118, guid: c5b8d8ce167268848914a20a91b29889, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -232,10 +238,6 @@ PrefabInstance:
     - target: {fileID: 4547218980268118, guid: c5b8d8ce167268848914a20a91b29889, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1967320339273410, guid: c5b8d8ce167268848914a20a91b29889, type: 3}
-      propertyPath: m_Name
-      value: Token_plane
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5b8d8ce167268848914a20a91b29889, type: 3}

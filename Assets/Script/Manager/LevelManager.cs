@@ -272,6 +272,15 @@ public class LevelManager : MonoBehaviour
     {
         return player;
     }
+
+    /// <summary>
+    /// Funzione che ritorna lo speedrun manager
+    /// </summary>
+    /// <returns></returns>
+    public SpeedrunManager GetSpeedrunManager()
+    {
+        return speedMng;
+    }
     #endregion
 
     private void OnDisable()

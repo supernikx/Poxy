@@ -47,6 +47,11 @@ public class UI_SelectLevelButton : MonoBehaviour
             menuLevelSelection.OnModeButtonPressed(_speedRun);
     }
 
+    public UIMenu_LevelSelection GetLevelSelection()
+    {
+        return menuLevelSelection;
+    }
+
     public void EnableButton(bool _enable)
     {
         button.interactable = _enable;
@@ -71,5 +76,7 @@ public class UI_SelectLevelButton : MonoBehaviour
     {
         if (InputChecker.GetCurrentInputType() == InputType.Joystick)
             EventSystem.current.SetSelectedGameObject(gameObject);
+        else
+            EventSystem.current.SetSelectedGameObject(null);
     }
 }

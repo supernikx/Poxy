@@ -26,6 +26,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private EnemyCommandsSpriteController idleCommandsCtrl;
     [SerializeField]
     private EnemyCommandsSpriteController parasiteCommandCtrl;
+    [SerializeField]
+    private ParticleSystem ejectParticle;
 
     [Header("Camera Settings")]
     [SerializeField]
@@ -86,7 +88,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
         player = null;
-
+        ejectParticle.Play();
         if (tickCoroutine != null)
         {
             StopCoroutine(tickCoroutine);

@@ -9,6 +9,17 @@ public class EndGameCollider : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
             Time.timeScale = 0f;
+
+            if (GameManager.Exist())
+            {
+                if (GameManager.instance.GetLevelsManager().GetMode())
+                {
+                    OptionsManager optionsMng = GameManager.instance.GetOptionsManager();
+                    SpeedrunManager speedRunMng = LevelManager.instance.GetSpeedrunManager();
+                    dreamloLeaderBoard leaderBoardMng = GameManager.instance.GetLeaderboard();
+                    leaderBoardMng.AddScore(optionsMng.GetUserName(), speedRunMng.GetTimer());
+                }
+            }
             PlayerInputManager.SetCanReadInput(false);
             LevelManager.instance.GetUIGameplayManager().ToggleMenu(MenuType.EndGame);
         }

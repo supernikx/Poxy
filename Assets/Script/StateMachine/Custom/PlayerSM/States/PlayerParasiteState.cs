@@ -92,7 +92,7 @@ namespace StateMachine.PlayerSM
             {
                 case DamageableType.Spike:
                 case DamageableType.Acid:
-                    context.player.StartNormalCoroutine();
+                    context.player.StartDeathCoroutine();
                     break;
             }
 
