@@ -80,6 +80,7 @@ MonoBehaviour:
   canRespawn: 1
   respawnTime: 1.5
   fallTime: 0.4
+  fallSpeed: 12
   shakeTime: 0.4
   triggerOption: 0
   graphic: {fileID: 3342191871501134031}
@@ -214,6 +215,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3101285865407723798}
     m_Modifications:
+    - target: {fileID: 6019273768119569733, guid: 746ed17c903fd1a41a6907c765babd1d,
+        type: 3}
+      propertyPath: m_Name
+      value: Platform_falling_x1_NoAcid
+      objectReference: {fileID: 0}
     - target: {fileID: 6019273768120062309, guid: 746ed17c903fd1a41a6907c765babd1d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -268,11 +274,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 6019273768119569733, guid: 746ed17c903fd1a41a6907c765babd1d,
-        type: 3}
-      propertyPath: m_Name
-      value: Platform_falling_x1_NoAcid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 746ed17c903fd1a41a6907c765babd1d, type: 3}

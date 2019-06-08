@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4461783828975634}
   - component: {fileID: 114488650711400544}
   - component: {fileID: 4664784717580537945}
+  - component: {fileID: 7531078877800320244}
   m_Layer: 0
   m_Name: TestManager
   m_TagString: Untagged
@@ -44,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38272d2f0c026d42b50b58411804706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedrunMode: 0
 --- !u!114 &4664784717580537945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,3 +58,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d47ad0cd345d0c46b803f67ec6e4389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7531078877800320244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805117827200926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f1719dc0dca814c8a4a02d3537cf6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: cd1057ceaad438447b8e978ad766d34e, type: 2}
+  musicOutput: {fileID: 243600829524480418, guid: cd1057ceaad438447b8e978ad766d34e,
+    type: 2}
+  sfxOutput: {fileID: 243958512035951442, guid: cd1057ceaad438447b8e978ad766d34e,
+    type: 2}

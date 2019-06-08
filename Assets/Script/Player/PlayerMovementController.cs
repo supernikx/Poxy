@@ -9,6 +9,7 @@ public class PlayerMovementController : MonoBehaviour
     #region Delegates
     public delegate void MovementDelegate(Vector3 _movementVelocity, CollisionInfo _collisions);
     public static MovementDelegate OnMovement;
+    public static Action OnJump;
     #endregion
 
     [Header("Movement Settings")]
@@ -174,7 +175,11 @@ public class PlayerMovementController : MonoBehaviour
 
         //Controllo se è stato premuto il tasto di salto e se sono a terra
         if (collisionCtrl.GetCollisionInfo().nearBelow || collisionCtrl.GetCollisionInfo().HorizontalStickyCollision())
+        {
             movementVelocity.y = maxJumpVelocity;
+            if (OnJump != null)
+                OnJump();
+        }
     }
 
     /// <summary>
@@ -214,8 +219,8 @@ public class PlayerMovementController : MonoBehaviour
     public void Init(PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
-        collisionCtrl.OnStickyCollision += HandleOnStickyCollision;
-        collisionCtrl.OnPlayerLanding += HandleOnPlayerLanding;
+        PlayerCollisionController.OnStickyCollision += HandleOnStickyCollision;
+        PlayerCollisionController.OnPlayerLanding += HandleOnPlayerLanding;
 
         PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
@@ -308,8 +313,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnDisable()
     {
-        collisionCtrl.OnStickyCollision -= HandleOnStickyCollision;
-        collisionCtrl.OnPlayerLanding -= HandleOnPlayerLanding;
+        PlayerCollisionController.OnStickyCollision -= HandleOnStickyCollision;
+        PlayerCollisionController.OnPlayerLanding -= HandleOnPlayerLanding;
         PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease -= HanldeOnJumpReleased;
     }

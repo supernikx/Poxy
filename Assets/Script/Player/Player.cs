@@ -80,6 +80,10 @@ public class Player : MonoBehaviour
     /// Referenza al VFX controller
     /// </summary>
     private PlayerVFXController vfxCtrl;
+    /// <summary>
+    /// Reference al SFX controller
+    /// </summary>
+    private PlayerSoundController sfxCtrl;
 
     //DEBUG
     private void Update()
@@ -133,6 +137,13 @@ public class Player : MonoBehaviour
         vfxCtrl = GetComponentInChildren<PlayerVFXController>();
         if (vfxCtrl != null)
             vfxCtrl.Init(this);
+
+        sfxCtrl = GetComponentInChildren<PlayerSoundController>();
+        if (sfxCtrl != null)
+        {
+            sfxCtrl.Setup(this);
+            sfxCtrl.Init();
+        }
 
         //Setup cose locali
         playerGraphic = GetComponentInChildren<PlayerGraphicController>();

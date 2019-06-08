@@ -1,20 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class OptionsManager : MonoBehaviour
 {
-    [Header("Sound Settings")]
-    [SerializeField]
-    private AudioMixer audioMixer;
-
     [Header("Screen Settings")]
     [SerializeField]
     private List<Resolutions> resolutions = new List<Resolutions>();
     [SerializeField]
     private List<string> quality = new List<string>();
 
+    SoundManager soundMng;
     float musicVolume;
     float sfxVolume;
     int currentResolutionIndex;
@@ -22,8 +18,9 @@ public class OptionsManager : MonoBehaviour
     bool fullScreen;
     string userName;
 
-    public void Init()
+    public void Init(SoundManager _soundMng)
     {
+        soundMng = _soundMng;
         LoadSettings();
     }
 
@@ -161,7 +158,7 @@ public class OptionsManager : MonoBehaviour
     public void SetMusicVolume(float _volume)
     {
         musicVolume = _volume;
-        //audioMixer.SetFloat("musicvolume", musicVolume);
+        soundMng.SetMusicVolume(musicVolume);
         PlayerPrefs.SetFloat("musicvolume", musicVolume);
     }
 
@@ -172,7 +169,7 @@ public class OptionsManager : MonoBehaviour
     public void SetSFXVolume(float _volume)
     {
         sfxVolume = _volume;
-        //audioMixer.SetFloat("SFXVolume", effectsVolume);
+        soundMng.SetSFXVolume(sfxVolume);
         PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
     }
 
@@ -207,8 +204,8 @@ public class OptionsManager : MonoBehaviour
     {
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0);
-        //audioMixer.SetFloat("MusicVolume", musicVolume);
-        //audioMixer.SetFloat("SFXVolume", sfxVolume);
+        soundMng.SetMusicVolume(musicVolume);
+        soundMng.SetSFXVolume(sfxVolume);
         if (PlayerPrefs.GetInt("FullScreen", 1) == 1)
         {
             Screen.fullScreen = true;

@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerCollisionController : MonoBehaviour, ISticky
 {
     #region Delegates
-    public Action OnStickyCollision;
-    public Action OnPlayerLanding;
+    public static Action OnStickyCollision;
+    public static Action OnPlayerLanding;
     #endregion
 
     [Header("Collision Settings")]

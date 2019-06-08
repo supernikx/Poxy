@@ -7,8 +7,9 @@ using System;
 public class PlayerShotController : MonoBehaviour
 {
     #region Delegates
-    public delegate void ShotDelegate(Action _ShotcCallback);
+    public delegate void ShotDelegate(Action _ShotCallback);
     public static ShotDelegate OnShot;
+    public static Action<ObjectTypes> OnShotDone;
     public delegate void ShotBulletDelegate(ObjectTypes _bullet);
     public static ShotBulletDelegate OnEnemyBulletChanged;
     #endregion
@@ -170,6 +171,9 @@ public class PlayerShotController : MonoBehaviour
         {
             bullet.Shot(shotSettingsInUse.damage, shotSettingsInUse.shotSpeed, shotSettingsInUse.range, shotPointInUse.position, direction);
         }
+
+        if (OnShotDone != null)
+            OnShotDone(shotSettingsInUse.bulletType);
     }
     #endregion
 

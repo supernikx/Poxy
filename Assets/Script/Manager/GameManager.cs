@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     LevelsManager lvlsManager;
     /// <summary>
+    /// Riferimento al sound manager
+    /// </summary>
+    SoundManager soundManager;
+    /// <summary>
     /// Riferimento all'options manager
     /// </summary>
     OptionsManager optionsMng;
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour
         //Get Components
         gameSM = GetComponent<GameSMController>();
         lvlsManager = GetComponent<LevelsManager>();
+        soundManager = GetComponentInChildren<SoundManager>();
         optionsMng = GetComponent<OptionsManager>();
         leaderBoard = GetComponentInChildren<dreamloLeaderBoard>();
 
@@ -52,7 +57,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         leaderBoard.Setup();
-        optionsMng.Init();
+        soundManager.Init();
+        optionsMng.Init(soundManager);
         gameSM.Init(this);
     }
 
@@ -87,6 +93,15 @@ public class GameManager : MonoBehaviour
     public LevelsManager GetLevelsManager()
     {
         return lvlsManager;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il sound manager
+    /// </summary>
+    /// <returns></returns>
+    public SoundManager GetSoundManager()
+    {
+        return soundManager;
     }
 
     /// <summary>

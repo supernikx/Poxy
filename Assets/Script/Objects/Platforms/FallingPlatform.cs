@@ -14,6 +14,8 @@ public class FallingPlatform : PlatformBase
     [SerializeField]
     private float fallTime;
     [SerializeField]
+    private float fallSpeed;
+    [SerializeField]
     private float shakeTime;
     [SerializeField]
     private TriggerOption triggerOption;
@@ -172,7 +174,7 @@ public class FallingPlatform : PlatformBase
         StopCoroutine(emissionRoutine);
         renderer.material.SetColor("_EmissiveColor", new Color(maxbrightness, maxbrightness, maxbrightness, 1f));
         collider.enabled = false;
-        yield return transform.DOMoveY(transform.position.y - 5f, 0.4f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return transform.DOMoveY(transform.position.y - 5f, fallSpeed).SetSpeedBased().SetEase(Ease.Linear).WaitForCompletion();
         graphic.SetActive(false);
         respawnCoroutine = StartCoroutine(CRespawn());
     }

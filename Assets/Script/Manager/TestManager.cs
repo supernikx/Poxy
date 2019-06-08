@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class TestManager : MonoBehaviour
 {
+    public static TestManager instance;
     public bool speedrunMode = false;
 
     UI_ManagerBase ui;
+    SoundManager soundMng;
     LevelManager lvl;
 
     private void Start()
@@ -14,9 +16,12 @@ public class TestManager : MonoBehaviour
         ui = FindObjectOfType<UI_ManagerBase>();
         GameManager gm = FindObjectOfType<GameManager>();
         lvl = FindObjectOfType<LevelManager>();
+        soundMng = GetComponent<SoundManager>();
         if (gm == null && lvl != null)
         {
+            instance = this;
             ui.Setup(gm);
+            soundMng.Init();
             lvl.Init(ui, speedrunMode);
             if (speedrunMode)
             {
@@ -45,5 +50,10 @@ public class TestManager : MonoBehaviour
 
         if (SpeedrunManager.StartTimer != null)
             SpeedrunManager.StartTimer();
+    }
+
+    public SoundManager GetSoundManager()
+    {
+        return soundMng;
     }
 }
