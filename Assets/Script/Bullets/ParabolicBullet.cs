@@ -28,7 +28,7 @@ public class ParabolicBullet : BulletBase
 
     protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
@@ -41,7 +41,7 @@ public class ParabolicBullet : BulletBase
             }
         }
 
-        else if (ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        else if (ownerObject != null && ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
@@ -60,7 +60,7 @@ public class ParabolicBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        else if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)

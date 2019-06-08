@@ -20,6 +20,19 @@ public class EnemyCommandsSpriteController : MonoBehaviour
         buttonSprite.keyboardSprite.SetActive(false);
     }
 
+    public bool IsActive()
+    {
+        switch (InputChecker.GetCurrentInputType())
+        {
+            case InputType.Joystick:
+                return buttonSprite.joystickSprite.activeSelf;
+            case InputType.Keyboard:
+                return buttonSprite.keyboardSprite.activeSelf;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// FUnzione che attiva disattiva il parasite button
     /// </summary>

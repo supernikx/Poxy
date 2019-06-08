@@ -35,10 +35,12 @@ public class MovingPlatform : PlatformBase
         reachPoints.Add(Instantiate(new GameObject("StartPosition"), transform).transform);
         reachPointsPositions = reachPoints.Select(t => t.position).ToList();
 
-        SetTrail();
-        SetNextWaypoint();
+        distanceTraveled = 0;
         setupped = true;
         canMove = true;
+
+        SetTrail();
+        SetNextWaypoint();
     }
 
     public override void MoveBehaviour()
@@ -67,14 +69,24 @@ public class MovingPlatform : PlatformBase
     /// Funzione che calcola la direzione in cui deve andare la piattaforma
     /// </summary>
     Vector3 moveVelocity;
+    /// <summary>
+    /// Distanza percorsa
+    /// </summary>
+    float distanceTraveled;
+    /// <summary>
+    /// Distanza da percorre
+    /// </summary>
+    float distanceToTravel;
     private void CalculatePlatformMovement()
     {
-        if (Vector3.Distance(transform.position, nextReachPosition) > 0.2f)
+        if (distanceToTravel > distanceTraveled)
         {
             moveVelocity = direction * movingSpd * Time.deltaTime;
+            distanceTraveled += movingSpd * Time.deltaTime;
         }
         else
         {
+            distanceTraveled = 0;
             transform.position = nextReachPosition;
             StartCoroutine(WaitTime(waitTime));
             SetNextWaypoint();
@@ -102,6 +114,7 @@ public class MovingPlatform : PlatformBase
 
         nextReachPosition = reachPointsPositions[actualPosition];
         direction = (nextReachPosition - transform.position).normalized;
+        distanceToTravel = Vector3.Distance(transform.position, nextReachPosition);
     }
 
     /// <summary>

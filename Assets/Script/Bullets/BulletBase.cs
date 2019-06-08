@@ -206,6 +206,7 @@ public abstract class BulletBase : MonoBehaviour, IPoolObject, IBullet
             _collider.gameObject == ownerObject ||
             _collider.gameObject.layer == LayerMask.NameToLayer("Checkpoint") ||
             _collider.gameObject.layer == LayerMask.NameToLayer("EnemyLimitLayer") ||
+            _collider.gameObject.layer == LayerMask.NameToLayer("Env") ||
             _collider.gameObject.layer == LayerMask.NameToLayer("Camera") ||
             ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player") ||
             ownerObject.tag == "PlayerImmunity" && _collider.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")

@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 114746045794896908}
   - component: {fileID: 7337448839234341791}
   - component: {fileID: 917596180}
+  - component: {fileID: 2524102135494020012}
   m_Layer: 16
   m_Name: LaunchingPlatform
   m_TagString: Untagged
@@ -109,9 +110,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3979581104424254072}
+  - {fileID: 2683929919504270952}
   - {fileID: 3506487886671957247}
-  - {fileID: 2149116515472948816}
-  - {fileID: 367110995629734049}
   - {fileID: 5628900311144768859}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -213,6 +213,22 @@ MonoBehaviour:
   fixedPositionChildren:
   - {fileID: 153879944351204004}
   - {fileID: 7383472467433049940}
+--- !u!54 &2524102135494020012
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229200106385224}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 62
+  m_CollisionDetection: 0
 --- !u!1 &153879944351204004
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +239,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2149116515472948816}
   - component: {fileID: 144758780831478494}
-  m_Layer: 11
+  - component: {fileID: 833287547688346797}
+  m_Layer: 21
   m_Name: IdleCommandsSprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,8 +260,8 @@ Transform:
   m_Children:
   - {fileID: 1826587151390180449}
   - {fileID: 6953276126905668936}
-  m_Father: {fileID: 4165893756254710}
-  m_RootOrder: 2
+  m_Father: {fileID: 2683929919504270952}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &144758780831478494
 MonoBehaviour:
@@ -261,6 +278,65 @@ MonoBehaviour:
   buttonSprite:
     joystickSprite: {fileID: 1861087132848854967}
     keyboardSprite: {fileID: 8465908859723162882}
+--- !u!135 &833287547688346797
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153879944351204004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &350916065882107843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2683929919504270952}
+  - component: {fileID: 6914272068431045164}
+  m_Layer: 21
+  m_Name: CommandsSpriteCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2683929919504270952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350916065882107843}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2149116515472948816}
+  - {fileID: 367110995629734049}
+  m_Father: {fileID: 4165893756254710}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6914272068431045164
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350916065882107843}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &842418301843052888
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1826587151390180449}
   - component: {fileID: 2591228736834429736}
-  m_Layer: 11
+  m_Layer: 21
   m_Name: IdleJoystickButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 499993878817686329}
   - component: {fileID: 6100969693288318023}
-  m_Layer: 11
+  m_Layer: 21
   m_Name: ParasiteKeyboardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 888988823981481782}
   - component: {fileID: 5631192623109342259}
-  m_Layer: 11
+  m_Layer: 21
   m_Name: ParasiteJoystickButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +652,7 @@ Transform:
   m_Children:
   - {fileID: 582274312788951261}
   m_Father: {fileID: 4165893756254710}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7383472467433049940
 GameObject:
@@ -588,7 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 367110995629734049}
   - component: {fileID: 4279834365532482937}
-  m_Layer: 11
+  m_Layer: 21
   m_Name: ParasiteCommandsSprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -608,8 +684,8 @@ Transform:
   m_Children:
   - {fileID: 888988823981481782}
   - {fileID: 499993878817686329}
-  m_Father: {fileID: 4165893756254710}
-  m_RootOrder: 3
+  m_Father: {fileID: 2683929919504270952}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4279834365532482937
 MonoBehaviour:
@@ -636,7 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6953276126905668936}
   - component: {fileID: 3719556400451862034}
-  m_Layer: 11
+  m_Layer: 21
   m_Name: IdleKeyboardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,7 +790,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3506487886671957247}
-  m_Layer: 16
+  m_Layer: 21
   m_Name: ObjectToFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,7 +809,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4165893756254710}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5162938417401076152
 PrefabInstance:

@@ -8,12 +8,12 @@ public class DamageBullet : BulletBase
 
     protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             _collider.gameObject.GetComponent<IEnemy>().DamageHit(GetBulletDamage());
         }
 
-        if (ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (ownerObject != null && ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
@@ -25,7 +25,7 @@ public class DamageBullet : BulletBase
                 player.OnPlayerHit();
         }
 
-        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)

@@ -63,12 +63,6 @@ public class LaunchingPlatform : PlatformBase, IControllable
         if (toleranceCtrl != null)
             toleranceCtrl.Init();
 
-        if (idleCommandsCtrl != null)
-            idleCommandsCtrl.Init();
-
-        if (parasiteCommandCtrl != null)
-            parasiteCommandCtrl.Init();
-
         SetObjectState(true);
         graphics.ChangeTexture(TextureType.Default);
         Parasite += HandleParasite;
@@ -77,8 +71,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         idleCommandsCtrl.Init();
         parasiteCommandCtrl.Init();
+
+        idleCommandsCtrl.ToggleButton(false);
         parasiteCommandCtrl.ToggleButton(false);
-        idleCommandsCtrl.ToggleButton(true);
         
         prevRotation = 90;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
@@ -193,7 +188,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
         SetObjectState(true);
 
         parasiteCommandCtrl.ToggleButton(false);
-        idleCommandsCtrl.ToggleButton(true);
+        idleCommandsCtrl.ToggleButton(false);
 
         rotationBehaviour.enabled = true;
     }
@@ -230,6 +225,15 @@ public class LaunchingPlatform : PlatformBase, IControllable
         return objectToFollow;
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+        {
+            if (!parasiteCommandCtrl.IsActive())
+                idleCommandsCtrl.ToggleButton(true);
+        }
+    }
 
     private void OnDisable()
     {

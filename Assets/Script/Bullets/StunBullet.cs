@@ -13,7 +13,7 @@ public class StunBullet : BulletBase
 
     protected override bool OnBulletCollision(Collider _collider)
     {
-        if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
@@ -25,7 +25,7 @@ public class StunBullet : BulletBase
                     enemyBase.OnEnemyHit();
             }
         }
-        else if (ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
+        else if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Buttons"))
         {
             IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
