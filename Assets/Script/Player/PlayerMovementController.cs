@@ -203,6 +203,7 @@ public class PlayerMovementController : MonoBehaviour
     /// </summary>
     private void HandleOnStickyCollision()
     {
+        ejecting = false;
         movementVelocity.y = 0;
     }
 

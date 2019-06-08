@@ -90,7 +90,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
         stickyBounds = boxCollider.bounds;
         Vector3 bottomLeftCorner = new Vector3(stickyBounds.min.x, stickyBounds.min.y, transform.position.z);
         Vector3 bottomRightCorner = new Vector3(stickyBounds.max.x, stickyBounds.min.y, transform.position.z);
-        yOffset = stickyBounds.size.y * 0.5f;
+        yOffset = stickyBounds.size.y * 1f;
         maxDistance = Vector3.Distance(bottomLeftCorner, bottomRightCorner);
         maxXScale = transform.localScale.x;
         checkSpaceRaySpacing = CalculateRaySpacing(checkSpaceRayCount);
@@ -179,13 +179,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
 
                 //Se colpisco qualcosa che rientra nei layer stuck
                 GameObject objectHit = hit.transform.gameObject;
-                if (tempImmunityObjectList.Contains(objectHit))
-                    continue;
 
                 if ((objectHit.layer == LayerMask.NameToLayer("Player") || objectHit.layer == LayerMask.NameToLayer("PlayerImmunity")) && objectHit.transform.parent != null)
                 {
                     objectHit = objectHit.transform.parent.gameObject;
                 }
+
+                if (tempImmunityObjectList.Contains(objectHit))
+                    continue;
 
                 StickyCollisionsInfos stickyInfo = stickyList.FirstOrDefault(g => g.Gobject == objectHit);
 
