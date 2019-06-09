@@ -51,6 +51,7 @@ public class Piston : PlatformBase, IActivable
     /// </summary>
     private RaycastStartPoints raycastStartPoints;
 
+    private GeneralSoundController sfxCtrl;
     private PistonState currentState;
     private Collider colliderToCheck;
 
@@ -70,6 +71,7 @@ public class Piston : PlatformBase, IActivable
     #region API
     public override void Init()
     {
+        sfxCtrl = GetComponentInChildren<GeneralSoundController>();
         Setup();
     }
 
@@ -95,21 +97,25 @@ public class Piston : PlatformBase, IActivable
             {
                 if (direction == PistonDirection.Vertical && Vector3.up == transform.up && transform.position.y <= targetPosition)
                 {
+                    sfxCtrl.PlayClip();
                     stompVFX.Play();
                     currentState = PistonState.Backward;
                 }
                 else if (direction == PistonDirection.Vertical && Vector3.up != transform.up && transform.position.y >= targetPosition)
                 {
+                    sfxCtrl.PlayClip();
                     stompVFX.Play();
                     currentState = PistonState.Backward;
                 }
                 else if (direction == PistonDirection.Horizontal && Vector3.left == transform.up && transform.position.x >= targetPosition)
                 {
+                    sfxCtrl.PlayClip();
                     stompVFX.Play();
                     currentState = PistonState.Backward;
                 }
                 else if (direction == PistonDirection.Horizontal && Vector3.left != transform.up && transform.position.x <= targetPosition)
                 {
+                    sfxCtrl.PlayClip();
                     stompVFX.Play();
                     currentState = PistonState.Backward;
                 }

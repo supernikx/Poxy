@@ -466,6 +466,14 @@ public class Player : MonoBehaviour
         return vfxCtrl;
     }
     /// <summary>
+    /// Funzione che ritorna l'SFX controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerSoundController GetSoundController()
+    {
+        return sfxCtrl;
+    }
+    /// <summary>
     /// Funzione che ritorna la grafica attiva del player
     /// </summary>
     /// <returns></returns>

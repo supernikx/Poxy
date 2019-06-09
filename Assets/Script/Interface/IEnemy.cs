@@ -83,7 +83,7 @@ public interface IEnemy
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    void DamageHit(float _damage, float _time = 0);
+    void DamageHit(float _damage);
 
     /// <summary>
     /// Funzione che uccide il nemico

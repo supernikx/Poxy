@@ -11,6 +11,14 @@ public class StunBullet : BulletBase
     [SerializeField]
     private ParticleSystem bulletParticle;
 
+    private BulletSoundController soundCtrl;
+
+    public override void Setup()
+    {
+        base.Setup();
+        soundCtrl = GetComponentInChildren<BulletSoundController>();
+    }
+
     protected override bool OnBulletCollision(Collider _collider)
     {
         if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -50,12 +58,14 @@ public class StunBullet : BulletBase
     #region Spawn/Destroy
     protected override void ObjectDestroyEvent()
     {
+        soundCtrl.Hit();
         bulletParticle.Stop();
         base.ObjectDestroyEvent();
     }
 
     protected override void ObjectSpawnEvent()
     {
+        soundCtrl.Shot();
         bulletParticle.Play();
         base.ObjectSpawnEvent();
     }

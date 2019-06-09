@@ -69,19 +69,12 @@ public class Turret : MonoBehaviour, IEnemy
     /// <summary>
     /// Funzione che toglie al nemico i danni del proiettile
     /// </summary>
-    public void DamageHit(float _damage, float _time = 0)
+    public void DamageHit(float _damage)
     {
-        if (_time == 0)
+        enemyLife = Mathf.Clamp(enemyLife - _damage, 0, enemyStartLife);
+        if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
         {
-            enemyLife = Mathf.Clamp(enemyLife - _damage, 0, enemyStartLife);
-            if (enemyLife == 0 && EnemyManager.OnEnemyDeath != null)
-            {
-                EnemyManager.OnEnemyDeath(this);
-            }
-        }
-        else
-        {
-            StartCoroutine(LoseHealthOverTime(_damage, _time));
+            EnemyManager.OnEnemyDeath(this);
         }
     }
 
@@ -258,26 +251,6 @@ public class Turret : MonoBehaviour, IEnemy
         }
 
         Respawn();
-    }
-
-    /// <summary>
-    /// Coroutine che fa perdere vita overtime al nemico
-    /// </summary>
-    /// <param name="_damage"></param>
-    /// <param name="_time"></param>
-    /// <returns></returns>
-    private IEnumerator LoseHealthOverTime(float _damage, float _time)
-    {
-        float tickDuration = 0.5f;
-        float damgeEachTick = tickDuration * _damage / _time;
-        int ticks = Mathf.RoundToInt(_time / tickDuration);
-        int tickCounter = 0;
-        while (tickCounter < ticks)
-        {
-            enemyLife = Mathf.RoundToInt(Mathf.Clamp(enemyLife - damgeEachTick, 0, enemyStartLife));
-            tickCounter++;
-            yield return new WaitForSeconds(tickDuration);
-        }
     }
 
     private IEnumerator FiringRateCoroutine(float _firingRate)

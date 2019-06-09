@@ -28,7 +28,7 @@ public abstract class SoundControllerBase : MonoBehaviour
         }
     }
 
-    public void PlayAudioClip(AudioClipStruct _audioClipStruct)
+    protected void PlayAudioClip(AudioClipStruct _audioClipStruct)
     {
         if (!_audioClipStruct.CanUseMultipleSource)
         {

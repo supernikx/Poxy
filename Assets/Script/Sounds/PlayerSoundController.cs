@@ -12,14 +12,24 @@ public class PlayerSoundController : SoundControllerBase
     private AudioClipStruct jump;
     [SerializeField]
     private AudioClipStruct landing;
+    [SerializeField]
+    private AudioClipStruct sticky;
 
-    [Header("Player Shot Sound Settings")]
+    [Header("Parasite Sound Settings")]
     [SerializeField]
-    private AudioClipStruct stunBullet;
+    private AudioClipStruct endParasite;
     [SerializeField]
-    private AudioClipStruct stickyBullet;
+    private AudioClipStruct parasite;
+
+    [Header("Life Sound Settings")]
     [SerializeField]
-    private AudioClipStruct parabolicBullet;
+    private AudioClipStruct bar;
+    [SerializeField]
+    private AudioClipStruct damageHit;
+    [SerializeField]
+    private AudioClipStruct acidHit;
+    [SerializeField]
+    private AudioClipStruct death;
 
     Player player;
     PlayerCollisionController collisionCtrl;
@@ -37,13 +47,28 @@ public class PlayerSoundController : SoundControllerBase
         PlayerMovementController.OnMovement += HandlePlayerMovement;
         PlayerMovementController.OnJump += HandlePlayerJump;
         PlayerCollisionController.OnPlayerLanding += HandlePlayerLanding;
-        PlayerShotController.OnShotDone += HandleOnShot;
+        PlayerCollisionController.OnStickyCollision += HandleStickyCollision;
+        PlayerParasiteController.OnPlayerParasite += HandlePlayerParasite;
+        PlayerParasiteController.OnPlayerParasiteEnd += HandlePlayerParasiteEnd;
+        PlayerHealthController.OnHealthChange += HandleHealthChange;
+        player.OnDamageableCollision += HandleDamageableCollision;
+        player.OnPlayerHit += HandlePlayerHit;
+    }
+
+    public void Death()
+    {
+        PlayAudioClip(death);
     }
 
     #region Handlers
     private void HandlePlayerLanding()
     {
         PlayAudioClip(landing);
+    }
+
+    private void HandleStickyCollision()
+    {       
+        PlayAudioClip(sticky);
     }
 
     private void HandlePlayerMovement(Vector3 _movementVelocity, CollisionInfo _collisions)
@@ -57,22 +82,32 @@ public class PlayerSoundController : SoundControllerBase
         PlayAudioClip(jump);
     }
 
-    private void HandleOnShot(ObjectTypes _bullet)
+    private void HandlePlayerParasite()
     {
-        switch (_bullet)
-        {
-            case ObjectTypes.StunBullet:
-                PlayAudioClip(stunBullet);
-                break;
-            case ObjectTypes.ParabolicBullet:
-                PlayAudioClip(parabolicBullet);
-                break;
-            case ObjectTypes.StickyBullet:
-                PlayAudioClip(stickyBullet);
-                break;
-        }
+        PlayAudioClip(parasite);
     }
 
+    private void HandlePlayerParasiteEnd()
+    {
+        PlayAudioClip(endParasite);
+    }
+
+    private void HandleHealthChange(float health)
+    {
+        if ((health >= 64f && health <= 65f) || (health >= 24f && health <= 25f))
+            PlayAudioClip(bar);
+    }
+
+    private void HandleDamageableCollision(IDamageable damageable)
+    {
+        if(damageable.DamageableType == DamageableType.Acid)
+            PlayAudioClip(acidHit);
+    }
+
+    private void HandlePlayerHit()
+    {
+        PlayAudioClip(damageHit);
+    }
     #endregion
 
     private void OnDisable()
@@ -80,6 +115,11 @@ public class PlayerSoundController : SoundControllerBase
         PlayerMovementController.OnMovement -= HandlePlayerMovement;
         PlayerMovementController.OnJump -= HandlePlayerJump;
         PlayerCollisionController.OnPlayerLanding -= HandlePlayerLanding;
-        PlayerShotController.OnShotDone -= HandleOnShot;
+        PlayerCollisionController.OnStickyCollision -= HandleStickyCollision;
+        PlayerParasiteController.OnPlayerParasite -= HandlePlayerParasite;
+        PlayerParasiteController.OnPlayerParasiteEnd -= HandlePlayerParasiteEnd;
+        PlayerHealthController.OnHealthChange -= HandleHealthChange;
+        player.OnDamageableCollision -= HandleDamageableCollision;
+        player.OnPlayerHit -= HandlePlayerHit;
     }
 }

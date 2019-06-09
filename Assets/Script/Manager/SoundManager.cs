@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
@@ -16,7 +13,10 @@ public class SoundManager : MonoBehaviour
 
     public void Init()
     {
-
+        foreach (BackgroundMusicController music in FindObjectsOfType<BackgroundMusicController>())
+        {
+            music.Init();
+        }
     }
 
     /// <summary>

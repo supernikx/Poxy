@@ -6,10 +6,13 @@ public class SimpleToken : BaseToken
 {
     [Header("Graphics Settings")]
     [SerializeField]
+    private GameObject graphic;
+    [SerializeField]
     private float maxbrightness;
     [SerializeField]
     private float minbrightness;
 
+    private GeneralSoundController sfxCtrl;
     new private Renderer renderer;
     IEnumerator blinkRoutine;
     private bool isActive;
@@ -17,6 +20,7 @@ public class SimpleToken : BaseToken
     #region API
     public override void Init()
     {
+        sfxCtrl = GetComponentInChildren<GeneralSoundController>();
         renderer = GetComponentInChildren<Renderer>();
         Setup();
     }
@@ -36,11 +40,21 @@ public class SimpleToken : BaseToken
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+        if (isActive && (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")))
         {
+            isActive = false;
             GetToken(this);
-            gameObject.SetActive(false);
+            StartCoroutine(PickupRoutine());
         }
+    }
+
+    private IEnumerator PickupRoutine()
+    {
+        graphic.SetActive(false);
+        sfxCtrl.PlayClip();
+        yield return new WaitForSeconds(1f);
+        graphic.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private IEnumerator BlinkCoroutine()

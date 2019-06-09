@@ -15,7 +15,7 @@ public class BulletExplosionBehaviour : MonoBehaviour
 
     public void Explode(GameObject _owner, float _damage)
     {
-        if (_owner.tag == "Player")
+        if (_owner != null && _owner.tag == "Player")
         {
             Collider[] collisions = Physics.OverlapSphere(transform.position, explosionRange, enemyLayer);
             foreach (Collider collision in collisions)

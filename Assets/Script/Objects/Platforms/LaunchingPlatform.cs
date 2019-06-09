@@ -33,6 +33,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     [SerializeField]
     private Transform objectToFollow;
 
+    private GeneralSoundController sfxCtrl;
     private MeshRenderer meshRenderer;
 
     private Vector3 launchDirection;
@@ -54,6 +55,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     #region API
     public override void Init()
     {
+        sfxCtrl = GetComponentInChildren<GeneralSoundController>();
         platfromColldier = GetComponent<BoxCollider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
@@ -83,6 +85,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
         player = null;
+        sfxCtrl.PlayClip();
         ejectParticle.Play();
         if (tickCoroutine != null)
         {

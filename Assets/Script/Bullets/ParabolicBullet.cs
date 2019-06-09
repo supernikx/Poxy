@@ -20,11 +20,18 @@ public class ParabolicBullet : BulletBase
     [SerializeField]
     private ParticleSystem bulletExplosionParticle;
 
+    private BulletSoundController soundCtrl;
     private float travelTime;
     private float yVelocity;
     private float xVelocity;
 
     private bool canMove = true;
+
+    public override void Setup()
+    {
+        base.Setup();
+        soundCtrl = GetComponentInChildren<BulletSoundController>();
+    }
 
     protected override bool OnBulletCollision(Collider _collider)
     {
@@ -167,6 +174,7 @@ public class ParabolicBullet : BulletBase
     {
         canMove = false;
         bulletParticle.Stop();
+        soundCtrl.Hit();
         bulletExplosionParticle.transform.parent = null;
         bulletExplosionParticle.gameObject.transform.position = transform.position + new Vector3(0, 0.65f, 0);
         bulletExplosionParticle.Play();
@@ -191,6 +199,7 @@ public class ParabolicBullet : BulletBase
 
     protected override void ObjectSpawnEvent()
     {
+        soundCtrl.Shot();
         bulletParticle.Play();
         canMove = true;
 

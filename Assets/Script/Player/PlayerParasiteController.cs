@@ -1,9 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class PlayerParasiteController : MonoBehaviour
 {
+    #region Actions
+    public static Action OnPlayerParasite;
+    public static Action OnPlayerParasiteEnd;
+    #endregion
+
     [SerializeField]
     float parasiteRange;
 
@@ -44,7 +48,7 @@ public class PlayerParasiteController : MonoBehaviour
         {
             return e;
         }
-        else if (e == null && p != null) 
+        else if (e == null && p != null)
         {
             return p;
         }
@@ -65,13 +69,19 @@ public class PlayerParasiteController : MonoBehaviour
     /// <param name="_enemy"></param>
     public void SetParasite(IControllable _parasite)
     {
+        if (parasiteTarget != null && _parasite == null)
+        {
+            if (OnPlayerParasiteEnd != null)
+                OnPlayerParasiteEnd();
+        }
+        else if (parasiteTarget == null && _parasite != null)
+        {
+            if (OnPlayerParasite != null)
+                OnPlayerParasite();
+        }
+
         parasiteTarget = _parasite;
     }
-    /*
-    public void SetParasitePlatform(LaunchingPlatform _platform)
-    {
-        parasitePlatform = _platform;
-    }*/
     #endregion
 
     #region Getters
@@ -83,12 +93,6 @@ public class PlayerParasiteController : MonoBehaviour
     {
         return parasiteTarget;
     }
-
-    /*
-    public LaunchingPlatform GetParasitePlatform()
-    {
-        return parasitePlatform;
-    }*/
     #endregion
     #endregion
 

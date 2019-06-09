@@ -11,6 +11,14 @@ public class StickyBullet : BulletBase
     [SerializeField]
     private ObjectTypes stickyObjectType;
 
+    private BulletSoundController soundCtrl;
+
+    public override void Setup()
+    {
+        base.Setup();
+        soundCtrl = GetComponentInChildren<BulletSoundController>();
+    }
+
     protected override void Move()
     {
         Vector3 _movementDirection = transform.right * speed;
@@ -96,6 +104,7 @@ public class StickyBullet : BulletBase
     #region Spawn/Destroy
     protected override void ObjectDestroyEvent()
     {
+        soundCtrl.Hit();
         bulletParticle.Stop();
         base.ObjectDestroyEvent();
     }
@@ -105,6 +114,7 @@ public class StickyBullet : BulletBase
         muzzleFlashParticle.transform.position = shotPosition;
         muzzleFlashParticle.transform.eulerAngles = new Vector3(0, 0, shotAngle);
         muzzleFlashParticle.Play();
+        soundCtrl.Shot();
         bulletParticle.Play();
         base.ObjectSpawnEvent();
     }

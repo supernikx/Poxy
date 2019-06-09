@@ -16,6 +16,7 @@ public class PlayerDeathState : PlayerSMStateBase
 
         PlayerVFXController.OnDeathVFXEnd += HandleDeathVFXEnd;
         player.GetVFXController().PlayDeathVFX();
+        player.GetSoundController().Death();
 
         timerForRespawn = false;
         respawnTimer = 0f;
