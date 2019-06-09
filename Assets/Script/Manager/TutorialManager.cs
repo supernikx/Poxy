@@ -18,6 +18,8 @@ public class TutorialManager : MonoBehaviour
     #region API
     public void Init(EnemyManager _enemyMng, Player _player)
     {
+        LevelManager.OnGamePause += HandleGamePause;
+        LevelManager.OnGameUnPause += HandleGameUnPause;
         InputChecker.OnInputChanged += HandleInputChanged;
         LevelManager.OnPlayerDeath += HandlePlayerDeath;
         TutorialTrigger.OnTutorialBehaviourTriggered += HandleTutorialBehaviourTriggered;
@@ -31,6 +33,7 @@ public class TutorialManager : MonoBehaviour
         TriggersSetup();
         LevelSettings();
 
+        textWasActive = false;
         tutorialText.gameObject.SetActive(false);
     }
     #endregion
@@ -105,6 +108,18 @@ public class TutorialManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private bool textWasActive;
+    private void HandleGameUnPause()
+    {
+        tutorialText.gameObject.SetActive(textWasActive);
+    }
+
+    private void HandleGamePause()
+    {
+        textWasActive = tutorialText.gameObject.activeSelf;
+        tutorialText.gameObject.SetActive(false);
     }
     #endregion
 
