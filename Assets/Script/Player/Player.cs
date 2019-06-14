@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
 
         movementCtrl = GetComponent<PlayerMovementController>();
         if (movementCtrl != null)
-            movementCtrl.Init(collisionCtrl);
+            movementCtrl.Init(this, collisionCtrl);
 
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)

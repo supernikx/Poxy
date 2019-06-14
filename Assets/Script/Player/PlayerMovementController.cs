@@ -76,6 +76,10 @@ public class PlayerMovementController : MonoBehaviour
     private float platformEjectForce;
 
     /// <summary>
+    /// Riferimento al player
+    /// </summary>
+    Player player;
+    /// <summary>
     /// Riferimento al collision controller
     /// </summary>
     private PlayerCollisionController collisionCtrl;
@@ -211,11 +215,21 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.y = 0;
     }
 
+    /// <summary>
+    /// Funzione che tratta l'evento OnPlayerDeath
+    /// </summary>
+    private void HandlePlayerDeath()
+    {
+        ejecting = false;
+        impulseX = 0;
+
+    }
+
     #region API
     /// <summary>
     /// Funzione di inizializzazione del player
     /// </summary>
-    public void Init(PlayerCollisionController _collisionCtrl)
+    public void Init(Player _player, PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
         PlayerCollisionController.OnStickyCollision += HandleOnStickyCollision;
@@ -223,6 +237,9 @@ public class PlayerMovementController : MonoBehaviour
 
         PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
+
+        player = _player;
+        player.OnPlayerDeath += HandlePlayerDeath;
 
         //Calcolo la gravità
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
@@ -325,6 +342,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void OnDisable()
     {
+        player.OnPlayerDeath -= HandlePlayerDeath;
+
         PlayerCollisionController.OnStickyCollision -= HandleOnStickyCollision;
         PlayerCollisionController.OnPlayerLanding -= HandleOnPlayerLanding;
         PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;
