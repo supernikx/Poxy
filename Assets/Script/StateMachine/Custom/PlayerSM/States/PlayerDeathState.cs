@@ -79,7 +79,7 @@ public class PlayerDeathState : PlayerSMStateBase
         player.GetActualGraphic().Enable();
         player.GetCollisionController().GetPlayerCollider().enabled = true;
 
-        if (SpeedrunManager.GetIsActive())
+        if (LevelManager.instance.GetSpeedrunManager().GetIsActive())
             context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Countdown);
         else
             context.UIManager.GetGameplayManager().ToggleMenu(MenuType.Game);

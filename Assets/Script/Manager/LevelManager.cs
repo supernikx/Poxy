@@ -214,9 +214,13 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void HandlePlayerDeath()
     {
-        Debug.Log("The Player is dead");
-        if (OnPlayerDeath != null)
-            OnPlayerDeath();
+        if (speedMng.GetIsActive() && GameManager.Exist())
+            GameManager.RestartCurrentLevel();
+        else
+        {
+            if (OnPlayerDeath != null)
+                OnPlayerDeath();
+        }
     }
 
     /// <summary>

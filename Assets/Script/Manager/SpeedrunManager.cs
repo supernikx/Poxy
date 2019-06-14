@@ -25,7 +25,7 @@ public class SpeedrunManager : MonoBehaviour
     /// Attivo quando ci sono secondi guadagnati dai nemici
     /// </summary>
     private bool bonusTime = false;
-    private static bool isActive = false;
+    private bool isActive = false;
 
     #region API
     public void Init(bool _isActive)
@@ -129,13 +129,13 @@ public class SpeedrunManager : MonoBehaviour
         return timer;
     }
 
-    public static bool GetIsActive()
+    public bool GetIsActive()
     {
         return isActive;
     }
     #endregion
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         StartTimer -= HandleStartTimer;
         StopTimer -= HandleStopTimer;

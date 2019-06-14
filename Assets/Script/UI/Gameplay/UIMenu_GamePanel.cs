@@ -85,7 +85,7 @@ namespace UI
             TokenManager.OnTokenTaken += HandleOnTokenTaken;
 
             timerText.color = timerDefaultColor;
-            ToggleSpeedrunPanel(SpeedrunManager.GetIsActive());
+            ToggleSpeedrunPanel(LevelManager.instance.GetSpeedrunManager().GetIsActive());
             ToggleTokenPanel(false);
         }
 

@@ -41,7 +41,7 @@ public class CheckpointManager : MonoBehaviour
     #region Handlers
     private void HandleActivateCheckpoint(CheckpointBase _checkpoint)
     {
-        if (!SpeedrunManager.GetIsActive() && activeCheckpoint != _checkpoint)
+        if (!LevelManager.instance.GetSpeedrunManager().GetIsActive() && activeCheckpoint != _checkpoint)
         {
             activeCheckpoint.GetCheckpointAnimatorManager().Enable(false);
             activeCheckpoint = _checkpoint;
