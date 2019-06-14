@@ -7,11 +7,9 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    #region Delegates
-    public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
-    public PlayerEnemyCollisionDelegate OnEnemyCollision;
-    public delegate void PlayeDamageableCollisionDelegate(IDamageable damageable);
-    public PlayeDamageableCollisionDelegate OnDamageableCollision;
+    #region Delegates    
+    public Action<IDamageable> OnDamageableCollision;
+    public Action<IEnemy> OnEnemyCollision;
     public Action OnPlayerMaxHealth;
     public Action OnPlayerImmunityEnd;
     public Action OnPlayerDeath;
@@ -112,7 +110,7 @@ public class Player : MonoBehaviour
 
         movementCtrl = GetComponent<PlayerMovementController>();
         if (movementCtrl != null)
-            movementCtrl.Init(collisionCtrl);
+            movementCtrl.Init(this, collisionCtrl);
 
         parasiteCtrl = GetComponent<PlayerParasiteController>();
         if (parasiteCtrl != null)
@@ -496,6 +494,15 @@ public class Player : MonoBehaviour
     public bool GetCanDie()
     {
         return canDie;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se ci si può muovere
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanMove()
+    {
+        return movementCtrl.GetCanMove();
     }
     #endregion
     #endregion

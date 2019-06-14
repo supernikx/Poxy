@@ -23,14 +23,8 @@ public class Poop : MonoBehaviour, IDamageable
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
-            Player _player;
-            if (other.gameObject.tag == "Player")
-                _player = other.gameObject.GetComponent<Player>();
-            else
-                _player = other.gameObject.GetComponentInParent<Player>();
-
-            if (_player != null)
-                _player.StartDeathCoroutine();
+            if (PlayerCollisionController.DamageableNotification != null)
+                PlayerCollisionController.DamageableNotification(this);
         }
     }
 }

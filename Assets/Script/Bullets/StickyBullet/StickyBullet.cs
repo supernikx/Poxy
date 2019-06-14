@@ -10,13 +10,22 @@ public class StickyBullet : BulletBase
     private ParticleSystem muzzleFlashParticle;
     [SerializeField]
     private ObjectTypes stickyObjectType;
+    [SerializeField]
+    private LayerMask layersToCheck;
 
     private BulletSoundController soundCtrl;
+
+    #region Sticky
+    StickyObject stickyObject;
+    private bool spawnSticky;
+    #endregion
 
     public override void Setup()
     {
         base.Setup();
         soundCtrl = GetComponentInChildren<BulletSoundController>();
+        spawnSticky = false;
+        stickyObject = null;
     }
 
     protected override void Move()
@@ -73,32 +82,7 @@ public class StickyBullet : BulletBase
                 return false;
         }
 
-        else if (_collider.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
-        {
-            RaycastHit hit;
-            Vector3 endPoint = transform.position + transform.right.normalized * 0.5f;
-            if (Physics.Linecast(transform.position, endPoint, out hit))
-            {
-                Vector3 closePoint = _collider.ClosestPointOnBounds(transform.position);
-                SpawnStickyObject(closePoint, hit.normal);
-            }
-        }
-
         return base.OnBulletCollision(_collider);
-    }
-
-    /// <summary>
-    /// Funzione che spawna uno sticky object 
-    /// </summary>
-    /// <param name="_spawnPosition"></param>
-    /// <param name="_normal"></param>
-    private void SpawnStickyObject(Vector3 _spawnPosition, Vector3 _normal)
-    {
-        StickyObject stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
-        stickyObject.Init(_spawnPosition, Quaternion.LookRotation(Vector3.forward, _normal));
-        Vector3 rightMaxPosition = stickyObject.CheckSpace(_normal, 1);
-        Vector3 leftMaxPosition = stickyObject.CheckSpace(_normal, -1);
-        stickyObject.Spawn(leftMaxPosition, rightMaxPosition);
     }
 
     #region Spawn/Destroy
@@ -106,6 +90,9 @@ public class StickyBullet : BulletBase
     {
         soundCtrl.Hit();
         bulletParticle.Stop();
+
+        if (spawnSticky)
+            stickyObject.Spawn();
         base.ObjectDestroyEvent();
     }
 
@@ -116,6 +103,29 @@ public class StickyBullet : BulletBase
         muzzleFlashParticle.Play();
         soundCtrl.Shot();
         bulletParticle.Play();
+
+        Ray ray = new Ray(transform.position, transform.right);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 100f, layersToCheck))
+        {
+            if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            {
+                spawnSticky = true;
+                stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
+                stickyObject.Init(hitInfo.point, hitInfo.normal, Quaternion.LookRotation(Vector3.forward, hitInfo.normal));
+            }
+            else
+            {
+                spawnSticky = false;
+                stickyObject = null;
+            }
+        }
+        else
+        {
+            spawnSticky = false;
+            stickyObject = null;
+        }
+
         base.ObjectSpawnEvent();
     }
     #endregion

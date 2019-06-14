@@ -76,6 +76,10 @@ public class PlayerMovementController : MonoBehaviour
     private float platformEjectForce;
 
     /// <summary>
+    /// Riferimento al player
+    /// </summary>
+    Player player;
+    /// <summary>
     /// Riferimento al collision controller
     /// </summary>
     private PlayerCollisionController collisionCtrl;
@@ -91,7 +95,6 @@ public class PlayerMovementController : MonoBehaviour
     /// float che segnala la quantità di moto rimasta imposta da un eject sulla x
     /// </summary>
     private float impulseX = 0;
-
     private void Update()
     {
         if (canMove)
@@ -212,11 +215,21 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.y = 0;
     }
 
+    /// <summary>
+    /// Funzione che tratta l'evento OnPlayerDeath
+    /// </summary>
+    private void HandlePlayerDeath()
+    {
+        ejecting = false;
+        impulseX = 0;
+
+    }
+
     #region API
     /// <summary>
     /// Funzione di inizializzazione del player
     /// </summary>
-    public void Init(PlayerCollisionController _collisionCtrl)
+    public void Init(Player _player, PlayerCollisionController _collisionCtrl)
     {
         collisionCtrl = _collisionCtrl;
         PlayerCollisionController.OnStickyCollision += HandleOnStickyCollision;
@@ -224,6 +237,9 @@ public class PlayerMovementController : MonoBehaviour
 
         PlayerInputManager.OnJumpPressed += HanldeOnJumpPressed;
         PlayerInputManager.OnJumpRelease += HanldeOnJumpReleased;
+
+        player = _player;
+        player.OnPlayerDeath += HandlePlayerDeath;
 
         //Calcolo la gravità
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(JumpTimeToReachTop, 2);
@@ -235,20 +251,6 @@ public class PlayerMovementController : MonoBehaviour
 
         canMove = false;
         ejecting = false;
-    }
-
-    /// <summary>
-    /// Funzione che imposta la variabile can move
-    /// con la variabile passata come parametro
-    /// </summary>
-    /// <param name="_canMove"></param>
-    public void SetCanMove(bool _canMove)
-    {
-        canMove = _canMove;
-        if (!canMove)
-        {
-            movementVelocity = Vector3.zero;
-        }
     }
 
     private bool ejecting;
@@ -309,10 +311,39 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
         impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
     }
+
+    #region Getter
+    /// <summary>
+    /// Funzione che ritorna se ci si può muovere
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanMove()
+    {
+        return canMove;
+    }
+    #endregion
+
+    #region Setter
+    /// <summary>
+    /// Funzione che imposta la variabile can move
+    /// con la variabile passata come parametro
+    /// </summary>
+    /// <param name="_canMove"></param>
+    public void SetCanMove(bool _canMove)
+    {
+        canMove = _canMove;
+        if (!canMove)
+        {
+            movementVelocity = Vector3.zero;
+        }
+    }
+    #endregion
     #endregion
 
     private void OnDisable()
     {
+        player.OnPlayerDeath -= HandlePlayerDeath;
+
         PlayerCollisionController.OnStickyCollision -= HandleOnStickyCollision;
         PlayerCollisionController.OnPlayerLanding -= HandleOnPlayerLanding;
         PlayerInputManager.OnJumpPressed -= HanldeOnJumpPressed;

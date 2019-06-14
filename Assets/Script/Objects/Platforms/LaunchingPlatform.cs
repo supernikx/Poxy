@@ -14,6 +14,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private IGraphic graphics;
     [SerializeField]
     private float respawnTime;
+    [SerializeField]
+    private LayerMask parasiteLayer;
+
     private bool isActive;
     private ControllableType controllableType = ControllableType.Platform;
     private Collider platfromColldier;
@@ -40,13 +43,14 @@ public class LaunchingPlatform : PlatformBase, IControllable
     private float prevRotation;
 
     private Coroutine tickCoroutine;
+    private SphereCollider rangeCollider;
 
     private void SetObjectState(bool _state)
     {
         isActive = _state;
-        platfromColldier.enabled = _state;
+        platfromColldier.enabled = isActive;
 
-        if (_state)
+        if (isActive)
             graphics.Enable();
         else
             graphics.Disable();
@@ -58,6 +62,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
         sfxCtrl = GetComponentInChildren<GeneralSoundController>();
         platfromColldier = GetComponent<BoxCollider>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
+        rangeCollider = GetComponentInChildren<SphereCollider>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
         rotationBehaviour = GetComponent<Rotation>();
 
@@ -76,7 +81,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
         idleCommandsCtrl.ToggleButton(false);
         parasiteCommandCtrl.ToggleButton(false);
-        
+
         prevRotation = 90;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, prevRotation));
     }
@@ -94,7 +99,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
         }
 
         toleranceCtrl.SetActive(false);
-        
+
         parasiteCommandCtrl.ToggleButton(false);
         idleCommandsCtrl.ToggleButton(false);
 
@@ -191,7 +196,11 @@ public class LaunchingPlatform : PlatformBase, IControllable
         SetObjectState(true);
 
         parasiteCommandCtrl.ToggleButton(false);
-        idleCommandsCtrl.ToggleButton(false);
+
+        if (Physics.OverlapSphere(transform.position, rangeCollider.radius, parasiteLayer).Length > 0)
+            idleCommandsCtrl.ToggleButton(true);
+        else
+            idleCommandsCtrl.ToggleButton(false);
 
         rotationBehaviour.enabled = true;
     }
@@ -231,10 +240,19 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+        if (isActive && (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")))
         {
             if (!parasiteCommandCtrl.IsActive())
                 idleCommandsCtrl.ToggleButton(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
+        {
+            parasiteCommandCtrl.ToggleButton(false);
+            idleCommandsCtrl.ToggleButton(false);
         }
     }
 

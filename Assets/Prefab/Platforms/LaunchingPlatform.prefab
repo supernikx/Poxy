@@ -143,6 +143,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnTime: 3
+  parasiteLayer:
+    serializedVersion: 2
+    m_Bits: 4608
   idleCommandsCtrl: {fileID: 144758780831478494}
   parasiteCommandCtrl: {fileID: 4279834365532482937}
   ejectParticle: {fileID: 5605829878062820245}
@@ -996,11 +999,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5628900311144768859}
     m_Modifications:
-    - target: {fileID: 7878999137954944694, guid: 9557628e016f533409194ed9781f978d,
-        type: 3}
-      propertyPath: m_Name
-      value: VFXBoom_Cannon
-      objectReference: {fileID: 0}
     - target: {fileID: 5742888070348691813, guid: 9557628e016f533409194ed9781f978d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1055,6 +1053,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878999137954944694, guid: 9557628e016f533409194ed9781f978d,
+        type: 3}
+      propertyPath: m_Name
+      value: VFXBoom_Cannon
       objectReference: {fileID: 0}
     - target: {fileID: 751425695768130093, guid: 9557628e016f533409194ed9781f978d,
         type: 3}
