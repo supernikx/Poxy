@@ -74,14 +74,13 @@ namespace StateMachine.PlayerSM
         private void OnDamageableCollision(IDamageable _damageable)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnDamageableCollision -= OnDamageableCollision;
 
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
+                case DamageableType.Poop:
                 case DamageableType.Acid:
-                    if (context.player.GetCanDie())
-                        PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
-                    context.player.OnDamageableCollision -= OnDamageableCollision;
                     context.player.StartDeathCoroutine();
                     break;
             }

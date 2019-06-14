@@ -87,17 +87,19 @@ namespace StateMachine.PlayerSM
         private void OnDamageableCollision(IDamageable _damageable)
         {
             context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnDamageableCollision -= OnDamageableCollision;
 
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
+                case DamageableType.Poop:
                 case DamageableType.Acid:
                     context.player.StartDeathCoroutine();
                     break;
             }
 
-            immunity = true;
             gainHealth = false;
+            immunity = true;
         }
 
         private void PlayerImmunityEnd()
