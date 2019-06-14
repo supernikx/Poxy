@@ -106,7 +106,7 @@ public class StickyBullet : BulletBase
 
         Ray ray = new Ray(transform.position, transform.right);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100f, layersToCheck))
+        if (Physics.SphereCast(ray, bulletCollider.radius ,out hitInfo, 100f, layersToCheck))
         {
             if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
             {

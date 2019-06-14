@@ -267,6 +267,8 @@ public class PlayerInputManager : MonoBehaviour
     public static void SetCanReadGameplayInput(bool _switch)
     {
         instance.canReadGameplayInput = _switch;
+        if (!instance.canReadGameplayInput)        
+            instance.movementVector = Vector2.zero;        
     }
 
     /// <summary>

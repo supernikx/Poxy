@@ -222,7 +222,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         ejecting = false;
         impulseX = 0;
-
     }
 
     #region API
