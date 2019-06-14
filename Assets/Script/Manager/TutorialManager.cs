@@ -125,6 +125,8 @@ public class TutorialManager : MonoBehaviour
 
     private void OnDisable()
     {
+        LevelManager.OnGamePause -= HandleGamePause;
+        LevelManager.OnGameUnPause -= HandleGameUnPause;
         InputChecker.OnInputChanged -= HandleInputChanged;
         LevelManager.OnPlayerDeath -= HandlePlayerDeath;
         TutorialTrigger.OnTutorialBehaviourTriggered -= HandleTutorialBehaviourTriggered;

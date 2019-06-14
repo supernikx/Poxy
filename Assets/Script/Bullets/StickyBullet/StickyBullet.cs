@@ -76,7 +76,7 @@ public class StickyBullet : BulletBase
         else if (_collider.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             RaycastHit hit;
-            Vector3 endPoint = transform.position + transform.right.normalized * 0.5f;
+            Vector3 endPoint = transform.position + transform.right.normalized;
             if (Physics.Linecast(transform.position, endPoint, out hit))
             {
                 Vector3 closePoint = _collider.ClosestPointOnBounds(transform.position);

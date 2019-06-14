@@ -140,7 +140,6 @@ public class StickyObject : MonoBehaviour, IPoolObject
             if (OnObjectSpawn != null)
                 OnObjectSpawn(this);
 
-            gameObject.layer = LayerMask.NameToLayer("StickyPlaced");
             StartCoroutine(DespawnCoroutine());
         }
     }

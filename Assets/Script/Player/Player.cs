@@ -7,11 +7,9 @@ using DG.Tweening;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    #region Delegates
-    public delegate void PlayerEnemyCollisionDelegate(IEnemy _enemy);
-    public PlayerEnemyCollisionDelegate OnEnemyCollision;
-    public delegate void PlayeDamageableCollisionDelegate(IDamageable damageable);
-    public PlayeDamageableCollisionDelegate OnDamageableCollision;
+    #region Delegates    
+    public Action<IDamageable> OnDamageableCollision;
+    public Action<IEnemy> OnEnemyCollision;
     public Action OnPlayerMaxHealth;
     public Action OnPlayerImmunityEnd;
     public Action OnPlayerDeath;

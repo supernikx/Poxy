@@ -9,6 +9,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     #region Delegates
     public static Action OnStickyCollision;
     public static Action OnPlayerLanding;
+    public static Action<IDamageable> DamageableNotification;
     #endregion
 
     [Header("Collision Settings")]
@@ -22,11 +23,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// Layer per le collisioni dei nemici
     /// </summary>
     private LayerMask enemyLayer;
-    [SerializeField]
-    /// <summary>
-    /// Layer per le collisioni con ostacoli che ti danneggiano
-    /// </summary>
-    private LayerMask damageableLayer;
     [SerializeField]
     /// <summary>
     /// Variabile che definisce il tempo di immunità del player se entra in collisione con un nemico
@@ -88,10 +84,9 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     /// </summary>
     bool checkEnemyCollisions;
     /// <summary>
-    /// Variabile che identifica se si può collider con gli oggetti damageable
+    /// Viariabile che identifica se si può collider con i damageable
     /// </summary>
     bool checkDamageableCollisions;
-
     #region API
     /// <summary>
     /// Funzione che inizializza lo script
@@ -109,6 +104,8 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
 
         checkDamageableCollisions = true;
         checkEnemyCollisions = true;
+
+        DamageableNotification += HandleDamageableNotification;
     }
 
     /// <summary>
@@ -273,7 +270,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             _movementVelocity.y = 0f;
 
             //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
-            if (!checkEnemyCollisions && !checkDamageableCollisions)
+            if (!checkEnemyCollisions)
                 return;
 
             //Determina la lunghezza del raycast
@@ -297,14 +294,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
                 }
 
-                //Controllo se colpisco un oggetto damageable
-                if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
-                }
-
                 //Determina il punto da cui deve partire il ray opposto
                 rayOrigin = raycastStartPoints.topLeft;
                 rayOrigin += Vector3.right * (verticalRaySpacing * i);
@@ -318,14 +307,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
-                }
-
-                //Controllo se colpisco un oggetto damageable
-                if (checkDamageableCollisions && Physics.Raycast(oppositeRay, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
             }
         }
@@ -379,14 +360,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
                 }
 
-                //Controllo se colpisco un oggetto damageable
-                if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
-                }
-
                 Debug.DrawRay(rayOrigin, Vector3.up * directionY * rayLenght, Color.red);
             }
 
@@ -433,7 +406,7 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
             _movementVelocity.x = 0f;
 
             //Se sono in collisione con un oggetto sticky controllo se posso ricevere danni
-            if (!checkEnemyCollisions && !checkDamageableCollisions)
+            if (!checkEnemyCollisions)
                 return;
 
             //Determino la lunghezza del ray
@@ -457,14 +430,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
                 }
 
-                //Controllo se colpisco un oggetto demageable
-                if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
-                }
-
                 //Determina il punto da cui deve partire il ray opposto
                 rayOrigin = raycastStartPoints.bottomRight;
                 rayOrigin += Vector3.up * (horizontalRaySpacing * i);
@@ -478,14 +443,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                     //Mando l'evento
                     if (player.OnEnemyCollision != null)
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
-                }
-
-                //Controllo se colpisco un oggetto demageable
-                if (checkDamageableCollisions && Physics.Raycast(oppositeRay, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
                 }
             }
         }
@@ -558,13 +515,6 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
                         player.OnEnemyCollision(hit.transform.GetComponent<IEnemy>());
                 }
 
-                //Controllo se colpisco un oggetto damageable
-                if (checkDamageableCollisions && Physics.Raycast(ray, out hit, rayLenght, damageableLayer))
-                {
-                    //Mando l'evento
-                    if (player.OnDamageableCollision != null)
-                        player.OnDamageableCollision(hit.transform.GetComponent<IDamageable>());
-                }
                 Debug.DrawRay(rayOrigin, Vector3.right * directionX * rayLenght, Color.red);
             }
         }
@@ -680,6 +630,21 @@ public class PlayerCollisionController : MonoBehaviour, ISticky
     {
         collisions.ResetStickyCollision();
     }
+
+    private void HandleDamageableNotification(IDamageable _damageable)
+    {
+        if (checkDamageableCollisions)
+        {
+            if (player.OnDamageableCollision != null)
+                player.OnDamageableCollision(_damageable);
+        }
+    }
+
+    private void OnDisable()
+    {
+        DamageableNotification -= HandleDamageableNotification;
+    }
+
 
     /// <summary>
     /// Struttura che contiene le coordinate dei 4 punti principali da cui partono i ray
