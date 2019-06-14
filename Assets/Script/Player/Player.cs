@@ -497,6 +497,15 @@ public class Player : MonoBehaviour
     {
         return canDie;
     }
+
+    /// <summary>
+    /// Funzione che ritorna se ci si può muovere
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanMove()
+    {
+        return movementCtrl.GetCanMove();
+    }
     #endregion
     #endregion
 

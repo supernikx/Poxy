@@ -91,7 +91,6 @@ public class PlayerMovementController : MonoBehaviour
     /// float che segnala la quantità di moto rimasta imposta da un eject sulla x
     /// </summary>
     private float impulseX = 0;
-
     private void Update()
     {
         if (canMove)
@@ -237,20 +236,6 @@ public class PlayerMovementController : MonoBehaviour
         ejecting = false;
     }
 
-    /// <summary>
-    /// Funzione che imposta la variabile can move
-    /// con la variabile passata come parametro
-    /// </summary>
-    /// <param name="_canMove"></param>
-    public void SetCanMove(bool _canMove)
-    {
-        canMove = _canMove;
-        if (!canMove)
-        {
-            movementVelocity = Vector3.zero;
-        }
-    }
-
     private bool ejecting;
     /// <summary>
     /// Funzione che esegue l'eject con l'eject multiplyer settato
@@ -309,6 +294,33 @@ public class PlayerMovementController : MonoBehaviour
         movementVelocity.y = maxJumpVelocity * _ejectMult * Mathf.Sin(rotationZ);
         impulseX = maxJumpVelocity * _ejectMult * Mathf.Cos(rotationZ);
     }
+
+    #region Getter
+    /// <summary>
+    /// Funzione che ritorna se ci si può muovere
+    /// </summary>
+    /// <returns></returns>
+    public bool GetCanMove()
+    {
+        return canMove;
+    }
+    #endregion
+
+    #region Setter
+    /// <summary>
+    /// Funzione che imposta la variabile can move
+    /// con la variabile passata come parametro
+    /// </summary>
+    /// <param name="_canMove"></param>
+    public void SetCanMove(bool _canMove)
+    {
+        canMove = _canMove;
+        if (!canMove)
+        {
+            movementVelocity = Vector3.zero;
+        }
+    }
+    #endregion
     #endregion
 
     private void OnDisable()
