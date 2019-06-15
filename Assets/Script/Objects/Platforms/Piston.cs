@@ -263,7 +263,7 @@ public class Piston : PlatformBase, IActivable
                     (horizontalOrientation == PistonOrientation.RightToLeft && (collisions.left || collisions.leftStickyCollision)))) ||
                     (direction == PistonDirection.Vertical && _player.GetCollisionController().GetCollisionInfo().below)))
                 {
-                    _player.StartDeathCoroutine();
+                    _player.Death();
                 }
             }
             Debug.DrawRay(rayOrigin, transform.up * directionY * rayLenght, Color.red);

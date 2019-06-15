@@ -81,7 +81,7 @@ namespace StateMachine.PlayerSM
                 case DamageableType.Spike:
                 case DamageableType.Poop:
                 case DamageableType.Acid:
-                    context.player.StartDeathCoroutine();
+                    context.player.Death();
                     break;
             }
 

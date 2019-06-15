@@ -288,6 +288,24 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckEnemyCollision(true);
         collisionCtrl.CheckDamageableCollision(true);
     }
+
+    /// <summary>
+    /// Funzione che reimposta tutto allo stato normale
+    /// </summary>
+    private void HardNormalStateReset()
+    {
+        collisionCtrl.CheckEnemyCollision(true);
+        collisionCtrl.CheckDamageableCollision(true);
+        shootCtrl.SetCanAim(true);
+        shootCtrl.SetCanShoot(true);
+        ChangeGraphics(playerGraphic);
+        animCtrl.SetAnimatorController(null);
+        shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
+        activeGraphic.GetModel().transform.localScale = new Vector3(1, 1, 1);
+
+        if (parasiteCtrl.GetParasite() != null)
+            parasiteCtrl.GetParasite().EndParasite();
+    }
     #endregion
 
     #region Immunity
@@ -347,20 +365,14 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Funzione che attiva la coroutine DeathCoroutine
     /// </summary>
-    public void StartDeathCoroutine()
+    public void Death()
     {
         if (canDie)
-            StartCoroutine(DeathCoroutine());
-    }
-    /// <summary>
-    /// Coroutine che manda il player in stato di morte
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator DeathCoroutine()
-    {
-        if (playerSM.GoToDeath != null)
-            playerSM.GoToDeath();
-        yield return null;
+        {
+            HardNormalStateReset();
+            if (playerSM.GoToDeath != null)
+                playerSM.GoToDeath();
+        }
     }
     #endregion
 

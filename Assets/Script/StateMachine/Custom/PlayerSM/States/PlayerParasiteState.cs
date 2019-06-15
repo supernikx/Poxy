@@ -19,17 +19,17 @@ namespace StateMachine.PlayerSM
             PlayerInputManager.OnParasitePressed += HandleOnPlayerParasitePressed;
             PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
-            context.player.OnDamageableCollision += OnDamageableCollision;
+            context.player.OnDamageableCollision += HandleOnDamageableCollision;
             parasiteEnemy.gameObject.layer = context.player.gameObject.layer;
             if (context.player.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                context.player.OnEnemyCollision += OnEnemyCollision;
+                context.player.OnEnemyCollision += HandleOnEnemyCollision;
                 gainHealth = true;
                 immunity = false;
             }
             else
             {
-                context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+                context.player.OnPlayerImmunityEnd += HandlePlayerImmunityEnd;
                 gainHealth = false;
                 immunity = true;
             }
@@ -73,28 +73,28 @@ namespace StateMachine.PlayerSM
         #region Enemy/Damageable Collision
         bool immunity;
         bool gainHealth;
-        private void OnEnemyCollision(IEnemy _enemy)
+        private void HandleOnEnemyCollision(IEnemy _enemy)
         {
-            context.player.OnEnemyCollision -= OnEnemyCollision;
+            context.player.OnEnemyCollision -= HandleOnEnemyCollision;
             parasiteEnemy.GetToleranceCtrl().AddTolerance(_enemy.GetDamage());
-            context.player.OnPlayerImmunityEnd += PlayerImmunityEnd;
+            context.player.OnPlayerImmunityEnd += HandlePlayerImmunityEnd;
             parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("PlayerImmunity");
             context.player.StartImmunityCoroutine(context.player.GetCollisionController().GetImmunityDuration());
             immunity = true;
             gainHealth = false;
         }
 
-        private void OnDamageableCollision(IDamageable _damageable)
+        private void HandleOnDamageableCollision(IDamageable _damageable)
         {
-            context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.player.OnDamageableCollision -= OnDamageableCollision;
+            context.player.OnEnemyCollision -= HandleOnEnemyCollision;
+            context.player.OnDamageableCollision -= HandleOnDamageableCollision;
 
             switch (_damageable.DamageableType)
             {
                 case DamageableType.Spike:
                 case DamageableType.Poop:
                 case DamageableType.Acid:
-                    context.player.StartDeathCoroutine();
+                    context.player.Death();
                     break;
             }
 
@@ -102,10 +102,10 @@ namespace StateMachine.PlayerSM
             immunity = true;
         }
 
-        private void PlayerImmunityEnd()
+        private void HandlePlayerImmunityEnd()
         {
-            context.player.OnEnemyCollision += OnEnemyCollision;
-            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnEnemyCollision += HandleOnEnemyCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
             parasiteEnemy.gameObject.layer = LayerMask.NameToLayer("Player");
 
             immunity = false;
@@ -115,9 +115,9 @@ namespace StateMachine.PlayerSM
 
         public override void Exit()
         {
-            context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.player.OnDamageableCollision -= OnDamageableCollision;
-            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnEnemyCollision -= HandleOnEnemyCollision;
+            context.player.OnDamageableCollision -= HandleOnDamageableCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
             PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
 
             parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
@@ -134,9 +134,9 @@ namespace StateMachine.PlayerSM
         {
             if (parasiteEnemy != null)
                 parasiteEnemy.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
-            context.player.OnEnemyCollision -= OnEnemyCollision;
-            context.player.OnDamageableCollision -= OnDamageableCollision;
-            context.player.OnPlayerImmunityEnd -= PlayerImmunityEnd;
+            context.player.OnEnemyCollision -= HandleOnEnemyCollision;
+            context.player.OnDamageableCollision -= HandleOnDamageableCollision;
+            context.player.OnPlayerImmunityEnd -= HandlePlayerImmunityEnd;
             PlayerInputManager.OnParasitePressed -= HandleOnPlayerParasitePressed;
         }
     }

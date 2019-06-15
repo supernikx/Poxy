@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using StateMachine.PlayerSM;
+using System;
 
 public class PlayerPlatformState : PlayerSMStateBase
 {
@@ -19,6 +20,7 @@ public class PlayerPlatformState : PlayerSMStateBase
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar += HandleOnMaxTolleranceBar;
         PlayerInputManager.OnShotPressed += HandleParasiteExit;
         PlayerInputManager.OnParasitePressed += HandleParasiteExit;
+        context.player.OnDamageableCollision += HandleDamageableCollision;
         PlayerInputManager.DelayParasiteButtonPress(parasiteTimeDelay);
 
         parasitePressed = false;
@@ -62,11 +64,24 @@ public class PlayerPlatformState : PlayerSMStateBase
         context.player.StartNormalCoroutine();
     }
 
+    private void HandleDamageableCollision(IDamageable _damageable)
+    {
+        context.player.OnDamageableCollision -= HandleDamageableCollision;
+
+        switch (_damageable.DamageableType)
+        {
+            case DamageableType.Poop:
+                context.player.Death();
+                break;
+        }
+    }
+
     public override void Exit()
     {
         parasitePlatform.GetToleranceCtrl().OnMaxTolleranceBar -= HandleOnMaxTolleranceBar;
         PlayerInputManager.OnShotPressed -= HandleParasiteExit;
         PlayerInputManager.OnParasitePressed -= HandleParasiteExit;
+        context.player.OnDamageableCollision -= HandleDamageableCollision;
 
         context.player.GetParasiteController().SetParasite(null);
 
