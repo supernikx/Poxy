@@ -225,6 +225,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphics: {fileID: 5118668824550555305}
   stompVFX: {fileID: 7426297474269880444}
+  model: {fileID: 5118668824830362525}
+  activeMaterial: {fileID: 2100000, guid: 97a40db94d2963d45a7cde5dd348f6ab, type: 2}
+  disabledMaterial: {fileID: 2100000, guid: 3099027e448237f41b087fefb2f99639, type: 2}
   downMovementSpd: 10
   upMovementSpd: 10
   direction: 0
@@ -664,6 +667,12 @@ PrefabInstance:
 --- !u!4 &5118668824828461437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 724debb240905de48a4bea766f6b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 5118668824828337149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5118668824830362525 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 724debb240905de48a4bea766f6b5023,
     type: 3}
   m_PrefabInstance: {fileID: 5118668824828337149}
   m_PrefabAsset: {fileID: 0}

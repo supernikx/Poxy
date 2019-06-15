@@ -9,6 +9,12 @@ public class Piston : PlatformBase, IActivable
     private GameObject graphics;
     [SerializeField]
     private ParticleSystem stompVFX;
+    [SerializeField]
+    private MeshRenderer model;
+    [SerializeField]
+    private Material activeMaterial;
+    [SerializeField]
+    private Material disabledMaterial;
 
     [Header("Piston Settings")]
     [SerializeField]
@@ -57,7 +63,6 @@ public class Piston : PlatformBase, IActivable
 
     private float initialPosition;
     private float targetPosition;
-
 
     private void CheckMovementCollisions(Vector3 _movementVelocity)
     {
@@ -163,9 +168,15 @@ public class Piston : PlatformBase, IActivable
     public void Setup()
     {
         if (!activeFromStart)
+        {
+            model.material = disabledMaterial;
             currentState = PistonState.Forward;
+        }
         else
+        {
+            model.material = activeMaterial;
             currentState = PistonState.Backward;
+        }
         colliderToCheck = GetComponent<Collider>();
         CalculateRaySpacing();
 
@@ -189,6 +200,7 @@ public class Piston : PlatformBase, IActivable
     public void Activate()
     {
         activeFromStart = true;
+        model.material = activeMaterial;
     }
     #endregion
 

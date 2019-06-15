@@ -330,6 +330,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphics: {fileID: 6036209643856341822}
   stompVFX: {fileID: 8341304954360116715}
+  model: {fileID: 6036209644111320586}
+  activeMaterial: {fileID: 2100000, guid: 97a40db94d2963d45a7cde5dd348f6ab, type: 2}
+  disabledMaterial: {fileID: 2100000, guid: 3099027e448237f41b087fefb2f99639, type: 2}
   downMovementSpd: 5
   upMovementSpd: 4
   direction: 1
@@ -559,11 +562,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 6636632704339227560, guid: 2b2fb57c546392c44a94376faa74c4d3,
-        type: 3}
-      propertyPath: m_RenderAlignment
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6636632704339227561, guid: 2b2fb57c546392c44a94376faa74c4d3,
         type: 3}
       propertyPath: looping
@@ -578,6 +576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: moveWithTransform
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636632704339227560, guid: 2b2fb57c546392c44a94376faa74c4d3,
+        type: 3}
+      propertyPath: m_RenderAlignment
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2fb57c546392c44a94376faa74c4d3, type: 3}
@@ -669,6 +672,12 @@ PrefabInstance:
 --- !u!4 &6036209644113745130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 724debb240905de48a4bea766f6b5023,
+    type: 3}
+  m_PrefabInstance: {fileID: 6036209644113350250}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6036209644111320586 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 724debb240905de48a4bea766f6b5023,
     type: 3}
   m_PrefabInstance: {fileID: 6036209644113350250}
   m_PrefabAsset: {fileID: 0}
