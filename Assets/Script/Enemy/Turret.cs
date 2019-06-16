@@ -367,7 +367,7 @@ public class Turret : MonoBehaviour, IEnemy
         return null;
     }
 
-    public EnemyCommandsSpriteController GetEnemyCommandsSpriteController()
+    public EnemySpriteController GetEnemyCommandsSpriteController()
     {
         return null;
     }

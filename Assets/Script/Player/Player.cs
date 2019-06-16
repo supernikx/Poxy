@@ -82,6 +82,10 @@ public class Player : MonoBehaviour
     /// Reference al SFX controller
     /// </summary>
     private PlayerSoundController sfxCtrl;
+    /// <summary>
+    /// Reference allo Sprite Controller
+    /// </summary>
+    private PlayerSpriteController spriteCtrl;
 
     //DEBUG
     private void Update()
@@ -151,6 +155,10 @@ public class Player : MonoBehaviour
             playerGraphic.OnModelChanged += HandleOnPlayerModeloChanged;
             playerGraphic.Init();
         }
+
+        spriteCtrl = GetComponentInChildren<PlayerSpriteController>();
+        if (spriteCtrl != null)
+            spriteCtrl.Init(this);
     }
 
     #region Parasite State
@@ -482,6 +490,14 @@ public class Player : MonoBehaviour
     public PlayerSoundController GetSoundController()
     {
         return sfxCtrl;
+    }
+    /// <summary>
+    /// Funzione che ritorna lo Sprite Controller
+    /// </summary>
+    /// <returns></returns>
+    public PlayerSpriteController GetSpriteController()
+    {
+        return spriteCtrl;
     }
     /// <summary>
     /// Funzione che ritorna la grafica attiva del player

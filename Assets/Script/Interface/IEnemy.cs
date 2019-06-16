@@ -210,7 +210,7 @@ public interface IEnemy
     /// Funzione che ritorna il command sprite controller
     /// </summary>
     /// <returns></returns>
-    EnemyCommandsSpriteController GetEnemyCommandsSpriteController();
+    EnemySpriteController GetEnemyCommandsSpriteController();
 
     /// <summary>
     /// Funzione che ritorna il parent dei nemici

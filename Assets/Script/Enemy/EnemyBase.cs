@@ -58,7 +58,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     protected EnemyAnimationController animCtrl;
     protected EnemyVFXController vfxCtrl;
     protected EnemySoundController sfxCtrl;
-    protected EnemyCommandsSpriteController commandsSpriteCtrl;
+    protected EnemySpriteController commandsSpriteCtrl;
     protected EnemyToleranceController toleranceCtrl;
     protected EnemyMovementController movementCtrl;
     protected EnemyCollisionController collisionCtrl;
@@ -105,7 +105,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
         if (animCtrl != null)
             animCtrl.Init(this);
 
-        commandsSpriteCtrl = GetComponentInChildren<EnemyCommandsSpriteController>();
+        commandsSpriteCtrl = GetComponentInChildren<EnemySpriteController>();
         if (commandsSpriteCtrl != null)
             commandsSpriteCtrl.Init();
 
@@ -429,7 +429,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
     /// Funzione che ritorna il command sprite controller
     /// </summary>
     /// <returns></returns>
-    public EnemyCommandsSpriteController GetEnemyCommandsSpriteController()
+    public EnemySpriteController GetEnemyCommandsSpriteController()
     {
         return commandsSpriteCtrl;
     }

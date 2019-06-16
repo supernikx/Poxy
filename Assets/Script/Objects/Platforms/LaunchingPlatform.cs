@@ -26,9 +26,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     [Header("Graphics Settings")]
     [SerializeField]
-    private EnemyCommandsSpriteController idleCommandsCtrl;
+    private EnemySpriteController idleCommandsCtrl;
     [SerializeField]
-    private EnemyCommandsSpriteController parasiteCommandCtrl;
+    private EnemySpriteController parasiteCommandCtrl;
     [SerializeField]
     private ParticleSystem ejectParticle;
 
@@ -242,7 +242,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         if (isActive && (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity")))
         {
-            if (!parasiteCommandCtrl.IsActive())
+            if (!parasiteCommandCtrl.IsButtonActive())
                 idleCommandsCtrl.ToggleButton(true);
         }
     }
