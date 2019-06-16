@@ -42,6 +42,8 @@ public class StickyBullet : BulletBase
     {
         if (ownerObject != null && ownerObject.tag == "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            spawnSticky = false;
+
             IEnemy enemyHit = _collider.gameObject.GetComponent<IEnemy>();
             if (enemyHit != null)
             {
@@ -54,6 +56,8 @@ public class StickyBullet : BulletBase
 
         else if (ownerObject != null && ownerObject.tag != "Player" && _collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            spawnSticky = false;
+
             Player player = _collider.gameObject.GetComponent<Player>();
             if (player != null)
             {
@@ -77,7 +81,10 @@ public class StickyBullet : BulletBase
         {
             IButton _target = _collider.gameObject.GetComponent<IButton>();
             if (_target.GetTriggerType() == ButtonTriggerType.Shot)
+            {
+                spawnSticky = false;
                 _target.Activate();
+            }
             else
                 return false;
         }
@@ -93,6 +100,7 @@ public class StickyBullet : BulletBase
 
         if (spawnSticky)
             stickyObject.Spawn();
+
         base.ObjectDestroyEvent();
     }
 
@@ -104,26 +112,18 @@ public class StickyBullet : BulletBase
         soundCtrl.Shot();
         bulletParticle.Play();
 
+        spawnSticky = false;
+        stickyObject = null;
+
         Ray ray = new Ray(transform.position, transform.right);
         RaycastHit hitInfo;
-        if (Physics.SphereCast(ray, bulletCollider.radius ,out hitInfo, 100f, layersToCheck))
+        if (Physics.SphereCast(ray, bulletCollider.radius, out hitInfo, 100f, layersToCheck))
         {
             if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
             {
-                spawnSticky = true;
                 stickyObject = PoolManager.instance.GetPooledObject(stickyObjectType, gameObject).GetComponent<StickyObject>();
-                stickyObject.Init(hitInfo.point, hitInfo.normal, Quaternion.LookRotation(Vector3.forward, hitInfo.normal));
+                spawnSticky = stickyObject.Init(hitInfo.point, hitInfo.normal, Quaternion.LookRotation(Vector3.forward, hitInfo.normal));
             }
-            else
-            {
-                spawnSticky = false;
-                stickyObject = null;
-            }
-        }
-        else
-        {
-            spawnSticky = false;
-            stickyObject = null;
         }
 
         base.ObjectSpawnEvent();

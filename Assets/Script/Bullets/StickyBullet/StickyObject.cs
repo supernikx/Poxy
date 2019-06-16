@@ -104,7 +104,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// </summary>
     /// <param name="_spawnPosition"></param>
     /// <param name="_rotation"></param>
-    public void Init(Vector3 _spawnPosition, Vector3 _normal, Quaternion _rotation)
+    public bool Init(Vector3 _spawnPosition, Vector3 _normal, Quaternion _rotation)
     {
         transform.position = _spawnPosition;
         Vector3 positionToCheck = new Vector3(0, checkSpaceRayLenght - (checkSpaceRayLenght / 3f), 0);
@@ -120,9 +120,14 @@ public class StickyObject : MonoBehaviour, IPoolObject
         {
             if (OnObjectDestroy != null)
                 OnObjectDestroy(this);
+
+            return false;
         }
         else
+        {
             graphic.SetActive(false);
+            return true;
+        }
     }
 
     /// <summary>
