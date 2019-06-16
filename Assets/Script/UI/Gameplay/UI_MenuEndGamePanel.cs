@@ -9,7 +9,7 @@ namespace UI
     {
         public void BackMenuButton()
         {
-            Time.timeScale = 1f;
+            uiManager.GetGameplayManager().GetLoadingPanel().ToggleLivesText(false);
             LevelManager.instance.BackToMenu();
         }
     }

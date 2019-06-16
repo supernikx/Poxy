@@ -25,7 +25,9 @@ public class TestManager : MonoBehaviour
             lvl.Init(ui, speedrunMode);
             if (speedrunMode)
             {
-                ui.GetGameplayManager().GetCountdownPanel().OnCountdown += HandleOnCountdown;
+                PlayerInputManager.SetCanReadInput(false);
+                lvl.GetPlayer().GetHealthController().SetCanLoseHealth(false);
+
                 ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd += HandleOnCountdownEnd;
                 ui.ToggleMenu(MenuType.Countdown);
             }
@@ -36,15 +38,9 @@ public class TestManager : MonoBehaviour
             DestroyImmediate(gameObject);
     }
 
-    private void HandleOnCountdown()
-    {
-        PlayerInputManager.SetCanReadGameplayInput(false);
-        lvl.GetPlayer().GetHealthController().SetCanLoseHealth(false);
-    }
-
     private void HandleOnCountdownEnd()
     {
-        PlayerInputManager.SetCanReadGameplayInput(true);
+        PlayerInputManager.SetCanReadInput(true);
         lvl.GetPlayer().GetHealthController().SetCanLoseHealth(true);
         ui.ToggleMenu(MenuType.Game);
 
@@ -55,5 +51,10 @@ public class TestManager : MonoBehaviour
     public SoundManager GetSoundManager()
     {
         return soundMng;
+    }
+
+    private void OnDisable()
+    {
+        ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd -= HandleOnCountdownEnd;
     }
 }

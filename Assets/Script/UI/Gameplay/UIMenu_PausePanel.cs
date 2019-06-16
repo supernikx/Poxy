@@ -15,6 +15,7 @@ namespace UI
 
         public void RestartButton()
         {
+            uiManager.GetGameplayManager().GetLoadingPanel().SetLivesText(5);
             LevelManager.instance.RestartGame();
         }
 
@@ -25,6 +26,7 @@ namespace UI
 
         public void MenuButton()
         {
+            uiManager.GetGameplayManager().GetLoadingPanel().ToggleLivesText(false);
             LevelManager.instance.BackToMenu();
         }
     }

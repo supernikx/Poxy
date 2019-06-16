@@ -5,59 +5,63 @@ using System.Collections;
 public class PlayerLivesController : MonoBehaviour
 {
     #region Delegates
-    public Action<int> OnLivesChange;
-
-    public static Action OnAllLivesLost;
+    public static Action<int> OnLivesChange;
     #endregion
 
     [Header("Lives Settings")]
     [SerializeField]
     private int lives;
 
-    [Header("DEBUG")]
-    [SerializeField]
-    private int currentLives;
+    private int currentLives
+    {
+        set
+        {
+            _currentLives = value;
+            if (OnLivesChange != null)
+                OnLivesChange(currentLives);
+        }
+        get
+        {
+            return _currentLives;
+        }
+    }
+    private int _currentLives;
 
+    private Player player;
     private TokenManager tokenMng;
 
     #region API
-    public void Init(TokenManager _tokenMng)
+    public void Init(Player _player, TokenManager _tokenMng)
     {
         currentLives = lives;
         tokenMng = _tokenMng;
+        player = _player;
 
-        LevelManager.OnPlayerDeath += HandleOnPlayerDeath;
+        player.OnPlayerDeath += HandleOnPlayerDeath;
         tokenMng.OnGainLife += HandleOnGainLife;
+    }
+
+    public int GetLives()
+    {
+        return currentLives;
     }
     #endregion
 
     #region Handlers
     private void HandleOnPlayerDeath()
     {
-        currentLives--;
-
-        if (OnLivesChange != null)
-            OnLivesChange(currentLives);
-
-        if (currentLives <= 0)
-        {
-            Debug.Log("All lives lost");
-            if (OnAllLivesLost != null)
-                OnAllLivesLost();
-        }
+        currentLives = Mathf.Clamp(currentLives - 1, 0, lives);
     }
 
     private void HandleOnGainLife(int _val)
     {
-        currentLives += _val;
-        if (currentLives > lives)
-            currentLives = lives;
+        currentLives = Mathf.Clamp(currentLives + _val, 0, lives);
     }
     #endregion
 
     private void OnDisable()
     {
-        LevelManager.OnPlayerDeath -= HandleOnPlayerDeath;
+        player.OnPlayerDeath -= HandleOnPlayerDeath;
         tokenMng.OnGainLife -= HandleOnGainLife;
     }
 }

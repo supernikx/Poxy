@@ -18,6 +18,9 @@ public class UI_GameplayManager : UI_ManagerBase
     private UI_MenuEndGamePanel endGamePanel;
     [SerializeField]
     private UIMenu_CountdownPanel countdownPanel;
+    [SerializeField]
+    private UIMenu_GameOverPanel gameOverPanel;
+
     /// <summary>
     /// Riferimento al menù attualmente attivo
     /// </summary>
@@ -120,13 +123,16 @@ public class UI_GameplayManager : UI_ManagerBase
                 gamePanel.Enable();
                 break;
             case MenuType.Pause:
-                pausePanel.Enable();                
+                pausePanel.Enable();
                 break;
             case MenuType.Options:
                 optionsPanel.Enable();
                 break;
             case MenuType.EndGame:
                 endGamePanel.Enable();
+                break;
+            case MenuType.GameOver:
+                gameOverPanel.Enable();
                 break;
             default:
                 Debug.LogError(_menu + " non presente in questo manager");
@@ -171,6 +177,11 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.EndGame:
                 eventSystem.firstSelectedGameObject = endGamePanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.GameOver:
+                eventSystem.firstSelectedGameObject = endGamePanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
                 break;
         }
     }

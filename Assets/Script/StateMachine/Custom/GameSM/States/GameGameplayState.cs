@@ -15,7 +15,9 @@ namespace StateMachine.GameSM
             ui = context.gameManager.GetUIManager();
             if (context.gameManager.GetLevelsManager().GetMode())
             {
-                ui.GetGameplayManager().GetCountdownPanel().OnCountdown += HandleOnCountdown;
+                PlayerInputManager.SetCanReadInput(false);
+                levelManager.GetPlayer().GetHealthController().SetCanLoseHealth(false);
+
                 ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd += HandleOnCountdownEnd;
                 ui.ToggleMenu(MenuType.Countdown);
             }
@@ -25,20 +27,13 @@ namespace StateMachine.GameSM
 
         public override void Exit()
         {
-            ui.GetGameplayManager().GetCountdownPanel().OnCountdown -= HandleOnCountdown;
             ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd -= HandleOnCountdownEnd;
             context.gameManager.GetUIManager().ToggleMenu(MenuType.None);
         }
 
-        private void HandleOnCountdown()
-        {
-            PlayerInputManager.SetCanReadGameplayInput(false);
-            levelManager.GetPlayer().GetHealthController().SetCanLoseHealth(false);
-        }
-
         private void HandleOnCountdownEnd()
         {
-            PlayerInputManager.SetCanReadGameplayInput(true);
+            PlayerInputManager.SetCanReadInput(true);
             levelManager.GetPlayer().GetHealthController().SetCanLoseHealth(true);
 
             ui.ToggleMenu(MenuType.Game);

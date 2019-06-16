@@ -174,5 +174,6 @@ public enum MenuType
     Game,
     Pause,
     EndGame,
+    GameOver,
 }
 

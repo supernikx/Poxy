@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
 
         livesCtrl = GetComponent<PlayerLivesController>();
         if (livesCtrl != null)
-            livesCtrl.Init(_tokenMng);
+            livesCtrl.Init(this, _tokenMng);
 
         playerSM = GetComponent<PlayerSMController>();
         if (playerSM != null)

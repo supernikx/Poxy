@@ -8,7 +8,6 @@ namespace UI
     public class UIMenu_CountdownPanel : UIMenu_Base
     {
         #region Delegates
-        public Action OnCountdown;
         public Action OnCountdownEnd;
         #endregion
 
@@ -36,9 +35,6 @@ namespace UI
         private IEnumerator CTimer()
         {
             timer = countFrom;
-
-            if (OnCountdown != null)
-                OnCountdown();
 
             while (timer >= 0)
             {

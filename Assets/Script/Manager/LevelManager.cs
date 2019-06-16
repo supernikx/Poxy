@@ -218,8 +218,16 @@ public class LevelManager : MonoBehaviour
             GameManager.RestartCurrentLevel();
         else
         {
-            if (OnPlayerDeath != null)
-                OnPlayerDeath();
+            if (GameManager.Exist() && player.GetLivesController().GetLives() == 0)
+            {
+                Time.timeScale = 0f;
+                uiManager.ToggleMenu(MenuType.GameOver);
+            }
+            else
+            {
+                if (OnPlayerDeath != null)
+                    OnPlayerDeath();
+            }
         }
     }
 
@@ -284,6 +292,15 @@ public class LevelManager : MonoBehaviour
     public SpeedrunManager GetSpeedrunManager()
     {
         return speedMng;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna se esiste o no
+    /// </summary>
+    /// <returns></returns>
+    public static bool Exist()
+    {
+        return instance != null;
     }
     #endregion
 
