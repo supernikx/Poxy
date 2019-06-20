@@ -15,10 +15,6 @@ public class MovingPlatform : PlatformBase
     [SerializeField]
     private float waitTime = 0;
 
-    [Header("Graphics Settings")]
-    [SerializeField]
-    LineRenderer trail;
-
     Vector3 nextReachPosition;
     private Vector3 direction;
     bool setupped = false;
@@ -39,7 +35,6 @@ public class MovingPlatform : PlatformBase
         setupped = true;
         canMove = true;
 
-        SetTrail();
         SetNextWaypoint();
     }
 
@@ -115,20 +110,6 @@ public class MovingPlatform : PlatformBase
         nextReachPosition = reachPointsPositions[actualPosition];
         direction = (nextReachPosition - transform.position).normalized;
         distanceToTravel = Vector3.Distance(transform.position, nextReachPosition);
-    }
-
-    /// <summary>
-    /// Funzione che setuppa il trail
-    /// </summary>
-    private void SetTrail()
-    {
-        trail.positionCount = reachPointsPositions.Count;
-        trail.SetPositions(reachPointsPositions.ToArray());
-        if (reachPointsPositions.Count > 2)
-        {
-            trail.positionCount++;
-            trail.SetPosition(trail.positionCount - 1, reachPointsPositions[0]);
-        }
     }
 
     /// <summary>
