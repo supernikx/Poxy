@@ -6,7 +6,7 @@
     }
     SubShader
     {
-        Tags { "QUEUE"="Transparent+0" "RenderType"="Transparent" "RenderPipeline"="HDRenderPipeline" }
+        Tags { "QUEUE"="Transparent+1" "RenderType"="Transparent" "RenderPipeline"="HDRenderPipeline" }
         LOD 100
         ZTest Always
 		  Blend SrcAlpha OneMinusSrcAlpha
