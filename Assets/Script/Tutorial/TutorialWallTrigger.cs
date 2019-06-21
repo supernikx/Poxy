@@ -16,7 +16,7 @@ public class TutorialWallTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Bullets"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("PlayerImmunity"))
         {
             if (OnWallTriggered != null)
                 OnWallTriggered();

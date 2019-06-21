@@ -32,7 +32,10 @@ public class TestManager : MonoBehaviour
                 ui.ToggleMenu(MenuType.Countdown);
             }
             else
+            {
+                PlayerInputManager.SetCanReadInput(true);
                 ui.ToggleMenu(MenuType.Game);
+            }
         }
         else
             DestroyImmediate(gameObject);
