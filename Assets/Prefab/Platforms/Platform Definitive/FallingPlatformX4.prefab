@@ -116,8 +116,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.626134, y: 0.17557764, z: 1.8958732}
-  m_Center: {x: -0.15876245, y: -0.06326747, z: 0.14422482}
+  m_Size: {x: 4.039018, y: 0.17557764, z: 1.8958732}
+  m_Center: {x: -0.1335673, y: -0.06326747, z: 0.14422482}
 --- !u!54 &3074539947055756788
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -215,10 +215,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3441549556650973805}
     m_Modifications:
-    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
-      propertyPath: m_Name
-      value: Platform_falling_x3
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.19
@@ -266,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.94921
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
+      propertyPath: m_Name
+      value: Platform_falling_x3
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_Materials.Array.data[0]
