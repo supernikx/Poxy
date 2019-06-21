@@ -27,8 +27,6 @@ public class EnemyToleranceController : MonoBehaviour
     [Tooltip("Min Health")]
     private float minTolerance = 0;
 
-
-
     private float tolerance
     {
         set
@@ -121,6 +119,15 @@ public class EnemyToleranceController : MonoBehaviour
     {
         return maxTolerance;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il tempo che impiega la tolleranza per consumarsi
+    /// </summary>
+    /// <returns></returns>
+    public float GetTimeToFill()
+    {
+        return timeToFill;
+    }
     #endregion
 
     #region Setters
@@ -134,6 +141,4 @@ public class EnemyToleranceController : MonoBehaviour
     }
     #endregion
     #endregion
-
-
 }

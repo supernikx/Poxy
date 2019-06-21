@@ -270,7 +270,7 @@ public class Player : MonoBehaviour
         collisionCtrl.CheckDamageableCollision(false);
         shootCtrl.SetCanAim(false);
         shootCtrl.SetCanShoot(false);
-        ChangeGraphics(playerGraphic);
+        ChangeGraphics(playerGraphic, !(parasiteCtrl.GetParasite().GetControllableType() == ControllableType.Platform));
         animCtrl.SetAnimatorController(null);
         shootCtrl.ChangeShotType(shootCtrl.GetPlayerDefaultShotSetting());
 
@@ -389,9 +389,10 @@ public class Player : MonoBehaviour
     /// Funzione che cambia la grafica con quella passata come parametro
     /// </summary>
     /// <param name="_newGraphic"></param>
-    public void ChangeGraphics(IGraphic _newGraphic)
+    public void ChangeGraphics(IGraphic _newGraphic, bool _disableOldGraphic = true)
     {
-        EnableGraphics(false);
+        if (_disableOldGraphic)
+            EnableGraphics(false);
         activeGraphic = _newGraphic;
         EnableGraphics(true);
     }

@@ -26,9 +26,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
     [Header("Graphics Settings")]
     [SerializeField]
-    private EnemySpriteController idleCommandsCtrl;
+    private PlatformSpriteController idleCommandsCtrl;
     [SerializeField]
-    private EnemySpriteController parasiteCommandCtrl;
+    private PlatformSpriteController parasiteCommandCtrl;
     [SerializeField]
     private ParticleSystem ejectParticle;
 
@@ -36,6 +36,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     [SerializeField]
     private Transform objectToFollow;
 
+    private Animator anim;
     private GeneralSoundController sfxCtrl;
     private MeshRenderer meshRenderer;
 
@@ -61,6 +62,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         sfxCtrl = GetComponentInChildren<GeneralSoundController>();
         platfromColldier = GetComponent<BoxCollider>();
+        anim = GetComponentInChildren<Animator>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         rangeCollider = GetComponentInChildren<SphereCollider>();
         toleranceCtrl = GetComponent<EnemyToleranceController>();
@@ -90,8 +92,7 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         player.OnPlayerMaxHealth -= HandlePlayerMaxHealth;
         player = null;
-        sfxCtrl.PlayClip();
-        ejectParticle.Play();
+
         if (tickCoroutine != null)
         {
             StopCoroutine(tickCoroutine);
@@ -103,10 +104,9 @@ public class LaunchingPlatform : PlatformBase, IControllable
         parasiteCommandCtrl.ToggleButton(false);
         idleCommandsCtrl.ToggleButton(false);
 
-        SetObjectState(false);
-        StartCoroutine(Respawn());
-
         PlatformManager.OnParasiteEnd(this);
+
+        StartCoroutine(ShotAnimation());
     }
 
     public void RotationUpdate(Vector2 _aimVector)
@@ -131,6 +131,8 @@ public class LaunchingPlatform : PlatformBase, IControllable
     {
         player = _player;
         PlatformManager.OnParasite(this);
+
+        anim.SetTrigger("Parasite");
 
         toleranceCtrl.Setup();
         player.OnPlayerMaxHealth += HandlePlayerMaxHealth;
@@ -176,6 +178,16 @@ public class LaunchingPlatform : PlatformBase, IControllable
 
             yield return null;
         }
+    }
+
+    private IEnumerator ShotAnimation()
+    {
+        sfxCtrl.PlayClip();
+        ejectParticle.Play();
+        anim.SetTrigger("Eject");
+        yield return new WaitForSeconds(0.20f);
+        SetObjectState(false);
+        StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()

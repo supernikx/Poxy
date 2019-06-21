@@ -107,7 +107,7 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy, IControllable
 
         commandsSpriteCtrl = GetComponentInChildren<EnemySpriteController>();
         if (commandsSpriteCtrl != null)
-            commandsSpriteCtrl.Init();
+            commandsSpriteCtrl.Init(this);
 
         vfxCtrl = GetComponentInChildren<EnemyVFXController>();
         if (vfxCtrl != null)

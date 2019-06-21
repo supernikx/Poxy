@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpriteController : MonoBehaviour
+public class PlatformSpriteController : MonoBehaviour
 {
     [System.Serializable]
     class CommandButtonSprites
@@ -15,38 +15,11 @@ public class EnemySpriteController : MonoBehaviour
     [SerializeField]
     CommandButtonSprites buttonSprite;
 
-    [Header("Exclamation Marks")]
-    [SerializeField]
-    private GameObject exclamationSprite;
-    [SerializeField]
-    private float secondsForTriggerTollerance;
-    [SerializeField]
-    private bool exclamationMarkActive = true;
-
-    private float exclamationTriggerToleranceTotal;
-    private bool enemyParasiteState = false;
-    private EnemyBase enemy;
-
     #region API
-    public void Init(EnemyBase _enemy)
+    public void Init()
     {
-        enemy = _enemy;
-        exclamationTriggerToleranceTotal = (enemy.GetToleranceCtrl().GetTimeToFill() * secondsForTriggerTollerance) / enemy.GetToleranceCtrl().GetMaxTolerance();
-
         buttonSprite.joystickSprite.SetActive(false);
         buttonSprite.keyboardSprite.SetActive(false);
-        if (exclamationSprite != null)
-            exclamationSprite.SetActive(false);
-
-        // Exclamation Events
-        EnemyToleranceController.OnToleranceChange += HandleOnToleranceChange;
-    }
-
-    public void SetParasiteState(bool _val)
-    {
-        enemyParasiteState = _val;
-        if (!enemyParasiteState)
-            exclamationSprite.SetActive(false);
     }
     #endregion
 
@@ -112,29 +85,8 @@ public class EnemySpriteController : MonoBehaviour
     }
     #endregion
 
-    #region Exclamation
-    private void HandleOnToleranceChange(float _tolerance)
-    {
-        if (exclamationMarkActive)
-        {
-            if (enemyParasiteState && _tolerance >= exclamationTriggerToleranceTotal)
-            {
-                exclamationSprite.SetActive(true);
-            }
-            else if (enemyParasiteState && _tolerance < exclamationTriggerToleranceTotal)
-            {
-                exclamationSprite.SetActive(false);
-            }
-
-            if (enemyParasiteState && _tolerance <= 0)
-                exclamationSprite.SetActive(false);
-        }
-    }
-    #endregion
-
     private void OnDisable()
     {
         InputChecker.OnInputChanged -= HandleOnInputChange;
-        EnemyToleranceController.OnToleranceChange -= HandleOnToleranceChange;
     }
 }
