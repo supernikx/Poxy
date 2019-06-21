@@ -117,11 +117,11 @@ public class EnemySpriteController : MonoBehaviour
     {
         if (exclamationMarkActive)
         {
-            if (enemyParasiteState && _tolerance >= exclamationTriggerToleranceTotal)
+            if (enemyParasiteState && _tolerance >= (enemy.GetToleranceCtrl().GetMaxTolerance() - exclamationTriggerToleranceTotal))
             {
                 exclamationSprite.SetActive(true);
             }
-            else if (enemyParasiteState && _tolerance < exclamationTriggerToleranceTotal)
+            else if (enemyParasiteState && _tolerance < (enemy.GetToleranceCtrl().GetMaxTolerance() - exclamationTriggerToleranceTotal))
             {
                 exclamationSprite.SetActive(false);
             }
