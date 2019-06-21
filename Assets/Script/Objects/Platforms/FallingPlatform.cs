@@ -46,7 +46,6 @@ public class FallingPlatform : PlatformBase
     [Header("Graphic Settings")]
     [SerializeField]
     private float minbrightness;
-    [SerializeField]
     private float maxbrightness;
 
     private new Renderer renderer;
@@ -80,6 +79,8 @@ public class FallingPlatform : PlatformBase
     {
         renderer = GetComponentInChildren<Renderer>();
         collider = GetComponent<Collider>();
+
+        maxbrightness = renderer.material.GetColor("_EmissiveColor").r;
         previousContactState = false;
         currentContactState = true;
         startingPosition = transform.position;
@@ -172,9 +173,9 @@ public class FallingPlatform : PlatformBase
         StartCoroutine(emissionRoutine);
         yield return graphic.transform.DOShakePosition(shakeTime, shakeStrenght, 150).WaitForCompletion();
         StopCoroutine(emissionRoutine);
+        yield return transform.DOMoveY(transform.position.y - 5f, fallSpeed).SetSpeedBased().SetEase(Ease.Linear).WaitForCompletion();
         renderer.material.SetColor("_EmissiveColor", new Color(maxbrightness, maxbrightness, maxbrightness, 1f));
         collider.enabled = false;
-        yield return transform.DOMoveY(transform.position.y - 5f, fallSpeed).SetSpeedBased().SetEase(Ease.Linear).WaitForCompletion();
         graphic.SetActive(false);
         respawnCoroutine = StartCoroutine(CRespawn());
     }

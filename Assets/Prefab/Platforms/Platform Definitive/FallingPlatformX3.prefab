@@ -116,8 +116,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.679307, y: 0.2381525, z: 1.8958732}
-  m_Center: {x: -0.20513368, y: 0.054152012, z: 0.14422482}
+  m_Size: {x: 3.14, y: 0.2381525, z: 1.8958732}
+  m_Center: {x: -0.086, y: 0.054152012, z: 0.14422482}
 --- !u!54 &3133625627689151192
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -215,10 +215,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3320557255590734338}
     m_Modifications:
-    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
-      propertyPath: m_Name
-      value: Platform_falling_x3
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.14500004
@@ -262,6 +258,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
+      propertyPath: m_Name
+      value: Platform_falling_x3
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: e01725b695d84694ebe7826f7e35b2db, type: 3}
       propertyPath: m_Materials.Array.data[0]

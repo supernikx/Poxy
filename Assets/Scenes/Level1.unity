@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03764126, g: 0.047973316, b: 0.061335944, a: 1}
+  m_IndirectSpecularColor: {r: 0.03764112, g: 0.04797314, b: 0.061335795, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5758,6 +5758,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1753327496}
     m_Modifications:
+    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
+        type: 3}
+      propertyPath: m_Name
+      value: Acid_tile
+      objectReference: {fileID: 0}
     - target: {fileID: 6822036860621984411, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5812,11 +5817,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1669442653741281126, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
-        type: 3}
-      propertyPath: m_Name
-      value: Acid_tile
       objectReference: {fileID: 0}
     - target: {fileID: 2191417487960139910, guid: 6bbb2fe7a5f14e7459c591bb2f959940,
         type: 3}
@@ -7519,7 +7519,7 @@ PrefabInstance:
     - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.873756
+      value: -34.88076
       objectReference: {fileID: 0}
     - target: {fileID: 4967768896934633880, guid: 7295e8a0e88410145973e269104b40c2,
         type: 3}
@@ -19037,7 +19037,7 @@ PrefabInstance:
     - target: {fileID: 5973327107741061406, guid: 84526066e1e9c8a4093714f8e4e0d78a,
         type: 3}
       propertyPath: tokenForGainLife
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5973327107741061406, guid: 84526066e1e9c8a4093714f8e4e0d78a,
         type: 3}

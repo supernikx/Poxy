@@ -50,12 +50,12 @@ public class PlayerLivesController : MonoBehaviour
     #region Handlers
     private void HandleOnPlayerDeath()
     {
-        currentLives = Mathf.Clamp(currentLives - 1, 0, lives);
+        currentLives = Mathf.Clamp(currentLives - 1, 0, 99);
     }
 
     private void HandleOnGainLife(int _val)
     {
-        currentLives = Mathf.Clamp(currentLives + _val, 0, lives);
+        currentLives = Mathf.Clamp(currentLives + _val, 0, 99);
     }
     #endregion
 
