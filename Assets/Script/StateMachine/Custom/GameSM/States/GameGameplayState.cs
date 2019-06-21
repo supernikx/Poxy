@@ -22,7 +22,10 @@ namespace StateMachine.GameSM
                 ui.ToggleMenu(MenuType.Countdown);
             }
             else
+            {
+                PlayerInputManager.SetCanReadInput(true);
                 ui.ToggleMenu(MenuType.Game);
+            }
         }
 
         public override void Exit()
