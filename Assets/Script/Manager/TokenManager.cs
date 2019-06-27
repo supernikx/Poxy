@@ -27,16 +27,24 @@ public class TokenManager : MonoBehaviour
     private int tokenCounter;
 
     #region API
-    public void Init()
+    public void Init(SpeedrunManager _speedRun)
     {
         if (!tokenContainer)
             return;
         for (int i = 0; i < tokenContainer.childCount; i++)
         {
             BaseToken _current = tokenContainer.GetChild(i).GetComponent<BaseToken>();
-            _current.Init();
-            tokens.Add(_current);
-            _current.GetToken += HandleGetToken;
+
+            if (_speedRun.GetIsActive())
+            {
+                _current.gameObject.SetActive(false);
+            }
+            else
+            {
+                _current.Init();
+                tokens.Add(_current);
+                _current.GetToken += HandleGetToken;
+            }
         }
 
         tokenCounter = 0;

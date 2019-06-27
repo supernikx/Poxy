@@ -17,7 +17,7 @@ public class CheckpointManager : MonoBehaviour
     private CheckpointBase activeCheckpoint;
 
     #region API
-    public void Init()
+    public void Init(SpeedrunManager _speedRun)
     {
         if (initialCheckpoint == null)
         {
@@ -25,16 +25,24 @@ public class CheckpointManager : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < checkpointContainer.childCount; i++)
+        if (_speedRun.GetIsActive())
         {
-            CheckpointBase _current = checkpointContainer.GetChild(i).GetComponent<CheckpointBase>();
-            checkpoints.Add(_current);
-            _current.Init();
-            _current.ActivateCheckpoint += HandleActivateCheckpoint;
+            for (int i = 0; i < checkpointContainer.childCount; i++)
+                checkpointContainer.GetChild(i).gameObject.SetActive(false);
         }
+        else
+        {
+            for (int i = 0; i < checkpointContainer.childCount; i++)
+            {
+                CheckpointBase _current = checkpointContainer.GetChild(i).GetComponent<CheckpointBase>();
+                checkpoints.Add(_current);
+                _current.Init();
+                _current.ActivateCheckpoint += HandleActivateCheckpoint;
+            }
 
-        activeCheckpoint = initialCheckpoint;
-        activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
+            activeCheckpoint = initialCheckpoint;
+            activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
+        }
     }
     #endregion
 

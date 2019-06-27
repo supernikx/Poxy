@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
 
         checkpointMng = GetComponent<CheckpointManager>();
         if (checkpointMng != null)
-            checkpointMng.Init();
+            checkpointMng.Init(speedMng);
 
         poopCtrl = FindObjectOfType<PoopController>();
         if (poopCtrl != null)
@@ -107,7 +107,7 @@ public class LevelManager : MonoBehaviour
 
         tokenMng = GetComponent<TokenManager>();
         if (tokenMng != null)
-            tokenMng.Init();
+            tokenMng.Init(speedMng);
 
         player = FindObjectOfType<Player>();
         if (player != null)
