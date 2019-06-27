@@ -12,8 +12,6 @@ public class UI_SelectLevelButton : MonoBehaviour
     [SerializeField]
     private LevelScriptable level;
     [SerializeField]
-    private TextMeshProUGUI levelNameText;
-    [SerializeField]
     private UI_ModeSelection selectModePanel;
 
     Button button;
@@ -21,9 +19,8 @@ public class UI_SelectLevelButton : MonoBehaviour
 
     public void Init(UIMenu_LevelSelection _menuLevelSelection)
     {
-        button = GetComponent<Button>();
+        button = GetComponentInChildren<Button>();
         menuLevelSelection = _menuLevelSelection;
-        levelNameText.text = level.LevelName;
         selectModePanel.Init(this);
         SelectModePanel(false);
     }
@@ -54,7 +51,7 @@ public class UI_SelectLevelButton : MonoBehaviour
 
     public void EnableButton(bool _enable)
     {
-        button.interactable = _enable;
+        button.gameObject.SetActive(_enable);
     }
 
     public LevelScriptable GetLevelScriptable()

@@ -123,6 +123,7 @@ public class UI_GameplayManager : UI_ManagerBase
                 gamePanel.Enable();
                 break;
             case MenuType.Pause:
+                pausePanel.UpdatedImage(InputChecker.GetCurrentInputType());
                 pausePanel.Enable();
                 break;
             case MenuType.Options:
@@ -167,6 +168,7 @@ public class UI_GameplayManager : UI_ManagerBase
                 StopFixEventSystemCoroutine();
                 break;
             case MenuType.Pause:
+                pausePanel.UpdatedImage(_currentInput);
                 eventSystem.firstSelectedGameObject = pausePanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
@@ -181,7 +183,6 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.GameOver:
                 eventSystem.firstSelectedGameObject = endGamePanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
-                break;
                 break;
         }
     }

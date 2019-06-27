@@ -43,10 +43,13 @@ namespace UI
         private void LoadLeaderboard()
         {
             List<dreamloLeaderBoard.Score> scores = lbMgn.ToListLowToHigh();
-            foreach (var score in scores)
+
+            for (int i = 0; i < scores.Count; i++)
             {
+                if (i == 5)
+                    break;
                 UI_LeaderboardField instantiatedField = Instantiate(leaderboardFieldPrefab, leaderboardPanel.transform);
-                instantiatedField.Setup(score.playerName, score.seconds.ToString("0.00"));
+                instantiatedField.Setup(scores[i].playerName, scores[i].seconds.ToString("0.00"));
                 leaderboardFields.Add(instantiatedField);
             }
 
