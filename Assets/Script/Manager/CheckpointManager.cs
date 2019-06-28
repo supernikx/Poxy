@@ -29,6 +29,8 @@ public class CheckpointManager : MonoBehaviour
         {
             for (int i = 0; i < checkpointContainer.childCount; i++)
                 checkpointContainer.GetChild(i).gameObject.SetActive(false);
+
+            activeCheckpoint = initialCheckpoint;
         }
         else
         {
