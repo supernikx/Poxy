@@ -93,6 +93,15 @@ public class PlayerParasiteController : MonoBehaviour
     {
         return parasiteTarget;
     }
+
+    /// <summary>
+    /// Funzione che ritorna il range di parasite del player
+    /// </summary>
+    /// <returns></returns>
+    public float GetRange()
+    {
+        return parasiteRange;
+    }
     #endregion
     #endregion
 

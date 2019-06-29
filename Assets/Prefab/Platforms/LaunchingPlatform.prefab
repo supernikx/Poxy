@@ -166,7 +166,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2149116515472948816}
   - component: {fileID: 6380866420533370316}
-  - component: {fileID: 833287547688346797}
   m_Layer: 21
   m_Name: IdleCommandsSprites
   m_TagString: Untagged
@@ -205,19 +204,6 @@ MonoBehaviour:
   buttonSprite:
     joystickSprite: {fileID: 1861087132848854967}
     keyboardSprite: {fileID: 8465908859723162882}
---- !u!135 &833287547688346797
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153879944351204004}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &350916065882107843
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,14 +976,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 73a941948f5034e4eb65bde12c12e47a, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f1d09f728586a5c4cb172eb869b3e2f8, type: 2}
     - target: {fileID: 13700000, guid: 73a941948f5034e4eb65bde12c12e47a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 03b19ab31b2ffe147bd14d18555b5e8b, type: 2}
+    - target: {fileID: 9500000, guid: 73a941948f5034e4eb65bde12c12e47a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f1d09f728586a5c4cb172eb869b3e2f8, type: 2}
     m_RemovedComponents:
     - {fileID: 9500000, guid: 73a941948f5034e4eb65bde12c12e47a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 73a941948f5034e4eb65bde12c12e47a, type: 3}
@@ -1026,6 +1012,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5628900311144768859}
     m_Modifications:
+    - target: {fileID: 7878999137954944694, guid: 9557628e016f533409194ed9781f978d,
+        type: 3}
+      propertyPath: m_Name
+      value: VFXBoom_Cannon
+      objectReference: {fileID: 0}
     - target: {fileID: 5742888070348691813, guid: 9557628e016f533409194ed9781f978d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1080,11 +1071,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7878999137954944694, guid: 9557628e016f533409194ed9781f978d,
-        type: 3}
-      propertyPath: m_Name
-      value: VFXBoom_Cannon
       objectReference: {fileID: 0}
     - target: {fileID: 751425695768130093, guid: 9557628e016f533409194ed9781f978d,
         type: 3}

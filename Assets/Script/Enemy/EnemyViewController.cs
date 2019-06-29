@@ -29,9 +29,13 @@ public class EnemyViewController : MonoBehaviour
     /// Funzione che controlla se il player è nel range del nemico
     /// </summary>
     Collider[] hits = new Collider[1];
-    public Transform FindPlayer()
+    public Transform FindPlayer(float _radius = 0)
     {
-        if (Physics.OverlapSphereNonAlloc(transform.position, viewRadius, hits, playerLayer) == 0)
+        float radiusToUse = viewRadius;
+        if (_radius != 0)
+            radiusToUse = _radius;
+
+        if (Physics.OverlapSphereNonAlloc(transform.position, radiusToUse, hits, playerLayer) == 0)
             return null;
         return hits[0].transform;
     }

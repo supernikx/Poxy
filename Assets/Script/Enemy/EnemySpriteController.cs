@@ -71,9 +71,17 @@ public class EnemySpriteController : MonoBehaviour
     public void ToggleButton(bool _toggle)
     {
         if (_toggle)
+        {
+            if (IsButtonActive())
+                return;
             InputChecker.OnInputChanged += HandleOnInputChange;
+        }
         else
+        {
+            if (!IsButtonActive())
+                return;
             InputChecker.OnInputChanged -= HandleOnInputChange;
+        }
 
         switch (InputChecker.GetCurrentInputType())
         {

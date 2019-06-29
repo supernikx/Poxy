@@ -17,17 +17,32 @@ namespace StateMachine.EnemySM
         /// Count the time passed since entering the state
         /// </summary>
         private float timer;
+        /// <summary>
+        /// Riferimento al range del player parassita
+        /// </summary>
+        private float playerParasiteRange;
+        /// <summary>
+        /// Reference all'enemy sprite controller
+        /// </summary>
+        private EnemySpriteController spriteCtrl;
+        /// <summary>
+        /// Reference all'enemy view controller
+        /// </summary>
+        private EnemyViewController viewCtrl;
 
         /// <summary>
         /// Function that activate on state enter
         /// </summary>
         public override void Enter()
-        {          
+        {
+            spriteCtrl = context.enemy.GetEnemyCommandsSpriteController();
+            viewCtrl = context.enemy.GetViewCtrl();
+            playerParasiteRange = LevelManager.instance.GetPlayer().GetParasiteController().GetRange();
+
             context.enemy.SetCanStun(false);
             stunDuration = context.enemy.GetStunDuration();
             context.enemy.GetVFXController().EnemyStunVFX(true);
             context.enemy.GetAnimationController().Stun(true);
-            context.enemy.GetEnemyCommandsSpriteController().ToggleButton(true);
             timer = 0;
             start = true;
         }
@@ -39,11 +54,17 @@ namespace StateMachine.EnemySM
         {
             if (start)
             {
+                Transform playerTransform = viewCtrl.FindPlayer(playerParasiteRange);
+                if (playerTransform != null)
+                    context.enemy.GetEnemyCommandsSpriteController().ToggleButton(true);
+                else
+                    context.enemy.GetEnemyCommandsSpriteController().ToggleButton(false);
+
                 context.enemy.GetMovementCtrl().MovementCheck();
                 timer += Time.deltaTime;
                 if (timer >= stunDuration)
                 {
-                    context.EndStunCallback();                    
+                    context.EndStunCallback();
                     start = false;
                 }
             }
