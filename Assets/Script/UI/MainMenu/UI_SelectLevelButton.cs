@@ -72,7 +72,7 @@ public class UI_SelectLevelButton : MonoBehaviour
     public void FocusOnPanel()
     {
         if (InputChecker.GetCurrentInputType() == InputType.Joystick)
-            EventSystem.current.SetSelectedGameObject(gameObject);
+            EventSystem.current.SetSelectedGameObject(button.gameObject);
         else
             EventSystem.current.SetSelectedGameObject(null);
     }

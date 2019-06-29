@@ -34,6 +34,11 @@ public class UI_ModeSelection : MonoBehaviour
         uI_SelectLevelButton.LevelModePressed(_select);
     }
 
+    public void SetDefaultButton(GameObject _newButton)
+    {
+        defaultButton = _newButton;
+    }
+
     public GameObject GetDefaultButton()
     {
         return defaultButton;
@@ -41,6 +46,20 @@ public class UI_ModeSelection : MonoBehaviour
 
     public void FocusOnPanel()
     {
+        if (InputChecker.GetCurrentInputType() == InputType.Joystick)
+            EventSystem.current.SetSelectedGameObject(defaultButton);
+        else
+            EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void FocusOnPanelDelay(float _delay)
+    {
+        StartCoroutine(FocusOnPanelDelayCoroutine(_delay));
+    }
+
+    private IEnumerator FocusOnPanelDelayCoroutine(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
         if (InputChecker.GetCurrentInputType() == InputType.Joystick)
             EventSystem.current.SetSelectedGameObject(defaultButton);
         else

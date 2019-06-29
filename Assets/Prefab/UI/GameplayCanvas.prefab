@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3791918806291084777}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMusicVolume
         m_Mode: 0
         m_Arguments:
@@ -1188,7 +1188,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3791918806291084777}
+        - m_Target: {fileID: 0}
           m_MethodName: BackPauseButton
           m_Mode: 1
           m_Arguments:
@@ -1507,7 +1507,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.068830684, y: 0.057000004}
   m_AnchorMax: {x: 0.13078836, y: 0.17547737}
-  m_AnchoredPosition: {x: 5, y: -2.15}
+  m_AnchoredPosition: {x: 5, y: 13.0997925}
   m_SizeDelta: {x: 1.3999939, y: 0.3000002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1576029649069721673
@@ -2240,11 +2240,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -2680,7 +2680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.09068783, y: 0.3427467}
   m_AnchorMax: {x: 0.4316482, y: 0.5}
-  m_AnchoredPosition: {x: -0.099995, y: -3.4100037}
+  m_AnchoredPosition: {x: -0.100097656, y: -3.4100037}
   m_SizeDelta: {x: -0.19999695, y: -4.699997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &872068803539676678
@@ -2990,7 +2990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.350006, y: -0.000038146973}
+  m_AnchoredPosition: {x: -5.3499756, y: -0.000038146973}
   m_SizeDelta: {x: 10.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &933997307329512250
@@ -3433,8 +3433,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSelection: {fileID: 0}
-  musicSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
+  musicSlider: {fileID: 1424733889836766847}
+  sfxSlider: {fileID: 872068803539676678}
   resolutionDropdown: {fileID: 0}
   qualityDropdown: {fileID: 0}
   fullScreenToggle: {fileID: 0}
@@ -4037,11 +4037,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -4447,7 +4447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.350006, y: -0.000038146973}
+  m_AnchoredPosition: {x: -5.3499756, y: -0.000038146973}
   m_SizeDelta: {x: 10.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7786448577453958867
@@ -4520,7 +4520,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.64666665, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 2.6700134, y: 1.5099945}
   m_SizeDelta: {x: 4.65, y: 3.02}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4975,8 +4975,8 @@ RectTransform:
   m_Father: {fileID: 1316886083761223060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.64666665, y: 0}
-  m_AnchorMax: {x: 0.64666665, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5.1999817, y: 0.000015258789}
   m_SizeDelta: {x: 108.24, y: -45.34}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5065,9 +5065,9 @@ RectTransform:
   m_Father: {fileID: 340404164380731930}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.64666665, y: 0}
-  m_AnchorMax: {x: 0.64666665, y: 1}
-  m_AnchoredPosition: {x: 5.199997, y: 0.000015258789}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 5.200012, y: 0.000015258789}
   m_SizeDelta: {x: 108.24, y: -45.34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &887551691713385939
@@ -6118,7 +6118,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.64666665, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 2.6700134, y: 1.5099945}
   m_SizeDelta: {x: 4.65, y: 3.02}
   m_Pivot: {x: 0.5, y: 0.5}
