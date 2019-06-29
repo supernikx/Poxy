@@ -11,6 +11,18 @@ public class BackgroundMusicController : SoundControllerBase
     public override void Init()
     {
         base.Init();
+    }
+
+    public void Play()
+    {
         PlayAudioClip(music);
+    }
+
+    public void Stop()
+    {
+        foreach (AudioSource source in sources)
+        {
+            source.Stop();
+        }
     }
 }

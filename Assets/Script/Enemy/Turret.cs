@@ -30,6 +30,7 @@ public class Turret : MonoBehaviour, IEnemy
     [SerializeField]
     private GameObject objectToRotate;
 
+    protected GeneralSoundController soundCtrl;
     protected EnemyGraphicController graphics;
     protected TurretAnimationController animCtrl;
     protected Vector3 startPosition;
@@ -44,6 +45,7 @@ public class Turret : MonoBehaviour, IEnemy
     /// </summary>
     public void Init(EnemyManager _enemyMng)
     {
+        soundCtrl = GetComponentInChildren<GeneralSoundController>();
         graphics = GetComponentInChildren<EnemyGraphicController>();
         collider = GetComponent<Collider>();
         enemyMng = _enemyMng;
@@ -222,20 +224,40 @@ public class Turret : MonoBehaviour, IEnemy
     private Coroutine behaviourCoroutine;
     private IEnumerator NormalBehaviour()
     {
+        bool playerAggro = false;
         while (true)
         {
             Transform _target = viewCtrl.FindPlayer();
 
-            if (_target != null && viewCtrl.CanSeePlayer(_target.position) && CheckRange(_target))
+            if (_target != null && viewCtrl.CanSeePlayer(_target.position))
             {
-                if (CheckShot(_target))
+                AggroBehaviour(_target);
+
+                if (!playerAggro)
                 {
-                    objectToRotate.transform.up = (_target.position - transform.position).normalized;
-                    Shot(_target);
+                    playerAggro = true;
+                    soundCtrl.PlayClip();
                 }
+            }
+            else
+            {
+                if (playerAggro)
+                    playerAggro = false;
             }
 
             yield return null;
+        }
+    }
+
+    private void AggroBehaviour(Transform _target)
+    {
+        if (CheckRange(_target))
+        {
+            if (CheckShot(_target))
+            {
+                objectToRotate.transform.up = (_target.position - transform.position).normalized;
+                Shot(_target);
+            }
         }
     }
 

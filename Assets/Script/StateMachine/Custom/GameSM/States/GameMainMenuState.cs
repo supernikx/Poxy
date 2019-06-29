@@ -18,6 +18,7 @@ namespace StateMachine.GameSM
             {
                 uiManager = context.gameManager.FindUIManager();
                 uiManager.ToggleMenu(MenuType.MainMenu);
+                context.gameManager.GetSoundManager().PlayMainMenuMnusic();
             }
             else
             {
@@ -31,6 +32,7 @@ namespace StateMachine.GameSM
         {
             uiManager = context.gameManager.FindUIManager();
             uiManager.ToggleMenu(MenuType.MainMenu);
+            context.gameManager.GetSoundManager().PlayMainMenuMnusic();
         }
 
         private void HandleLevelSelected(LevelScriptable _selectedLevel, bool _speedRun)
@@ -45,6 +47,7 @@ namespace StateMachine.GameSM
             UIMenu_LevelSelection.OnLevelSelected -= HandleLevelSelected;
             SceneManager.sceneLoaded -= OnSceneLoaded;
             uiManager.ToggleMenu(MenuType.None);
+            context.gameManager.GetSoundManager().StopMusic();
         }
     }
 }

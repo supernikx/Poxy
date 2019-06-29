@@ -4393,6 +4393,9 @@ MonoBehaviour:
   alert:
     clip: {fileID: 8300000, guid: 7c17f36ff4348f84cb83d59094c00a5f, type: 3}
     CanUseMultipleSource: 0
+  stun:
+    clip: {fileID: 8300000, guid: 38d59da9f4d72b3419cccec8cd5ef4a7, type: 3}
+    CanUseMultipleSource: 0
   damageHit:
     clip: {fileID: 8300000, guid: 00ee6e3f8c64bf24c816d370688a210b, type: 3}
     CanUseMultipleSource: 0
@@ -5059,6 +5062,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
+    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_EnemyHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 5503750700905914653, guid: cba4293ae8c105f4b813cf8893aa8afb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5114,16 +5127,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_EnemyHit
-      objectReference: {fileID: 0}
-    - target: {fileID: 5503750700905914652, guid: cba4293ae8c105f4b813cf8893aa8afb,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 5503750701883375372, guid: cba4293ae8c105f4b813cf8893aa8afb,
         type: 3}
       propertyPath: m_Layer
@@ -5150,6 +5153,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7310725897395674690}
     m_Modifications:
+    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_EnemyDeath
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7279364904598728364, guid: 8e1e40d53a3522d44ac6f51413e182b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5204,16 +5217,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_EnemyDeath
-      objectReference: {fileID: 0}
-    - target: {fileID: 7279364904598728365, guid: 8e1e40d53a3522d44ac6f51413e182b9,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7279364905701140761, guid: 8e1e40d53a3522d44ac6f51413e182b9,
         type: 3}

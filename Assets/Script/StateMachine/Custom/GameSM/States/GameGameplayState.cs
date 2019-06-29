@@ -13,6 +13,8 @@ namespace StateMachine.GameSM
         {
             levelManager = FindObjectOfType<LevelManager>();
             ui = context.gameManager.GetUIManager();
+            context.gameManager.GetSoundManager().PlayGameMusic();
+
             if (context.gameManager.GetLevelsManager().GetMode())
             {
                 PlayerInputManager.SetCanReadInput(false);
@@ -32,6 +34,7 @@ namespace StateMachine.GameSM
         {
             ui.GetGameplayManager().GetCountdownPanel().OnCountdownEnd -= HandleOnCountdownEnd;
             context.gameManager.GetUIManager().ToggleMenu(MenuType.None);
+            context.gameManager.GetSoundManager().StopMusic();
         }
 
         private void HandleOnCountdownEnd()

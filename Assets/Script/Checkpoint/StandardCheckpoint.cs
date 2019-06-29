@@ -4,6 +4,7 @@ using System.Collections;
 public class StandardCheckpoint : CheckpointBase
 {
     CheckpointAnimationController animMng;
+    GeneralSoundController soundCtrl;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,13 +17,20 @@ public class StandardCheckpoint : CheckpointBase
     #region API
     public override void Init()
     {
+        soundCtrl = GetComponentInChildren<GeneralSoundController>();
         animMng = GetComponentInChildren<CheckpointAnimationController>();
         animMng.Init();
     }
 
-    public override CheckpointAnimationController GetCheckpointAnimatorManager()
+    public override void Enable()
     {
-        return animMng;
+        animMng.Enable(true);
+        soundCtrl.PlayClip();
+    }
+
+    public override void Disable()
+    {
+        animMng.Enable(false);
     }
     #endregion
 }

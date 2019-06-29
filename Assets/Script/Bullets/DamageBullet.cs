@@ -5,6 +5,13 @@ public class DamageBullet : BulletBase
 {    [Header("Damage Bullet Settings")]
     [SerializeField]
     private ParticleSystem bulletParticle;
+    private BulletSoundController soundCtrl;
+
+    public override void Setup()
+    {
+        base.Setup();
+        soundCtrl = GetComponentInChildren<BulletSoundController>();
+    }
 
     protected override bool OnBulletCollision(Collider _collider)
     {
@@ -51,12 +58,14 @@ public class DamageBullet : BulletBase
     protected override void ObjectDestroyEvent()
     {
         bulletParticle.Stop();
+        soundCtrl.Hit();
         base.ObjectDestroyEvent();
     }
 
     protected override void ObjectSpawnEvent()
     {
         bulletParticle.Play();
+        soundCtrl.Shot();
         base.ObjectSpawnEvent();
     }
     #endregion

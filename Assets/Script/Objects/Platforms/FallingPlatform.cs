@@ -50,6 +50,7 @@ public class FallingPlatform : PlatformBase
 
     private new Renderer renderer;
     private new Collider collider;
+    private GeneralSoundController soundCtrl;
     private FallingTrigger fallingTrigger;
     private Vector3 startingPosition;
     private Coroutine respawnCoroutine = null;
@@ -79,6 +80,7 @@ public class FallingPlatform : PlatformBase
     {
         renderer = GetComponentInChildren<Renderer>();
         collider = GetComponent<Collider>();
+        soundCtrl = GetComponentInChildren<GeneralSoundController>();
 
         maxbrightness = renderer.material.GetColor("_EmissiveColor").r;
         previousContactState = false;
@@ -166,6 +168,7 @@ public class FallingPlatform : PlatformBase
 
     private IEnumerator FallCoroutine()
     {
+        soundCtrl.PlayClip();
         Vector3 shakeStrenght = Vector3.zero;
         shakeStrenght.x = 0.6f;
         yield return new WaitForSeconds(fallTime - shakeTime);

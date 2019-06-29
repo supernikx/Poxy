@@ -7,9 +7,9 @@ public abstract class SoundControllerBase : MonoBehaviour
 {
     [Header("General Sound Settings")]
     [SerializeField]
-    private SoundOutput output;
+    protected SoundOutput output;
     [SerializeField]
-    private List<AudioSource> sources = new List<AudioSource>();
+    protected List<AudioSource> sources = new List<AudioSource>();
 
     SoundManager soundMng;
 

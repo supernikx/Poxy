@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 public abstract class CheckpointBase : MonoBehaviour
 {
-
-    #region Delegates
-    public delegate void ActivateCheckpointEvent(CheckpointBase _checkpoint);
-    public ActivateCheckpointEvent ActivateCheckpoint;
+    #region Actions
+    public Action<CheckpointBase> ActivateCheckpoint;
     #endregion
 
     public abstract void Init();
@@ -16,8 +14,13 @@ public abstract class CheckpointBase : MonoBehaviour
         return transform.position;
     }
 
-    public virtual CheckpointAnimationController GetCheckpointAnimatorManager()
+    public virtual void Enable()
     {
-        return null;
+
+    }
+
+    public virtual void Disable()
+    {
+
     }
 }

@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         leaderBoard.Setup();
-        soundManager.Init();
         optionsMng.Init(soundManager);
         gameSM.Init(this);
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -11,12 +12,67 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioMixerGroup sfxOutput;
 
+    [Header("Background Settings")]
+    [SerializeField]
+    private BackgroundMusicController mainMenuMusic;
+    [SerializeField]
+    private BackgroundMusicController gameMusic;
+
     public void Init()
     {
-        foreach (BackgroundMusicController music in FindObjectsOfType<BackgroundMusicController>())
+        if (mainMenuMusic != null)
+            mainMenuMusic.Init();
+        if (gameMusic != null)
+            gameMusic.Init();
+
+        switch (SceneManager.GetActiveScene().name)
         {
-            music.Init();
+            case "MainMenu":
+                if (mainMenuMusic != null)
+                    mainMenuMusic.Play();
+                break;
+            case "Level1":
+            case "Tutorial":
+                if (gameMusic != null)
+                    gameMusic.Play();
+                break;
         }
+    }
+
+    /// <summary>
+    /// Funzione che stoppa la musica di game efa partire quella del main menu
+    /// </summary>
+    public void PlayMainMenuMnusic()
+    {
+        if (gameMusic != null)
+            gameMusic.Stop();
+
+        if (mainMenuMusic != null)
+            mainMenuMusic.Play();
+    }
+
+    /// <summary>
+    /// Funzione che stoppa la musica del main menu e fa partire quella di game
+    /// </summary>
+    public void PlayGameMusic()
+    {
+        if (mainMenuMusic != null)
+            mainMenuMusic.Stop();
+
+        if (gameMusic != null)
+            gameMusic.Play();
+    }
+
+    /// <summary>
+    /// Funzione che stoppa la musica
+    /// </summary>
+    public void StopMusic()
+    {
+        if (mainMenuMusic != null)
+            mainMenuMusic.Stop();
+
+        if (gameMusic != null)
+            gameMusic.Stop();
     }
 
     /// <summary>

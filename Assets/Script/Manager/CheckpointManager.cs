@@ -43,7 +43,7 @@ public class CheckpointManager : MonoBehaviour
             }
 
             activeCheckpoint = initialCheckpoint;
-            activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
+            activeCheckpoint.Enable();
         }
     }
     #endregion
@@ -53,9 +53,9 @@ public class CheckpointManager : MonoBehaviour
     {
         if (!LevelManager.instance.GetSpeedrunManager().GetIsActive() && activeCheckpoint != _checkpoint)
         {
-            activeCheckpoint.GetCheckpointAnimatorManager().Enable(false);
+            activeCheckpoint.Disable();
             activeCheckpoint = _checkpoint;
-            activeCheckpoint.GetCheckpointAnimatorManager().Enable(true);
+            activeCheckpoint.Enable();
         }
     }
 
