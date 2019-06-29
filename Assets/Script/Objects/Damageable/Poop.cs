@@ -23,22 +23,27 @@ public class Poop : MonoBehaviour, IDamageable
     [SerializeField]
     private ParticleSystem poopParticle;
 
+    private GeneralSoundController soundCtrl;
     private Animator anim;
 
     public void Setup()
     {
         anim = GetComponentInChildren<Animator>();
+        soundCtrl = GetComponentInChildren<GeneralSoundController>();
+
         poopParticle.Stop();
     }
 
     public void StartEffect()
     {
+        soundCtrl.PlayClip();
         anim.SetBool("Crawling", true);
         poopParticle.Play();
     }
 
     public void ResetEffect()
     {
+        soundCtrl.StopClip();
         anim.SetBool("Crawling", false);
         poopParticle.Stop();
     }

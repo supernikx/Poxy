@@ -20,9 +20,6 @@ public class BackgroundMusicController : SoundControllerBase
 
     public void Stop()
     {
-        foreach (AudioSource source in sources)
-        {
-            source.Stop();
-        }
+        StopAudioClips();
     }
 }

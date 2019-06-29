@@ -49,6 +49,14 @@ public abstract class SoundControllerBase : MonoBehaviour
             }
         }
     }
+
+    protected void StopAudioClips()
+    {
+        foreach (AudioSource source in sources)
+        {
+            source.Stop();
+        }
+    }
 }
 
 [System.Serializable]

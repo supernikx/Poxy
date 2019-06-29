@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     #region Delegates
-    public delegate void GameDelegate();
-    public static GameDelegate OnGamePause;
-    public static GameDelegate OnGameUnPause;
-    public static GameDelegate OnPlayerDeath;
+    public static Action OnGamePause;
+    public static Action OnGameUnPause;
+    public static Action OnPlayerDeath;
+    public static Action OnPlayerEndLevel;
     #endregion
 
     public static LevelManager instance;
