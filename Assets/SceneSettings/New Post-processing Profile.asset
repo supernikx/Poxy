@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 114464145608740672}
   - {fileID: 114196680839243892}
   - {fileID: 114941101054665582}
+  - {fileID: 114683710196988010}
 --- !u!114 &114196680839243892
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -39,16 +40,16 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.5283019, g: 0.042363837, b: 0.042363837, a: 1}
+    value: {r: 0.22352941, g: 0.028034888, b: 0.028034888, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.412
+    value: 0.476
   smoothness:
     overrideState: 1
-    value: 0.277
+    value: 0.535
   roundness:
     overrideState: 1
     value: 1
@@ -83,7 +84,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.15
+    value: 2.04
   color:
     overrideState: 1
     value: {r: 0.3584906, g: 0.01183696, b: 0.01183696, a: 1}
@@ -164,7 +165,7 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: 1
+    value: 16.1
   tint:
     overrideState: 0
     value: 0
@@ -1422,6 +1423,34 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &114683710196988010
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 3.52
+  aperture:
+    overrideState: 0
+    value: 19.5
+  focalLength:
+    overrideState: 0
+    value: 48
+  kernelSize:
+    overrideState: 0
+    value: 1
 --- !u!114 &114736764044423246
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1481,19 +1510,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
   m_Name: AutoExposure
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   filtering:
-    overrideState: 0
-    value: {x: 50, y: 95}
+    overrideState: 1
+    value: {x: 53.999958, y: 99}
   minLuminance:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -0.37
   maxLuminance:
     overrideState: 0
-    value: 0
+    value: 6.15
   keyValue:
     overrideState: 0
     value: 1
