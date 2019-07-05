@@ -64,6 +64,10 @@ public class LevelManager : MonoBehaviour
     /// Reference al token manager
     /// </summary>
     private TokenManager tokenMng;
+    /// <summary>
+    /// Reference al video stream
+    /// </summary>
+    private StreamVideo videoStream;
 
     #region API
     /// <summary>
@@ -123,6 +127,8 @@ public class LevelManager : MonoBehaviour
         doorsMng = GetComponent<DoorsButtonsManager>();
         if (doorsMng != null)
             doorsMng.Init();
+
+        videoStream = FindObjectOfType<StreamVideo>();
 
         //Setup
         enemyMng.EnemiesSetup();
@@ -291,6 +297,15 @@ public class LevelManager : MonoBehaviour
     public SpeedrunManager GetSpeedrunManager()
     {
         return speedMng;
+    }
+
+    /// <summary>
+    /// Funzione che ritorna il video stream
+    /// </summary>
+    /// <returns></returns>
+    public StreamVideo GetVideoStream()
+    {
+        return videoStream; 
     }
 
     /// <summary>

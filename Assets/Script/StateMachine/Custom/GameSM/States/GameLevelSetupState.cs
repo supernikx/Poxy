@@ -10,6 +10,8 @@ namespace StateMachine.GameSM
     public class GameLevelSetupState : GameSMStateBase
     {
         UI_ManagerBase uiManager;
+        StreamVideo videoStream;
+
         public override void Enter()
         {
             context.gameManager.GetUIManager().ToggleMenu(MenuType.Loading);
@@ -22,13 +24,30 @@ namespace StateMachine.GameSM
             uiManager = context.gameManager.FindUIManager();
             LevelManager levelManager = FindObjectOfType<LevelManager>();
             levelManager.Init(uiManager, context.gameManager.GetLevelsManager().GetMode());
-            uiManager.ToggleMenu(MenuType.None);
-            context.OnLevelSetupCallback();
+            videoStream = levelManager.GetVideoStream();
+            if (videoStream != null)
+            {
+                videoStream.OnVideoLoad += HandleVideoLoaded;
+                videoStream.LoadVideo();
+            }
+            else
+            {
+                uiManager.ToggleMenu(MenuType.None);
+                context.OnLevelSetupCallback();
+            }
         }
 
         public override void Exit()
         {
+            if (videoStream != null)
+                videoStream.OnVideoLoad -= HandleVideoLoaded;
+
             SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void HandleVideoLoaded()
+        {
+            context.OnLevelSetupCallback();
         }
     }
 }
