@@ -300,6 +300,15 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che ritorna il token manager
+    /// </summary>
+    /// <returns></returns>
+    public TokenManager GetTokenManager()
+    {
+        return tokenMng;
+    }
+
+    /// <summary>
     /// Funzione che ritorna il video stream
     /// </summary>
     /// <returns></returns>

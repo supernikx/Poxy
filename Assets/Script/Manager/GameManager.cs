@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using StateMachine.GameSM;
 using UI;
 
@@ -139,12 +140,24 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Funzione che avvia il livello successivo se presente
+    /// </summary>
+    public static void StartNextLevel(LevelManager _currentLevel)
+    {
+        LevelScriptable currentLevel = instance.lvlsManager.GetSelectedLevel();
+        LevelScriptable nextLevel = instance.lvlsManager.GetNextLevel(currentLevel);
+        if (nextLevel != null)
+            instance.lvlsManager.SetSelectedLevel(nextLevel);
+
+        instance.gameSM.GoToLevelSetup?.Invoke();
+    }
+
+    /// <summary>
     /// FUnzione che ricarica il livello attuale
     /// </summary>
     public static void RestartCurrentLevel()
     {
-        if (instance.gameSM.GoToLevelSetup != null)
-            instance.gameSM.GoToLevelSetup();
+        instance.gameSM.GoToLevelSetup?.Invoke();
     }
 
     /// <summary>
@@ -152,8 +165,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static void BackToMenu()
     {
-        if (instance.gameSM.GoToMainMenu != null)
-            instance.gameSM.GoToMainMenu();
+        instance.gameSM.GoToMainMenu?.Invoke();
     }
 
     /// <summary>

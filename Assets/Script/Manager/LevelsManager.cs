@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class LevelsManager : MonoBehaviour
 {
+    [SerializeField]
+    private List<LevelScriptable> levelsOrder = new List<LevelScriptable>();
+
     LevelScriptable selectedLevel;
     bool speedRunMode;
 
@@ -26,5 +29,20 @@ public class LevelsManager : MonoBehaviour
     public bool GetMode()
     {
         return speedRunMode;
+    }
+
+    public LevelScriptable GetNextLevel(LevelScriptable _level)
+    {
+        LevelScriptable nextLevel = null;
+        for (int i = 0; i < levelsOrder.Count; i++)
+        {
+            if (_level == levelsOrder[i])
+            {
+                if (i < levelsOrder.Count - 1)
+                    nextLevel = levelsOrder[i];
+            }
+        }
+
+        return nextLevel;
     }
 }

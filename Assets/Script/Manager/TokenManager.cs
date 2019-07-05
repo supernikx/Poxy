@@ -49,6 +49,11 @@ public class TokenManager : MonoBehaviour
 
         tokenCounter = 0;
     }
+
+    public int GetTokensCount()
+    {
+        return tokenCounter;
+    }
     #endregion
 
     #region Handlers
