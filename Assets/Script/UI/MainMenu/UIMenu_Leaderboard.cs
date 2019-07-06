@@ -19,7 +19,8 @@ namespace UI
         public override void Setup(UI_ManagerBase _uiManager)
         {
             base.Setup(_uiManager);
-            lbMgn = GameManager.instance.GetLeaderboard();
+            if (GameManager.Exist())
+                lbMgn = GameManager.instance.GetLeaderboard();
         }
 
         public override void Enable()
@@ -29,12 +30,15 @@ namespace UI
             loadingText.text = "Loading...";
             loadingText.gameObject.SetActive(true);
 
-            lbMgn.LoadScores(SocresLoadCallback);
+            if (lbMgn != null)
+                lbMgn.LoadScores(SocresLoadCallback);
+            else
+                loadingText.text = "Can't Load Leabderboard";
         }
 
         private void SocresLoadCallback(bool _success)
         {
-           if (_success)
+            if (_success)
                 LoadLeaderboard();
             else
                 loadingText.text = "Can't Load Leabderboard";
@@ -69,9 +73,17 @@ namespace UI
         /// <summary>
         /// Funzione che gestisce il pulsante back
         /// </summary>
-        public void BackButton()
+        public void BackButtonMainMenu()
         {
             uiManager.ToggleMenu(MenuType.MainMenu);
+        }
+
+        /// <summary>
+        /// Funzione che gestisce il pulsante back
+        /// </summary>
+        public void BackButtonEndGame()
+        {
+            uiManager.ToggleMenu(MenuType.EndGame);
         }
 
         public override void Disable()

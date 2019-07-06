@@ -51,12 +51,12 @@ public class StreamVideo : MonoBehaviour
     }
 
     private IEnumerator CheckDurationRoutine()
-    {
-        WaitForSeconds wfs = new WaitForSeconds(1f);
-        
+    {        
         while (videoPlayer.time < (videoPlayer.length - 0.1f))
         {
-            yield return wfs;
+            if (Input.GetKeyDown(KeyCode.Space))
+                break;
+            yield return null;
         }
 
         rawImage.gameObject.SetActive(false);

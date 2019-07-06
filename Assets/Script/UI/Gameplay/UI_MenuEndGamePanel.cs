@@ -45,23 +45,28 @@ namespace UI
         public void RetryButton()
         {
             LevelManager.instance.RestartGame();
+            Time.timeScale = 1f;
         }
 
         public void NextLevelButton()
         {
             if (GameManager.Exist())
+            {
                 GameManager.StartNextLevel(LevelManager.instance);
+                Time.timeScale = 1f;
+            }
         }
 
         public void BackMenuButton()
         {
             uiManager.GetGameplayManager().GetLoadingPanel().ToggleLivesText(false);
             LevelManager.instance.BackToMenu();
+            Time.timeScale = 1f;
         }
 
         public void LeaderboardButton()
         {
-
+            uiManager.ToggleMenu(MenuType.Leaderboard);
         }
     }
 }

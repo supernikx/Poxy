@@ -39,7 +39,7 @@ public class LevelsManager : MonoBehaviour
             if (_level == levelsOrder[i])
             {
                 if (i < levelsOrder.Count - 1)
-                    nextLevel = levelsOrder[i];
+                    nextLevel = levelsOrder[i + 1];
             }
         }
 

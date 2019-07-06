@@ -17,6 +17,8 @@ public class UI_GameplayManager : UI_ManagerBase
     [SerializeField]
     private UI_MenuEndGamePanel endGamePanel;
     [SerializeField]
+    private UIMenu_Leaderboard leaderboardPanel;
+    [SerializeField]
     private UIMenu_CountdownPanel countdownPanel;
     [SerializeField]
     private UIMenu_GameOverPanel gameOverPanel;
@@ -132,6 +134,9 @@ public class UI_GameplayManager : UI_ManagerBase
             case MenuType.EndGame:
                 endGamePanel.Enable();
                 break;
+            case MenuType.Leaderboard:
+                leaderboardPanel.Enable();
+                break;
             case MenuType.GameOver:
                 gameOverPanel.Enable();
                 break;
@@ -178,6 +183,10 @@ public class UI_GameplayManager : UI_ManagerBase
                 break;
             case MenuType.EndGame:
                 eventSystem.firstSelectedGameObject = endGamePanel.GetPanelDefaultSelection();
+                base.HandleOnInputChanged(_currentInput);
+                break;
+            case MenuType.Leaderboard:
+                eventSystem.firstSelectedGameObject = leaderboardPanel.GetPanelDefaultSelection();
                 base.HandleOnInputChanged(_currentInput);
                 break;
             case MenuType.GameOver:
