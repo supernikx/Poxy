@@ -395,6 +395,7 @@ public class Player : MonoBehaviour
             EnableGraphics(false);
         activeGraphic = _newGraphic;
         EnableGraphics(true);
+        animCtrl.ResetAnimator();
     }
 
     /// <summary>
@@ -416,6 +417,8 @@ public class Player : MonoBehaviour
     {
         if (activeGraphic == (playerGraphic as IGraphic))
             shootCtrl.SetAimObject(activeGraphic.GetAimObject());
+
+        animCtrl.ResetAnimator();
     }
     #endregion
 

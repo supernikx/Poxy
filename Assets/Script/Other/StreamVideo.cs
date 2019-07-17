@@ -54,7 +54,7 @@ public class StreamVideo : MonoBehaviour
     {        
         while (videoPlayer.time < (videoPlayer.length - 0.1f))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("Submit"))
                 break;
             yield return null;
         }

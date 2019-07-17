@@ -458,7 +458,7 @@ public class StickyObject : MonoBehaviour, IPoolObject
     /// <summary>
     /// Funzione che mette in una "black list" gli oggetti che si sono appena staccati per 0.1 secondi
     /// </summary>
-    List<GameObject> tempImmunityObjectList = new List<GameObject>();
+    static List<GameObject> tempImmunityObjectList = new List<GameObject>();
     private IEnumerator DelayTempListCoroutine(GameObject _objectToAdd)
     {
         GameObject objectToAdd = _objectToAdd;
